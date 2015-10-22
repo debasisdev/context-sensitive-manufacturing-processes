@@ -1,0 +1,56 @@
+\chapter{Concept and Specification}
+\label{chap:spec}
+
+% % % % Do not delete the following % % % %
+\newcommand{\usecase}[8]
+{
+{
+\small \begin{longtable}{@{}p{.2\textwidth}p{.01\textwidth}p{.79\textwidth}@{}}
+\toprule Name & & \textbf{#1} \\
+\midrule Goal & & #2 \\
+\midrule Actor & & #3 \\
+\midrule Pre-Condition & & #4 \\
+\midrule Post-Condition & & #5 \\
+\midrule Post-Condition in Special Case & & #6 \\
+\midrule Normal Case & \multicolumn{2}{p{.8\textwidth}}{\vspace*{-0.5cm}#7} \\
+\midrule Special Cases &  \multicolumn{2}{p{.8\textwidth}}{\vspace*{-0.5cm}#8} \\
+\bottomrule
+\caption[Description of Use Case: #1]{Description of Use Case \term{#1}.}
+\end{longtable}
+}
+\label{table:#1}
+\clearpage
+}
+
+
+\usecase{Enrich Topology}
+{The developer wants to enrich the application topology as per the requirements.}
+{Application Developer}
+{The application developer has access to the winery system and has the application requirements ready.}
+{Here goes the post-condition in normal case}
+{Here goes the post-condition in special case}
+{\begin{enumerate}
+	\item Step 1 normal case
+	\item Step 2 normal case
+	\item ...
+\end{enumerate}}
+{\begin{enumerate}
+	\item[1a.] Step 1a special case
+		\begin{enumerate}
+			\item ...
+		\end{enumerate}
+	\item[2a.] Step 2a special case
+		\begin{enumerate}
+			\item ...
+		\end{enumerate}
+	\item[2b.] Step 2b special case
+		\begin{enumerate}
+			\item ...
+		\end{enumerate}
+\end{enumerate}}
+
+
+
+
+
+
