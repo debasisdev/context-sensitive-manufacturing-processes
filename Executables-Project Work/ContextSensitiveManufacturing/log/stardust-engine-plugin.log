@@ -1,0 +1,329 @@
+19:06:51 INFO - [main           ] Parameters           - CARNOT version: 3.0.1.20150916-0729
+19:06:51 INFO - [main           ] GlobalParameters     - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+19:06:51 INFO - [main           ] ltPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@14dad5dc:
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Logging.LogLevel = INFO
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Web.ServiceFactory = ag.carnot.workflow.runtime.beans.POJOServiceFactory
+19:06:51 INFO - [main           ] ltPropertiesProvider -   GUI.WorklistRotation = true
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Security.DefaultPartition = workflow-debugger
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Client.ServiceFactory = ag.carnot.workflow.runtime.beans.POJOServiceFactory
+19:06:51 INFO - [main           ] ltPropertiesProvider -   JNDI.InitialContextFactory = 
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Security.DefaultDomain = workflow-debugger
+19:06:51 INFO - [main           ] ltPropertiesProvider -   QueryService.Guarded = false
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Security.DefaultRealm = workflow-debugger
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Security.Authentication.ConfigurationName = 
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Logging.Filters = 
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Logging.Directory = ./log
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Logging.MaxFileSize = 4194304
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Mail.Host = your-mail-host
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Secure.Session.Factory = 
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Credential.Provider = 
+19:06:51 INFO - [main           ] ltPropertiesProvider -   Mail.Sender = your-mail-address
+19:06:51 INFO - [main           ] ltPropertiesProvider -   GUI.WorklistRetrievalInterval = 20
+19:06:51 INFO - [main           ] GlobalParameters     - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+19:06:53 INFO - [main           ] extensions           - Initializing static extensions resolver
+19:06:53 INFO - [main           ] extensions           - Initializing Service Provider extensions resolver
+19:06:53 INFO - [main           ] extensions           - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@37fbe4a8
+19:06:53 INFO - [main           ] extensions           - Initializing static extensions resolver
+19:06:53 INFO - [main           ] extensions           - Initializing Service Provider extensions resolver
+19:06:54 INFO - [main           ] AuditTrailLogger     - Granting Role: Administrator to User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger). (null)
+19:06:54 INFO - [main           ] AuditTrailLogger     - Granting Role: Manager to User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger). (null)
+19:06:54 INFO - [main           ] Debugger             - Spring RT support is not available.
+19:06:54 INFO - [essInstantiator] Parameters           - CARNOT version: 3.0.1.20150916-0729
+19:06:54 INFO - [essInstantiator] DebugInterceptor     - --> login
+19:06:54 INFO - [essInstantiator] DebugInterceptor     - --> execute
+19:06:54 INFO - [essInstantiator] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:54 INFO - [essInstantiator] DebugInterceptor     - <-- execute
+19:06:54 INFO - [essInstantiator] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:06:54 INFO - [essInstantiator] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:54 INFO - [essInstantiator] DebugInterceptor     - <-- login
+19:06:54 INFO - [essInstantiator] DebugInterceptor     - --> startProcess
+19:06:55 INFO - [essInstantiator] ProcessInstanceBean  - Setting starting user to '4'  for process instance 11.
+19:06:55 INFO - [essInstantiator] ProcessInstanceBean  - State change for Process instance = 11 (Process Definition: Process Manual) (model oid = 1, version = 1, revision = 0): Created-->Active.
+19:06:55 INFO - [essInstantiator] WorkflowServiceImpl  - Starting process 'ProcessManual', oid = 11, synchronous = false
+19:06:55 INFO - [essInstantiator] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [essInstantiator] DebugInterceptor     - <-- startProcess
+19:06:55 INFO - [Thread-1       ] Parameters           - CARNOT version: 3.0.1.20150916-0729
+19:06:55 INFO - [essInstantiator] DebugInterceptor     - --> remove
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:06:55 INFO - [essInstantiator] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [essInstantiator] DebugInterceptor     - <-- remove
+19:06:55 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0): Created-->Created.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:06:55 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:06:55 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:06:55 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:06:55 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to Role: Administrator.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:06:55 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:06:55 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:06:55 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:06:55 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0): Created-->Suspended.
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:06:55 INFO - [Thread-1       ] ManagedRunner        - About to enter communication method in thread Thread[Thread-1,5,Infinity Activity Thread] for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0).
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:06:55 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:06:55 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:06:55 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:06:55 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:06:55 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:06 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: PackingStatus, value: Over) has changed.
+19:07:06 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: OrderID, value: OD122844DE) has NOT changed.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:06 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> activate
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger).
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0): Suspended-->Application.
+19:07:06 INFO - [Thread-3       ] Parameters           - CARNOT version: 3.0.1.20150916-0729
+19:07:06 INFO - [Thread-3       ] DebugInterceptor     - --> execute
+19:07:06 INFO - [Thread-3       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-3       ] DebugInterceptor     - <-- execute
+19:07:06 INFO - [Thread-3       ] ManagedRunner        - Termination of Java thread Thread[Thread-3,5,Infinity Helper Thread].
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- activate
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> suspendToDefaultPerformer
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0): Application-->Suspended.
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to Role: Administrator.
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- suspendToDefaultPerformer
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0): Suspended-->Application.
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0): Application-->Completed.
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - Remove from worklists: Activity instance 'PacketBlanket',  oid: 13 (process instance = 11) (model oid = 1, version = 1, revision = 0)
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:06 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:06 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:06 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:06 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0): Created-->Created.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:06 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:06 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:06 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:06 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:06 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:06 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:07 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to Role: Manager.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:07 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:07 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:07 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:07 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:07 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0): Created-->Suspended.
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:07 INFO - [Thread-1       ] ManagedRunner        - About to enter communication method in thread Thread[Thread-1,5,Infinity Activity Thread] for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0).
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:07 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:07 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:07 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:07 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:07 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:07 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:12 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: PackingStatus, value: Over) has NOT changed.
+19:07:12 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: SealingStatus, value: Done) has changed.
+19:07:12 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: OrderID, value: OD122844DE) has NOT changed.
+19:07:12 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:12 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:12 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:12 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:12 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:12 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:12 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:12 INFO - [Thread-1       ] DebugInterceptor     - --> activate
+19:07:12 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger).
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0): Suspended-->Application.
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- activate
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> suspendToDefaultPerformer
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0): Application-->Suspended.
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to Role: Manager.
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- suspendToDefaultPerformer
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0): Suspended-->Application.
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0): Application-->Completed.
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - Remove from worklists: Activity instance 'SealManually',  oid: 22 (process instance = 11) (model oid = 1, version = 1, revision = 0)
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:13 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0): Created-->Created.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:13 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - Performer of Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0) set to Role: Administrator.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:13 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0): Created-->Suspended.
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:13 INFO - [Thread-1       ] ManagedRunner        - About to enter communication method in thread Thread[Thread-1,5,Infinity Activity Thread] for Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0).
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:13 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:13 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:13 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:13 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:17 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: PackingStatus, value: Over) has NOT changed.
+19:07:17 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: SealingStatus, value: Done) has NOT changed.
+19:07:17 INFO - [Thread-1       ] tivityInstanceDigest - DataMappingDigest (ID: OrderID, value: OD122844DE) has NOT changed.
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:17 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0): Suspended-->Application.
+19:07:17 INFO - [Thread-1       ] ActivityInstanceBean - State change for Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0): Application-->Completed.
+19:07:17 INFO - [Thread-1       ] ActivityInstanceBean - Remove from worklists: Activity instance 'Sort_PrepareforDespatch',  oid: 31 (process instance = 11) (model oid = 1, version = 1, revision = 0)
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - --> login
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - --> execute
+19:07:17 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:17 INFO - [Thread-1       ] AuditTrailLogger     - Logged in. (User: workflow-debugger (Realm: workflow-debugger) (workflow-debugger, workflow-debugger))
+19:07:17 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - <-- login
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - --> getInDataValues
+19:07:17 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - <-- getInDataValues
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - --> remove
+19:07:17 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - <-- remove
+19:07:17 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:17 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:17 INFO - [Thread-1       ] DataField            - initFittingField: java.lang.String
+19:07:17 INFO - [Thread-4       ] Parameters           - CARNOT version: 3.0.1.20150916-0729
+19:07:17 INFO - [Thread-4       ] DebugInterceptor     - --> execute
+19:07:17 INFO - [Thread-4       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:17 INFO - [Thread-4       ] DebugInterceptor     - <-- execute
+19:07:17 INFO - [Thread-4       ] ManagedRunner        - Termination of Java thread Thread[Thread-4,5,Infinity Helper Thread].
+19:07:17 INFO - [Thread-1       ] Security             - Partition: workflow-debugger, Domain: workflow-debugger.
+19:07:17 INFO - [Thread-1       ] DebugInterceptor     - <-- execute
+19:07:17 INFO - [Thread-1       ] ManagedRunner        - Termination of Java thread Thread[Thread-1,5,Infinity Activity Thread].
