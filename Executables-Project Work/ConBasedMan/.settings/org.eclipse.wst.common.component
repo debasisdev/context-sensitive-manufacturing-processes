@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ConBasedMan">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF" source-path="/carnot-jackrabbit/WEB-INF"/>
+        <wb-resource deploy-path="/" source-path="/ipp-portal"/>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/CARNOT_ENGINE_LIBS/lib/carnot-engine.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/CARNOT_ENGINE_BASE_LIBS/lib/carnot-base.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/CARNOT_J2EE_LIBS/lib/geronimo-ejb_2.1_spec.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/CARNOT_J2EE_LIBS/lib/geronimo-jms_1.1_spec.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/activation.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-beanutils-1.8.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-codec-1.3-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-collections-3.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-digester-1.8.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-el-1.0-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-fileupload-1.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-io-2.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-jxpath-1.3-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-lang-2.4-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/commons-logging.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/el-ri.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/jstl-1.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/mail.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/myfaces-api.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/myfaces-impl-1.1.5-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/jcr-2.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/jcr-vfs.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/jcr-vfs-factory.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/jencks-2.2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/geronimo-transaction-2.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/geronimo-connector-2.2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/geronimo-jta_1.1_spec-1.1.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/geronimo-j2ee-connector_1.5_spec-2.0.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/tranql-connector-1.7.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/cglib-nodep-2.1_3.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/javax.ws.rs-api.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stax2-api.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/woodstox-core-asl.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JS_LIBS/lib/js.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/icefaces.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/icefaces-comps.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/icefaces-facelets.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/backport-util-concurrent-3.1-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/htmlcleaner-2.1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/icepdf-core-5.0.0-eclipse01.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-administration-perspective.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-business-control-center.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-portal-api.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-portal-common.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-graphics-common.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-views-common.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-workflow-perspective.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-end-user-doc.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-engine-business-calendar.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-mobile-workflow.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-modern-skin.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-html5-common.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-html5-process-portal.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-html5-business-control-center.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-html5-admin-portal.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-html5-views-common.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-portal-rest-common.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-web-camel.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-reporting-client.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-reporting-rt.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-web-reporting.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/icu4j.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-rules-manager.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-common-introspection.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-common-introspection-xsd.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-ui-form.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-ui-form-jsf.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/jai_imageio.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-bpm-model-builder.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-web-modeler.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/stardust-web-modeler-bpmn2.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-bpm-model.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-bpm-repository.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/ipp-bpm-model-validation.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.emf.common-2.10.1.v20150123-0348.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.emf.ecore-2.10.2.v20150123-0348.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.emf.ecore.change-2.10.0.v20150123-0348.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.emf.ecore.xmi-2.10.2.v20150123-0348.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.xsd-2.10.0.v20150123-0452.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.core.runtime-3.10.0.v20140318-2214.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.equinox.common-3.6.200.v20130402-1505.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.equinox.registry-3.5.400.v20140428-1507.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.osgi-3.10.101.v20150820-1432.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/org.eclipse.bpmn2-0.7.0-20131024.132450-1.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_PORTAL_LIBS/lib/carnot-spring.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/aopalliance.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-aop.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-asm.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-beans.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-context.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-context-support.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-core.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-expression.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-jdbc.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-jms.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-orm.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-tx.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-web.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_SPRING_LIBS/lib/spring-webmvc.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_CAMEL_PORTAL_LIBS/lib/stardust-engine-camel.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_CAMEL_PORTAL_LIBS/lib/stardust-engine-camel-config.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-core.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-spring.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-sql.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-jms.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-mail.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-http.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-quartz.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-script.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/quartz.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/camel-smpp.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/IPP_3RD_PARTY_CAMEL_LIBS/lib/org.apache.servicemix.bundles.jsmpp.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_CXF_LIBS/lib/stardust-engine-ws-cxf.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-api.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-core.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-bindings-xml.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-transports-http.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/jaxb-impl.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/wsdl4j.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/xmlschema-core.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/asm.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-bindings-soap.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-databinding-jaxb.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-frontend-jaxws.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-frontend-jaxrs.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-frontend-simple.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-ws-addr.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-ws-policy.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/cxf-rt-ws-security.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/ehcache-core.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/gson.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/neethi.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/wss4j.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/STARDUST_JAXWS_CXF_LIBS/lib/xmlsec.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="ConBasedMan"/>
+        <property name="java-output-path" value="/ConBasedMan/build/classes"/>
+    </wb-module>
+</project-modules>

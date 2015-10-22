@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="automatedWebServiceMainService" targetNamespace="http://ws.debasis.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.debasis.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://ws.debasis.org/" schemaLocation="automatedwebservicemain_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="getVersion">
+    <wsdl:part name="parameters" element="tns:getVersion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="automate">
+    <wsdl:part name="parameters" element="tns:automate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="parameters" element="tns:getVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="automateResponse">
+    <wsdl:part name="parameters" element="tns:automateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="sealingMachine">
+    <wsdl:operation name="automate">
+      <wsdl:input name="automate" message="tns:automate">
+    </wsdl:input>
+      <wsdl:output name="automateResponse" message="tns:automateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion">
+    </wsdl:input>
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="automatedWebServiceMainServiceSoapBinding" type="tns:sealingMachine">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="automate">
+      <soap:operation soapAction="automate" style="document"/>
+      <wsdl:input name="automate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="automateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="getVersion" style="document"/>
+      <wsdl:input name="getVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="automatedWebServiceMainService">
+    <wsdl:port name="automatedWebServiceMainPort" binding="tns:automatedWebServiceMainServiceSoapBinding">
+      <soap:address location="http://localhost:8080/automatedWebService/services"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
