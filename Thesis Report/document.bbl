@@ -1,0 +1,120 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{WKNL07}
+
+\bibitem[Ash09]{IOTFIRST}
+Kevin Ashton.
+\newblock That ‘internet of things’ thing.
+\newblock {\em RFiD Journal}, 22(7):97--114, 2009.
+
+\bibitem[BL12]{BIGDATA}
+Mark~A Beyer and Douglas Laney.
+\newblock The importance of ‘big data’: a definition.
+\newblock {\em Stamford, CT: Gartner}, 2012.
+
+\bibitem[Bro11]{PICHYPECYC}
+Joe Brockmeier.
+\newblock Gartner adds big data, gamification, and internet of things to its
+  hype cycle.
+\newblock http://readwrite.com/2011/08/11/gartner-adds-big-data-gamifica, 2011.
+\newblock [Online].
+
+\bibitem[DH14]{IN4HYPE}
+Rainer Drath and Alexander Horch.
+\newblock Industrie 4.0: Hit or hype?[industry forum].
+\newblock {\em Industrial Electronics Magazine, IEEE}, 8(2):56--58, 2014.
+
+\bibitem[EA12]{INDUSINTERNET}
+PC~Evans and M~Annunziata.
+\newblock Industrial internet: Pushing the boundaries of minds and machines,
+  general electric, 2012.
+
+\bibitem[GBMP13]{IOTGUBBI}
+Jayavardhana Gubbi, Rajkumar Buyya, Slaven Marusic, and Marimuthu Palaniswami.
+\newblock Internet of things (iot): A vision, architectural elements, and
+  future directions.
+\newblock {\em Future Generation Computer Systems}, 29(7):1645--1660, 2013.
+
+\bibitem[HPO15]{IN4DESIGN}
+Mario Hermann, Tobias Pentek, and Boris Otto.
+\newblock Design principles for industrie 4.0 scenarios: A literature review.
+\newblock 2015.
+
+\bibitem[KLW11]{VDINACH}
+Henning Kagermann, Wolf-Dieter Lukas, and Wolfgang Wahlster.
+\newblock Industrie 4.0: Mit dem internet der dinge auf dem weg zur 4.
+  industriellen revolution.
+\newblock
+  http://www.vdi-nachrichten.com/Technik-Gesellschaft/Industrie-40-Mit-Internet-Dinge-Weg-4-industriellen-Revolution,
+  2011.
+\newblock [Online].
+
+\bibitem[LRS{\etalchar{+}}15]{MANMACHINE}
+Markus Lorenz, Michael Rüßmann, Rainer Strack, Knud Lasse~Lueth, and Moritz
+  Bolle.
+\newblock Man and machine in industry 4.0: How will technology transform the
+  industrial workforce through 2025?
+\newblock {\em Boston Consulting Group Perspectives, BCG}, 2015.
+
+\bibitem[MG11]{MELLNIST}
+Peter Mell and Tim Grance.
+\newblock The nist definition of cloud computing.
+\newblock 2011.
+
+\bibitem[OAS07]{BPELSPEC}
+OASIS.
+\newblock Web services business process execution language version 2.0.
+\newblock http://docs.oasis-open.org/wsbpel/2.0/OS/wsbpel-v2.0-OS.pdf, 2007.
+\newblock [Online].
+
+\bibitem[OMG11]{OMGSPEC}
+Object Managment~Group OMG.
+\newblock Business process model and notation (bpmn) version 2.0 specification.
+\newblock http://www.omg.org/spec/BPMN/2.0/PDF/, 2011.
+\newblock [Online].
+
+\bibitem[RLG{\etalchar{+}}15]{IN4BCG}
+Michael Rüßmann, Markus Lorenz, Philipp Gerbert, Manuela Waldner, Jan Justus,
+  Pascal Engel, and Michael Harnisch.
+\newblock Industry 4.0: The future of productivity and growth in manufacturing
+  industries.
+\newblock {\em Boston Consulting Group Perspectives, BCG}, 2015.
+
+\bibitem[RvdM15]{HYPECYCGARTNER}
+Janessa Rivera and Rob van~der Meulen.
+\newblock Gartner's 2015 hype cycle for emerging technologies identifies the
+  computing innovations that organizations should monitor.
+\newblock http://www.gartner.com/newsroom/id/3114217, 2015.
+\newblock [Online].
+
+\bibitem[SBLW15]{TIMURCIRP}
+C.~Timurhan Sungur, Uwe Breitenb{\"u}cher, Frank Leymann, and Matthias Wieland.
+\newblock Context-sensitive adaptive production process.
+\newblock volume~0, pages 000--000. Elsevier, 2015.
+
+\bibitem[SRHD15]{IN4HYPO}
+G{\"u}nther Schuh, Christina Reuter, Annika Hauptvogel, and Christian
+  D{\"o}lle.
+\newblock Hypotheses for a theory of production in the context of industrie
+  4.0.
+\newblock In {\em Advances in Production Technology}, pages 11--23. Springer,
+  2015.
+
+\bibitem[TW10]{IOTFUTURE}
+Lu~Tan and Neng Wang.
+\newblock Future internet: The internet of things.
+\newblock In {\em Advanced Computer Theory and Engineering (ICACTE), 2010 3rd
+  International Conference on}, volume~5, pages V5--376. IEEE, 2010.
+
+\bibitem[Wes06]{WESTKAMP}
+E~Westk{\"a}mper.
+\newblock Factory transformability: adapting the structures of manufacturing.
+\newblock In {\em Reconfigurable Manufacturing Systems and Transformable
+  Factories}, pages 371--381. Springer, 2006.
+
+\bibitem[WKNL07]{CONWORKFLOW}
+Matthias Wieland, Oliver Kopp, Daniela Nicklas, and Frank Leymann.
+\newblock Towards context-aware workflows.
+\newblock In {\em CAiSE07 Proc. of the Workshops and Doctoral Consortium},
+  volume~2, page~25, 2007.
+
+\end{thebibliography}

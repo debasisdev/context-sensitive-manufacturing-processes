@@ -1,0 +1,30 @@
+\ifglsentryexists{electrolyte}{}%
+{%
+\gls@defglossaryentry{electrolyte}%
+{%
+name={electrolyte},%
+sort={electrolyte},%
+type={main},%
+first={electrolyte},%
+firstplural={electrolytes},%
+text={electrolyte},%
+plural={electrolytes},%
+description={solution able to conduct electric current},%
+descriptionplural={solution able to conduct electric current},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+}%
