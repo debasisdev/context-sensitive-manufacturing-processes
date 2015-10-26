@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context>
+	<order category="prod">
+	  <workers>10</workers>
+	  <units>2400</units>
+	  <sensor>OK</sensor>
+	</order>
+</context>

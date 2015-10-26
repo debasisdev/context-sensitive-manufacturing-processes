@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://iaas.uni-stuttgart.de/" 
+elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+xmlns:cbmp="http://iaas.uni-stuttgart.de/cbmp/model" xmlns="http://www.w3schools.com">  <!--cbmp = context-based manufacturinf process-->
+
+	<xs:element name="order" type="orderType"/>                <!--It defines the Type of Order e.g. Start Manufacturing or Stop Manufacturing-->
+	<xs:simpleType name="orderType">
+	  <xs:restriction base="xs:string">
+		<xs:enumeration value="Open"/>
+		<xs:enumeration value="Cancel"/>
+	  </xs:restriction>
+	</xs:simpleType> 
+	
+	<xs:element name="subintention" type="subintentionType"/>  <!--It defines the Sub Intentions possible-->
+	<xs:simpleType name="subintentionType">
+	  <xs:restriction base="xs:string">
+		<xs:enumeration value="Utilization"/>
+		<xs:enumeration value="Throughput"/>
+		<xs:enumeration value="Automation"/>
+		<xs:enumeration value="Maintenance"/>
+		<xs:enumeration value="Profit"/>
+	  </xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="goalIntention" type="goalType"/>         <!--It defines the Intentions Possible - basically the Process Goals-->
+	<xs:simpleType name="goalType">
+	  <xs:restriction base="xs:string">
+		<xs:enumeration value="lineAndWeld"/>
+		<xs:enumeration value="skinAndConnect"/>
+		<xs:enumeration value="insertMolding"/>
+		<xs:enumeration value="interlockAndBorder"/>
+		<xs:enumeration value="checkQualityAndTest"/>
+		<xs:enumeration value="packageAndPallatize"/>
+		<xs:enumeration value="deliverToCustomer"/>
+		<xs:enumeration value="produceEBlankets"/>
+	  </xs:restriction>
+	</xs:simpleType> 
+		
+	<xs:element name="availability" type="availabilityType"/>    <!--To define whether a resource available or not-->
+    <xs:simpleType name="availabilityType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Yes"/>
+            <xs:enumeration value="No"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:element name="amount" type="amountQuantifier"/>          <!--To define whether a resource available or not-->
+    <xs:simpleType name="amountQuantifier">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="High"/>
+            <xs:enumeration value="Low"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:element name="probability" type="probabilityAmount"/>     <!--To define the weight of a process-->
+    <xs:simpleType name="probabilityAmount">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+			<xs:maxInclusive value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+	
+	<xs:element name="sensor" type="sensorType"/>                <!--3 Types of Sensor Status is Defined that can be tracked to Maintain the systems-->
+	<xs:simpleType name="sensorType">
+	  <xs:restriction base="xs:string">
+		<xs:enumeration value="OK"/>
+		<xs:enumeration value="Not Ok"/>
+		<xs:enumeration value="Unresponsive"/>
+	  </xs:restriction>
+	</xs:simpleType>
+	
+	<xs:element name="sensorStatus" type="fullSensorType"/>      <!--Sensors Status with it's Respective Name-->
+	<xs:complexType name="fullSensorType">
+	  <xs:complexContent>
+                <xs:sequence>
+					<xs:element name="sensorName" type="xs:string"></xs:element>
+					<xs:element name="sensorAvlbl" type="cbmp:availabilityType"></xs:element>
+                    <xs:element name="sensorStatus" type="cbmp:sensorStatus"></xs:element>
+                </xs:sequence>
+        </xs:complexContent>
+	</xs:complexType>
+
+	<!--GLOBAL CONTEXT DEFINITION that Contains Order ID, Order Category (Optional), No. of Units Ordered, Worker Availability, No. of Workers Available-->
+    <xs:element name="context" type="contextDefinition" />
+    <xs:complexType name="contextDefinition">
+        <xs:complexContent>
+			<xs:extension base="cbmp:fullSensorType">
+                <xs:sequence>
+					<xs:element name="orderId" type="xs:string"></xs:element>
+					<xs:element name="orderCategory" type="cbmp:orderType" minOccurs="0" maxOccurs="1"></xs:element>
+                    <xs:element name="productUnits" type="xs:positiveInteger"></xs:element>
+                    <xs:element name="workerAvlbl" type="cbmp:availabilityType"></xs:element>
+					<xs:element name="workers" type="xs:positiveInteger"></xs:element>
+                </xs:sequence>
+			</xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+	
+	<!--GOAL DEFINITION that Contains goal and weight. Optionally it can have at maximum a Sub Intention with it's quantifier-->
+	<xs:element name="goal" type="goalDefinition" />
+    <xs:complexType name="goalDefinition">
+        <xs:complexContent>
+                <xs:sequence>
+					<xs:element name="goalName" type="cbmp:goalType"></xs:element>
+					<xs:element name="weight" type="cbmp:probabilityAmount"></xs:element>
+					<xs:element name="subGoalQuantifier" type="cbmp:amountQuantifier" minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="subGoalName" type="cbmp:intentionType" minOccurs="0" maxOccurs="1"></xs:element>
+                </xs:sequence>
+        </xs:complexContent>
+    </xs:complexType>
+	
+</xs:schema>
