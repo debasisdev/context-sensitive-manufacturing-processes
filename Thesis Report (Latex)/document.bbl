@@ -28,6 +28,11 @@ PC~Evans and M~Annunziata.
 \newblock Industrial internet: Pushing the boundaries of minds and machines,
   general electric, 2012.
 
+\bibitem[Erl12]{LEANFAC}
+Klaus Erlach.
+\newblock {\em Value stream design: The way towards a lean factory}.
+\newblock Springer Science \& Business Media, 2012.
+
 \bibitem[GBMP13]{IOTGUBBI}
 Jayavardhana Gubbi, Rajkumar Buyya, Slaven Marusic, and Marimuthu Palaniswami.
 \newblock Internet of things (iot): A vision, architectural elements, and
@@ -47,6 +52,13 @@ Henning Kagermann, Wolf-Dieter Lukas, and Wolfgang Wahlster.
   http://www.vdi-nachrichten.com/Technik-Gesellschaft/Industrie-40-Mit-Internet-Dinge-Weg-4-industriellen-Revolution,
   2011.
 \newblock [Online].
+
+\bibitem[LE06]{LEVYLIT}
+Yair Levy and Timothy~J Ellis.
+\newblock A systems approach to conduct an effective literature review in
+  support of information systems research.
+\newblock {\em Informing Science: International Journal of an Emerging
+  Transdiscipline}, 9(1):181--212, 2006.
 
 \bibitem[LRS{\etalchar{+}}15]{MANMACHINE}
 Markus Lorenz, Michael Rüßmann, Rainer Strack, Knud Lasse~Lueth, and Moritz

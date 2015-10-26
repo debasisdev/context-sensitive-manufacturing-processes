@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.29)  24 OCT 2015 17:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.29)  25 OCT 2015 17:37
 entering extended mode
 **document.tex
 (document.tex
@@ -765,7 +765,13 @@ Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
 \ALG@tmplength=\skip73
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
-) (C:\MiKTeX\tex\latex\caption\caption.sty
+) (C:\MiKTeX\tex\latex\appendix\appendix.sty
+Package: appendix 2009/09/02 v1.2b extra appendix facilities
+\c@@pps=\count145
+\c@@ppsavesec=\count146
+\c@@ppsaveapp=\count147
+)
+(C:\MiKTeX\tex\latex\caption\caption.sty
 Package: caption 2015/09/17 v3.3-111 Customizing captions (AR)
 
 (C:\MiKTeX\tex\latex\caption\caption3.sty
@@ -780,7 +786,7 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 \caption@hangindent=\dimen166
 )
 Package caption Info: KOMA-Script document class.
-\c@ContinuedFloat=\count145
+\c@ContinuedFloat=\count148
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
 
@@ -843,15 +849,15 @@ Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 )
 \@linkdim=\dimen167
-\Hy@linkcounter=\count146
-\Hy@pagecounter=\count147
+\Hy@linkcounter=\count149
+\Hy@pagecounter=\count150
 
 (C:\MiKTeX\tex\latex\hyperref\pd1enc.def
 File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count148
+\Hy@SavedSpaceFactor=\count151
 
 (C:\MiKTeX\tex\latex\00miktex\hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -864,10 +870,10 @@ Package hyperref Info: Plain pages OFF on input line 4458.
 Package hyperref Info: Backreferencing OFF on input line 4463.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4688.
-\c@Hy@tempcnt=\count149
+\c@Hy@tempcnt=\count152
 LaTeX Info: Redefining \url on input line 5041.
 \XeTeXLinkMargin=\dimen168
-\Fld@menulength=\count150
+\Fld@menulength=\count153
 \Field@Width=\dimen169
 \Fld@charsize=\dimen170
 Package hyperref Info: Hyper figures OFF on input line 6295.
@@ -879,17 +885,17 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6320.
 Package hyperref Info: PDF/A mode OFF on input line 6325.
 LaTeX Info: Redefining \ref on input line 6365.
 LaTeX Info: Redefining \pageref on input line 6369.
-\Hy@abspage=\count151
-\c@Item=\count152
-\c@Hfootnote=\count153
+\Hy@abspage=\count154
+\c@Item=\count155
+\c@Hfootnote=\count156
 )
 
 Package hyperref Message: Driver (autodetected): hpdftex.
 
 (C:\MiKTeX\tex\latex\hyperref\hpdftex.def
 File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
-\Fld@listcount=\count154
-\c@bookmark@seq@number=\count155
+\Fld@listcount=\count157
+\c@bookmark@seq@number=\count158
 
 (C:\MiKTeX\tex\latex\oberdiek\rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
@@ -898,7 +904,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip74
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 84.
+Package hyperref Info: Option `colorlinks' set `true' on input line 87.
 
 
 Package hyperref Warning: Option `a4paper' is no longer used.
@@ -945,30 +951,30 @@ Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
 )
-\c@Theorem=\count156
-\c@theorem=\count157
-\c@Satz=\count158
-\c@satz=\count159
-\c@Proposition=\count160
-\c@proposition=\count161
-\c@Lemma=\count162
-\c@lemma=\count163
-\c@Korollar=\count164
-\c@korollar=\count165
-\c@Corollary=\count166
-\c@corollary=\count167
-\c@Example=\count168
-\c@example=\count169
-\c@Beispiel=\count170
-\c@beispiel=\count171
-\c@Bemerkung=\count172
-\c@bemerkung=\count173
-\c@Anmerkung=\count174
-\c@anmerkung=\count175
-\c@Remark=\count176
-\c@remark=\count177
-\c@Definition=\count178
-\c@definition=\count179
+\c@Theorem=\count159
+\c@theorem=\count160
+\c@Satz=\count161
+\c@satz=\count162
+\c@Proposition=\count163
+\c@proposition=\count164
+\c@Lemma=\count165
+\c@lemma=\count166
+\c@Korollar=\count167
+\c@korollar=\count168
+\c@Corollary=\count169
+\c@corollary=\count170
+\c@Example=\count171
+\c@example=\count172
+\c@Beispiel=\count173
+\c@beispiel=\count174
+\c@Bemerkung=\count175
+\c@bemerkung=\count176
+\c@Anmerkung=\count177
+\c@anmerkung=\count178
+\c@Remark=\count179
+\c@remark=\count180
+\c@Definition=\count181
+\c@definition=\count182
 
 (C:\MiKTeX\tex\latex\amsfonts\amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
@@ -980,51 +986,51 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ))
-\c@Proof=\count180
-\c@proof=\count181
-\c@Beweis=\count182
-\c@beweis=\count183
+\c@Proof=\count183
+\c@proof=\count184
+\c@Beweis=\count185
+\c@beweis=\count186
 ))
-\c@Def=\count184
-\c@Begriff=\count185
+\c@Def=\count187
+\c@Begriff=\count188
 
 (C:\MiKTeX\tex\latex\koma-script\scrpage2.sty
 Package: scrpage2 2015/07/02 v3.18 KOMA-Script package (page head and foot)
 LaTeX Info: Redefining \pagemark on input line 174.
 ) (document.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 281.
-LaTeX Font Info:    ... okay on input line 281.
-LaTeX Font Info:    Try loading font information for T1+ppl on input line 281.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 284.
+LaTeX Font Info:    ... okay on input line 284.
+LaTeX Font Info:    Try loading font information for T1+ppl on input line 284.
 
 (C:\MiKTeX\tex\latex\psnfss\t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 ) (C:\MiKTeX\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count186
+\scratchcounter=\count189
 \scratchdimen=\dimen175
 \scratchbox=\box36
-\nofMPsegments=\count187
-\nofMParguments=\count188
+\nofMPsegments=\count190
+\nofMParguments=\count191
 \everyMPshowfont=\toks49
-\MPscratchCnt=\count189
+\MPscratchCnt=\count192
 \MPscratchDim=\dimen176
-\MPnumerator=\count190
-\makeMPintoPDFobject=\count191
+\MPnumerator=\count193
+\makeMPintoPDFobject=\count194
 \everyMPtoPDFconversion=\toks50
 )
-LaTeX Info: Redefining \microtypecontext on input line 281.
+LaTeX Info: Redefining \microtypecontext on input line 284.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1037,9 +1043,9 @@ Package microtype Info: No adjustment of character kerning.
  (C:\MiKTeX\tex\latex\microtype\mt-ppl.cfg
 File: mt-ppl.cfg 2005/11/16 v1.6 microtype config. file: Palatino (RS)
 )
-LaTeX Info: Redefining \dots on input line 281.
-\c@lstlisting=\count192
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 281.
+LaTeX Info: Redefining \dots on input line 284.
+\c@lstlisting=\count195
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 284.
 
 
 (C:\MiKTeX\tex\latex\base\t1cmtt.fd
@@ -1052,91 +1058,91 @@ Package microtype Info: Loading generic settings for font family
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/b/n' undefined
-(Font)              using `T1/cmtt/m/n' instead on input line 281.
+(Font)              using `T1/cmtt/m/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/b/it' undefined
-(Font)              using `T1/cmtt/b/n' instead on input line 281.
+(Font)              using `T1/cmtt/b/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/b/sl' undefined
-(Font)              using `T1/cmtt/b/n' instead on input line 281.
+(Font)              using `T1/cmtt/b/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/b/sc' undefined
-(Font)              using `T1/cmtt/b/n' instead on input line 281.
+(Font)              using `T1/cmtt/b/n' instead on input line 284.
 
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 281.
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 284.
 LaTeX Font Info:    Font shape `T1/cmtt/bx/it' in size <10.95> not available
-(Font)              Font shape `T1/cmtt/m/it' tried instead on input line 281.
+(Font)              Font shape `T1/cmtt/m/it' tried instead on input line 284.
 
 LaTeX Font Warning: Font shape `T1/cmtt/bx/sl' undefined
-(Font)              using `T1/cmtt/bx/n' instead on input line 281.
+(Font)              using `T1/cmtt/bx/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/bx/sc' undefined
-(Font)              using `T1/cmtt/bx/n' instead on input line 281.
+(Font)              using `T1/cmtt/bx/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/sb/n' undefined
-(Font)              using `T1/cmtt/m/n' instead on input line 281.
+(Font)              using `T1/cmtt/m/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/sb/it' undefined
-(Font)              using `T1/cmtt/sb/n' instead on input line 281.
+(Font)              using `T1/cmtt/sb/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/sb/sl' undefined
-(Font)              using `T1/cmtt/sb/n' instead on input line 281.
+(Font)              using `T1/cmtt/sb/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/sb/sc' undefined
-(Font)              using `T1/cmtt/sb/n' instead on input line 281.
+(Font)              using `T1/cmtt/sb/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/c/n' undefined
-(Font)              using `T1/cmtt/m/n' instead on input line 281.
+(Font)              using `T1/cmtt/m/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/c/it' undefined
-(Font)              using `T1/cmtt/c/n' instead on input line 281.
+(Font)              using `T1/cmtt/c/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/c/sl' undefined
-(Font)              using `T1/cmtt/c/n' instead on input line 281.
+(Font)              using `T1/cmtt/c/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/c/sc' undefined
-(Font)              using `T1/cmtt/c/n' instead on input line 281.
+(Font)              using `T1/cmtt/c/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/l/n' undefined
-(Font)              using `T1/cmtt/m/n' instead on input line 281.
+(Font)              using `T1/cmtt/m/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/l/it' undefined
-(Font)              using `T1/cmtt/l/n' instead on input line 281.
+(Font)              using `T1/cmtt/l/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/l/sl' undefined
-(Font)              using `T1/cmtt/l/n' instead on input line 281.
+(Font)              using `T1/cmtt/l/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/l/sc' undefined
-(Font)              using `T1/cmtt/l/n' instead on input line 281.
+(Font)              using `T1/cmtt/l/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/m/ui' undefined
-(Font)              using `T1/cmtt/m/n' instead on input line 281.
+(Font)              using `T1/cmtt/m/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/bx/ui' undefined
-(Font)              using `T1/cmtt/bx/n' instead on input line 281.
+(Font)              using `T1/cmtt/bx/n' instead on input line 284.
 
 
 LaTeX Font Warning: Font shape `T1/cmtt/m/In' undefined
-(Font)              using `T1/cmtt/m/n' instead on input line 281.
+(Font)              using `T1/cmtt/m/n' instead on input line 284.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1170,62 +1176,62 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 \AtBeginShipoutBox=\box37
-Package hyperref Info: Link coloring ON on input line 281.
+Package hyperref Info: Link coloring ON on input line 284.
 (C:\MiKTeX\tex\latex\hyperref\nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 (C:\MiKTeX\tex\generic\oberdiek\gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count193
+\c@section@level=\count196
 LaTeX Info: Redefining \Ref on input line 513.
 )
-LaTeX Info: Redefining \ref on input line 281.
-LaTeX Info: Redefining \pageref on input line 281.
-LaTeX Info: Redefining \nameref on input line 281.
+LaTeX Info: Redefining \ref on input line 284.
+LaTeX Info: Redefining \pageref on input line 284.
+LaTeX Info: Redefining \nameref on input line 284.
  (document.out)
 (document.out)
 \@outlinefile=\write4
-LaTeX Info: Redefining \Ref on input line 281.
-LaTeX Font Info:    Try loading font information for T1+phv on input line 293.
+LaTeX Info: Redefining \Ref on input line 284.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 296.
  (C:\MiKTeX\tex\latex\psnfss\t1phv.fd
 File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 9.85492pt on input line 293.
+(Font)              scaled to size 9.85492pt on input line 296.
 Package microtype Info: Loading generic settings for font family
 (microtype)             `phv' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 12.9599pt on input line 309.
+(Font)              scaled to size 12.9599pt on input line 312.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 309.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 312.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 12.9599pt on input line 309.
-LaTeX Font Info:    Try loading font information for OT1+ppl on input line 312.
+(Font)              scaled to size 12.9599pt on input line 312.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 315.
 
 
 (C:\MiKTeX\tex\latex\psnfss\ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
-LaTeX Font Info:    Try loading font information for OML+zplm on input line 312
+LaTeX Font Info:    Try loading font information for OML+zplm on input line 315
 .
  (C:\MiKTeX\tex\latex\psnfss\omlzplm.fd
 File: omlzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OML/zplm.
 )
-LaTeX Font Info:    Try loading font information for OMS+zplm on input line 312
+LaTeX Font Info:    Try loading font information for OMS+zplm on input line 315
 .
 
 (C:\MiKTeX\tex\latex\psnfss\omszplm.fd
 File: omszplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMS/zplm.
 )
-LaTeX Font Info:    Try loading font information for OMX+zplm on input line 312
+LaTeX Font Info:    Try loading font information for OMX+zplm on input line 315
 .
  (C:\MiKTeX\tex\latex\psnfss\omxzplm.fd
 File: omxzplm.fd 2002/09/08 Fontinst v1.914 font definitions for OMX/zplm.
 )
-LaTeX Font Info:    Try loading font information for OT1+zplm on input line 312
+LaTeX Font Info:    Try loading font information for OT1+zplm on input line 315
 .
 (C:\MiKTeX\tex\latex\psnfss\ot1zplm.fd
 File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
@@ -1234,51 +1240,51 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             `zplm' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for U+lasy on input line 312.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 315.
  (C:\MiKTeX\tex\latex\base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 312.
+(Font)              scaled to size 11.40997pt on input line 315.
 
 (C:\MiKTeX\tex\latex\microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 312.
+(Font)              scaled to size 8.33606pt on input line 315.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 312.
+(Font)              scaled to size 6.25204pt on input line 315.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 11.40997pt on input line 312.
+(Font)              scaled to size 11.40997pt on input line 315.
 
 (C:\MiKTeX\tex\latex\microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 8.33606pt on input line 312.
+(Font)              scaled to size 8.33606pt on input line 315.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 6.25204pt on input line 312.
+(Font)              scaled to size 6.25204pt on input line 315.
 
-<./gfx/unilogo.pdf, id=139, 1668.2325pt x 1686.3pt>
+<./gfx/unilogo.pdf, id=131, 1668.2325pt x 1686.3pt>
 File: ./gfx/unilogo.pdf Graphic file (type pdf)
  <use ./gfx/unilogo.pdf>
-Package pdftex.def Info: ./gfx/unilogo.pdf used on input line 323.
+Package pdftex.def Info: ./gfx/unilogo.pdf used on input line 326.
 (pdftex.def)             Requested size: 76.8219pt x 77.62991pt.
 
-<./gfx/iaas.jpg, id=140, 100.375pt x 52.195pt>
+<./gfx/iaas.jpg, id=132, 100.375pt x 52.195pt>
 File: ./gfx/iaas.jpg Graphic file (type jpg)
  <use ./gfx/iaas.jpg>
-Package pdftex.def Info: ./gfx/iaas.jpg used on input line 329.
+Package pdftex.def Info: ./gfx/iaas.jpg used on input line 332.
 (pdftex.def)             Requested size: 100.37474pt x 52.19487pt.
 
-Overfull \hbox (15.01648pt too wide) in paragraph at lines 329--330
+Overfull \hbox (15.01648pt too wide) in paragraph at lines 332--333
  [] 
  []
 
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 338.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 341.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 9.85492pt on input line 338.
+(Font)              scaled to size 9.85492pt on input line 341.
 [1
 
 
@@ -1292,50 +1298,31 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 373--373
+Underfull \hbox (badness 10000) in paragraph at lines 376--376
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 373--373
+Underfull \hbox (badness 10000) in paragraph at lines 376--376
 
  []
 
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 373.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 376.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 15.55188pt on input line 373.
+(Font)              scaled to size 15.55188pt on input line 376.
 
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 373--373
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 376--376
 [] 
  []
 
 Package tocbasic Info: character protrusion at toc deactivated on input line 37
-3.
+6.
 (document.toc [3
 
 ])
 \tf@toc=\write5
  [4]
-Underfull \hbox (badness 10000) in paragraph at lines 377--377
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 377--377
-
- []
-
-
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 377--377
-[] 
- []
-
-Package tocbasic Info: character protrusion at lof deactivated on input line 37
-7.
-(document.lof)
-\tf@lof=\write6
-
 Underfull \hbox (badness 10000) in paragraph at lines 380--380
 
  []
@@ -1350,8 +1337,27 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 380--380
 [] 
  []
 
-Package tocbasic Info: character protrusion at lot deactivated on input line 38
+Package tocbasic Info: character protrusion at lof deactivated on input line 38
 0.
+(document.lof)
+\tf@lof=\write6
+
+Underfull \hbox (badness 10000) in paragraph at lines 383--383
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 383--383
+
+ []
+
+
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 383--383
+[] 
+ []
+
+Package tocbasic Info: character protrusion at lot deactivated on input line 38
+3.
 (document.lot)
 \tf@lot=\write7
 
@@ -1366,23 +1372,23 @@ Class scrbook Warning: \float@listhead detected!
 (scrbook)              Loading of package `scrhack' may help to
 (scrbook)              avoid this warning, if you are using a
 (scrbook)              a package that still implements the
-(scrbook)              deprecated \float@listhead interface  on input line 383.
+(scrbook)              deprecated \float@listhead interface  on input line 386.
 
 
 [5
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 383--383
+Underfull \hbox (badness 10000) in paragraph at lines 386--386
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 383--383
+Underfull \hbox (badness 10000) in paragraph at lines 386--386
 
  []
 
 
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 383--383
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 386--386
 [] 
  []
 
@@ -1422,33 +1428,48 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-<./gfx/addmanustr.jpg, id=255, 712.91344pt x 563.10374pt>
+<./gfx/addmanustr.jpg, id=251, 712.91344pt x 563.10374pt>
 File: ./gfx/addmanustr.jpg Graphic file (type jpg)
 
 <use ./gfx/addmanustr.jpg>
 Package pdftex.def Info: ./gfx/addmanustr.jpg used on input line 7.
-(pdftex.def)             Requested size: 285.16032pt x 225.2375pt.
+(pdftex.def)             Requested size: 249.52344pt x 197.08926pt.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 9.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
+<./gfx/4goals.jpg, id=255, 600.74437pt x 428.35031pt>
+File: ./gfx/4goals.jpg Graphic file (type jpg)
+ <use ./gfx/4goals.jpg>
+Package pdftex.def Info: ./gfx/4goals.jpg used on input line 21.
+(pdftex.def)             Requested size: 294.36731pt x 209.89348pt.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.16 \section
-             {Problem Statement} [1
+l.26 
+      [1
 
 
 
-]) (fundamentals/fundamentals.texpdfTeX warning (ext4): destination with the sa
-me identifier (name{page.2}) has been already used, duplicate ignored
+ <./gfx/addmanustr.jpg>]pdfTeX warning (ext4): destination with the same identi
+fier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.1 \chapter
-            {Fundamentals} \label{chap:fundamentals} [2 <./gfx/addmanustr.jpg>]
+l.36 T
+      o increase the efficiency of production process, automation, optimizat...
+[2 <./gfx/4goals.jpg>] <./gfx/outline.jpg, id=299, 785.18344pt x 505.13719pt>
+File: ./gfx/outline.jpg Graphic file (type jpg)
+
+<use ./gfx/outline.jpg>
+Package pdftex.def Info: ./gfx/outline.jpg used on input line 48.
+(pdftex.def)             Requested size: 573.17915pt x 368.74709pt.
+ [3] [4 <./gfx/outline.jpg>]
+Overfull \hbox (4.99196pt too wide) in paragraph at lines 70--71
+[]\T1/ppl/m/n/10.95 (-20) In the last chap-ter, we will give a sum-mary and an 
+out-look about our con-tri-bu-tion (see Sect. [][]9[][]). 
+ []
+
+) (fundamentals/fundamentals.tex [5]
 chapter 2.
 
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
@@ -1465,52 +1486,57 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
+[6
+
+]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 11.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 10.79993pt on input line 11.
-[3
-
-]
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 14.
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
 nput line 14.
- <./gfx/indus4enablers.jpg, id=322, 539.01375pt x 273.27094pt>
+ <./gfx/indus4enablers.jpg, id=378, 539.01375pt x 273.27094pt>
 File: ./gfx/indus4enablers.jpg Graphic file (type jpg)
 
 <use ./gfx/indus4enablers.jpg>
 Package pdftex.def Info: ./gfx/indus4enablers.jpg used on input line 23.
 (pdftex.def)             Requested size: 323.41074pt x 163.9638pt.
+ [7 <./gfx/indus4enablers.jpg>]
 LaTeX Font Info:    Try loading font information for OMS+ppl on input line 31.
- (C:\MiKTeX\tex\latex\psnfss\omsppl.fd
+
+(C:\MiKTeX\tex\latex\psnfss\omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 31.
- [4 <./gfx/indus4enablers.jpg>] [5]
-<./gfx/revlifecycle.png, id=373, 234.8775pt x 121.95563pt>
+ [8]
+<./gfx/revlifecycle.png, id=427, 234.8775pt x 121.95563pt>
 File: ./gfx/revlifecycle.png Graphic file (type png)
 
 <use ./gfx/revlifecycle.png>
 Package pdftex.def Info: ./gfx/revlifecycle.png used on input line 56.
 (pdftex.def)             Requested size: 117.43846pt x 60.97765pt.
 
-<./gfx/revsimul.png, id=379, 230.36063pt x 111.41624pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<./gfx/revsimul.png, id=433, 230.36063pt x 111.41624pt>
 File: ./gfx/revsimul.png Graphic file (type png)
 
 <use ./gfx/revsimul.png>
 Package pdftex.def Info: ./gfx/revsimul.png used on input line 65.
 (pdftex.def)             Requested size: 115.18002pt x 55.70798pt.
- [6 <./gfx/revlifecycle.png>]
-<./gfx/revvalchain.png, id=392, 220.57407pt x 136.25906pt>
+ [9]
+<./gfx/revvalchain.png, id=447, 220.57407pt x 136.25906pt>
 File: ./gfx/revvalchain.png Graphic file (type png)
 
 <use ./gfx/revvalchain.png>
 Package pdftex.def Info: ./gfx/revvalchain.png used on input line 72.
 (pdftex.def)             Requested size: 110.28676pt x 68.12935pt.
 
-<./gfx/revengg.png, id=399, 219.06844pt x 127.97812pt>
+<./gfx/revengg.png, id=454, 219.06844pt x 127.97812pt>
 File: ./gfx/revengg.png Graphic file (type png)
  <use ./gfx/revengg.png>
 Package pdftex.def Info: ./gfx/revengg.png used on input line 81.
@@ -1519,50 +1545,51 @@ Package pdftex.def Info: ./gfx/revengg.png used on input line 81.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[7 <./gfx/revsimul.png> <./gfx/revvalchain.png>] [8 <./gfx/revengg.png>]
-[9] <./gfx/hypecycle.jpg, id=452, 436.63126pt x 288.3272pt>
+[10 <./gfx/revlifecycle.png> <./gfx/revsimul.png> <./gfx/revvalchain.png>]
+[11 <./gfx/revengg.png>] [12]
+<./gfx/hypecycle.jpg, id=508, 436.63126pt x 288.3272pt>
 File: ./gfx/hypecycle.jpg Graphic file (type jpg)
 
 <use ./gfx/hypecycle.jpg>
 Package pdftex.def Info: ./gfx/hypecycle.jpg used on input line 118.
 (pdftex.def)             Requested size: 392.9645pt x 259.49207pt.
- [10 <./gfx/hypecycle.jpg>] [11]
+ [13 <./gfx/hypecycle.jpg>] [14]
 chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--135
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--135
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
 
  []
 
 
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 135--135
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 134--134
 [] 
  []
 
-[12
+[15
 
 ]
 chapter 4.
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--141
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
 
  []
 
 
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 141--141
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 138--138
 [] 
  []
 
-) (relatedworks/relatedworks.tex [13
+) (relatedworks/relatedworks.tex [16
 
 ]
 chapter 5.
@@ -1581,7 +1608,7 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (specification/specification.tex [14
+) (specification/specification.tex [17
 
 ]
 chapter 6.
@@ -1614,7 +1641,7 @@ Overfull \hbox (23.99323pt too wide) in alignment at lines 49--49
 Underfull \vbox (badness 10000) detected at line 49
  []
 
-[15
+[18
 
 ]) (design/design.tex
 chapter 7.
@@ -1633,7 +1660,7 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (validationEvaluation/validationevaluation.tex [16
+) (validationEvaluation/validationevaluation.tex [19
 
 
 ]
@@ -1653,7 +1680,7 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (conclusion/conclusion.tex [17
+) (conclusion/conclusion.tex [20
 
 ]
 chapter 9.
@@ -1672,9 +1699,15 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (Appendix/appendix.tex [18
+) (Appendix/appendix.tex [21
 
 ]
+LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <24.88> not available
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 1.
+ [22
+
+
+] [23]
 chapter A.
 
 Underfull \hbox (badness 10000) in paragraph at lines 2--2
@@ -1691,7 +1724,7 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 2--2
 [] 
  []
 
-) (document.bbl [19
+) (document.bbl [24
 
 ]
 chapter without number
@@ -1711,69 +1744,69 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 2--2
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 32--36
+Underfull \hbox (badness 1107) in paragraph at lines 37--41
 []\T1/ppl/m/n/10.95 (+20) Jayavardhana Gubbi, Ra-jku-mar Buyya, Slaven Maru-sic
 , and Marimuthu
  []
 
 
-Underfull \hbox (badness 1466) in paragraph at lines 64--68
+Underfull \hbox (badness 1466) in paragraph at lines 76--80
 []\T1/ppl/m/n/10.95 (+20) OASIS.  Web ser-vices busi-ness pro-cess ex-e-cu-tion
  lan-guage ver-sion 2.0.
  []
 
-[20
+[25
 
-]) [21]
+]) [26]
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 413.
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 416.
 
-Underfull \hbox (badness 10000) in paragraph at lines 413--415
+Underfull \hbox (badness 10000) in paragraph at lines 416--418
 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [22
+ [27
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 432--434
+Underfull \hbox (badness 10000) in paragraph at lines 435--437
 
  []
 
-[23]
+[28]
 \tf@thm=\write9
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 445.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 445.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 448.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 448.
  (document.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 445.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 445.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 448.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 448.
 Package rerunfilecheck Info: File `document.out' has not changed.
-(rerunfilecheck)             Checksum: 3201A9D16CD7A27F09E0512EC45D456A;2360.
+(rerunfilecheck)             Checksum: 76C60E52BC415B5EB01379DEDD8E9037;2192.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 445.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 448.
  ) 
 Here is how much of TeX's memory you used:
- 17560 strings out of 493673
- 262383 string characters out of 3151256
- 475665 words of memory out of 3000000
- 20202 multiletter control sequences out of 15000+200000
- 52784 words of font info for 204 fonts, out of 3000000 for 9000
+ 17703 strings out of 493673
+ 264345 string characters out of 3151256
+ 477409 words of memory out of 3000000
+ 20321 multiletter control sequences out of 15000+200000
+ 55478 words of font info for 211 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 42i,10n,66p,1175b,598s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 42i,11n,66p,1175b,598s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<C:/MiKTeX/fonts/type1/public/amsf
 onts/cm/cmr10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/MiKT
 eX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/MiKTeX/fonts/type1/urw/helvetic/uhvr
 8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/MiKTeX/fonts/type1/ur
 w/palatino/uplr8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/MiKTeX
 /fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on document.pdf (31 pages, 488730 bytes).
+Output written on document.pdf (36 pages, 667009 bytes).
 PDF statistics:
- 585 PDF objects out of 1000 (max. 8388607)
- 118 named destinations out of 1000 (max. 500000)
- 35646 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 650 PDF objects out of 1000 (max. 8388607)
+ 130 named destinations out of 1000 (max. 500000)
+ 36664 words of extra memory for PDF output out of 42996 (max. 10000000)
 
