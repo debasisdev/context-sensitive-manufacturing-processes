@@ -43,11 +43,10 @@ Manufacturing processes need to be updated regularly to stay competitive in the 
 Sungur et al. \cite{TIMURCIRP} presented a novel approach to support \textit{Context-sensitive Adaptive Production Process} in their research work. They extended production processes, which contain a sequence of predefined sets of sub-processes, with \textit{Context-sensitive Execution Steps (\acs{CES})} \refsection{conces}. For each \acs{CES}, context-relevant sub-processes are chosen and desired processes are elected, optimized, deployed and executed \cite{TIMURCIRP}. \acs{CES} approach dictates a way in which processes can possibly adapt themselves to the execution context. In each context, there can be multiple alternatives for the same process goals and the best needs to be selected and executed at runtime \cite{TIMURCIRP}.
 
 In this thesis work, we define a \acs{BPMN} extension which do not change semantics of standard \acs{BPMN} if it's needed at all and adds the necessary details to make manufacturing process models executable. To create this extension, we have- analyzed the properties that make \acs{CES}s unique and also scrutinized important and relevant \acs{BPMN} properties which might be vital during creation of the \acs{CES} extensions. These properties are later on used to derive our requirements from which we create our extension. A summary of the thesis work can be found below \reffig{fig:1.3}.
-
 \begin{figure}[h!]
-	\includegraphics[scale=0.73, angle=90]{./gfx/outline}
+	\includegraphics[scale=0.72, angle=90]{./gfx/outline}
 	\centering
-	\caption{The Thesis Methodology Flow-chart}
+	\caption{The Thesis Methodology Flow-chart - Inspired from \cite{TIMURTHESIS}}
 	\label{fig:1.3}
 \end{figure}
 \section{Methodology and Outline}
@@ -59,13 +58,13 @@ Another part of the literature review is focused upon analyzing properties of \a
 
 For the sake of analysis and apply the conceptual work-flow modeling construct, we have described a motivating scenario depicting a real-world manufacturing scenario which is a mix of manual- and automated task \refsection{chap:motscene}.
 
-In the next chapter, we derive our requirements from the properties that we have found related. By defining our requirements, we conclude the task "Derive Requirements" in the methodology model \reffig{fig:1.3}. All the relevant properties and requirements for the \acs{CES} have been described in this chapter \refsection{chap:requirements}.
+In the next chapter, we derive our requirements from the properties that we have found related. By defining our requirements, we conclude the task "Requirement Analysis" in the methodology model \reffig{fig:1.3}. All the relevant properties and requirements for the \acs{CES} have been described in this chapter \refsection{chap:requirements}.
 
-In the next task "Review Related Works and Solution Proposals, we select and analyze few already existing extensions of \acs{BPMN} or any ongoing work in same direction. We propose our extensions which satisfy the requirements that we have previously defined to make sure that our approach proposed by Sungur et al. \cite{TIMURCIRP} can cater the best to the manufacturing sector \refsection{chap:relatedworks}. 
+In the next task "Review Related Works", we select and analyze few already existing extensions of \acs{BPMN} or any ongoing work in same direction. We propose our extensions which satisfy the requirements that we have previously defined to make sure that our approach proposed by Sungur et al. \cite{TIMURCIRP} can cater the best to the manufacturing sector \refsection{chap:relatedworks}. 
 
 During the implementation of our conceptual construct, we use the \acs{BPMN} extension methodology and we preserve the semantics of the existing \acs{BPMN} properties. Architecture for the execution of modeled process is touch upon in this chapter \refsection{chap:archimpl}.
 
-In our final task, we evaluate our approach by comparing it with the current state of art or related works already discussed \refsection{chap:relatedworks}. We conclude the task “Evaluate Solution Implementation” by providing this evaluation \refsection{chap:validationevaluation}. 
+In our final task, we evaluate our approach by comparing it with the current state of art or related works already discussed \refsection{chap:relatedworks}. We conclude the task “Evaluate Solution Proposals” by providing this evaluation \refsection{chap:validationevaluation}. 
 
 In the last chapter, we will give a summary and an outlook about our contribution \refsection{chap:outcome}. 
 

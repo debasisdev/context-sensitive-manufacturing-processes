@@ -9,24 +9,30 @@
 \BOOKMARK [2][-]{subsection.2.1.4}{Mechanisms to Increase Productivity}{section.2.1}% 9
 \BOOKMARK [2][-]{subsection.2.1.5}{Industrial Requirements}{section.2.1}% 10
 \BOOKMARK [2][-]{subsection.2.1.6}{Benefits of Industry 4.0 in Manufacturing}{section.2.1}% 11
-\BOOKMARK [1][-]{section.2.2}{Internet of Things}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{Internet of Things \(IoT\)}{chapter.2}% 12
 \BOOKMARK [2][-]{subsection.2.2.1}{Definition and Trends}{section.2.2}% 13
 \BOOKMARK [2][-]{subsection.2.2.2}{Elements of IoT}{section.2.2}% 14
-\BOOKMARK [2][-]{subsection.2.2.3}{IoT Architecture}{section.2.2}% 15
-\BOOKMARK [2][-]{subsection.2.2.4}{IoT and Industry 4.0}{section.2.2}% 16
-\BOOKMARK [2][-]{subsection.2.2.5}{Cyber-Physical Systems}{section.2.2}% 17
-\BOOKMARK [2][-]{subsection.2.2.6}{IoT Augmented Manufacturing}{section.2.2}% 18
-\BOOKMARK [1][-]{section.2.3}{Context-sensitive Execution Steps}{chapter.2}% 19
-\BOOKMARK [0][-]{chapter.3}{Business Process Model and Notation}{}% 20
-\BOOKMARK [1][-]{section.3.1}{Motivation}{chapter.3}% 21
-\BOOKMARK [1][-]{section.3.2}{Reason for Selecting BPMN}{chapter.3}% 22
-\BOOKMARK [1][-]{section.3.3}{Properties of BPMN}{chapter.3}% 23
-\BOOKMARK [0][-]{chapter.4}{Motivating Scenario}{}% 24
-\BOOKMARK [0][-]{chapter.5}{Requirements for Context-Sensitive Process}{}% 25
-\BOOKMARK [0][-]{chapter.6}{Related Works and Evaluation}{}% 26
-\BOOKMARK [0][-]{chapter.7}{Architecture and Implementation}{}% 27
-\BOOKMARK [0][-]{chapter.8}{Validation and Evaluation}{}% 28
-\BOOKMARK [0][-]{chapter.9}{Summary and Outlook}{}% 29
-\BOOKMARK [0][-]{section*.15}{Appendices}{}% 30
-\BOOKMARK [0][-]{Appendix.a.A}{List of Acronyms}{}% 31
-\BOOKMARK [0][-]{chapter*.16}{Bibliography}{}% 32
+\BOOKMARK [3][-]{subsubsection.2.2.2.1}{Radio Frequency Identification \(RFID\)}{subsection.2.2.2}% 15
+\BOOKMARK [3][-]{subsubsection.2.2.2.2}{Wireless Sensor Network \(WSN\)}{subsection.2.2.2}% 16
+\BOOKMARK [3][-]{subsubsection.2.2.2.3}{Addressing Schemes}{subsection.2.2.2}% 17
+\BOOKMARK [3][-]{subsubsection.2.2.2.4}{Storage and Analytics}{subsection.2.2.2}% 18
+\BOOKMARK [3][-]{subsubsection.2.2.2.5}{Visualization}{subsection.2.2.2}% 19
+\BOOKMARK [2][-]{subsection.2.2.3}{IoT Architecture}{section.2.2}% 20
+\BOOKMARK [2][-]{subsection.2.2.4}{Cyber-Physical Systems \(CPS\)}{section.2.2}% 21
+\BOOKMARK [2][-]{subsection.2.2.5}{Smart Factory and Industry 4.0}{section.2.2}% 22
+\BOOKMARK [2][-]{subsection.2.2.6}{Applications of IoT Augmented Manufacturing}{section.2.2}% 23
+\BOOKMARK [0][-]{chapter.3}{Context-sensitive Execution}{}% 24
+\BOOKMARK [0][-]{chapter.4}{Business Process Model and Notation}{}% 25
+\BOOKMARK [1][-]{section.4.1}{Motivation}{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.2}{Reason for Selecting BPMN}{chapter.4}% 27
+\BOOKMARK [1][-]{section.4.3}{Properties of BPMN}{chapter.4}% 28
+\BOOKMARK [0][-]{chapter.5}{Motivating Scenario}{}% 29
+\BOOKMARK [0][-]{chapter.6}{Requirements for Context-Sensitive Process}{}% 30
+\BOOKMARK [0][-]{chapter.7}{Related Works and Evaluation}{}% 31
+\BOOKMARK [0][-]{chapter.8}{Architecture and Implementation}{}% 32
+\BOOKMARK [0][-]{chapter.9}{Validation and Evaluation}{}% 33
+\BOOKMARK [0][-]{chapter.10}{Summary and Outlook}{}% 34
+\BOOKMARK [0][-]{section*.18}{Appendices}{}% 35
+\BOOKMARK [0][-]{Appendix.a.A}{List of Acronyms}{}% 36
+\BOOKMARK [0][-]{Appendix.a.B}{Glossary}{}% 37
+\BOOKMARK [0][-]{chapter*.19}{Bibliography}{}% 38

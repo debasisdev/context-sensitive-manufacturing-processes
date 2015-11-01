@@ -1,10 +1,15 @@
 \newcommand{\etalchar}[1]{$^{#1}$}
-\begin{thebibliography}{WKNL07}
+\begin{thebibliography}{TZDXZ14}
 
 \bibitem[Ash09]{IOTFIRST}
 Kevin Ashton.
 \newblock That ‘internet of things’ thing.
 \newblock {\em RFiD Journal}, 22(7):97--114, 2009.
+
+\bibitem[ASSC02]{WSNSURVEY}
+Ian~F Akyildiz, Weilian Su, Yogesh Sankarasubramaniam, and Erdal Cayirci.
+\newblock Wireless sensor networks: a survey.
+\newblock {\em Computer networks}, 38(4):398, 2002.
 
 \bibitem[BL12]{BIGDATA}
 Mark~A Beyer and Douglas Laney.
@@ -44,6 +49,12 @@ Mario Hermann, Tobias Pentek, and Boris Otto.
 \newblock Design principles for industrie 4.0 scenarios: A literature review.
 \newblock 2015.
 
+\bibitem[Jaz14]{CYBERIN}
+Nasser Jazdi.
+\newblock Cyber physical systems in the context of industry 4.0.
+\newblock In {\em Automation, Quality and Testing, Robotics, 2014 IEEE
+  International Conference on}, pages 1--4. IEEE, 2014.
+
 \bibitem[KLW11]{VDINACH}
 Henning Kagermann, Wolf-Dieter Lukas, and Wolfgang Wahlster.
 \newblock Industrie 4.0: Mit dem internet der dinge auf dem weg zur 4.
@@ -52,6 +63,17 @@ Henning Kagermann, Wolf-Dieter Lukas, and Wolfgang Wahlster.
   http://www.vdi-nachrichten.com/Technik-Gesellschaft/Industrie-40-Mit-Internet-Dinge-Weg-4-industriellen-Revolution,
   2011.
 \newblock [Online].
+
+\bibitem[KZ15]{LEANKOLBERG}
+Dennis Kolberg and Detlef Z{\"u}hlke.
+\newblock Lean automation enabled by industry 4.0 technologies.
+\newblock {\em IFAC-PapersOnLine}, 48(3):1870--1875, 2015.
+
+\bibitem[LC12]{LANDHERR}
+Martin Landherr and Carmen Constantinescu.
+\newblock Intelligent management of manufacturing knowledge: Foundations,
+  motivation scenario and roadmap.
+\newblock {\em Procedia CIRP}, 3:269--274, 2012.
 
 \bibitem[LE06]{LEVYLIT}
 Yair Levy and Timothy~J Ellis.
@@ -67,10 +89,21 @@ Markus Lorenz, Michael Rüßmann, Rainer Strack, Knud Lasse~Lueth, and Moritz
   industrial workforce through 2025?
 \newblock {\em Boston Consulting Group Perspectives, BCG}, 2015.
 
+\bibitem[LT13]{IOTMANU}
+Markus L{\"o}ffler and Andreas Tschiesner.
+\newblock The internet of things and the future of manufacturing.
+\newblock McKinsey\&Company, 2013.
+
 \bibitem[MG11]{MELLNIST}
 Peter Mell and Tim Grance.
 \newblock The nist definition of cloud computing.
 \newblock 2011.
+
+\bibitem[MWZ{\etalchar{+}}07]{RFIDMIS}
+Zhang Min, Li~Wenfeng, Wang Zhongyun, LI~Bin, and Ran Xia.
+\newblock A rfid-based material tracking information system.
+\newblock In {\em Automation and Logistics, 2007 IEEE International Conference
+  on}, pages 2922--2926. IEEE, 2007.
 
 \bibitem[OAS07]{BPELSPEC}
 OASIS.
@@ -85,8 +118,8 @@ Object Managment~Group OMG.
 \newblock [Online].
 
 \bibitem[RLG{\etalchar{+}}15]{IN4BCG}
-Michael Rüßmann, Markus Lorenz, Philipp Gerbert, Manuela Waldner, Jan Justus,
-  Pascal Engel, and Michael Harnisch.
+Michael R{\"u}ßmann, Markus Lorenz, Philipp Gerbert, Manuela Waldner, Jan
+  Justus, Pascal Engel, and Michael Harnisch.
 \newblock Industry 4.0: The future of productivity and growth in manufacturing
   industries.
 \newblock {\em Boston Consulting Group Perspectives, BCG}, 2015.
@@ -111,11 +144,30 @@ G{\"u}nther Schuh, Christina Reuter, Annika Hauptvogel, and Christian
 \newblock In {\em Advances in Production Technology}, pages 11--23. Springer,
   2015.
 
+\bibitem[SSOK13]{BPMN4WSN}
+C.~Timurhan Sungur, Patrik Spiess, Nina Oertel, and Oliver Kopp.
+\newblock Extending bpmn for wireless sensor networks.
+\newblock In {\em 2013 IEEE International Conference on Business Informatics},
+  pages 109--116. IEEE Computer Society, 2013.
+
+\bibitem[Sun13]{TIMURTHESIS}
+C.~Timurhan Sungur.
+\newblock Extending bpmn for wireless sensor networks.
+\newblock Diplomarbeit, Universit{\"a}t Stuttgart, Fakult{\"a}t Informatik,
+  Elektrotechnik und Informationstechnik, Germany, M{\"a}rz 2013.
+
 \bibitem[TW10]{IOTFUTURE}
 Lu~Tan and Neng Wang.
 \newblock Future internet: The internet of things.
 \newblock In {\em Advanced Computer Theory and Engineering (ICACTE), 2010 3rd
   International Conference on}, volume~5, pages V5--376. IEEE, 2010.
+
+\bibitem[TZDXZ14]{IOTCLOUD}
+Fei Tao, Ying Zuo, Li~Da~Xu, and Lin Zhang.
+\newblock Iot-based intelligent perception and access of manufacturing resource
+  toward cloud manufacturing.
+\newblock {\em Industrial Informatics, IEEE Transactions on}, 10(2):1547--1557,
+  2014.
 
 \bibitem[Wes06]{WESTKAMP}
 E~Westk{\"a}mper.
@@ -128,5 +180,11 @@ Matthias Wieland, Oliver Kopp, Daniela Nicklas, and Frank Leymann.
 \newblock Towards context-aware workflows.
 \newblock In {\em CAiSE07 Proc. of the Workshops and Doctoral Consortium},
   volume~2, page~25, 2007.
+
+\bibitem[XYWV12]{IOTXIA}
+Feng Xia, Laurence~T Yang, Lizhe Wang, and Alexey Vinel.
+\newblock Internet of things.
+\newblock {\em International Journal of Communication Systems}, 25(9):1101,
+  2012.
 
 \end{thebibliography}

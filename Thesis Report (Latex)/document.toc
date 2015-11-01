@@ -10,24 +10,30 @@
 \contentsline {subsection}{\numberline {2.1.4}Mechanisms to Increase Productivity}{9}{subsection.2.1.4}
 \contentsline {subsection}{\numberline {2.1.5}Industrial Requirements}{11}{subsection.2.1.5}
 \contentsline {subsection}{\numberline {2.1.6}Benefits of Industry 4.0 in Manufacturing}{12}{subsection.2.1.6}
-\contentsline {section}{\numberline {2.2}Internet of Things}{13}{section.2.2}
+\contentsline {section}{\numberline {2.2}Internet of Things (IoT)}{13}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Definition and Trends}{14}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Elements of IoT}{14}{subsection.2.2.2}
-\contentsline {subsection}{\numberline {2.2.3}IoT Architecture}{14}{subsection.2.2.3}
-\contentsline {subsection}{\numberline {2.2.4}IoT and Industry 4.0}{14}{subsection.2.2.4}
-\contentsline {subsection}{\numberline {2.2.5}Cyber-Physical Systems}{14}{subsection.2.2.5}
-\contentsline {subsection}{\numberline {2.2.6}IoT Augmented Manufacturing}{14}{subsection.2.2.6}
-\contentsline {section}{\numberline {2.3}Context-sensitive Execution Steps}{14}{section.2.3}
-\contentsline {chapter}{\numberline {3}Business Process Model and Notation}{15}{chapter.3}
-\contentsline {section}{\numberline {3.1}Motivation}{15}{section.3.1}
-\contentsline {section}{\numberline {3.2}Reason for Selecting BPMN}{15}{section.3.2}
-\contentsline {section}{\numberline {3.3}Properties of BPMN}{15}{section.3.3}
-\contentsline {chapter}{\numberline {4}Motivating Scenario}{16}{chapter.4}
-\contentsline {chapter}{\numberline {5}Requirements for Context-Sensitive Process}{17}{chapter.5}
-\contentsline {chapter}{\numberline {6}Related Works and Evaluation}{18}{chapter.6}
-\contentsline {chapter}{\numberline {7}Architecture and Implementation}{19}{chapter.7}
-\contentsline {chapter}{\numberline {8}Validation and Evaluation}{20}{chapter.8}
-\contentsline {chapter}{\numberline {9}Summary and Outlook}{21}{chapter.9}
-\contentsline {chapter}{Appendices}{22}{section*.15}
-\contentsline {chapter}{\numberline {A}List of Acronyms}{24}{Appendix.a.A}
-\contentsline {chapter}{\nonumberline Bibliography}{25}{chapter*.16}
+\contentsline {subsection}{\numberline {2.2.2}Elements of IoT}{15}{subsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.1}Radio Frequency Identification (RFID)}{15}{subsubsection.2.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2.2}Wireless Sensor Network (WSN)}{16}{subsubsection.2.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.3}Addressing Schemes}{17}{subsubsection.2.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.2.4}Storage and Analytics}{17}{subsubsection.2.2.2.4}
+\contentsline {subsubsection}{\numberline {2.2.2.5}Visualization}{17}{subsubsection.2.2.2.5}
+\contentsline {subsection}{\numberline {2.2.3}IoT Architecture}{18}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}Cyber-Physical Systems (CPS)}{19}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Smart Factory and Industry 4.0}{20}{subsection.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Applications of IoT Augmented Manufacturing}{21}{subsection.2.2.6}
+\contentsline {chapter}{\numberline {3}Context-sensitive Execution}{23}{chapter.3}
+\contentsline {chapter}{\numberline {4}Business Process Model and Notation}{24}{chapter.4}
+\contentsline {section}{\numberline {4.1}Motivation}{24}{section.4.1}
+\contentsline {section}{\numberline {4.2}Reason for Selecting BPMN}{24}{section.4.2}
+\contentsline {section}{\numberline {4.3}Properties of BPMN}{24}{section.4.3}
+\contentsline {chapter}{\numberline {5}Motivating Scenario}{25}{chapter.5}
+\contentsline {chapter}{\numberline {6}Requirements for Context-Sensitive Process}{26}{chapter.6}
+\contentsline {chapter}{\numberline {7}Related Works and Evaluation}{27}{chapter.7}
+\contentsline {chapter}{\numberline {8}Architecture and Implementation}{28}{chapter.8}
+\contentsline {chapter}{\numberline {9}Validation and Evaluation}{29}{chapter.9}
+\contentsline {chapter}{\numberline {10}Summary and Outlook}{30}{chapter.10}
+\contentsline {chapter}{Appendices}{31}{section*.18}
+\contentsline {chapter}{\numberline {A}List of Acronyms}{33}{Appendix.a.A}
+\contentsline {chapter}{\numberline {B}Glossary}{35}{Appendix.a.B}
+\contentsline {chapter}{\nonumberline Bibliography}{36}{chapter*.19}

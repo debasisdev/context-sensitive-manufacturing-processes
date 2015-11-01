@@ -163,9 +163,8 @@
   Title                    = {The Internet of Things and the future of manufacturing},
 
   Author                   = {L{\"o}ffler, Markus and Tschiesner, Andreas},
-  Year                     = {2013},
-
-  Publisher                = {McKinsey\&Company}
+  HowPublished             = {McKinsey\&Company},
+  Year                     = {2013}
 }
 
 @Article{LANDHERR,
@@ -279,6 +278,15 @@
   Pages                    = {763--774}
 }
 
+@Article{IN4BCG,
+  Title                    = {Industry 4.0: The Future of Productivity and Growth in Manufacturing Industries},
+  Author                   = {R{\"u}ßmann, Michael and Lorenz, Markus and Gerbert, Philipp and Waldner, Manuela and Justus, Jan and Engel, Pascal and Harnisch, Michael},
+  Journal                  = {Boston Consulting Group Perspectives, BCG},
+  Year                     = {2015},
+
+  Publisher                = {BCG}
+}
+
 @Article{PROVOP,
   Title                    = {Extending a business process modeling tool with process configuration facilities: The Provop demonstrator},
   Author                   = {Reichert, Manfred and Rechtenbach, Steve and Hallerbach, Alena and Bauer, Thomas},
@@ -292,15 +300,6 @@
   HowPublished             = {http://www.gartner.com/newsroom/id/3114217},
   Note                     = {[Online]},
   Year                     = {2015}
-}
-
-@Article{IN4BCG,
-  Title                    = {Industry 4.0: The Future of Productivity and Growth in Manufacturing Industries},
-  Author                   = {Rüßmann, Michael and Lorenz, Markus and Gerbert, Philipp and Waldner, Manuela and Justus, Jan and Engel, Pascal and Harnisch, Michael},
-  Journal                  = {Boston Consulting Group Perspectives, BCG},
-  Year                     = {2015},
-
-  Publisher                = {BCG}
 }
 
 @InProceedings{SMARTIND,
@@ -318,6 +317,21 @@
   Publisher                = {Springer},
   Year                     = {2015},
   Pages                    = {11--23}
+}
+
+@MastersThesis{TIMURTHESIS,
+  Title                    = {Extending BPMN for Wireless Sensor Networks},
+  Author                   = {C. Timurhan Sungur},
+  School                   = {Universit{\"a}t Stuttgart, Fakult{\"a}t Informatik, Elektrotechnik und Informationstechnik, Germany},
+  Year                     = {2013},
+  Month                    = {M{\"a}rz},
+  Type                     = {Diplomarbeit},
+
+  Cr-category              = {H.4.1 Office Automation, K.1 The Computer Industry},
+  Ee                       = {ftp://ftp.informatik.uni-stuttgart.de/pub/library/medoc.ustuttgart_fi/DIP-3389.pdf},
+  HowPublished             = {Diplomarbeit: Universit{\"a}t Stuttgart, Institut f{\"u}r Architektur von Anwendungssystemen},
+  Language                 = {Englisch},
+  Pages                    = {84}
 }
 
 @InProceedings{TIMURCIRP,
