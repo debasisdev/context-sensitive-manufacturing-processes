@@ -2,6 +2,15 @@
 % Encoding: UTF8
 
 
+@InProceedings{CONDEFI,
+  Title                    = {Towards a better understanding of context and context-awareness},
+  Author                   = {Abowd, Gregory D and Dey, Anind K and Brown, Peter J and Davies, Nigel and Smith, Mark and Steggles, Pete},
+  Booktitle                = {Handheld and ubiquitous computing},
+  Year                     = {1999},
+  Organization             = {Springer},
+  Pages                    = {304--307}
+}
+
 @Article{ADAMSDYNAMIC,
   Title                    = {Dynamic and context-aware process adaptation},
   Author                   = {Adams, Michael and Ter Hofstede, Arthur and Russell, Nick and van der Aalst, Wil},
@@ -32,6 +41,18 @@
   Number                   = {7},
   Pages                    = {97--114},
   Volume                   = {22}
+}
+
+@Article{BASUIRON,
+  Title                    = {Managing quality in projects: An empirical study},
+  Author                   = {Basu, Ron},
+  Journal                  = {International Journal of Project Management},
+  Year                     = {2014},
+  Number                   = {1},
+  Pages                    = {178--187},
+  Volume                   = {32},
+
+  Publisher                = {Elsevier}
 }
 
 @Article{BERGWAREHOUSE,
@@ -123,10 +144,33 @@
   Publisher                = {Elsevier}
 }
 
+@Article{DBHENG,
+  Title                    = {Industry 4.0: Upgrading of Germany's Industrial Capabilities on the Horizon},
+  Author                   = {Heng, Stefan},
+  Journal                  = {Available at SSRN 2656608},
+  Year                     = {2014}
+}
+
+@Book{CONDEFBRIS,
+  Title                    = {A framework for context-aware pervasive computing applications},
+  Author                   = {Henricksen, Karen},
+  Publisher                = {University of Queensland Queensland},
+  Year                     = {2003}
+}
+
 @Article{IN4DESIGN,
   Title                    = {Design Principles for Industrie 4.0 Scenarios: A Literature Review},
   Author                   = {Hermann, Mario and Pentek, Tobias and Otto, Boris},
   Year                     = {2015}
+}
+
+@InProceedings{MIDDLEWARE,
+  Title                    = {A perspective on the future of middleware-based software engineering},
+  Author                   = {Issarny, Valerie and Caporuscio, Mauro and Georgantas, Nikolaos},
+  Booktitle                = {2007 Future of Software Engineering},
+  Year                     = {2007},
+  Organization             = {IEEE Computer Society},
+  Pages                    = {244--258}
 }
 
 @InProceedings{CYBERIN,
@@ -317,6 +361,12 @@
   Publisher                = {Springer},
   Year                     = {2015},
   Pages                    = {11--23}
+}
+
+@Article{IOTEUR,
+  Title                    = {Vision and challenges for realising the Internet of Things},
+  Author                   = {Sundmaeker, Harald and Guillemin, Patrick and Friess, Peter and Woelffl{\'e}, Sylvie},
+  Year                     = {2010}
 }
 
 @MastersThesis{TIMURTHESIS,

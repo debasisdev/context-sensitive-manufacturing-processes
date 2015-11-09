@@ -11,6 +11,12 @@ Ian~F Akyildiz, Weilian Su, Yogesh Sankarasubramaniam, and Erdal Cayirci.
 \newblock Wireless sensor networks: a survey.
 \newblock {\em Computer networks}, 38(4):398, 2002.
 
+\bibitem[Bas14]{BASUIRON}
+Ron Basu.
+\newblock Managing quality in projects: An empirical study.
+\newblock {\em International Journal of Project Management}, 32(1):178--187,
+  2014.
+
 \bibitem[BL12]{BIGDATA}
 Mark~A Beyer and Douglas Laney.
 \newblock The importance of ‘big data’: a definition.
@@ -44,10 +50,22 @@ Jayavardhana Gubbi, Rajkumar Buyya, Slaven Marusic, and Marimuthu Palaniswami.
   future directions.
 \newblock {\em Future Generation Computer Systems}, 29(7):1645--1660, 2013.
 
+\bibitem[Hen14]{DBHENG}
+Stefan Heng.
+\newblock Industry 4.0: Upgrading of germany's industrial capabilities on the
+  horizon.
+\newblock {\em Available at SSRN 2656608}, 2014.
+
 \bibitem[HPO15]{IN4DESIGN}
 Mario Hermann, Tobias Pentek, and Boris Otto.
 \newblock Design principles for industrie 4.0 scenarios: A literature review.
 \newblock 2015.
+
+\bibitem[ICG07]{MIDDLEWARE}
+Valerie Issarny, Mauro Caporuscio, and Nikolaos Georgantas.
+\newblock A perspective on the future of middleware-based software engineering.
+\newblock In {\em 2007 Future of Software Engineering}, pages 244--258. IEEE
+  Computer Society, 2007.
 
 \bibitem[Jaz14]{CYBERIN}
 Nasser Jazdi.
@@ -117,6 +135,12 @@ Object Managment~Group OMG.
 \newblock http://www.omg.org/spec/BPMN/2.0/PDF/, 2011.
 \newblock [Online].
 
+\bibitem[PZCG14]{CONAWAREIOT}
+Charith Perera, Arkady Zaslavsky, Peter Christen, and Dimitrios Georgakopoulos.
+\newblock Context aware computing for the internet of things: A survey.
+\newblock {\em Communications Surveys \& Tutorials, IEEE}, 16(1):414--454,
+  2014.
+
 \bibitem[RLG{\etalchar{+}}15]{IN4BCG}
 Michael R{\"u}ßmann, Markus Lorenz, Philipp Gerbert, Manuela Waldner, Jan
   Justus, Pascal Engel, and Michael Harnisch.
@@ -135,6 +159,11 @@ Janessa Rivera and Rob van~der Meulen.
 C.~Timurhan Sungur, Uwe Breitenb{\"u}cher, Frank Leymann, and Matthias Wieland.
 \newblock Context-sensitive adaptive production process.
 \newblock volume~0, pages 000--000. Elsevier, 2015.
+
+\bibitem[SGFW10]{IOTEUR}
+Harald Sundmaeker, Patrick Guillemin, Peter Friess, and Sylvie Woelffl{\'e}.
+\newblock Vision and challenges for realising the internet of things.
+\newblock 2010.
 
 \bibitem[SRHD15]{IN4HYPO}
 G{\"u}nther Schuh, Christina Reuter, Annika Hauptvogel, and Christian

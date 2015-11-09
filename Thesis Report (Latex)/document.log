@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.29)  1 NOV 2015 13:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2015.9.29)  9 NOV 2015 04:54
 entering extended mode
 **document.tex
 (document.tex
@@ -997,7 +997,14 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (C:\MiKTeX\tex\latex\koma-script\scrpage2.sty
 Package: scrpage2 2015/07/02 v3.18 KOMA-Script package (page head and foot)
 LaTeX Info: Redefining \pagemark on input line 174.
-) (document.aux)
+) (document.aux
+
+LaTeX Warning: Label `smartfactory' multiply defined.
+
+
+LaTeX Warning: Label `fig:2.10' multiply defined.
+
+)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 285.
 LaTeX Font Info:    ... okay on input line 285.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 285.
@@ -1013,10 +1020,10 @@ LaTeX Font Info:    ... okay on input line 285.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 285.
 LaTeX Font Info:    ... okay on input line 285.
 LaTeX Font Info:    Try loading font information for T1+ppl on input line 285.
-
-(C:\MiKTeX\tex\latex\psnfss\t1ppl.fd
+ (C:\MiKTeX\tex\latex\psnfss\t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
-) (C:\MiKTeX\tex\context\base\supp-pdf.mkii
+)
+(C:\MiKTeX\tex\context\base\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count189
 \scratchdimen=\dimen175
@@ -1265,13 +1272,13 @@ LaTeX Font Info:    Font shape `U/msb/m/n' will be
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
 (Font)              scaled to size 6.25204pt on input line 316.
 
-<./gfx/unilogo.pdf, id=155, 1668.2325pt x 1686.3pt>
+<./gfx/unilogo.pdf, id=171, 1668.2325pt x 1686.3pt>
 File: ./gfx/unilogo.pdf Graphic file (type pdf)
  <use ./gfx/unilogo.pdf>
 Package pdftex.def Info: ./gfx/unilogo.pdf used on input line 327.
 (pdftex.def)             Requested size: 76.8219pt x 77.62991pt.
 
-<./gfx/iaas.jpg, id=156, 100.375pt x 52.195pt>
+<./gfx/iaas.jpg, id=172, 100.375pt x 52.195pt>
 File: ./gfx/iaas.jpg Graphic file (type jpg)
  <use ./gfx/iaas.jpg>
 Package pdftex.def Info: ./gfx/iaas.jpg used on input line 333.
@@ -1428,48 +1435,54 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-<./gfx/addmanustr.jpg, id=300, 712.91344pt x 563.10374pt>
+<./gfx/addmanustr.jpg, id=322, 656.4525pt x 563.82645pt>
 File: ./gfx/addmanustr.jpg Graphic file (type jpg)
 
 <use ./gfx/addmanustr.jpg>
-Package pdftex.def Info: ./gfx/addmanustr.jpg used on input line 7.
-(pdftex.def)             Requested size: 249.52344pt x 197.08926pt.
+Package pdftex.def Info: ./gfx/addmanustr.jpg used on input line 6.
+(pdftex.def)             Requested size: 229.76181pt x 197.34221pt.
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10> not available
-(Font)              Font shape `T1/ppl/b/n' tried instead on input line 9.
-
-<./gfx/4goals.jpg, id=304, 600.74437pt x 428.35031pt>
-File: ./gfx/4goals.jpg Graphic file (type jpg)
- <use ./gfx/4goals.jpg>
-Package pdftex.def Info: ./gfx/4goals.jpg used on input line 21.
-(pdftex.def)             Requested size: 294.36731pt x 209.89348pt.
+(Font)              Font shape `T1/ppl/b/n' tried instead on input line 8.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.26 
-      [1
+l.14 T
+      he primary objectives of production are known as the \textit{"Holy Tri...
+[1
 
 
 
- <./gfx/addmanustr.jpg>]pdfTeX warning (ext4): destination with the same identi
-fier (name{page.2}) has been already used, duplicate ignored
+ <./gfx/addmanustr.jpg>] <./gfx/4goals.jpg, id=335, 600.8046pt x 428.3202pt>
+File: ./gfx/4goals.jpg Graphic file (type jpg)
+
+<use ./gfx/4goals.jpg>
+Package pdftex.def Info: ./gfx/4goals.jpg used on input line 27.
+(pdftex.def)             Requested size: 294.39682pt x 209.87872pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.36 T
-      o increase the efficiency of production process, automation, optimizat...
-[2 <./gfx/4goals.jpg>] <./gfx/outline.jpg, id=348, 796.47563pt x 557.08125pt>
+l.36 
+      [2] [3 <./gfx/4goals.jpg>]
+<./gfx/outline.jpg, id=388, 805.5696pt x 493.845pt>
 File: ./gfx/outline.jpg Graphic file (type jpg)
+ <use ./gfx/outline.jpg>
+Package pdftex.def Info: ./gfx/outline.jpg used on input line 46.
+(pdftex.def)             Requested size: 443.06465pt x 271.61559pt.
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 54.
 
-<use ./gfx/outline.jpg>
-Package pdftex.def Info: ./gfx/outline.jpg used on input line 47.
-(pdftex.def)             Requested size: 573.46202pt x 401.09819pt.
- [3] [4 <./gfx/outline.jpg>]
-Overfull \hbox (10.35745pt too wide) in paragraph at lines 69--70
-[]\T1/ppl/m/n/10.95 (-20) In the last chap-ter, we will give a sum-mary and an 
-out-look about our con-tri-bu-tion (see Sect. [][]10[][]). 
- []
-
-) (fundamentals/fundamentals.tex [5]
+(C:\MiKTeX\tex\latex\psnfss\omsppl.fd
+File: omsppl.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 54.
+ [4 <./gfx/outline.jpg>])
+(fundamentals/fundamentals.tex [5]
 chapter 2.
 
 Underfull \hbox (badness 10000) in paragraph at lines 1--1
@@ -1497,121 +1510,119 @@ LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 14.
 Package hyperref Info: bookmark level for unknown definition defaults to 0 on i
 nput line 14.
- <./gfx/indus4enablers.jpg, id=429, 539.01375pt x 273.27094pt>
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 14.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 14.
+LaTeX Font Info:    Font shape `U/msa/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 14.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 9.37807pt on input line 14.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 7.29405pt on input line 14.
+LaTeX Font Info:    Font shape `U/msb/m/n' will be
+(Font)              scaled to size 5.21004pt on input line 14.
+ <./gfx/indus4enablers.jpg, id=464, 539.01375pt x 273.30106pt>
 File: ./gfx/indus4enablers.jpg Graphic file (type jpg)
 
 <use ./gfx/indus4enablers.jpg>
 Package pdftex.def Info: ./gfx/indus4enablers.jpg used on input line 23.
-(pdftex.def)             Requested size: 323.41074pt x 163.9638pt.
- [7 <./gfx/indus4enablers.jpg>]
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 31.
-
-(C:\MiKTeX\tex\latex\psnfss\omsppl.fd
-File: omsppl.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 31.
- [8]
-<./gfx/revlifecycle.png, id=478, 234.8775pt x 121.95563pt>
+(pdftex.def)             Requested size: 323.41074pt x 163.98189pt.
+ [7 <./gfx/indus4enablers.jpg>] [8]
+<./gfx/revlifecycle.png, id=523, 234.8775pt x 121.95563pt>
 File: ./gfx/revlifecycle.png Graphic file (type png)
 
 <use ./gfx/revlifecycle.png>
-Package pdftex.def Info: ./gfx/revlifecycle.png used on input line 56.
+Package pdftex.def Info: ./gfx/revlifecycle.png used on input line 53.
 (pdftex.def)             Requested size: 117.43846pt x 60.97765pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./gfx/revsimul.png, id=484, 230.36063pt x 111.41624pt>
+<./gfx/revsimul.png, id=529, 230.36063pt x 111.41624pt>
 File: ./gfx/revsimul.png Graphic file (type png)
 
 <use ./gfx/revsimul.png>
-Package pdftex.def Info: ./gfx/revsimul.png used on input line 65.
+Package pdftex.def Info: ./gfx/revsimul.png used on input line 60.
 (pdftex.def)             Requested size: 115.18002pt x 55.70798pt.
  [9]
-<./gfx/revvalchain.png, id=498, 220.57407pt x 136.25906pt>
+<./gfx/revvalchain.png, id=540, 220.57407pt x 136.25906pt>
 File: ./gfx/revvalchain.png Graphic file (type png)
 
 <use ./gfx/revvalchain.png>
-Package pdftex.def Info: ./gfx/revvalchain.png used on input line 72.
+Package pdftex.def Info: ./gfx/revvalchain.png used on input line 68.
 (pdftex.def)             Requested size: 110.28676pt x 68.12935pt.
 
-<./gfx/revengg.png, id=505, 219.06844pt x 127.97812pt>
+<./gfx/revengg.png, id=547, 219.06844pt x 127.97812pt>
 File: ./gfx/revengg.png Graphic file (type png)
  <use ./gfx/revengg.png>
-Package pdftex.def Info: ./gfx/revengg.png used on input line 81.
+Package pdftex.def Info: ./gfx/revengg.png used on input line 78.
 (pdftex.def)             Requested size: 109.53394pt x 63.98889pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [10 <./gfx/revlifecycle.png> <./gfx/revsimul.png> <./gfx/revvalchain.png>]
 [11 <./gfx/revengg.png>] [12] [13]
-<./gfx/dimension.jpg, id=587, 621.07031pt x 350.81062pt>
+<./gfx/dimension.jpg, id=614, 621.0402pt x 350.87085pt>
 File: ./gfx/dimension.jpg Graphic file (type jpg)
 
 <use ./gfx/dimension.jpg>
-Package pdftex.def Info: ./gfx/dimension.jpg used on input line 136.
-(pdftex.def)             Requested size: 310.5344pt x 175.40488pt.
-
-<./gfx/hypecycle.jpg, id=592, 436.63126pt x 288.3272pt>
+Package pdftex.def Info: ./gfx/dimension.jpg used on input line 123.
+(pdftex.def)             Requested size: 341.57317pt x 192.97955pt.
+ [14 <./gfx/dimension.jpg>]
+<./gfx/hypecycle.jpg, id=641, 436.63126pt x 288.3272pt>
 File: ./gfx/hypecycle.jpg Graphic file (type jpg)
 
 <use ./gfx/hypecycle.jpg>
-Package pdftex.def Info: ./gfx/hypecycle.jpg used on input line 142.
+Package pdftex.def Info: ./gfx/hypecycle.jpg used on input line 146.
 (pdftex.def)             Requested size: 349.30548pt x 230.66205pt.
+ [15 <./gfx/hypecycle.jpg>] [16] [17]
+<./gfx/iotarch.jpg, id=771, 784.49084pt x 545.75896pt>
+File: ./gfx/iotarch.jpg Graphic file (type jpg)
+ <use ./gfx/iotarch.jpg>
+Package pdftex.def Info: ./gfx/iotarch.jpg used on input line 188.
+(pdftex.def)             Requested size: 392.24446pt x 272.87881pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[14 <./gfx/dimension.jpg>] [15 <./gfx/hypecycle.jpg>] [16]
-<./gfx/iotarch.jpg, id=719, 784.43062pt x 545.78906pt>
-File: ./gfx/iotarch.jpg Graphic file (type jpg)
- <use ./gfx/iotarch.jpg>
-Package pdftex.def Info: ./gfx/iotarch.jpg used on input line 189.
-(pdftex.def)             Requested size: 392.21434pt x 272.89386pt.
-
-[17]
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 195.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 195.
-LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 195.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 9.37807pt on input line 195.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.29405pt on input line 195.
-LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 5.21004pt on input line 195.
- [18 <./gfx/iotarch.jpg>]
-<./gfx/cpsdiag.jpg, id=770, 749.04843pt x 395.97937pt>
+[18] [19 <./gfx/iotarch.jpg>]
+<./gfx/cpsdiag.jpg, id=823, 749.07855pt x 396.0396pt>
 File: ./gfx/cpsdiag.jpg Graphic file (type jpg)
  <use ./gfx/cpsdiag.jpg>
-Package pdftex.def Info: ./gfx/cpsdiag.jpg used on input line 204.
-(pdftex.def)             Requested size: 374.5233pt x 197.9892pt.
+Package pdftex.def Info: ./gfx/cpsdiag.jpg used on input line 207.
+(pdftex.def)             Requested size: 374.53836pt x 198.0193pt.
 
-[19 <./gfx/cpsdiag.jpg>]
+[20 <./gfx/cpsdiag.jpg>]
 LaTeX Font Info:    Font shape `T1/ppl/bx/it' in size <10.95> not available
-(Font)              Font shape `T1/ppl/b/it' tried instead on input line 221.
- [20] [21] [22]
+(Font)              Font shape `T1/ppl/b/it' tried instead on input line 224.
+ [21]
+<./gfx/smartfac.jpg, id=881, 414.1071pt x 310.88145pt>
+File: ./gfx/smartfac.jpg Graphic file (type jpg)
+
+<use ./gfx/smartfac.jpg>
+Package pdftex.def Info: ./gfx/smartfac.jpg used on input line 238.
+(pdftex.def)             Requested size: 248.46617pt x 186.5303pt.
+ [22 <./gfx/smartfac.jpg>] [23]
 chapter 3.
 
-Underfull \hbox (badness 10000) in paragraph at lines 298--298
+Underfull \hbox (badness 10000) in paragraph at lines 254--254
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 298--298
+Underfull \hbox (badness 10000) in paragraph at lines 254--254
 
  []
 
 
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 298--298
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 254--254
 [] 
  []
 
-) (relatedworks/relatedworks.tex [23
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 263.
+
+) (relatedworks/relatedworks.tex [24
 
 ]
 chapter 4.
@@ -1630,29 +1641,10 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-[24
-
-]
-chapter 5.
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--5
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5--5
-
- []
-
-
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 5--5
-[] 
- []
-
 [25
 
 ]
-chapter 6.
+chapter 5.
 
 Underfull \hbox (badness 10000) in paragraph at lines 6--6
 
@@ -1668,7 +1660,26 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 6--6
 [] 
  []
 
-) (specification/specification.tex [26
+[26
+
+]
+chapter 6.
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--8
+
+ []
+
+
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 8--8
+[] 
+ []
+
+) (specification/specification.tex [27
 
 ]
 chapter 7.
@@ -1701,7 +1712,7 @@ Overfull \hbox (23.99323pt too wide) in alignment at lines 49--49
 Underfull \vbox (badness 10000) detected at line 49
  []
 
-[27
+[28
 
 ]) (design/design.tex
 chapter 8.
@@ -1720,7 +1731,7 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (validationEvaluation/validationevaluation.tex [28
+) (validationEvaluation/validationevaluation.tex [29
 
 
 ]
@@ -1740,7 +1751,7 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (conclusion/conclusion.tex [29
+) (conclusion/conclusion.tex [30
 
 ]
 chapter 10.
@@ -1759,15 +1770,15 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 1--1
 [] 
  []
 
-) (Appendix/appendix.tex [30
+) (Appendix/appendix.tex [31
 
 ]
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 1.
- [31
+ [32
 
 
-] [32]
+] [33]
 chapter A.
 
 Underfull \hbox (badness 10000) in paragraph at lines 2--2
@@ -1784,26 +1795,32 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 2--2
 [] 
  []
 
-[33
+[34
 
-] [34]
+pdfTeX warning (ext4): destination with the same identifier (name{CES}) has bee
+n already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.32 			\acro{OSWA}{Open Sensor Web Architecture}
+                                                 ] [35]
 chapter B.
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--46
+Underfull \hbox (badness 10000) in paragraph at lines 54--54
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 46--46
+Underfull \hbox (badness 10000) in paragraph at lines 54--54
 
  []
 
 
-Overfull \hbox (10.88788pt too wide) in paragraph at lines 46--46
+Overfull \hbox (10.88788pt too wide) in paragraph at lines 54--54
 [] 
  []
 
-) (document.bbl [35
+) (document.bbl [36
 
 ]
 chapter without number
@@ -1822,15 +1839,15 @@ Overfull \hbox (10.88788pt too wide) in paragraph at lines 2--2
 [] 
  []
 
-[36
+[37
 
 ]
-Underfull \hbox (badness 1221) in paragraph at lines 109--113
+Underfull \hbox (badness 1221) in paragraph at lines 127--131
 []\T1/ppl/m/n/10.95 (+20) OASIS.  Web ser-vices busi-ness pro-cess ex-e-cu-tion
  lan-guage ver-sion 2.0.
  []
 
-[37]) [38]
+[38]) [39]
 LaTeX Font Info:    Font shape `T1/ppl/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/ppl/b/n' tried instead on input line 417.
 
@@ -1841,46 +1858,71 @@ Underfull \hbox (badness 10000) in paragraph at lines 417--419
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [39
+ [40
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 436--438
 
  []
 
-[40]
+[41]
 \tf@thm=\write9
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 449.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 449.
  (document.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 449.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 449.
-Package rerunfilecheck Info: File `document.out' has not changed.
-(rerunfilecheck)             Checksum: 9914BF8744F524D707402BBC5EDF0AE5;2713.
 
+
+Package rerunfilecheck Warning: File `document.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `document.out':
+(rerunfilecheck)             Before: AB28B8E7B13746A2C3375D6E7D64029A;2950
+(rerunfilecheck)             After:  34588F7007FE6F6EDFE6E14FF0941E20;2879.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 449.
- ) 
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 165 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 17953 strings out of 493673
- 267373 string characters out of 3151256
- 478973 words of memory out of 3000000
- 20467 multiletter control sequences out of 15000+200000
+ 18010 strings out of 493673
+ 268049 string characters out of 3151256
+ 479569 words of memory out of 3000000
+ 20503 multiletter control sequences out of 15000+200000
  70607 words of font info for 264 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 42i,12n,66p,1242b,598s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<C:/MiKTeX/fonts/type1/public/amsf
-onts/cm/cmr10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/MiKT
-eX/fonts/type1/public/mathpazo/fplmri.pfb><C:/MiKTeX/fonts/type1/urw/helvetic/u
-hvb8a.pfb><C:/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/MiKTeX/fonts/type1
-/urw/palatino/uplb8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplbi8a.pfb><C:/Mi
-KTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/up
-lr8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on document.pdf (48 pages, 1671951 bytes).
+ 42i,11n,66p,1502b,659s stack positions out of 5000i,500n,10000p,200000b,50000s
+pdfTeX warning (dest): name{figure.caption.19} has been referen
+ced but does not exist, replaced by a fixed one
+
+pdfTeX warning (dest): name{chapter*.21} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{section*.20} has been referenced but does not exist
+, replaced by a fixed one
+
+pdfTeX warning (dest): name{subsection.3.0.4} has been referenced but does not 
+exist, replaced by a fixed one
+
+{C:/MiKTeX/fonts/enc/dvips/fontname/8r.enc}<C:/MiKTeX/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb><C:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/MiKTeX
+/fonts/type1/public/mathpazo/fplmri.pfb><C:/MiKTeX/fonts/type1/urw/helvetic/uhv
+b8a.pfb><C:/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/MiKTeX/fonts/type1/u
+rw/palatino/uplb8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplbi8a.pfb><C:/MiKT
+eX/fonts/type1/urw/palatino/uplr8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplr
+8a.pfb><C:/MiKTeX/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on document.pdf (49 pages, 11561856 bytes).
 PDF statistics:
- 997 PDF objects out of 1000 (max. 8388607)
- 189 named destinations out of 1000 (max. 500000)
- 46967 words of extra memory for PDF output out of 51595 (max. 10000000)
+ 1092 PDF objects out of 1200 (max. 8388607)
+ 209 named destinations out of 1000 (max. 500000)
+ 47004 words of extra memory for PDF output out of 51595 (max. 10000000)
 

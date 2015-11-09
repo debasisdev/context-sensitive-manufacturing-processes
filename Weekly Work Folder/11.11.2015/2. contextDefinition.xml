@@ -2,16 +2,15 @@
 
 <Context name="availableWorkers" value="4" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
 	<Documentation>
-	If available workers near the machine is less than equal to 10 and demand is low, deploy Manual Model. 
-	If available workers near the machine is less than equal to 10 and demand is high, deploy Automated Model. 
+	If available workers near the machine is less than equal to 10, deploy both Manual and Automated Model. 
 	If available workers near the machine is more than 10 and demand is low, deploy Manual Model. 
-	If available workers near the machine is more than 10 and demand is high, deploy Automated Model with 10 People and 
+	If available workers near the machine is more than 10 and demand is high, deploy both Manual and Automated Model with 10 People and 
 	remaining workers could be engaged in other works. (Optimization)
 	</Documentation>
 	<ContextDefinition definitionLanguage="en_US">
 		<DefinitionContent>
 			<Condition>
-				LESS-EQUAL
+				GREAT-EQUAL
 			</Condition>
 			<Keywords>
 				10
