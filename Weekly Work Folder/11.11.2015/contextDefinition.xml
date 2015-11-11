@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContextSet>
+<Context name="availableWorkers" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<Documentation>
+	If available workers near the machine is less than equal to 10, deploy both Manual and Automated Model. 
+	If available workers near the machine is more than 10 and demand is low, deploy Manual Model. 
+	If available workers near the machine is more than 10 and demand is high, deploy both Manual and Automated Model with 10 People and 
+	remaining workers could be engaged in other works. (Optimization)
+	</Documentation>
+	<ContextDefinition definitionLanguage="en_US">
+		<DefinitionContent>
+			<OrderID>37464358</OrderID>
+			<SenseValue>4</SenseValue>
+			<DeliveryDate>07.12.2015</DeliveryDate>
+			<Location latitude="48.145198" longitude="11.5765667">Sealing Machine: SMEX207</Location>
+			<Timestamp>1416489737</Timestamp>
+		</DefinitionContent>
+	</ContextDefinition>
+</Context>
+
+<Context name="unitsOrdered" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<Documentation>
+		A demand is LOW if no. of units ordered is less than equal to 1000, else demand is said to be HIGH.
+	</Documentation>
+	<ContextDefinition definitionLanguage="en_US">
+		<DefinitionContent>
+			<OrderID>37464358</OrderID>
+			<SenseValue>1000</SenseValue>
+			<DeliveryDate>07.12.2015</DeliveryDate>
+			<Location latitude="48.145198" longitude="11.5765667">Sealing Machine: SMEX207</Location>
+			<Timestamp>1416489737</Timestamp>
+		</DefinitionContent>
+	</ContextDefinition>
+</Context>
+
+<Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<Documentation>
+		If a sensor node is working fine, deploy the Automated Model (without Repair action). 
+		If some sensor node is faulty, deploy the Automated Model (with Repair action).
+	</Documentation>
+	<ContextDefinition definitionLanguage="en_US">
+		<DefinitionContent>
+			<OrderID>37464358</OrderID>
+			<SenseValue>Malfunctioned</SenseValue>
+			<DeliveryDate>07.12.2015</DeliveryDate>
+			<Location latitude="48.145198" longitude="11.5765667">Sealing Machine: SMEX207</Location>
+			<Timestamp>1416489737</Timestamp>
+		</DefinitionContent>
+	</ContextDefinition>
+</Context>
+
+<Context name="shockDetectorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<Documentation>
+		If a sensor node is working fine, deploy the Automated Model (without Repair action). 
+		If some sensor node is faulty, deploy the Automated Model (with Repair action).
+	</Documentation>
+	<ContextDefinition definitionLanguage="en_US">
+		<DefinitionContent>
+			<OrderID>37464358</OrderID>
+			<SenseValue>OKAY</SenseValue>
+			<DeliveryDate>07.12.2015</DeliveryDate>
+			<Location latitude="48.145198" longitude="11.5765667">Sealing Machine: SMEX207</Location>
+			<Timestamp>1416489737</Timestamp>
+		</DefinitionContent>
+	</ContextDefinition>
+</Context>
+</ContextSet>
