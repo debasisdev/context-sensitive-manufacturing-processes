@@ -1,0 +1,534 @@
+15:05:39 INFO - [main           ] ModelDeploymentTool       - Starting ...
+15:05:39 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+15:05:41 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+15:05:41 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+15:05:41 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@4b721a26:
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+15:05:41 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+15:05:41 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+15:05:43 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+15:05:43 INFO - [main           ] extensions                - Initializing static extensions resolver
+15:05:43 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+15:05:43 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@6188024d
+15:05:45 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@744f3123: startup date [Wed Nov 04 15:05:45 CET 2015]; root of context hierarchy
+15:05:45 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+15:05:45 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+15:05:45 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@41f14ee4: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+15:05:45 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@744f3123: startup date [Wed Nov 04 15:05:45 CET 2015]; root of context hierarchy
+15:05:50 INFO - [WT-EventQueue-0] Parameters                - CARNOT version: 3.0.1.20150916-0729
+15:06:04 WARN - [WT-EventQueue-0] AbstractDialog            - 
+org.springframework.remoting.RemoteAccessException: Could not access HTTP invoker remote service at [http://localhost:8080/cbmProcess/remoting/CarnotAdministrationService]; nested exception is java.io.EOFException
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.convertHttpInvokerAccessException(HttpInvokerClientInterceptor.java:212)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:145)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at com.sun.proxy.$Proxy10.deployModel(Unknown Source)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.stardust.engine.api.spring.SpringServiceFactory$SpringServiceInvocationHandler.invoke(SpringServiceFactory.java:185)
+	at com.sun.proxy.$Proxy14.deployModel(Unknown Source)
+	at org.eclipse.stardust.engine.cli.common.DeploymentUtils.deployFromFiles(DeploymentUtils.java:208)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.deploy(DeployModelDialog.java:174)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.onOK(DeployModelDialog.java:150)
+	at org.eclipse.stardust.engine.core.compatibility.gui.AbstractDialog.actionPerformed(AbstractDialog.java:138)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$200(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.awt.EventQueue$4.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.WaitDispatchSupport$2.run(Unknown Source)
+	at java.awt.event.InvocationEvent.dispatch(Unknown Source)
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source)
+	at java.awt.EventQueue.access$200(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.awt.EventQueue$3.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+Caused by: java.io.EOFException
+	at java.io.ObjectInputStream$BlockDataInputStream.peekByte(Unknown Source)
+	at java.io.ObjectInputStream.readObject0(Unknown Source)
+	at java.io.ObjectInputStream.readObject(Unknown Source)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.doReadRemoteInvocationResult(AbstractHttpInvokerRequestExecutor.java:290)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.readRemoteInvocationResult(AbstractHttpInvokerRequestExecutor.java:241)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.doExecuteRequest(SimpleHttpInvokerRequestExecutor.java:95)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.executeRequest(AbstractHttpInvokerRequestExecutor.java:136)
+	at org.eclipse.stardust.engine.api.spring.CarnotHttpInvokerRequestExecutor.executeRequest(CarnotHttpInvokerRequestExecutor.java:87)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:192)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:174)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:142)
+	... 61 more
+15:08:21 INFO - [main           ] ModelDeploymentTool       - Starting ...
+15:08:21 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+15:08:23 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+15:08:23 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+15:08:23 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@237aaeec:
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+15:08:23 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+15:08:23 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+15:08:25 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+15:08:26 INFO - [main           ] extensions                - Initializing static extensions resolver
+15:08:26 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+15:08:26 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@49b07bae
+15:08:27 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@43d0908: startup date [Wed Nov 04 15:08:27 CET 2015]; root of context hierarchy
+15:08:27 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+15:08:28 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+15:08:28 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@4ac22976: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+15:08:28 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@43d0908: startup date [Wed Nov 04 15:08:27 CET 2015]; root of context hierarchy
+15:10:10 WARN - [main           ] ModelDeploymentTool       - 
+org.springframework.remoting.RemoteConnectFailureException: Could not connect to HTTP invoker remote service at [http://localhost:8080/cbmProcess/remoting/CarnotUserService]; nested exception is java.net.ConnectException: Connection refused: connect
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.convertHttpInvokerAccessException(HttpInvokerClientInterceptor.java:203)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:145)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at com.sun.proxy.$Proxy8.login(Unknown Source)
+	at org.eclipse.stardust.engine.api.spring.SpringServiceFactory.getNewServiceInstance(SpringServiceFactory.java:116)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getOrCreateService(AbstractSessionAwareServiceFactory.java:65)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.startSession(AbstractSessionAwareServiceFactory.java:120)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getService(AbstractSessionAwareServiceFactory.java:53)
+	at org.eclipse.stardust.engine.core.runtime.beans.DefaultServiceFactory.getQueryService(DefaultServiceFactory.java:60)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.<init>(DeployModelDialog.java:73)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.showDialog(DeployModelDialog.java:240)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.deployModel(ModelDeploymentTool.java:318)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.<init>(ModelDeploymentTool.java:220)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.main(ModelDeploymentTool.java:142)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at sun.net.NetworkClient.doConnect(Unknown Source)
+	at sun.net.www.http.HttpClient.openServer(Unknown Source)
+	at sun.net.www.http.HttpClient.openServer(Unknown Source)
+	at sun.net.www.http.HttpClient.parseHTTP(Unknown Source)
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(Unknown Source)
+	at java.net.HttpURLConnection.getResponseCode(Unknown Source)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.validateResponse(SimpleHttpInvokerRequestExecutor.java:178)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.doExecuteRequest(SimpleHttpInvokerRequestExecutor.java:92)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.executeRequest(AbstractHttpInvokerRequestExecutor.java:136)
+	at org.eclipse.stardust.engine.api.spring.CarnotHttpInvokerRequestExecutor.executeRequest(CarnotHttpInvokerRequestExecutor.java:87)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:192)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:174)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:142)
+	... 13 more
+15:11:07 INFO - [main           ] ModelDeploymentTool       - Starting ...
+15:11:07 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+15:11:08 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+15:11:08 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+15:11:08 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@4b721a26:
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+15:11:08 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+15:11:08 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+15:11:10 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+15:11:11 INFO - [main           ] extensions                - Initializing static extensions resolver
+15:11:11 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+15:11:11 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@27a1882
+15:11:12 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@5ec009a7: startup date [Wed Nov 04 15:11:12 CET 2015]; root of context hierarchy
+15:11:12 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+15:11:12 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+15:11:12 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@70a7284e: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+15:11:13 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@5ec009a7: startup date [Wed Nov 04 15:11:12 CET 2015]; root of context hierarchy
+15:11:16 INFO - [WT-EventQueue-0] Parameters                - CARNOT version: 3.0.1.20150916-0729
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           17:55:21 INFO - [main           ] ModelDeploymentTool       - Starting ...
+17:55:21 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+17:55:24 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+17:55:24 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+17:55:24 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@237aaeec:
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+17:55:24 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+17:55:24 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+17:55:26 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+17:55:27 INFO - [main           ] extensions                - Initializing static extensions resolver
+17:55:27 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+17:55:27 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@60954dc
+17:55:28 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@1f6e91d: startup date [Thu Nov 19 17:55:28 CET 2015]; root of context hierarchy
+17:55:28 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+17:55:29 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+17:55:29 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@51bb91c2: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+17:55:29 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@1f6e91d: startup date [Thu Nov 19 17:55:28 CET 2015]; root of context hierarchy
+17:55:30 WARN - [main           ] ModelDeploymentTool       - 
+org.springframework.remoting.RemoteConnectFailureException: Could not connect to HTTP invoker remote service at [http://localhost:8080/cbmProcess/remoting/CarnotUserService]; nested exception is java.net.ConnectException: Connection refused: connect
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.convertHttpInvokerAccessException(HttpInvokerClientInterceptor.java:203)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:145)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at com.sun.proxy.$Proxy8.login(Unknown Source)
+	at org.eclipse.stardust.engine.api.spring.SpringServiceFactory.getNewServiceInstance(SpringServiceFactory.java:116)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getOrCreateService(AbstractSessionAwareServiceFactory.java:65)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.startSession(AbstractSessionAwareServiceFactory.java:120)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getService(AbstractSessionAwareServiceFactory.java:53)
+	at org.eclipse.stardust.engine.core.runtime.beans.DefaultServiceFactory.getQueryService(DefaultServiceFactory.java:60)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.<init>(DeployModelDialog.java:73)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.showDialog(DeployModelDialog.java:240)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.deployModel(ModelDeploymentTool.java:318)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.<init>(ModelDeploymentTool.java:220)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.main(ModelDeploymentTool.java:142)
+Caused by: java.net.ConnectException: Connection refused: connect
+	at java.net.DualStackPlainSocketImpl.connect0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.doConnect(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.connect(Unknown Source)
+	at java.net.PlainSocketImpl.connect(Unknown Source)
+	at java.net.SocksSocketImpl.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at java.net.Socket.connect(Unknown Source)
+	at sun.net.NetworkClient.doConnect(Unknown Source)
+	at sun.net.www.http.HttpClient.openServer(Unknown Source)
+	at sun.net.www.http.HttpClient.openServer(Unknown Source)
+	at sun.net.www.http.HttpClient.<init>(Unknown Source)
+	at sun.net.www.http.HttpClient.New(Unknown Source)
+	at sun.net.www.http.HttpClient.New(Unknown Source)
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(Unknown Source)
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(Unknown Source)
+	at sun.net.www.protocol.http.HttpURLConnection.connect(Unknown Source)
+	at sun.net.www.protocol.http.HttpURLConnection.getOutputStream(Unknown Source)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.writeRequestBody(SimpleHttpInvokerRequestExecutor.java:162)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.doExecuteRequest(SimpleHttpInvokerRequestExecutor.java:91)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.executeRequest(AbstractHttpInvokerRequestExecutor.java:136)
+	at org.eclipse.stardust.engine.api.spring.CarnotHttpInvokerRequestExecutor.executeRequest(CarnotHttpInvokerRequestExecutor.java:87)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:192)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:174)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:142)
+	... 13 more
+17:59:19 INFO - [main           ] ModelDeploymentTool       - Starting ...
+17:59:19 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+17:59:20 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+17:59:20 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+17:59:20 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@e9bfee2:
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+17:59:20 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+17:59:20 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+17:59:22 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+17:59:23 INFO - [main           ] extensions                - Initializing static extensions resolver
+17:59:23 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+17:59:23 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@43f35689
+17:59:24 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@22966c96: startup date [Thu Nov 19 17:59:24 CET 2015]; root of context hierarchy
+17:59:24 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+17:59:25 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+17:59:25 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@254acc8e: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+17:59:25 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@22966c96: startup date [Thu Nov 19 17:59:24 CET 2015]; root of context hierarchy
+17:59:25 WARN - [main           ] ModelDeploymentTool       - 
+org.springframework.remoting.RemoteAccessException: Could not access HTTP invoker remote service at [http://localhost:8080/cbmProcess/remoting/CarnotUserService]; nested exception is java.io.IOException: Did not receive successful HTTP response: status code = 404, status message = [Not Found]
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.convertHttpInvokerAccessException(HttpInvokerClientInterceptor.java:212)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:145)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at com.sun.proxy.$Proxy8.login(Unknown Source)
+	at org.eclipse.stardust.engine.api.spring.SpringServiceFactory.getNewServiceInstance(SpringServiceFactory.java:116)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getOrCreateService(AbstractSessionAwareServiceFactory.java:65)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.startSession(AbstractSessionAwareServiceFactory.java:120)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getService(AbstractSessionAwareServiceFactory.java:53)
+	at org.eclipse.stardust.engine.core.runtime.beans.DefaultServiceFactory.getQueryService(DefaultServiceFactory.java:60)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.<init>(DeployModelDialog.java:73)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.showDialog(DeployModelDialog.java:240)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.deployModel(ModelDeploymentTool.java:318)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.<init>(ModelDeploymentTool.java:220)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.main(ModelDeploymentTool.java:142)
+Caused by: java.io.IOException: Did not receive successful HTTP response: status code = 404, status message = [Not Found]
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.validateResponse(SimpleHttpInvokerRequestExecutor.java:179)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.doExecuteRequest(SimpleHttpInvokerRequestExecutor.java:92)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.executeRequest(AbstractHttpInvokerRequestExecutor.java:136)
+	at org.eclipse.stardust.engine.api.spring.CarnotHttpInvokerRequestExecutor.executeRequest(CarnotHttpInvokerRequestExecutor.java:87)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:192)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:174)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:142)
+	... 13 more
+18:02:14 INFO - [main           ] ModelDeploymentTool       - Starting ...
+18:02:14 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+18:02:15 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+18:02:15 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+18:02:15 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@4b721a26:
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+18:02:15 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+18:02:15 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+18:02:17 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+18:02:17 INFO - [main           ] extensions                - Initializing static extensions resolver
+18:02:17 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+18:02:17 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@562e6f02
+18:02:18 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@5a9c55e0: startup date [Thu Nov 19 18:02:18 CET 2015]; root of context hierarchy
+18:02:18 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+18:02:18 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+18:02:18 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@2f165beb: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+18:02:19 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@5a9c55e0: startup date [Thu Nov 19 18:02:18 CET 2015]; root of context hierarchy
+18:02:19 WARN - [main           ] ModelDeploymentTool       - 
+org.springframework.remoting.RemoteAccessException: Could not access HTTP invoker remote service at [http://localhost:8080/cbmProcess/remoting/CarnotUserService]; nested exception is java.io.IOException: Did not receive successful HTTP response: status code = 404, status message = [Not Found]
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.convertHttpInvokerAccessException(HttpInvokerClientInterceptor.java:212)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:145)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:204)
+	at com.sun.proxy.$Proxy8.login(Unknown Source)
+	at org.eclipse.stardust.engine.api.spring.SpringServiceFactory.getNewServiceInstance(SpringServiceFactory.java:116)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getOrCreateService(AbstractSessionAwareServiceFactory.java:65)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.startSession(AbstractSessionAwareServiceFactory.java:120)
+	at org.eclipse.stardust.engine.core.runtime.beans.AbstractSessionAwareServiceFactory.getService(AbstractSessionAwareServiceFactory.java:53)
+	at org.eclipse.stardust.engine.core.runtime.beans.DefaultServiceFactory.getQueryService(DefaultServiceFactory.java:60)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.<init>(DeployModelDialog.java:73)
+	at org.eclipse.stardust.modeling.deploy.DeployModelDialog.showDialog(DeployModelDialog.java:240)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.deployModel(ModelDeploymentTool.java:318)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.<init>(ModelDeploymentTool.java:220)
+	at org.eclipse.stardust.modeling.deploy.ModelDeploymentTool.main(ModelDeploymentTool.java:142)
+Caused by: java.io.IOException: Did not receive successful HTTP response: status code = 404, status message = [Not Found]
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.validateResponse(SimpleHttpInvokerRequestExecutor.java:179)
+	at org.springframework.remoting.httpinvoker.SimpleHttpInvokerRequestExecutor.doExecuteRequest(SimpleHttpInvokerRequestExecutor.java:92)
+	at org.springframework.remoting.httpinvoker.AbstractHttpInvokerRequestExecutor.executeRequest(AbstractHttpInvokerRequestExecutor.java:136)
+	at org.eclipse.stardust.engine.api.spring.CarnotHttpInvokerRequestExecutor.executeRequest(CarnotHttpInvokerRequestExecutor.java:87)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:192)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.executeRequest(HttpInvokerClientInterceptor.java:174)
+	at org.springframework.remoting.httpinvoker.HttpInvokerClientInterceptor.invoke(HttpInvokerClientInterceptor.java:142)
+	... 13 more
+18:19:26 INFO - [main           ] ModelDeploymentTool       - Starting ...
+18:19:26 INFO - [main           ] ModelDeploymentTool       - Deploying model from file [D:\MyWorkThesis\cbmProcess\demoNewModel.xpdl]
+18:19:29 INFO - [main           ] Parameters                - CARNOT version: 3.0.1.20150916-0729
+18:19:29 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.common.config.DefaultPropertiesProvider$Factory (priority 1).
+18:19:29 INFO - [main           ] DefaultPropertiesProvider - Property bundle carnot.properties bootstrapped from classloader sun.misc.Launcher$AppClassLoader@3012db7c:
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Spring.ApplicationContextFile = carnot-spring-client.xml
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UseLockTables = true
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultPartition = default
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Logging.MaxFileSize = 4194304
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Type = DERBY
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Credential.Provider = 
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Logging.Format = %d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%t] (%x) %c{2} - %m%n
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptDomain = false
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Logging.Directory = 
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.User = carnot
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Mail.Host = your-mail-host
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Carnot.Configuration.UseDocumentRepository = true
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.FixAutoCommit = true
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Client.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Mail.Sender = your-mail-address
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Logging.Filters = 
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Logging.LogLevel = INFO
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Web.ServiceFactory = org.eclipse.stardust.engine.api.spring.SpringServiceFactory
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.UsePreparedStatements = true
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Secure.Session.Factory = 
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   QueryService.Guarded = true
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Security.Authentication.ConfigurationName = 
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptPartition = false
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.Schema = 
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Security.PromptRealm = false
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Security.DefaultRealm = carnot
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.URL = jdbc:derby://localhost/carnot
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   Carnot.ProcessPortal.AssemblyLineActivityProvider = org.eclipse.stardust.ui.web.viewscommon.common.provider.DefaultAssemblyLineActivityProvider
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DriverClass = org.apache.derby.jdbc.ClientDriver
+18:19:29 INFO - [main           ] DefaultPropertiesProvider -   AuditTrail.DataSource = java:/AuditTrail.DataSource
+18:19:29 INFO - [main           ] GlobalParameters          - Loading properties via provider factory org.eclipse.stardust.engine.spring.web.SpringAppContextPropertiesProviderFactory (priority 4).
+18:19:32 INFO - [main           ] DefaultXMLReader          - Reading model with id 'PackingDemoModel'.
+18:19:33 INFO - [main           ] extensions                - Initializing static extensions resolver
+18:19:33 INFO - [main           ] extensions                - Initializing Service Provider extensions resolver
+18:19:33 INFO - [main           ] extensions                - Using extensions manager: org.eclipse.stardust.engine.core.runtime.beans.PartitionAwareExtensionsManager@1890532
+18:19:34 INFO - [main           ] PathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@28757570: startup date [Thu Nov 19 18:19:34 CET 2015]; root of context hierarchy
+18:19:35 INFO - [main           ] XmlBeanDefinitionReader   - Loading XML bean definitions from class path resource [carnot-spring-client.xml]
+18:19:35 INFO - [main           ] ertyPlaceholderConfigurer - Loading properties file from class path resource [carnot-spring-client.properties]
+18:19:35 INFO - [main           ] efaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@7c2c18e3: defining beans [propertyConfigurer,carnotHttpInvokerRequestExecutor,carnotWorkflowService,carnotUserService,carnotQueryService,carnotAdministrationService,carnotDocumentManagementService]; root of factory hierarchy
+18:19:36 WARN - [main           ] SpringUtils               - Bootstrapped new Spring application context org.springframework.context.support.ClassPathXmlApplicationContext@28757570: startup date [Thu Nov 19 18:19:34 CET 2015]; root of context hierarchy
+18:36:49 INFO - [WT-EventQueue-0] Parameters                - CARNOT version: 3.0.1.20150916-0729
