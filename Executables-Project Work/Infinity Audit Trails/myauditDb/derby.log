@@ -1,0 +1,17 @@
+Fri Nov 20 17:36:08 CET 2015 : Apache Derby Network Server - 10.9.1.0 - (1344872) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Fri Nov 20 17:36:31 CET 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-0151-25c0-c271-0000199aed4e 
+on database directory D:\MyWorkThesis\Infinity Audit Trails\myauditDb\carnot  with class loader java.net.URLClassLoader@1f92ee25 
+Loaded from file:/D:/apache-tomcat-7.0.65/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_71-b14
+user.dir=C:\eclipse
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Nov 20 18:04:51 CET 2015: Shutting down Derby engine
+----------------------------------------------------------------
+Fri Nov 20 18:04:52 CET 2015:
+Shutting down instance a816c00e-0151-25c0-c271-0000199aed4e on database directory D:\MyWorkThesis\Infinity Audit Trails\myauditDb\carnot with class loader java.net.URLClassLoader@1f92ee25 
+----------------------------------------------------------------
