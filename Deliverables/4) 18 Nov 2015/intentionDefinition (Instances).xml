@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Intention name="sealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<Documentation>
+	The primary goal/intention is to seal and sort the packets as per the business rule.
+	</Documentation>
+	<Definition definitionLanguage="en_US">
+		<Type>Main</Type>
+		<Machine>Sealer-Packer</Machine>
+		<SensorClasses>2</SensorClasses>
+		<AverageOperatorNeeded>10</AverageOperatorNeeded>
+	</Definition>
+	<ContainedIntentions>
+		<Intention name="highHRUtilization" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+			<Documentation>
+				Employees must be used optimally across the company structure without any idle time.
+			</Documentation>
+			<Definition definitionLanguage="en_US">
+				<Type>Optional</Type>
+			</Definition>
+		</Intention>
+		<Intention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+			<Documentation>
+				Throughput time must be increased to remain competitive in the market.
+			</Documentation>
+			<Definition definitionLanguage="en_US">
+				<Type>Optional</Type>
+			</Definition>
+		</Intention>
+	</ContainedIntentions>
+<Intention>

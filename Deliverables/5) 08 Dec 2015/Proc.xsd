@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProcessRepos name="sealAndSortPackets">
+	<tProcessDefinition name="ManualPacking" type="bpmn" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+		<Documentation>This is a dummy Manual Model.</Documentation>
+		<ProcessContent>PMX001</ProcessContent>
+		<Intention name="sealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+			<Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+			<Definition definitionLanguage="en_US">
+				<SensorClasses>2</SensorClasses>
+				<AverageOperatorNeeded>10</AverageOperatorNeeded>
+			</Definition>
+			<ContainedIntentions>
+				<SubIntention name="highHRUtilization" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Work must be done in such a way that no employees sit idle in the premises of company.</Documentation>
+				</SubIntention>
+				<SubIntention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Throughput time must be increased to remain competitive in the market.</Documentation>
+				</SubIntention>
+			</ContainedIntentions>
+		</Intention>
+		<InitialContext>
+			<Documentation>The following contexts are required to decide this process is okay for the purpose or not.</Documentation>
+			<Context name="unitsOrdered" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">1000</Context>
+			<Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">Okay</Context>
+			<Context name="shockDetectorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">Okay</Context>
+			<ContextRule>resources/ContextValidator.xsl</ContextRule>
+		</InitialContext>
+		<Weight>0.30</Weight>
+	</tProcessDefinition>
+	
+	<tProcessDefinition name="SemiAutomatedPacking" type="bpmn" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+		<Documentation>This is a dummy semi automated model without repair activity.</Documentation>
+		<ProcessContent>PSX001</ProcessContent>
+		<Intention name="sealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+			<Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+			<Definition definitionLanguage="en_US">
+				<SensorClasses>2</SensorClasses>
+				<AverageOperatorNeeded>10</AverageOperatorNeeded>
+			</Definition>
+			<ContainedIntentions>
+				<SubIntention name="highAutomation" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Work must be automated more to gain larger productivity.</Documentation>
+				</Intention>
+				<SubIntention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Throughput time must be increased to remain competitive in the market.</Documentation>
+				</SubIntention>
+			</ContainedIntentions>
+		</Intention>
+		<InitialContext>
+			<Documentation>The following contexts are required to decide this process is okay for the purpose or not.</Documentation>
+			<Context name="unitsOrdered" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging"></Context>
+			<Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging"></Context>
+			<Context name="shockDetectorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging"></Context>
+			<ContextRule>resources/ContextValidator.xsl</ContextRule>
+		</InitialContext>
+		<Weight>0.55</Weight>
+	</tProcessDefinition>
+	<tProcessDefinition name="SemiAutomatedRepairPacking" type="bpmn" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+		<Documentation>This is a dummy semi automated model with repair activity.</Documentation>
+		<ProcessContent>PSX002</ProcessContent>
+		<Intention name="sealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+			<Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+			<Definition definitionLanguage="en_US">
+				<SensorClasses>2</SensorClasses>
+				<AverageOperatorNeeded>10</AverageOperatorNeeded>
+			</Definition>
+			<ContainedIntentions>
+				<SubIntention name="highAutomation" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Work must be automated more to gain larger productivity.</Documentation>
+				</SubIntention>
+				<SubIntention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Throughput time must be increased to remain competitive in the market.</Documentation>
+				</SubIntention>
+				<SubIntention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+					<Documentation>Throughput time must be increased to remain competitive in the market.</Documentation>
+				</SubIntention>
+			</ContainedIntentions>
+		</Intention>
+		<InitialContext>
+			<Documentation>The following contexts are required to decide this process is okay for the purpose or not.</Documentation>
+			<Context name="availableWorkers" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">10</Context>
+			<Context name="unitsOrdered" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">1000</Context>
+			<Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">Okay</Context>
+			<Context name="shockDetectorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">Okay</Context>
+			<ContextRule>resources/ContextValidator.xsl</ContextRule>
+		</InitialContext>
+		<Weight>0.30</Weight>
+	</tProcessDefinition>
+</ProcessRepos>

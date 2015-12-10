@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.uni-stuttgart.de/iaas/cbmp/v1/"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" 
+	xmlns:pref="http://docs.oasis-open.org/tosca/ns/2011/12" 
+	xmlns:cmp="http://www.uni-stuttgart.de/iaas/cmp/v1/"> <!--cmp = Context-based Manufacturing Process-->
+	
+	<!--Any type of Content Can Be Instantiated Using This-->
+	<complexType name="tContent"> 
+        <sequence>
+            <any></any>
+        </sequence>
+    </complexType>
+	
+    <complexType name="tDefinition">
+        <sequence>
+            <element name="DefinitionContent" type="cmp:tContent"></element>
+        </sequence>
+        <attribute name="definitionLanguage" type="string"></attribute>
+    </complexType>
+	
+	<complexType name="tBaseType" abstract="true">
+        <sequence>
+            <element name="Documentation" type="anyURI"></element>
+        </sequence>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="targetNamespace" type="string"></attribute>
+    </complexType>
+	
+	<complexType name="tDomainType" abstract="true">
+	<complexContent>
+    		<extension base="cmp:tBaseType">
+				<attribute name="value" type="string"></attribute>
+			</extension>
+    	</complexContent>
+    </complexType>
+	
+	<!--INTENTION and SUBINTENTION-->
+	<!--Every Process and CES will Contain an Intention with Optional Sub-intentions. SubIntentions are Intentions only.-->
+	<complexType name="tIntention">
+		<complexContent>
+			<extension base="cmp:tBaseType">
+				<sequence>
+					<element name="Definition" type="cmp:tDefinition" maxOccurs="1" minOccurs="1"></element>
+					<element name="ContainedIntentions" type="cmp:tIntentions" maxOccurs="1" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="tIntentions">
+        <sequence>
+            <element name="Intention" type="cmp:tIntention" maxOccurs="unbounded" minOccurs="1"></element>
+        </sequence>
+    </complexType>
+	
+	<!--CONTEXT-->
+    <complexType name="tContext">
+        <complexContent>
+            <extension base="cmp:tDomainType">
+                <sequence>
+                    <element name="ContextDefinition" type="cmp:tDefinition" maxOccurs="unbounded" minOccurs="1"></element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+	
+	<!--MANUFACTURING PROCESS-->
+	<complexType name="tProcessDefinition">
+        <complexContent>
+            <extension base="cmp:tBaseType">
+                <sequence>
+                    <element name="ProcessContent" type="cmp:tContent" maxOccurs="1" minOccurs="0"></element>
+                    <element name="TargetIntention" type="cmp:tInte ntion" maxOccurs="1" minOccurs="1"></element>
+					<element name="InitialContext" type="cmp:tContext" maxOccurs="1" minOccurs="1"></element>
+					<element name="Weight" type="decimal" maxOccurs="1" minOccurs="1"></element>
+                </sequence>
+                <attribute name="processType" type="anyURI"></attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+	
+	<!--CES TASK-->
+	<complexType name="tCESTask">
+        <complexContent>
+            <extension base="cmp:tBaseType">
+                <sequence>
+                    <element name="taskContent" type="cmp:tContent" maxOccurs="1" minOccurs="0"></element>
+                    <element name="mainIntention" type="cmp:tIntention" maxOccurs="1" minOccurs="1"></element>
+					<element name="primeContext" type="cmp:tContext" maxOccurs="1" minOccurs="1"></element>
+                </sequence>
+				<attribute name="isEventDriven" type="boolean"></attribute>
+				<attribute name="isCommandAction" type="boolean"></attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+</schema>
