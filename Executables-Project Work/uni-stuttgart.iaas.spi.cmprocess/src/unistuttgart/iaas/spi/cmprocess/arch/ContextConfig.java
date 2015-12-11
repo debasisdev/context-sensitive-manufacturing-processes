@@ -8,12 +8,12 @@ public final class ContextConfig {
 	public static final String MIDDLEWARE_DATABASE_COLLECTION_NAME = "packagecontext";
 	public static final String CONTEXT_REPOSITORY = "resources/datarepos/ContextData.xml";
 	public static final String PROCESS_REPOSITORY = "resources/processrepos/ProcessRepository.xml";
-	public static final String CONTEXT_ANALYSIS_REPORT = "resources/datarepos/ContextAnalyzerReport.xml";
 	public static final String CONTEXT_RULES = "resources/validators/ContextValidator.xsl";
 	
 	public static final String CONTEXT_QUERY = "HowToSealAndSort";
 	public static final String INTENTION_QUERY = "SealAndSortPackets";
-	
+	public static final String CONTEXT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/v1/packaging";
+	public static final String XPATH_NAMESPACE = "http://www.w3.org/TR/xpath";
 	public static final String SHOCKDETECTORSENSOR_CONTEXT_NAME = "shockDetectorStatus";
 	public static final String INFRAREDSENSOR_CONTEXT_NAME = "infraredSensorStatus";
 	public static final String GPSLOCATION_CONTEXT_NAME = "availableWorkers";

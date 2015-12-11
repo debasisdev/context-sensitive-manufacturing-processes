@@ -124,9 +124,8 @@ public class CMPView extends ViewPart {
         label.setText("Welcome to Context Analysis");
 
         /*Creating XML from Context Data*/
-        QueryManager qm = new QueryManager("packstufF","");
-		@SuppressWarnings("unused")
-		ContextAnalyzer can = new ContextAnalyzer(qm);
+        //QueryManager qm = new QueryManager("packstufF","");
+		//ContextAnalyzer can = new ContextAnalyzer(qm);
 	}
 
 	private void hookContextMenu() {

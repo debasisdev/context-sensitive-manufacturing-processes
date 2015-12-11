@@ -27,13 +27,14 @@ import unistuttgart.iaas.spi.cmprocess.cmp.TContent;
 import unistuttgart.iaas.spi.cmprocess.cmp.TContext;
 import unistuttgart.iaas.spi.cmprocess.cmp.TContexts;
 import unistuttgart.iaas.spi.cmprocess.cmp.TDefinition;
+import unistuttgart.iaas.spi.cmprocess.cmp.TIntention;
 import unistuttgart.iaas.spi.cmprocess.cmp.TLocationType;
 
-public class QueryManager {
+public class QueryManager implements IQueryManager {
 	
 	private File contextData;
 	private String contextQuery;
-	private String intention;
+	private TIntention intention;
 	
 	public QueryManager(){
 		this.contextData = null;
@@ -41,14 +42,14 @@ public class QueryManager {
 		this.queryRawContextData();
 	}
 	
-	public QueryManager(String contextQuery, String intention){
+	public QueryManager(String contextQuery, TIntention intention){
 		this.contextData = new File(ContextConfig.CONTEXT_REPOSITORY);
 		this.contextQuery = contextQuery;
 		this.intention = intention;
 		this.queryRawContextData();
 	}
 	
-	private void queryRawContextData() {
+	public void queryRawContextData() {
 		try{
 			System.out.println("Connecting to Middleware...");
 			MongoClient mongoClient = new MongoClient(ContextConfig.MIDDLEWARE_DATABASE_ADDRESS, 
@@ -184,7 +185,7 @@ public class QueryManager {
 			System.out.println("Context Acquisition Is Finished.");
 		}
 	}
-
+	
 	public String getContextQuery() {
 		return contextQuery;
 	}
@@ -193,8 +194,7 @@ public class QueryManager {
 		return contextData;
 	}
 
-	public String getIntention() {
+	public TIntention getIntention() {
 		return intention;
 	}
-	
 }
