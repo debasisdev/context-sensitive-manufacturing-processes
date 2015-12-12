@@ -29,9 +29,6 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import unistuttgart.iaas.spi.cmprocess.arch.ContextAnalyzer;
-import unistuttgart.iaas.spi.cmprocess.arch.QueryManager;
-
 /**
  * This sample class demonstrates how to plug-in a new
  * workbench view. The view shows data obtained from the

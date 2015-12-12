@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TBaseType" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TBaseType.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="49" y="228"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TProcessDefinition" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TProcessDefinition.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="965" y="229"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TDefinition" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TDefinition.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="244" y="745"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TIntentions" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TIntentions.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="61" y="28"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TContextExpressions" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TContextExpressions.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="463" y="308"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TProcessModel" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TProcessModel.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="603" y="55"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TContext" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TContext.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="675" y="643"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TContent" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TContent.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="956" y="744"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TLocationType" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TLocationType.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="660" y="927"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TIntention" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TIntention.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="339" y="81"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TContextExpression" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TContextExpression.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="463" y="482"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="unistuttgart.iaas.spi.cmprocess.cmp.TContexts" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/cmp/TContexts.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="674" y="421"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="13">    
+    <bendpoint x="742" y="521"/>    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="14" name="context">        
+        <position height="18" width="46" x="726" y="498"/>      
+      </attribute>      
+      <multiplicity id="15" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="746" y="515"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="17" name="contextExpression"/>      
+      <multiplicity id="18" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="19">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="20" name="targetIntention">        
+        <position height="18" width="78" x="594" y="126"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position height="16" width="23" x="593" y="147"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="22">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="23" name="processDefinition">        
+        <position height="18" width="94" x="741" y="104"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="740" y="129"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="26" name="location">        
+        <position height="18" width="47" x="766" y="819"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="16" width="23" x="788" y="848"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="29" name="initialContexts">        
+        <position height="18" width="76" x="624" y="256"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="1">        
+        <position height="16" width="23" x="682" y="276"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <bendpoint x="748" y="304"/>    
+    <bendpoint x="690" y="347"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="32" name="alternativeFinalContexts">        
+        <position height="18" width="125" x="638" y="310"/>      
+      </attribute>      
+      <multiplicity id="33" minimum="0" maximum="1">        
+        <position height="16" width="23" x="702" y="330"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <bendpoint x="965" y="494"/>    
+    <bendpoint x="965" y="516"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="35" name="processContent">        
+        <position height="18" width="87" x="876" y="475"/>      
+      </attribute>      
+      <multiplicity id="36" minimum="0" maximum="1">        
+        <position height="16" width="23" x="968" y="477"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="38">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="39" name="contextDefinition">        
+        <position height="18" width="90" x="401" y="671"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="441" y="697"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="41">    
+    <bendpoint x="203" y="15"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="42" name="subIntentions"/>      
+      <multiplicity id="43" minimum="0" maximum="1">        
+        <position height="16" width="23" x="181" y="17"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="44">    
+    <bendpoint x="164" y="482"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="45">    
+    <bendpoint x="188" y="82"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="46" name="intention"/>      
+      <multiplicity id="47" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="193" y="83"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="49" name="definitionContent">        
+        <position height="18" width="90" x="574" y="729"/>      
+      </attribute>      
+      <multiplicity id="50" minimum="0" maximum="1">        
+        <position height="16" width="23" x="605" y="751"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="52" name="desiredFinalContexts">        
+        <position height="18" width="111" x="735" y="344"/>      
+      </attribute>      
+      <multiplicity id="53" minimum="0" maximum="1">        
+        <position height="16" width="23" x="779" y="330"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="54">    
+    <bendpoint x="190" y="305"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="55">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <association id="56">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="57" name="definition">        
+        <position height="18" width="53" x="234" y="425"/>      
+      </attribute>      
+      <multiplicity id="58" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="291" y="431"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="59">    
+    <bendpoint x="600" y="519"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="60" name="containedContexts">        
+        <position height="18" width="100" x="575" y="496"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="1">        
+        <position height="16" width="23" x="610" y="514"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="12" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="63" name="condition">        
+        <position height="18" width="53" x="299" y="591"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="360" y="613"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

@@ -8,7 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -33,161 +35,132 @@ import unistuttgart.iaas.spi.cmprocess.cmp.TLocationType;
 public class QueryManager implements IQueryManager {
 	
 	private File contextData;
-	private String contextQuery;
+	private TContexts contexts;
 	private TIntention intention;
+	private boolean contextAvailable;
+	private static final Logger log = Logger.getLogger(QueryManager.class.getName());
 	
 	public QueryManager(){
 		this.contextData = null;
+		this.contexts = null;
 		this.intention = null;
-		this.queryRawContextData();
+		this.contextAvailable = false;
 	}
 	
-	public QueryManager(String contextQuery, TIntention intention){
+	public QueryManager(TContexts contexts, TIntention intention){
 		this.contextData = new File(ContextConfig.CONTEXT_REPOSITORY);
-		this.contextQuery = contextQuery;
+		this.contexts = contexts;
 		this.intention = intention;
+		this.contextAvailable = false;
 		this.queryRawContextData();
 	}
 	
 	public void queryRawContextData() {
 		try{
-			System.out.println("Connecting to Middleware...");
+			log.info("Connecting to Middleware...");
 			MongoClient mongoClient = new MongoClient(ContextConfig.MIDDLEWARE_DATABASE_ADDRESS, 
 														Integer.parseInt(ContextConfig.MIDDLEWARE_DATABASE_PORT));
 			DB db = mongoClient.getDB(ContextConfig.MIDDLEWARE_DATABASE_NAME);
 			Set<String> mongoCollections = db.getCollectionNames();
+			log.info("Fetching Collections from MongoDB Sensor Data Repository...");
+			TContexts conSet = new TContexts();
 			for(String coll : mongoCollections){
-				if(this.contextQuery.equalsIgnoreCase(ContextConfig.CONTEXT_QUERY)){
-					if(coll.equals(ContextConfig.MIDDLEWARE_DATABASE_COLLECTION_NAME)){
-						DBCursor mongoCursor = db.getCollection(coll).find();
-						while(mongoCursor.hasNext()) {
-							BasicDBObject obj = (BasicDBObject) mongoCursor.next();
-						    Date date = (Date) new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy").parse(obj.getString(ContextConfig.CD_FIELD_DELIVERYDATE));
-						    Calendar cal = Calendar.getInstance();
-						    cal.setTime(date);
-						    BasicDBList sensorDataList = (BasicDBList) obj.get(ContextConfig.CD_FIELD_SENSORDATALIST);
-						    BasicDBObject values = (BasicDBObject) sensorDataList.get(0);
-						    
-						    BigDecimal latitude = new BigDecimal(Double.parseDouble(obj.getString(ContextConfig.CD_FIELD_LATITUDE)));
-					        BigDecimal longitude = new BigDecimal(Double.parseDouble(obj.getString(ContextConfig.CD_FIELD_LONGITUDE)));
-					        latitude = latitude.setScale(6, BigDecimal.ROUND_CEILING);
-					        longitude = longitude.setScale(6, BigDecimal.ROUND_CEILING);
-					        TLocationType locType = new TLocationType();
-					        locType.setLatitude(latitude);
-					        locType.setLongitude(longitude);
-					        locType.setMachineName(obj.getString(ContextConfig.CD_FIELD_MACHINE));
-					        XMLGregorianCalendar dateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar
-					        		(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
-					        				cal.get(Calendar.DATE) ));
-					        
-					        TContent defConTypeA = new TContent();
-					        defConTypeA.setOrderID(obj.getString(ContextConfig.CD_FIELD_ORDERID));
-					        defConTypeA.setDeliveryDate(dateTime);
-					        defConTypeA.setLocation(locType);
-					        defConTypeA.setTimestamp(obj.getString(ContextConfig.CD_FIELD_TIMESTAMP));
-					        defConTypeA.setSenseValue(values.get(ContextConfig.SHOCKDETECTORSENSOR_CONTEXT_NAME).toString());
-					        
-					        TDefinition conDefTypeA = new TDefinition();
-					        conDefTypeA.setDefinitionContent(defConTypeA);
-					        conDefTypeA.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
-					        
-					        TContext conTypeA = new TContext();
-					        conTypeA.getContextDefinition().add(conDefTypeA);
-					        conTypeA.setDocumentation(ContextConfig.SHOCKDETECTORSENSOR_DOC);
-					        conTypeA.setName(ContextConfig.SHOCKDETECTORSENSOR_CONTEXT_NAME);
-					        conTypeA.setTargetNamespace(obj.getString(ContextConfig.CD_FIELD_NAMESPACE));
-					        
-					        TContent defConTypeB = new TContent();
-					        defConTypeB.setOrderID(obj.getString(ContextConfig.CD_FIELD_ORDERID));
-					        defConTypeB.setDeliveryDate(dateTime);
-					        defConTypeB.setLocation(locType);
-					        defConTypeB.setTimestamp(obj.getString(ContextConfig.CD_FIELD_TIMESTAMP));
-					        defConTypeB.setSenseValue(values.get(ContextConfig.INFRAREDSENSOR_CONTEXT_NAME).toString());
-					        
-					        TDefinition conDefTypeB = new TDefinition();
-					        conDefTypeB.setDefinitionContent(defConTypeB);
-					        conDefTypeB.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
-					        
-					        TContext conTypeB = new TContext();
-					        conTypeB.getContextDefinition().add(conDefTypeB);
-					        conTypeB.setDocumentation(ContextConfig.INFRAREDSENSOR_DOC);
-					        conTypeB.setName(ContextConfig.INFRAREDSENSOR_CONTEXT_NAME);
-					        conTypeB.setTargetNamespace(obj.getString(ContextConfig.CD_FIELD_NAMESPACE));
-					        
-					        TContent defConTypeC = new TContent();
-					        defConTypeC.setOrderID(obj.getString(ContextConfig.CD_FIELD_ORDERID));
-					        defConTypeC.setDeliveryDate(dateTime);
-					        defConTypeC.setLocation(locType);
-					        defConTypeC.setTimestamp(obj.getString(ContextConfig.CD_FIELD_TIMESTAMP));
-					        defConTypeC.setSenseValue(obj.getString(ContextConfig.UNITSORDERED_CONTEXT_NAME));
-					        
-					        TDefinition conDefTypeC = new TDefinition();
-					        conDefTypeC.setDefinitionContent(defConTypeC);
-					        conDefTypeC.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
-					        
-					        TContext conTypeC = new TContext();
-					        conTypeC.getContextDefinition().add(conDefTypeC);
-					        conTypeC.setDocumentation(ContextConfig.UNITSORDERED_DOC);
-					        conTypeC.setName(ContextConfig.UNITSORDERED_CONTEXT_NAME);
-					        conTypeC.setTargetNamespace(obj.getString(ContextConfig.CD_FIELD_NAMESPACE));
-					        
-					        TContent defConTypeD = new TContent();
-					        defConTypeD.setOrderID(obj.getString(ContextConfig.CD_FIELD_ORDERID));
-					        defConTypeD.setDeliveryDate(dateTime);
-					        defConTypeD.setLocation(locType);
-					        defConTypeD.setTimestamp(obj.getString(ContextConfig.CD_FIELD_TIMESTAMP));
-					        defConTypeD.setSenseValue(values.get(ContextConfig.GPSLOCATION_CONTEXT_NAME).toString());
-					        
-					        TDefinition conDefTypeD = new TDefinition();
-					        conDefTypeD.setDefinitionContent(defConTypeD);
-					        conDefTypeD.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
-					        
-					        TContext conTypeD = new TContext();
-					        conTypeD.getContextDefinition().add(conDefTypeD);
-					        conTypeD.setDocumentation(ContextConfig.GPSLOCATION_DOC);
-					        conTypeD.setName(ContextConfig.GPSLOCATION_CONTEXT_NAME);
-					        conTypeD.setTargetNamespace(obj.getString(ContextConfig.CD_FIELD_NAMESPACE));
-					        
-					        TContexts conSet = new TContexts();
-							conSet.getContext().add(conTypeA);
-							conSet.getContext().add(conTypeB);
-							conSet.getContext().add(conTypeC);
-							conSet.getContext().add(conTypeD);
-	
+				if(coll.equals(ContextConfig.MIDDLEWARE_DATABASE_COLLECTION_NAME)){
+					DBCursor mongoCursor = db.getCollection(coll).find();
+					while(mongoCursor.hasNext()) {
+						BasicDBObject obj = (BasicDBObject) mongoCursor.next();
+						List<TContext> contextList = this.getContexts().getContext();
+						if(!contextList.isEmpty()){
+							this.contextAvailable = true;
+							for(TContext context : contextList){
+							    Date date = (Date) new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy").
+							    		parse(obj.getString(ContextConfig.CD_FIELD_DELIVERYDATE));
+							    Calendar cal = Calendar.getInstance();
+							    cal.setTime(date);
+							    BasicDBList sensorDataList = (BasicDBList) obj.get(ContextConfig.CD_FIELD_SENSORDATALIST);
+							    BasicDBObject values = (BasicDBObject) sensorDataList.get(0);
+							    log.info("Acquiring Context Data...");
+							    BigDecimal latitude = new BigDecimal(Double.parseDouble(
+							    		obj.getString(ContextConfig.CD_FIELD_LATITUDE)));
+						        BigDecimal longitude = new BigDecimal(Double.parseDouble(
+						        		obj.getString(ContextConfig.CD_FIELD_LONGITUDE)));
+						        latitude = latitude.setScale(6, BigDecimal.ROUND_CEILING);
+						        longitude = longitude.setScale(6, BigDecimal.ROUND_CEILING);
+						        TLocationType locType = new TLocationType();
+						        locType.setLatitude(latitude);
+						        locType.setLongitude(longitude);
+						        locType.setMachineName(obj.getString(ContextConfig.CD_FIELD_MACHINE));
+						        XMLGregorianCalendar dateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar
+						        		(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
+						        				cal.get(Calendar.DATE) ));
+						        
+						        TContent defConType = new TContent();
+						        defConType.setOrderID(obj.getString(ContextConfig.CD_FIELD_ORDERID));
+						        defConType.setDeliveryDate(dateTime);
+						        defConType.setLocation(locType);
+						        defConType.setTimestamp(obj.getString(ContextConfig.CD_FIELD_TIMESTAMP));
+						        if(context.getName().equals(ContextConfig.UNITSORDERED_CONTEXT_NAME))
+						        	defConType.setSenseValue(obj.getString(ContextConfig.UNITSORDERED_CONTEXT_NAME));
+						        else
+						        	defConType.setSenseValue(values.get(context.getName()).toString());
+						        
+						        TDefinition conDefType = new TDefinition();
+						        conDefType.setDefinitionContent(defConType);
+						        conDefType.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
+						        log.info("Context Acquisition Is In Progress...");
+						        TContext conType = new TContext();
+						        conType.getContextDefinition().add(conDefType);
+						        conType.setDocumentation(context.getDocumentation());
+						        conType.setName(context.getName());
+						        conType.setTargetNamespace(obj.getString(ContextConfig.CD_FIELD_NAMESPACE));
+						        conSet.getContext().add(conType);
+							}
 				    		JAXBContext jaxbContext = JAXBContext.newInstance("unistuttgart.iaas.spi.cmprocess.cmp");
 				    		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				    		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				    		jaxbMarshaller.marshal(conSet, this.contextData);
-//				    		jaxbMarshaller.marshal(conSet, System.out);
+				    		log.info("Context Data is Serialized as ContextData.xml.");
+//					    	jaxbMarshaller.marshal(conSet, System.out);
+						}
+						else{
+							this.contextAvailable = false;
+							log.warning("Context Data is Not Available!");
 						}
 					}
 				}
-				else {
-					System.err.println("No Context Data Available!");
-				}
 			}
 			mongoClient.close();
+			log.info("Connection to Middleware Is Closed.");
 		} catch (JAXBException e) {
-			System.err.println("JAXBException has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("JAXBException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
 		} catch (NumberFormatException e) {
-			System.err.println("NumberFormatException has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("NumberFormatException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
 		} catch (DatatypeConfigurationException e) {
-			System.err.println("DatatypeConfigurationException has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("DatatypeConfigurationException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
 		} catch (ParseException e) {
-			System.err.println("ParseException has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("ParseException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
 		} catch (UnknownHostException e) {
-			System.err.println("UnknownHostException has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("UnknownHostException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
 		} catch (NullPointerException e) {
-			System.err.println("NullPointerException has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("NullPointerException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+			e.printStackTrace();
 		} catch(Exception e){
-			System.err.println("Unknown Exception has occurred at Line " + e.getStackTrace()[e.getStackTrace().length-3].getLineNumber() + " in Query Manager!");
+			log.severe("Unknown Exception has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + 
+					" in Query Manager!\n" + e.getMessage());
 		} finally {
-			System.out.println("Context Acquisition Is Finished.");
+			log.info("Context Acquisition Is Finished.");
 		}
 	}
 	
-	public String getContextQuery() {
-		return contextQuery;
+	public TContexts getContexts() {
+		return contexts;
 	}
 
 	public File getContextData() {
@@ -196,5 +169,9 @@ public class QueryManager implements IQueryManager {
 
 	public TIntention getIntention() {
 		return intention;
+	}
+
+	public boolean isContextAvailable() {
+		return contextAvailable;
 	}
 }

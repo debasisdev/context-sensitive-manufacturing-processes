@@ -25,7 +25,7 @@
         </InitialContexts>
         <Weight>0.30</Weight>
     </ProcessDefinition>
-	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSX001" name="SemiAutomatedPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM001" name="SemiAutomatedPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <Documentation>This is a dummy semi automated model without repair activity.</Documentation>
         <ProcessContent>
             <Resource>res/dev/semi.bpmn</Resource>
@@ -64,7 +64,7 @@
         </InitialContexts>
         <Weight>0.55</Weight>
     </ProcessDefinition>
-	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSX002" name="SemiAutomatedRepairPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM002" name="SemiAutomatedRepairPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <Documentation>This is a dummy semi automated model with repair activity.</Documentation>
         <ProcessContent>
             <Resource>res/dev/semirepair.bpmn</Resource>
