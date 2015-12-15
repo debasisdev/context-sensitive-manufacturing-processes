@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>uni-stuttgart.iaas.spi.cmprocess</groupId>
   <artifactId>uni-stuttgart.iaas.spi.cmprocess</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.1</version>
   <name>uni-stuttgart.iaas.spi.cmprocess</name>
   
   <dependencies>
@@ -31,7 +31,7 @@
 				<downloadSources>true</downloadSources>
 				<downloadJavadocs>true</downloadJavadocs>
 			</configuration>
-		</plugin>
+	  </plugin>
     </plugins>
   </build>
 </project>

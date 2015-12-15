@@ -9,8 +9,10 @@ public final class ContextConfig {
 	public static final String MIDDLEWARE_DATABASE_PORT = "27017";
 	public static final String MIDDLEWARE_DATABASE_NAME = "contextdb";
 	public static final String MIDDLEWARE_DATABASE_COLLECTION_NAME = "packagecontext";
+	
 	public static final String CONTEXT_REPOSITORY = "resources/datarepos/ContextData.xml";
 	public static final String PROCESS_REPOSITORY = "resources/processrepos/ProcessRepository.xml";
+	
 	public static final String CONTEXT_RULES = "resources/validators/ContextValidator.xsl";
 	public static final String CONTEXT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/v1/packaging";
 	public static final String CONTEXT_QUERY = "SealAndSortPackets";
@@ -32,6 +34,7 @@ public final class ContextConfig {
 	public static final String IN_FIELD_HR_UTILIZATION = "highHRUtilization";
 	public static final String IN_FIELD_THROUGHPUT = "highThroughput";
 	public static final String IN_FIELD_MAINTENANCE = "lowMaintenance";
+	
 	public static final String SHOCKDETECTORSENSOR_DOC = "If a sensor node is working fine, deploy the Automated Model (without Repair action). If some sensor node is faulty, deploy the Automated Model (with Repair action).";
 	public static final String INFRAREDSENSOR_DOC = "If a sensor node is working fine, deploy the Automated Model (without Repair action). If some sensor node is faulty, deploy the Automated Model (with Repair action).";
 	public static final String GPSLOCATION_DOC = "If available workers near the machine is less than equal to 10, deploy both Manual and Automated Model. If available workers near the machine is more than 10 and demand is low, deploy Manual Model. If available workers near the machine is more than 10 and demand is high, deploy both Manual and Automated Model with 10 People and remaining workers could be engaged in other works. (Optimization)";

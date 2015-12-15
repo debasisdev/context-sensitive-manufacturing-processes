@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<tProcessModel xmlns="http://www.uni-stuttgart.de/iaas/cmp/v0.1/">
+<tProcessSet xmlns="http://www.uni-stuttgart.de/iaas/cmp/v0.1/">
     <ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PMX001" name="ManualPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <Documentation>This is a dummy Manual Model.</Documentation>
         <ProcessContent>
@@ -135,4 +135,4 @@
         </InitialContexts>
         <Weight>0.15</Weight>
     </ProcessDefinition>
-</tProcessModel>
+</tProcessSet>

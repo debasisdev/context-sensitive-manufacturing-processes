@@ -26,8 +26,6 @@
 		</complexContent>
 	</complexType>
 
-
-
 	<complexType name="tCapabilityProperties">
 		<sequence>
 			<element name="ProvidingResources" type="ipsm:tResourceReferences">

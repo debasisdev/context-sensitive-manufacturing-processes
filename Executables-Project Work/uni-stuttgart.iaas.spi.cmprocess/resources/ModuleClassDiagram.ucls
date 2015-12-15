@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" automaticImage="JPEG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.CESExecutor" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/CESExecutor.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="613" y="249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="2" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.ICESExecutor" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/ICESExecutor.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="207" width="194" x="513" y="-215"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="3" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.IContextAnalyzer" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/IContextAnalyzer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="966" y="332"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="4" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.IQueryManager" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/IQueryManager.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="928" y="-175"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="5" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.IIntentionAnalyzer" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/IIntentionAnalyzer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="315" y="-166"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.QueryManager" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/QueryManager.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="928" y="35"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="7" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.IProcessOptimizer" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/IProcessOptimizer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="167" y="443"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="8" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.ContextAnalyzer" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/ContextAnalyzer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="966" y="555"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="unistuttgart.iaas.spi.cmprocess.arch.IntentionAnalyzer" 
+    project="uni-stuttgart.iaas.spi.cmprocess" 
+    file="/uni-stuttgart.iaas.spi.cmprocess/src/unistuttgart/iaas/spi/cmprocess/arch/IntentionAnalyzer.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="314" y="66"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="10">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
+  <realization id="11">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <realization id="12">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <association id="13">    
+    <bendpoint x="928" y="249"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="14" name="queryManager">        
+        <position height="18" width="78" x="772" y="230"/>      
+      </attribute>      
+      <multiplicity id="15" minimum="0" maximum="1">        
+        <position height="16" width="23" x="799" y="251"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <bendpoint x="614" y="556"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="17" name="contextAnalyzer">        
+        <position height="18" width="88" x="645" y="540"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="1">        
+        <position height="16" width="23" x="678" y="559"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="19">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <association id="20">    
+    <bendpoint x="315" y="250"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="21" name="intentionAnalyzer">        
+        <position height="18" width="92" x="375" y="232"/>      
+      </attribute>      
+      <multiplicity id="22" minimum="0" maximum="1">        
+        <position height="16" width="23" x="410" y="252"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

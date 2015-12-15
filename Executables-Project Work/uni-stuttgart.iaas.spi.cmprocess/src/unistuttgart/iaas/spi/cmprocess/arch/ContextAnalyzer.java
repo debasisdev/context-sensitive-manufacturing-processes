@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
 
 import unistuttgart.iaas.spi.cmprocess.cmp.TContextExpression;
 import unistuttgart.iaas.spi.cmprocess.cmp.TProcessDefinition;
-import unistuttgart.iaas.spi.cmprocess.cmp.TProcessModel;
+import unistuttgart.iaas.spi.cmprocess.cmp.TProcessSet;
 
 public class ContextAnalyzer implements IContextAnalyzer {
 	
@@ -40,36 +40,39 @@ public class ContextAnalyzer implements IContextAnalyzer {
 	private static final Logger log = Logger.getLogger(ContextAnalyzer.class.getName());
 
 	public ContextAnalyzer(){
-		this.contextRepository = null;
-		this.processRepository = null;
-		this.initialContextAnalysisTable = null;
-		this.finalContextAnalysisTable = null;
-		this.contextAnalysisProcessList = null;
-		this.analyzeContext();
-		this.getProcessListForContextAnalysis();
-	}
-	
-	public ContextAnalyzer(File contextRepository){
-		this.contextRepository = contextRepository;
+		this.contextRepository = new File(ContextConfig.CONTEXT_REPOSITORY);
 		this.processRepository = new File(ContextConfig.PROCESS_REPOSITORY);
 		this.initialContextAnalysisTable = new TreeMap<String, Boolean>();
 		this.finalContextAnalysisTable = new TreeMap<String, Boolean>();
 		this.contextAnalysisProcessList = new TreeSet<String>();
-		this.analyzeContext();
-		this.getProcessListForContextAnalysis();
+		log.info("Deserializing the ProcessRepository.xml for Context Analysis.");
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance("unistuttgart.iaas.spi.cmprocess.cmp");
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			TProcessSet processSet = (TProcessSet) jaxbUnmarshaller.unmarshal(this.processRepository);
+			this.finalContextAnalysisTable = this.analyzeContext(processSet);
+		} catch (JAXBException e) {
+			log.severe("JAXBException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+		} catch (NullPointerException e) {
+			log.severe("NullPointerException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+		} catch(Exception e){
+			log.severe("Unknown Exception has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + 
+					" in Context Analyzer!\n" + e.getMessage());
+	    } finally{
+			log.info("Context Matching Process Is Being Done...");
+		}
 	}
 	
-	public void analyzeContext() {
+	public Map<String, Boolean> analyzeContext(TProcessSet processSet) {
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(this.contextRepository);
 			doc.getDocumentElement().normalize();
-			log.info("Deserializing the CotextData.xml for Context Analysis.");
-			JAXBContext jaxbContext = JAXBContext.newInstance("unistuttgart.iaas.spi.cmprocess.cmp");
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			TProcessModel processModels = (TProcessModel) jaxbUnmarshaller.unmarshal(this.processRepository);
-			for(TProcessDefinition processDefinition : processModels.getProcessDefinition()){
+			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
 					List<TContextExpression> expressionList = processDefinition.getInitialContexts().
 							getContextExpression();
@@ -93,7 +96,7 @@ public class ContextAnalyzer implements IContextAnalyzer {
 					}
 				}
 			}
-			for(TProcessDefinition processDefinition : processModels.getProcessDefinition()){
+			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
 					String processId = processDefinition.getId();
 					boolean result = false;
@@ -107,34 +110,32 @@ public class ContextAnalyzer implements IContextAnalyzer {
 				}
 			}
 		} catch (NullPointerException e) {
-			 log.severe("NullPointerException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+			log.severe("NullPointerException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Context Analyzer!");
 		} catch (SAXException e) {
-			 log.severe("SAXException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+			log.severe("SAXException has occurred at Line " + 
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Context Analyzer!");
 		} catch (IOException e) {
 			log.severe("IOException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Context Analyzer!");
 		} catch (XPathExpressionException e) {
 			log.severe("XPathExpressionException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Context Analyzer!");
 		} catch (ParserConfigurationException e) {
 			log.severe("ParserConfigurationException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
-		} catch (JAXBException e) {
-			log.severe("JAXBException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Context Analyzer!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Context Analyzer!");
 		} catch(Exception e){
 			log.severe("Unknown Exception has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + 
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + 
 					" in Context Analyzer!\n" + e.getMessage());
 	    } finally{
 			log.info("Context Analysis is Completed.");
 		}
+		return this.finalContextAnalysisTable;
 	}
 	
-	public void getProcessListForContextAnalysis() {
-		Iterator<Map.Entry<String, Boolean>> contextIterator = this.finalContextAnalysisTable.entrySet().iterator();
+	public Set<String> getProcessListOfContextAnalyzer(Map<String, Boolean> finalContextAnalysisTable) {
+		Iterator<Map.Entry<String, Boolean>> contextIterator = finalContextAnalysisTable.entrySet().iterator();
 		log.info("Final List of Processes is Being Generated.");
 		while (contextIterator.hasNext()) {
 			Map.Entry<String, Boolean> entry = contextIterator.next();
@@ -142,22 +143,11 @@ public class ContextAnalyzer implements IContextAnalyzer {
 				this.contextAnalysisProcessList.add(entry.getKey());
 			}
 		}
-		log.info("Context Matching Processes: "+ this.contextAnalysisProcessList);
 		log.info("Process List is Available for Intention Analyzer.");
+		log.info("Context Matching Processes: "+ this.contextAnalysisProcessList);
+		return this.contextAnalysisProcessList;
 	}
 	
-	public File getContextRepository() {
-		return contextRepository;
-	}
-
-	public File getProcessRepository() {
-		return processRepository;
-	}
-
-	public Map<String, Boolean> getInitialContextAnalysisTable() {
-		return initialContextAnalysisTable;
-	}
-
 	public Map<String, Boolean> getFinalContextAnalysisTable() {
 		return finalContextAnalysisTable;
 	}

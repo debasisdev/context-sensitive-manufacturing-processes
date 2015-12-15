@@ -35,27 +35,27 @@ import unistuttgart.iaas.spi.cmprocess.cmp.TLocationType;
 public class QueryManager implements IQueryManager {
 	
 	private File contextData;
-	private TContexts contexts;
+	private TContexts requiredContexts;
 	private TIntention intention;
 	private boolean contextAvailable;
 	private static final Logger log = Logger.getLogger(QueryManager.class.getName());
 	
 	public QueryManager(){
-		this.contextData = null;
-		this.contexts = null;
+		this.contextData = new File(ContextConfig.CONTEXT_REPOSITORY);
+		this.requiredContexts = null;
 		this.intention = null;
 		this.contextAvailable = false;
 	}
 	
-	public QueryManager(TContexts contexts, TIntention intention){
+	public QueryManager(TContexts requiredContexts, TIntention intention){
 		this.contextData = new File(ContextConfig.CONTEXT_REPOSITORY);
-		this.contexts = contexts;
+		this.requiredContexts = requiredContexts;
 		this.intention = intention;
 		this.contextAvailable = false;
-		this.queryRawContextData();
+		this.queryRawContextData(requiredContexts);
 	}
 	
-	public void queryRawContextData() {
+	public void queryRawContextData(TContexts requiredContexts) {
 		try{
 			log.info("Connecting to Middleware...");
 			MongoClient mongoClient = new MongoClient(ContextConfig.MIDDLEWARE_DATABASE_ADDRESS, 
@@ -69,7 +69,7 @@ public class QueryManager implements IQueryManager {
 					DBCursor mongoCursor = db.getCollection(coll).find();
 					while(mongoCursor.hasNext()) {
 						BasicDBObject obj = (BasicDBObject) mongoCursor.next();
-						List<TContext> contextList = this.getContexts().getContext();
+						List<TContext> contextList = requiredContexts.getContext();
 						if(!contextList.isEmpty()){
 							this.contextAvailable = true;
 							for(TContext context : contextList){
@@ -90,7 +90,8 @@ public class QueryManager implements IQueryManager {
 						        locType.setLatitude(latitude);
 						        locType.setLongitude(longitude);
 						        locType.setMachineName(obj.getString(ContextConfig.CD_FIELD_MACHINE));
-						        XMLGregorianCalendar dateTime = DatatypeFactory.newInstance().newXMLGregorianCalendar
+						        XMLGregorianCalendar dateTime = DatatypeFactory.
+						        		newInstance().newXMLGregorianCalendar
 						        		(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
 						        				cal.get(Calendar.DATE) ));
 						        
@@ -120,7 +121,7 @@ public class QueryManager implements IQueryManager {
 				    		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 				    		jaxbMarshaller.marshal(conSet, this.contextData);
 				    		log.info("Context Data is Serialized as ContextData.xml.");
-//					    	jaxbMarshaller.marshal(conSet, System.out);
+					    	jaxbMarshaller.marshal(conSet, System.out);
 						}
 						else{
 							this.contextAvailable = false;
@@ -133,38 +134,34 @@ public class QueryManager implements IQueryManager {
 			log.info("Connection to Middleware Is Closed.");
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
 		} catch (NumberFormatException e) {
 			log.severe("NumberFormatException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
 		} catch (DatatypeConfigurationException e) {
 			log.severe("DatatypeConfigurationException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
 		} catch (ParseException e) {
 			log.severe("ParseException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
 		} catch (UnknownHostException e) {
 			log.severe("UnknownHostException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
 		} catch (NullPointerException e) {
 			log.severe("NullPointerException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Query Manager!");
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
 			e.printStackTrace();
 		} catch(Exception e){
 			log.severe("Unknown Exception has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + 
+					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + 
 					" in Query Manager!\n" + e.getMessage());
 		} finally {
 			log.info("Context Acquisition Is Finished.");
 		}
 	}
 	
-	public TContexts getContexts() {
-		return contexts;
-	}
-
-	public File getContextData() {
-		return contextData;
+	public TContexts getRequiredContexts() {
+		return requiredContexts;
 	}
 
 	public TIntention getIntention() {
