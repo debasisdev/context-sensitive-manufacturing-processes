@@ -161,7 +161,7 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="tCESTask">
+	<complexType name="tTaskCESDefiniton">
 		<complexContent>
 			<extension base="cmp:tBaseType">
 				<sequence>

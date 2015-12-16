@@ -14,12 +14,12 @@
             </DefinitionContent>
         </ContextDefinition>
     </Context>
-    <Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-        <Documentation>If a sensor node is working fine, deploy the Automated Model (without Repair action). If some sensor node is faulty, deploy the Automated Model (with Repair action).</Documentation>
+    <Context name="unitsOrdered" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+        <Documentation>A demand is LOW if no. of units ordered is less than equal to 1000, else demand is said to be HIGH.</Documentation>
         <ContextDefinition definitionLanguage="en_US">
             <DefinitionContent>
                 <OrderID>DE37464358BY</OrderID>
-                <SenseValue>Malfunctioned</SenseValue>
+                <SenseValue>1000.0</SenseValue>
                 <DeliveryDate>2016-01-10T00:00:00.000+01:00</DeliveryDate>
                 <Location latitude="48.145199" longitude="11.576567">
                     <MachineName>Sealing Machine: SMEX207</MachineName>
@@ -28,12 +28,12 @@
             </DefinitionContent>
         </ContextDefinition>
     </Context>
-    <Context name="unitsOrdered" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-        <Documentation>A demand is LOW if no. of units ordered is less than equal to 1000, else demand is said to be HIGH.</Documentation>
+    <Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+        <Documentation>If a sensor node is working fine, deploy the Automated Model (without Repair action). If some sensor node is faulty, deploy the Automated Model (with Repair action).</Documentation>
         <ContextDefinition definitionLanguage="en_US">
             <DefinitionContent>
                 <OrderID>DE37464358BY</OrderID>
-                <SenseValue>1000.0</SenseValue>
+                <SenseValue>Malfunctioned</SenseValue>
                 <DeliveryDate>2016-01-10T00:00:00.000+01:00</DeliveryDate>
                 <Location latitude="48.145199" longitude="11.576567">
                     <MachineName>Sealing Machine: SMEX207</MachineName>

@@ -32,4 +32,10 @@ public class ProcessOptimizer implements IProcessOptimizer {
 	public void optimizeProcess() {
 		
 	}
+
+	@Override
+	public void analyzeWeight() {
+		// TODO Auto-generated method stub
+		
+	}
 }
