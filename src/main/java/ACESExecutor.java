@@ -4,6 +4,10 @@ import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
 import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
 import unistuttgart.iaas.spi.cmprocess.tcmp.TTaskCESDefinition;
 
+/**
+ * An Abstract Class for Process Selector (CES Executor) that implements ICESExecutor interface.
+ * @author Debasis Kar
+ */
 public abstract class ACESExecutor implements ICESExecutor{
 	protected TIntention intention;
 	protected TContexts contexts;
@@ -13,31 +17,71 @@ public abstract class ACESExecutor implements ICESExecutor{
 		this.contexts = null;
 	}
 	
-	/*This will fetch the Intentions (Main and Sub) attached with CES Definition for further processing.*/
-	public void prepareIntention(TTaskCESDefinition cesDefinition){
-		this.intention = cesDefinition.getIntention();
+	/**
+	 * It will fetch the Intentions (Main and Sub) attached with CES Definition for further processing.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TIntention 
+	 */
+	public TIntention prepareIntention(TTaskCESDefinition cesDefinition){
+		return this.intention = cesDefinition.getIntention();
 	}
 	
-	/*This will fetch the Required Contexts to be looked for from Sensor Networks for further processing.*/
-	public void prepareContext(TTaskCESDefinition cesDefinition) {
-		this.contexts = cesDefinition.getRequiredContexts();
+	/**
+	 * It will fetch the required contexts to be looked for from the Sensor Networks for further processing.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TContexts 
+	 */
+	public TContexts prepareContext(TTaskCESDefinition cesDefinition) {
+		return this.contexts = cesDefinition.getRequiredContexts();
 	}
 	
-	/*Implement your Query Manager here.*/
+	/**
+	 * Implement your custom Query Manager here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public abstract void runQueryManager();
 	
-	/*Implement your Context Analyzer here.*/
+	/**
+	 * Implement your custom Context Analyzer here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public abstract void runContextAnalyzer();	
 	
-	/*Implement your Intention Analyzer here.*/
+	/**
+	 * Implement your custom Intention Manager here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public abstract void runIntentionAnalyzer();
 	
-	/*Implement your Process Optimizer here.*/
+	/**
+	 * Implement your custom Process Optimizer here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public abstract void runProcessOptimizer();
 	
-	/*Implement your Process Dispatcher here.*/
+	/**
+	 * Implement your custom Process Dispatcher here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public abstract void runProcessDispatcher();
 	
-	/*Implement your Deployment Manager here.*/
+	/**
+	 * Implement your custom Deployment Manager here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public abstract void runDeploymentManager();
 }

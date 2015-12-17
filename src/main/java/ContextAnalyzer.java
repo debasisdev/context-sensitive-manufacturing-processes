@@ -100,7 +100,6 @@ public class ContextAnalyzer implements IContextAnalyzer {
 					}
 				}
 			}
-			System.out.println(this.initialContextAnalysisTable);
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
 					String processId = processDefinition.getId();

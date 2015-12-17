@@ -1,28 +1,77 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
+import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
+import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
 import unistuttgart.iaas.spi.cmprocess.tcmp.TTaskCESDefinition;
 
+/**
+ * A Generic Interface for Process Selector (CES Executor).
+ * @author Debasis Kar
+ */
 public interface ICESExecutor {
-	/*This will fetch the Intentions (Main and Sub) attached with CES Definition for further processing.*/
-	public void prepareIntention(TTaskCESDefinition cesDefinition);
-	/*This will fetch the Required Contexts to be looked for from Sensor Networks for further processing.*/
-	public void prepareContext(TTaskCESDefinition cesDefinition);
+	/**
+	 * Any Custom Implementor must fetch the Intentions (Main and Sub) attached with CES Definition 
+	 * for further processing.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TIntention 
+	 */
+	public TIntention prepareIntention(TTaskCESDefinition cesDefinition);
 	
-	/*Implement your Query Manager here.*/
+	/**
+	 * Any Custom Implementor fetch the required contexts to be looked for from the Sensor Networks 
+	 * for further processing.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TContexts 
+	 */
+	public TContexts prepareContext(TTaskCESDefinition cesDefinition);
+	
+	/**
+	 * Implement your custom Query Manager here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public void runQueryManager();
 	
-	/*Implement your Context Analyzer here.*/
+	/**
+	 * Implement your custom Context Analyzer here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public void runContextAnalyzer();	
 	
-	/*Implement your Intention Analyzer here.*/
+	/**
+	 * Implement your custom Intention Manager here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public void runIntentionAnalyzer();
 	
-	/*Implement your Process Optimizer here.*/
+	/**
+	 * Implement your custom Process Optimizer here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public void runProcessOptimizer();
 	
-	/*Implement your Process Dispatcher here.*/
+	/**
+	 * Implement your custom Process Dispatcher here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public void runProcessDispatcher();
 	
-	/*Implement your Deployment Manager here.*/
+	/**
+	 * Implement your custom Deployment Manager here.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return void 
+	 */
 	public void runDeploymentManager();
 }

@@ -25,8 +25,8 @@ public class CESExecutor extends ACESExecutor {
 	}
 	
 	public CESExecutor(TTaskCESDefinition cesDefinition){
-		this.prepareIntention(cesDefinition);
-		this.prepareContext(cesDefinition);
+		this.intention = this.prepareIntention(cesDefinition);
+		this.contexts = this.prepareContext(cesDefinition);
 		this.runQueryManager();
 		if(this.contextAvailable){
 			this.runContextAnalyzer();
