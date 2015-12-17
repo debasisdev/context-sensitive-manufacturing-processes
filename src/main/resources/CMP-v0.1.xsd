@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v0.1/"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:ipsm="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/"
+	xmlns:cmp="http://www.uni-stuttgart.de/iaas/cmp/v0.1/">
+
+	<import schemaLocation="IPSM-v0.1.xsd"
+		namespace="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/">
+	</import>
+
+	<complexType name="tManufacturingContent">
+		<sequence>
+			<element name="OrderID" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="SenseValue" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="DeliveryDate" type="dateTime" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="Location" type="cmp:tLocationType" maxOccurs="1" 
+				minOccurs="0">
+			</element>
+			<element name="Timestamp" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="Expression" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="Resource" type="anyURI" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="Weight" type="decimal" maxOccurs="1"
+				minOccurs="0">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tLocationType">
+		<sequence>
+			<element name="MachineName" type="string" />
+		</sequence>
+		<attribute name="latitude" type="decimal"></attribute>
+		<attribute name="longitude" type="decimal"></attribute>
+	</complexType>
+
+	<complexType name="tProcessDefinitions">
+		<sequence>
+			<element name="ProcessDefinition"
+				type="ipsm:tProcessDefinition" maxOccurs="unbounded" minOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tTaskCESDefinition">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="Intention" type="ipsm:tIntention"
+						maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="RequiredContexts" type="ipsm:tContexts"
+						maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="InputData" type="cmp:tDataList"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OutputData" type="cmp:tDataList"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="isEventDriven" type="boolean"></attribute>
+				<attribute name="isCommandAction" type="boolean"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tData">
+		<attribute name="name" type="string"></attribute>
+		<attribute name="value" type="string"></attribute>
+	</complexType>
+
+	<complexType name="tDataList">
+		<sequence>
+			<element name="DataList" type="cmp:tData"
+				maxOccurs="unbounded" minOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+</schema>

@@ -1,54 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><!--    Copyright (c) 2011, 2012 SunGard CSA LLC and others.    All rights reserved. This program and the accompanying materials    are made available under the terms of the Eclipse Public License v1.0    which accompanies this distribution, and is available at    http://www.eclipse.org/legal/epl-v10.html    Contributors:       SunGard CSA LLC - initial API and implementation and/or initial documentation -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-
-<!--
-	- Application context for a Infinity Process Engine client.
--->
-<beans>
-
-	<!-- remote access to Infinity services defined in carnot-spring-context.xml -->
-
-	<bean name="carnotRemoteInvocationExecutor"
-		class="org.eclipse.stardust.engine.api.spring.CarnotRemoteInvocationExecutor" />
-
-
-	<bean name="/CarnotWorkflowService" singleton="false"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="remoteInvocationExecutor" ref="carnotRemoteInvocationExecutor" />
-		<property name="service" ref="carnotWorkflowService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IWorkflowService" />
-	</bean>
-
-	<bean name="/CarnotUserService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="remoteInvocationExecutor" ref="carnotRemoteInvocationExecutor" />
-		<property name="service" ref="carnotUserService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IUserService" />
-	</bean>
-
-	<bean name="/CarnotQueryService" singleton="false"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="remoteInvocationExecutor" ref="carnotRemoteInvocationExecutor" />
-		<property name="service" ref="carnotQueryService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IQueryService" />
-	</bean>
-
-	<bean name="/CarnotAdministrationService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="remoteInvocationExecutor" ref="carnotRemoteInvocationExecutor" />
-		<property name="service" ref="carnotAdministrationService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IAdministrationService" />
-	</bean>
-
-	<bean name="/CarnotDocumentManagementService"
-        class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-        <property name="remoteInvocationExecutor" ref="carnotRemoteInvocationExecutor" />
-        <property name="service" ref="carnotDocumentManagementService" />
-        <property name="serviceInterface" value="org.eclipse.stardust.engine.api.spring.IDocumentManagementService" />
-    </bean>
-   <bean name="/CarnotReportingService"        class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">        <property name="remoteInvocationExecutor" ref="carnotRemoteInvocationExecutor" />        <property name="service" ref="carnotReportingService" />        <property name="serviceInterface" value="org.eclipse.stardust.reporting.rt.service.spring.IReportingService" />    </bean>
-</beans>

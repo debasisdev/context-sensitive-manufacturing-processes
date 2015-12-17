@@ -1,64 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><!--    Copyright (c) 2011, 2012 SunGard CSA LLC and others.    All rights reserved. This program and the accompanying materials    are made available under the terms of the Eclipse Public License v1.0    which accompanies this distribution, and is available at    http://www.eclipse.org/legal/epl-v10.html       Contributors:       SunGard CSA LLC - initial API and implementation and/or initial documentation -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-
-<!--
-	- Application context for a Infinity Process Engine client.
--->
-<beans>
-
-	<!-- Resolves ${...} placeholders from carnot.properties -->
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
-			<value>classpath:carnot-spring-client.properties</value>
-		</property>
-	</bean>
-
-	<bean id="carnotHttpInvokerRequestExecutor"
-		class="org.eclipse.stardust.engine.api.spring.CarnotHttpInvokerRequestExecutor" />
-
-	<bean id="carnotWorkflowService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-		<property name="httpInvokerRequestExecutor" ref="carnotHttpInvokerRequestExecutor" />
-		<property name="serviceUrl"
-			value="${Carnot.Spring.RemotingUrl}/CarnotWorkflowService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IWorkflowService" />
-	</bean>
-
-	<bean id="carnotUserService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-		<property name="httpInvokerRequestExecutor" ref="carnotHttpInvokerRequestExecutor" />
-		<property name="serviceUrl"
-			value="${Carnot.Spring.RemotingUrl}/CarnotUserService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IUserService" />
-	</bean>
-
-	<bean id="carnotQueryService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-		<property name="httpInvokerRequestExecutor" ref="carnotHttpInvokerRequestExecutor" />
-		<property name="serviceUrl"
-			value="${Carnot.Spring.RemotingUrl}/CarnotQueryService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IQueryService" />
-	</bean>
-
-	<bean id="carnotAdministrationService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-		<property name="httpInvokerRequestExecutor" ref="carnotHttpInvokerRequestExecutor" />
-		<property name="serviceUrl"
-			value="${Carnot.Spring.RemotingUrl}/CarnotAdministrationService" />
-		<property name="serviceInterface"
-			value="org.eclipse.stardust.engine.api.spring.IAdministrationService" />
-	</bean>
-	
-	<bean id="carnotDocumentManagementService"
-	    class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-	    <property name="httpInvokerRequestExecutor" ref="carnotHttpInvokerRequestExecutor" />
-	    <property name="serviceUrl" 
-            value="${Carnot.Spring.RemotingUrl}/CarnotDocumentManagementService" />
-	    <property name="serviceInterface"
-	        value="org.eclipse.stardust.engine.api.spring.IDocumentManagementService" />
-	</bean>
-</beans>
