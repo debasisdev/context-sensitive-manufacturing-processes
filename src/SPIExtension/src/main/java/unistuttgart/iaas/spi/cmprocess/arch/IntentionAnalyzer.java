@@ -7,12 +7,14 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TProcessDefinition;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TProcessDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
 public class IntentionAnalyzer implements IIntentionAnalyzer {
 	private File processRepository;
@@ -40,9 +42,10 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 		}
 		this.intentionAnalysisProcessList = new TreeSet<String>();
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance("unistuttgart.iaas.spi.cmprocess.tcmp");
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			TProcessDefinitions processSet = (TProcessDefinitions) jaxbUnmarshaller.unmarshal(this.processRepository);
+			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(this.processRepository);
+			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
 			this.intentionAnalysisProcessList = this.analyzeIntention(processSet, mainIntention);
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred at Line " + 

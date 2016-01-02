@@ -3,7 +3,7 @@ package unistuttgart.iaas.spi.cmprocess.arch;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
 
 public class CESExecutor extends ACESExecutor {
 	private QueryManager queryManager;
@@ -13,6 +13,7 @@ public class CESExecutor extends ACESExecutor {
 	private Set<String> outputOfContextAnalyzer;
 	private Set<String> outputOfIntentionAnalyzer;
 	private boolean contextAvailable;
+	private Set<String> result;
 	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
 	
 	public CESExecutor(){
@@ -24,7 +25,7 @@ public class CESExecutor extends ACESExecutor {
 		this.contextAvailable = false;
 	}
 	
-	public CESExecutor(TTaskCESDefinition cesDefinition){
+	public CESExecutor(TTaskCESDefiniton cesDefinition){
 		this.intention = this.prepareIntention(cesDefinition);
 		this.contexts = this.prepareContext(cesDefinition);
 		this.runQueryManager();
@@ -32,6 +33,7 @@ public class CESExecutor extends ACESExecutor {
 			this.runContextAnalyzer();
 			this.runIntentionAnalyzer();
 			log.info("Processes To Be Sent to ProcessOptimizer: " + this.outputOfIntentionAnalyzer);
+			this.setResult(this.outputOfContextAnalyzer);
 			this.runProcessOptimizer();
 		}
 		else{
@@ -67,5 +69,13 @@ public class CESExecutor extends ACESExecutor {
 
 	public void runDeploymentManager() {
 
+	}
+
+	public Set<String> getResult() {
+		return result;
+	}
+
+	public void setResult(Set<String> result) {
+		this.result = result;
 	}
 }

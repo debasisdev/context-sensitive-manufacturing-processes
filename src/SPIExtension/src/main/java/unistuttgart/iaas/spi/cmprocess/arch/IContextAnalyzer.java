@@ -3,7 +3,7 @@ package unistuttgart.iaas.spi.cmprocess.arch;
 import java.util.Map;
 import java.util.Set;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TProcessDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
 /**
  * A Generic Interface for Context Analyzer Module.

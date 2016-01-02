@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ProcessDefinitionSet xmlns="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" xmlns:ns2="http://docs.oasis-open.org/tosca/ns/2011/12">
+    <ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PMX001" name="ManualPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+        <Documentation>This is a dummy Manual Model.</Documentation>
+        <ProcessContent>
+            <ManufacturingContent>
+                <Resource>res/dev/man.bpmn</Resource>
+                <Weight>0.30</Weight>
+            </ManufacturingContent>
+        </ProcessContent>
+        <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+            <Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+            <SubIntentions>
+                <Intention name="highHRUtilization" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Work must be done in such a way that no employees sit idle in the premises of company.</Documentation>
+                </Intention>
+            </SubIntentions>
+        </TargetIntention>
+        <ContextRules>
+            <ContextExpression id="CON1" name="HighHR-LowDemand" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where demand is pretty low and available workers are more.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;=10]/SenseValue/text() | //Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;=1000]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+        </ContextRules>
+    </ProcessDefinition>
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM001" name="SemiAutomatedPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+        <Documentation>This is a dummy semi automated model without repair activity.</Documentation>
+        <ProcessContent>
+            <ManufacturingContent>
+                <Resource>res/dev/semi.bpmn</Resource>
+                <Weight>0.55</Weight>
+            </ManufacturingContent>
+        </ProcessContent>
+        <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+            <Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+            <SubIntentions>
+                <Intention name="highAutomation" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Work must be automated more to gain higher productivity.</Documentation>
+                </Intention>
+				<Intention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Takt-time should be low.</Documentation>
+                </Intention>
+				<Intention name="highHRUtilization" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Work must be done in such a way that no employees sit idle in the premises of company.</Documentation>
+                </Intention>
+            </SubIntentions>
+        </TargetIntention>
+        <ContextRules>
+            <ContextExpression id="CON2A" name="HighDemand-SensorsOkay" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where demand is pretty high and all machines are working perfectly.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON2B" name="LowHR-SensorsOkay" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where there is very less workers available and all machines are working perfectly.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+        </ContextRules>
+    </ProcessDefinition>
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM002" name="SemiAutomatedRepairPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+        <Documentation>This is a dummy semi automated model with repair activity.</Documentation>
+        <ProcessContent>
+            <ManufacturingContent>
+                <Resource>res/dev/semirepair.bpmn</Resource>
+                <Weight>0.15</Weight>
+            </ManufacturingContent>
+        </ProcessContent>
+        <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+            <Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+            <SubIntentions>
+                <Intention name="highAutomation" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Work must be automated more to gain higher productivity.</Documentation>
+                </Intention>
+				<Intention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Takt-time should be low.</Documentation>
+                </Intention>
+				<Intention name="lowMaintenance" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Company requires new machinery and repeated maintenance for less on-demand repair activity.</Documentation>
+                </Intention>
+            </SubIntentions>
+        </TargetIntention>
+        <ContextRules>
+            <ContextExpression id="CON3A" name="HighDemand-InfraredSensorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON3B" name="HighDemand-BothSensorsFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON3C" name="HighDemand-ShockDetectorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON3D" name="LowHR-InfraredSensorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON3E" name="LowHR-BothSensorsFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON3F" name="LowHR-ShockDetectorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+        </ContextRules>
+    </ProcessDefinition>
+</ProcessDefinitionSet>

@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -25,13 +26,14 @@ import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContent;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContext;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TDefinition;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TLocationType;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TManufacturingContent;
+import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.ipsm.v0.TContent;
+import de.uni_stuttgart.iaas.ipsm.v0.TContext;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TLocationType;
+import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 
 public class QueryManager implements IQueryManager {
 	
@@ -64,6 +66,7 @@ public class QueryManager implements IQueryManager {
 			DB db = mongoClient.getDB(ContextConfig.MIDDLEWARE_DATABASE_NAME);
 			Set<String> mongoCollections = db.getCollectionNames();
 			log.info("Fetching Collections from MongoDB Sensor Data Repository...");
+			ObjectFactory contextSetCreator = new ObjectFactory();
 			TContexts conSet = new TContexts();
 			for(String coll : mongoCollections){
 				if(coll.equals(ContextConfig.MIDDLEWARE_DATABASE_COLLECTION_NAME)){
@@ -96,6 +99,7 @@ public class QueryManager implements IQueryManager {
 						        		(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
 						        				cal.get(Calendar.DATE) ));
 						        
+						        
 						        TManufacturingContent defConType = new TManufacturingContent();
 						        defConType.setOrderID(obj.getString(ContextConfig.CD_FIELD_ORDERID));
 						        defConType.setDeliveryDate(dateTime);
@@ -107,8 +111,8 @@ public class QueryManager implements IQueryManager {
 						        	defConType.setSenseValue(values.get(context.getName()).toString());
 						        
 						        TContent tCon = new TContent();
-						        tCon.setAny(defConType);
-						        TDefinition conDefType = new TDefinition();
+						        tCon.setAny(contextSetCreator.createManufacturingContent(defConType));
+						        TDefinition conDefType = contextSetCreator.createTDefinition();
 						        conDefType.setDefinitionContent(tCon);
 						        conDefType.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
 						        log.info("Context Acquisition Is In Progress...");
@@ -119,12 +123,13 @@ public class QueryManager implements IQueryManager {
 						        conType.setTargetNamespace(obj.getString(ContextConfig.CD_FIELD_NAMESPACE));
 						        conSet.getContext().add(conType);
 							}
-				    		JAXBContext jaxbContext = JAXBContext.newInstance("unistuttgart.iaas.spi.cmprocess.tcmp");
+				    		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				    		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				    		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-				    		jaxbMarshaller.marshal(conSet, this.contextData);
+				            JAXBElement<TContexts> root = contextSetCreator.createContextSet(conSet);
+				    		jaxbMarshaller.marshal(root, this.contextData);
 				    		log.info("Context Data is Serialized as ContextData.xml.");
-					    	jaxbMarshaller.marshal(conSet, System.out);
+					    	jaxbMarshaller.marshal(root, System.out);
 						}
 						else{
 							this.contextAvailable = false;
@@ -138,6 +143,7 @@ public class QueryManager implements IQueryManager {
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred at Line " + 
 					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
+			e.printStackTrace();
 		} catch (NumberFormatException e) {
 			log.severe("NumberFormatException has occurred at Line " + 
 					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");

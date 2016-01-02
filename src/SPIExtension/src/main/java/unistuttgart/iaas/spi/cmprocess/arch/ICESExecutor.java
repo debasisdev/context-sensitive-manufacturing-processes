@@ -1,8 +1,8 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
 
 /**
  * A Generic Interface for Process Selector (CES Executor).
@@ -16,7 +16,7 @@ public interface ICESExecutor {
 	 * @param TTaskCESDefinition
 	 * @return TIntention 
 	 */
-	public TIntention prepareIntention(TTaskCESDefinition cesDefinition);
+	public TIntention prepareIntention(TTaskCESDefiniton cesDefinition);
 	
 	/**
 	 * Any Custom Implementor fetch the required contexts to be looked for from the Sensor Networks 
@@ -25,7 +25,7 @@ public interface ICESExecutor {
 	 * @param TTaskCESDefinition
 	 * @return TContexts 
 	 */
-	public TContexts prepareContext(TTaskCESDefinition cesDefinition);
+	public TContexts prepareContext(TTaskCESDefiniton cesDefinition);
 	
 	/**
 	 * Implement your custom Query Manager here.

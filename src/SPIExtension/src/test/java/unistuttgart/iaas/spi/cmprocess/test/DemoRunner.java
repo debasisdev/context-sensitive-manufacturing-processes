@@ -1,16 +1,17 @@
 package unistuttgart.iaas.spi.cmprocess.test;
 
+import de.uni_stuttgart.iaas.ipsm.v0.TContext;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TData;
+import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntentions;
+import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
 import unistuttgart.iaas.spi.cmprocess.arch.CESExecutor;
 import unistuttgart.iaas.spi.cmprocess.arch.ContextConfig;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContext;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TData;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TDataList;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TIntentions;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TTaskCESDefinition;
 
-public class MyTester {
+public class DemoRunner {
+
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
 		TIntention ti = new TIntention();
@@ -69,7 +70,7 @@ public class MyTester {
 		tco.getContext().add(tc2);
 		tco.getContext().add(tc3);
 		
-		TTaskCESDefinition cesDefinition = new TTaskCESDefinition();
+		TTaskCESDefiniton cesDefinition = new TTaskCESDefiniton();
 		cesDefinition.setDocumentation("It's a dynamic process selector.");
 		cesDefinition.setName("Packaging");
 		cesDefinition.setIsCommandAction(true);
@@ -81,6 +82,5 @@ public class MyTester {
 		cesDefinition.setRequiredContexts(tco);
 		
 		CESExecutor cesProcess = new CESExecutor(cesDefinition);
-
 	}
 }

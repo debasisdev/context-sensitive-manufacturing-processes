@@ -1,8 +1,8 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TIntention;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
 
 /**
  * An Abstract Class for Process Selector (CES Executor) that implements ICESExecutor interface.
@@ -23,7 +23,7 @@ public abstract class ACESExecutor implements ICESExecutor{
 	 * @param TTaskCESDefinition
 	 * @return TIntention 
 	 */
-	public TIntention prepareIntention(TTaskCESDefinition cesDefinition){
+	public TIntention prepareIntention(TTaskCESDefiniton cesDefinition){
 		return this.intention = cesDefinition.getIntention();
 	}
 	
@@ -33,7 +33,7 @@ public abstract class ACESExecutor implements ICESExecutor{
 	 * @param TTaskCESDefinition
 	 * @return TContexts 
 	 */
-	public TContexts prepareContext(TTaskCESDefinition cesDefinition) {
+	public TContexts prepareContext(TTaskCESDefiniton cesDefinition) {
 		return this.contexts = cesDefinition.getRequiredContexts();
 	}
 	

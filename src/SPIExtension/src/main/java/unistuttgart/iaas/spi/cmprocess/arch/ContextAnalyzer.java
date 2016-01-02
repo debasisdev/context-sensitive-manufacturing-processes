@@ -11,6 +11,7 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
@@ -26,11 +27,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContent;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContextExpression;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TManufacturingContent;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TProcessDefinition;
-import unistuttgart.iaas.spi.cmprocess.tcmp.TProcessDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.ipsm.v0.TContent;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextExpression;
+import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
 public class ContextAnalyzer implements IContextAnalyzer {
 	
@@ -49,9 +51,10 @@ public class ContextAnalyzer implements IContextAnalyzer {
 		this.contextAnalysisProcessList = new TreeSet<String>();
 		log.info("Deserializing the ProcessRepository.xml for Context Analysis.");
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance("unistuttgart.iaas.spi.cmprocess.tcmp");
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			TProcessDefinitions processSet = (TProcessDefinitions) jaxbUnmarshaller.unmarshal(this.processRepository);
+			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(this.processRepository);
+			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
 			this.finalContextAnalysisTable = this.analyzeContext(processSet);
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred at Line " + 
@@ -81,7 +84,8 @@ public class ContextAnalyzer implements IContextAnalyzer {
 					for(TContextExpression contextExpression : expressionList){
 						TContent tContent = contextExpression.getCondition().get(0).
 								getDefinitionContent();
-						TManufacturingContent tManCon = (TManufacturingContent)tContent.getAny();
+						JAXBElement<?> anyRootElement = (JAXBElement<?>) tContent.getAny();
+						TManufacturingContent tManCon = (TManufacturingContent) anyRootElement.getValue();
 						String xpathQuery = tManCon.getExpression();
 						if(contextExpression.getCondition().get(0).getDefinitionLanguage().
 								equals(ContextConfig.XPATH_NAMESPACE)){
@@ -100,6 +104,7 @@ public class ContextAnalyzer implements IContextAnalyzer {
 					}
 				}
 			}
+			log.info(this.initialContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
 					String processId = processDefinition.getId();
@@ -113,6 +118,7 @@ public class ContextAnalyzer implements IContextAnalyzer {
 					this.finalContextAnalysisTable.put(processId, result);
 				}
 			}
+			log.info(this.finalContextAnalysisTable.toString());
 		} catch (NullPointerException e) {
 			log.severe("NullPointerException has occurred at Line " + 
 					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Context Analyzer!");

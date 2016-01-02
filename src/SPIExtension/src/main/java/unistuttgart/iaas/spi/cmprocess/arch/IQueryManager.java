@@ -1,6 +1,6 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
-import unistuttgart.iaas.spi.cmprocess.tcmp.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 
 /**
  * A Generic Interface for Query Manager Module.

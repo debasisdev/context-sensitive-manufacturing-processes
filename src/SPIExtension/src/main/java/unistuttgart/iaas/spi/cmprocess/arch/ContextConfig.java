@@ -10,8 +10,8 @@ public final class ContextConfig {
 	public static final String MIDDLEWARE_DATABASE_NAME = "contextdb";
 	public static final String MIDDLEWARE_DATABASE_COLLECTION_NAME = "packagecontext";
 	
-	public static final String CONTEXT_REPOSITORY = "resources/datarepos/ContextData.xml";
-	public static final String PROCESS_REPOSITORY = "resources/processrepos/ProcessRepository.xml";
+	public static final String CONTEXT_REPOSITORY = "src/main/resources/datarepos/ContextData.xml";
+	public static final String PROCESS_REPOSITORY = "src/main/resources/processrepos/ProcessRepository.xml";
 	
 	public static final String CONTEXT_RULES = "resources/validators/ContextValidator.xsl";
 	public static final String CONTEXT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/v1/packaging";
