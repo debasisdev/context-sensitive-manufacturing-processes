@@ -468,7 +468,7 @@
 	<element name="ProcessDefinitionSet" type="ipsm:tProcessDefinitions">
 	</element>
 
-	<complexType name="tTaskCESDefiniton">
+	<complexType name="tTaskCESDefinition">
 		<complexContent>
 			<extension base="ipsm:tBaseType">
 				<sequence>
@@ -483,6 +483,12 @@
 					</element>
 					<element name="OutputData" type="ipsm:tDataList"
 						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OptimizationRequired" type="boolean"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="ProcessRepository" type="anyURI" 
+						maxOccurs="1" minOccurs="1">
 					</element>
 				</sequence>
 				<attribute name="isEventDriven" type="boolean"></attribute>
@@ -524,7 +530,10 @@
 			<element name="Expression" type="string" maxOccurs="1"
 				minOccurs="0">
 			</element>
-			<element name="Resource" type="anyURI" maxOccurs="1"
+			<element name="MainModel" type="anyURI" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="ComplementaryModel" type="anyURI" maxOccurs="1"
 				minOccurs="0">
 			</element>
 			<element name="Weight" type="decimal" maxOccurs="1"
