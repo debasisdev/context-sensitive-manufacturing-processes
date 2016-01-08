@@ -9,29 +9,36 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
-public class ProcessOptimizer implements IProcessOptimizer {
+public class DeploymentManager implements IProcessEngine {
 	private File processRepository;
 	private String processId;
-	private boolean optimizerRunStatus;
 	private TProcessDefinition goalProcessDefinition;
-	private static final Logger log = Logger.getLogger(ProcessOptimizer.class.getName());
+	private TDataList inputData;
+	private TDataList outputPlaceholder;
+	private Object[] output;
+	private static final Logger log = Logger.getLogger(DeploymentManager.class.getName());
 	
-	public ProcessOptimizer(){
+	public DeploymentManager() {
 		this.processRepository = null;
 		this.processId = null;
 		this.goalProcessDefinition = null;
-		this.optimizerRunStatus = false;
+		this.inputData = null;
+		this.outputPlaceholder = null;
+		this.output = null;
 	}
 	
-	public ProcessOptimizer(String processIdentifier){
+	public DeploymentManager(TDataList input, TDataList output, String processIdentifier){
 		this.processRepository = new File(ContextConfig.PROCESS_REPOSITORY);
 		this.processId = processIdentifier;
+		this.inputData = input;
+		this.outputPlaceholder = output;
 		try {
-			log.info("Optimization is being Carried Out...");
+			log.info("Deployment is about to Start...");
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(this.processRepository);
@@ -45,7 +52,7 @@ public class ProcessOptimizer implements IProcessOptimizer {
 			}
 			log.info("Process Found for Optimization...");
 			this.goalProcessDefinition = processSet.getProcessDefinition().get(localIndex);
-			this.optimizerRunStatus = this.optimizeProcess(this.goalProcessDefinition);
+			this.output = this.deployProcess(this.goalProcessDefinition);
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred at Line in Process Optimizer!");
 		} catch (NullPointerException e) {
@@ -53,20 +60,37 @@ public class ProcessOptimizer implements IProcessOptimizer {
 		} catch (Exception e) {
 			log.severe("Unknown Exception has occurred in Process Optimizer!\n" + e.getMessage());
 		} finally{
-			if(this.optimizerRunStatus)
-				log.info("Process Optimization Is Complete...");
-			else
-				log.warning("Process Optimization Failed or Strategy Not Found in Repository!");
+			log.info("Process Has Been Deployd and Executed Successfully!!");
+			log.info("CES Task Completed!!");
 		}
 	}
 	
 	@Override
-	public boolean optimizeProcess(TProcessDefinition processDefinition) {
+	public Object[] deployProcess(TProcessDefinition processDefinition) {
 		JAXBElement<?> optProcessContent = (JAXBElement<?>) processDefinition.getProcessContent().getAny();
-		//Start Deployment Code for Optimization
-		log.info(((TManufacturingContent) optProcessContent.getValue()).getOptimizerModel() + " Will Be Executed");
-		//End Deployment Code for Optimization
-		return true;
+		//Start Deployment Code for Main Model
+		log.info(((TManufacturingContent) optProcessContent.getValue()).getMainModel() + " Will Be Executed");
+		//End Deployment Code for Main Model
+		//Start Deployment Code for Complementary Model
+		log.info(((TManufacturingContent) optProcessContent.getValue()).getComplementaryModel() + " Will Be Executed");
+		//End Deployment Code for Complementary Model
+		return null;
+	}
+
+	public Object[] getOutput() {
+		return output;
+	}
+
+	public void setOutput(Object[] output) {
+		this.output = output;
+	}
+
+	public TDataList getInputData() {
+		return inputData;
+	}
+
+	public TDataList getOutputPlaceholder() {
+		return outputPlaceholder;
 	}
 
 }

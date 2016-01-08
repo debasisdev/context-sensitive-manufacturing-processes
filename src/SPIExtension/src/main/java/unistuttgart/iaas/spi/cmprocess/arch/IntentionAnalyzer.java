@@ -48,20 +48,17 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
 			this.intentionAnalysisProcessList = this.analyzeIntention(processSet, mainIntention);
 		} catch (JAXBException e) {
-			log.severe("JAXBException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Intention Analyzer!");
+			log.severe("JAXBException has occurred in Intention Analyzer!");
 		} catch (NullPointerException e) {
-			log.severe("NullPointerException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + " in Intention Analyzer!");
+			log.severe("NullPointerException has occurred in Intention Analyzer!");
 		} catch (Exception e) {
-			log.severe("Unknown Exception has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-4].getLineNumber() + 
-					" in Intention Analyzer!\n" + e.getMessage());
+			log.severe("Unknown Exception has occurred in Intention Analyzer!\n" + e.getMessage());
 		} finally{
 			log.info("Intention Analysis is Performed.");
 		}
 	}
 	
+	@Override
 	public Set<String> analyzeIntention(TProcessDefinitions processSet, TIntention mainIntention){
 		try {			
 			log.info("Intention Analysis is Started by Deserializing the ProcessRepository.xml");
@@ -82,12 +79,9 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 			log.info("Intention Matching Processes: "+ this.intentionAnalysisProcessList);
 			log.info("Final List of Processes are Generated for Process Optimizer.");
 		} catch (NullPointerException e) {
-			log.severe("NullPointerException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Intention Analyzer!");
+			log.severe("NullPointerException has occurred in Intention Analyzer!");
 		} catch (Exception e) {
-			log.severe("Unknown Exception has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + 
-					" in Intention Analyzer!\n" + e.getMessage());
+			log.severe("Unknown Exception has occurred in Intention Analyzer!\n" + e.getMessage());
 		} finally{
 			log.info("Intention Analysis is Performed.");
 		}
@@ -95,17 +89,18 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 	}
 
 	public TIntention getIntention() {
-		return intention;
+		return this.intention;
 	}
 
 	public String getMainIntention() {
-		return mainIntention;
+		return this.mainIntention;
 	}
 
 	public Set<String> getSubIntentions() {
-		return subIntentions;
+		return this.subIntentions;
 	}
 
+	@Override
 	public Set<String> getProcessListOfIntentionAnalyzer(Set<String> processesFromContextAnalyzer) {
 		this.intentionAnalysisProcessList.retainAll(processesFromContextAnalyzer);
 		return this.intentionAnalysisProcessList;

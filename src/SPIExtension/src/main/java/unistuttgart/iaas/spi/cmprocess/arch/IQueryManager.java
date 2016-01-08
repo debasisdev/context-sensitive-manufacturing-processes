@@ -18,4 +18,13 @@ public interface IQueryManager {
 	 * @return void
 	 */
 	public void queryRawContextData(TContexts requiredContexts);
+	
+	/**
+	 * Any Custom Query Manager has to implement the following method that will tell the CESExecutor
+	 * whether it was able to pull/fetch any Context Data out of the Middleware or Database whatsoever.
+	 * @author Debasis Kar
+	 * @param void 
+	 * @return boolean
+	 */
+	public boolean isContextAvailable();
 }

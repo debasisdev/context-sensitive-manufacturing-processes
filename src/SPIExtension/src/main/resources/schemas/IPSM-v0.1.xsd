@@ -138,10 +138,10 @@
 				minOccurs="1"></element>
 		</sequence>
 	</complexType>
-	
+
 	<element name="ContextSet" type="ipsm:tContexts">
 	</element>
-	
+
 	<complexType name="tBaseType" abstract="true">
 		<sequence>
 			<element name="Documentation" type="string"></element>
@@ -182,7 +182,7 @@
 					<element name="ProcessContent" type="ipsm:tContent"
 						maxOccurs="1" minOccurs="0">
 					</element>
-					<element name="TargetIntention" type="ipsm:tIntention"
+					<element name="TargetIntention" type="ipsm:tConcreteIntention"
 						maxOccurs="1" minOccurs="1">
 					</element>
 					<element name="InitialContexts" type="ipsm:tContexts"
@@ -194,7 +194,7 @@
 					<element name="AlternativeFinalContexts" type="ipsm:tContexts"
 						maxOccurs="1" minOccurs="0">
 					</element>
-					<element name="ContextRules" type="ipsm:tContextExpressions" 
+					<element name="ContextRules" type="ipsm:tContextExpressions"
 						maxOccurs="1" minOccurs="1">
 					</element>
 				</sequence>
@@ -425,7 +425,6 @@
 	<complexType name="tConcreteIntention">
 		<complexContent>
 			<extension base="ipsm:tIntention">
-
 				<sequence>
 					<element name="OrganizationalCapabilities" type="ipsm:tOrganizationalCapabilities">
 					</element>
@@ -435,7 +434,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	
+
 		<complexType name="tContextExpression">
 		<complexContent>
 			<extension base="ipsm:tBaseType">
@@ -456,7 +455,7 @@
 			</element>
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="tProcessDefinitions">
 		<sequence>
 			<element name="ProcessDefinition"
@@ -464,7 +463,7 @@
 			</element>
 		</sequence>
 	</complexType>
-	
+
 	<element name="ProcessDefinitionSet" type="ipsm:tProcessDefinitions">
 	</element>
 
@@ -487,7 +486,7 @@
 					<element name="OptimizationRequired" type="boolean"
 						maxOccurs="1" minOccurs="0">
 					</element>
-					<element name="ProcessRepository" type="anyURI" 
+					<element name="ProcessRepository" type="anyURI"
 						maxOccurs="1" minOccurs="1">
 					</element>
 				</sequence>
@@ -497,6 +496,9 @@
 		</complexContent>
 	</complexType>
 
+	<element name="CESDefinition" type="ipsm:tTaskCESDefinition">
+	</element>
+	
 	<complexType name="tData">
 		<attribute name="name" type="string"></attribute>
 		<attribute name="value" type="string"></attribute>
@@ -509,7 +511,7 @@
 			</element>
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="tManufacturingContent">
 		<sequence>
 			<element name="OrderID" type="string" maxOccurs="1"
@@ -521,7 +523,7 @@
 			<element name="DeliveryDate" type="dateTime" maxOccurs="1"
 				minOccurs="0">
 			</element>
-			<element name="Location" type="ipsm:tLocationType" maxOccurs="1" 
+			<element name="Location" type="ipsm:tLocationType" maxOccurs="1"
 				minOccurs="0">
 			</element>
 			<element name="Timestamp" type="string" maxOccurs="1"
@@ -536,15 +538,18 @@
 			<element name="ComplementaryModel" type="anyURI" maxOccurs="1"
 				minOccurs="0">
 			</element>
+			<element name="OptimizerModel" type="anyURI" maxOccurs="1"
+				minOccurs="0">
+			</element>
 			<element name="Weight" type="decimal" maxOccurs="1"
 				minOccurs="0">
 			</element>
 		</sequence>
 	</complexType>
-	
+
 	<element name="ManufacturingContent" type="ipsm:tManufacturingContent">
 	</element>
-	
+
 	<complexType name="tLocationType">
 		<sequence>
 			<element name="MachineName" type="string" />

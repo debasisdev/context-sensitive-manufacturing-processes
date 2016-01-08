@@ -19,7 +19,7 @@ public interface IContextAnalyzer {
 	 * result is stored as a HashTable having tuples e.g. (ProcessID, TruthValue). TruthValue is
 	 * decided upon whether the process definition is can be realized under the current context.
 	 * @author Debasis Kar
-	 * @param TContexts
+	 * @param TProcessDefinitions
 	 * @return Map<String, Boolean> 
 	 */
 	public Map<String, Boolean> analyzeContext(TProcessDefinitions processSet);
@@ -31,7 +31,7 @@ public interface IContextAnalyzer {
 	 * IDs with TruthValue as true into a Set data structure so that that can be further 
 	 * filtered by an Intention Analyzer.
 	 * @author Debasis Kar
-	 * @param TContexts
+	 * @param Map<String, Boolean>
 	 * @return Set<String> 
 	 */
 	public Set<String> getProcessListOfContextAnalyzer(Map<String, Boolean> contextAnalyzerProcessTable);

@@ -1,8 +1,9 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
+import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefinition;
 
 /**
  * A Generic Interface for Process Selector (CES Executor).
@@ -16,7 +17,15 @@ public interface ICESExecutor {
 	 * @param TTaskCESDefinition
 	 * @return TIntention 
 	 */
-	public TIntention prepareIntention(TTaskCESDefiniton cesDefinition);
+	public TIntention prepareIntention(TTaskCESDefinition cesDefinition);
+	
+	/**
+	 * Any Custom Implementor must fetch the Process Definition Repository as specified by the business modeller.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TProcessDefinitions
+	 */
+	public String prepareRepositoryUri(TTaskCESDefinition cesDefinition);
 	
 	/**
 	 * Any Custom Implementor fetch the required contexts to be looked for from the Sensor Networks 
@@ -25,7 +34,23 @@ public interface ICESExecutor {
 	 * @param TTaskCESDefinition
 	 * @return TContexts 
 	 */
-	public TContexts prepareContext(TTaskCESDefiniton cesDefinition);
+	public TContexts prepareContext(TTaskCESDefinition cesDefinition);
+	
+	/**
+	 * Any Custom Implementor should initialize the Input data for the task.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TDataList 
+	 */
+	public TDataList prepareInputData(TTaskCESDefinition cesDefinition);
+	
+	/**
+	 * Any Custom Implementor should initialize the Output data for the task.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TDataList 
+	 */
+	public TDataList prepareOutputData(TTaskCESDefinition cesDefinition);
 	
 	/**
 	 * Implement your custom Query Manager here.
@@ -74,4 +99,12 @@ public interface ICESExecutor {
 	 * @return void 
 	 */
 	public void runDeploymentManager();
+	
+	/**
+	 * Implement your custom code here to check the need of Optimization.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return boolean 
+	 */
+	public boolean isOptimizationNeeded(TTaskCESDefinition cesDefinition);
 }

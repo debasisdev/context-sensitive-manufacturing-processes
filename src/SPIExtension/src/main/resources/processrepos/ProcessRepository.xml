@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ProcessDefinitionSet xmlns="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" xmlns:ns2="http://docs.oasis-open.org/tosca/ns/2011/12">
+
     <ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PMX001" name="ManualPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <Documentation>This is a dummy Manual Model.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <Resource>res/dev/man.bpmn</Resource>
+                <MainModel>res/dev/main1.bpmn</MainModel>
+                <ComplementaryModel>res/dev/comp1.bpmn</ComplementaryModel>
+                <OptimizerModel>res/dev/opt1.bpmn</OptimizerModel>
                 <Weight>0.30</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -29,11 +32,14 @@
             </ContextExpression>
         </ContextRules>
     </ProcessDefinition>
+	
 	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM001" name="SemiAutomatedPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <Documentation>This is a dummy semi automated model without repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <Resource>res/dev/semi.bpmn</Resource>
+                <MainModel>res/dev/main2.bpmn</MainModel>
+                <ComplementaryModel>res/dev/comp2.bpmn</ComplementaryModel>
+                <OptimizerModel>res/dev/opt2.bpmn</OptimizerModel>
                 <Weight>0.55</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -74,12 +80,15 @@
             </ContextExpression>
         </ContextRules>
     </ProcessDefinition>
-	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM002" name="SemiAutomatedRepairPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+	
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS001" name="SemiAutomatedRepairPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <Documentation>This is a dummy semi automated model with repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <Resource>res/dev/semirepair.bpmn</Resource>
-                <Weight>0.15</Weight>
+                <MainModel>res/dev/main3.bpmn</MainModel>
+                <ComplementaryModel>res/dev/comp3.bpmn</ComplementaryModel>
+                <OptimizerModel>res/dev/opt3.bpmn</OptimizerModel>
+                <Weight>0.10</Weight>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
@@ -98,7 +107,7 @@
         </TargetIntention>
         <ContextRules>
             <ContextExpression id="CON3A" name="HighDemand-InfraredSensorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of high demand.</Documentation>
                 <Condition definitionLanguage="http://www.w3.org/TR/xpath">
                     <DefinitionContent>
                         <ManufacturingContent>
@@ -108,7 +117,7 @@
                 </Condition>
             </ContextExpression>
 			<ContextExpression id="CON3B" name="HighDemand-BothSensorsFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Documentation>It depicts a business situation where both machines have already failed in midst of high demand.</Documentation>
                 <Condition definitionLanguage="http://www.w3.org/TR/xpath">
                     <DefinitionContent>
                         <ManufacturingContent>
@@ -118,7 +127,7 @@
                 </Condition>
             </ContextExpression>
 			<ContextExpression id="CON3C" name="HighDemand-ShockDetectorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of high demand.</Documentation>
                 <Condition definitionLanguage="http://www.w3.org/TR/xpath">
                     <DefinitionContent>
                         <ManufacturingContent>
@@ -128,7 +137,7 @@
                 </Condition>
             </ContextExpression>
 			<ContextExpression id="CON3D" name="LowHR-InfraredSensorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of low employee availability.</Documentation>
                 <Condition definitionLanguage="http://www.w3.org/TR/xpath">
                     <DefinitionContent>
                         <ManufacturingContent>
@@ -138,7 +147,7 @@
                 </Condition>
             </ContextExpression>
 			<ContextExpression id="CON3E" name="LowHR-BothSensorsFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Documentation>It depicts a business situation where both machines have already failed in midst of low employee availability.</Documentation>
                 <Condition definitionLanguage="http://www.w3.org/TR/xpath">
                     <DefinitionContent>
                         <ManufacturingContent>
@@ -148,7 +157,95 @@
                 </Condition>
             </ContextExpression>
 			<ContextExpression id="CON3F" name="LowHR-ShockDetectorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
-                <Documentation>This context is required to decide this process is okay for the purpose or not.</Documentation>
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of low employee availability.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+        </ContextRules>
+    </ProcessDefinition>
+	
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS002" name="SemiAutomatedReInstallPacking" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+        <Documentation>This is a dummy semi automated model with installation of a new machine after removal an decommissioning of the old one.</Documentation>
+        <ProcessContent>
+            <ManufacturingContent>
+                <MainModel>res/dev/main4.bpmn</MainModel>
+                <ComplementaryModel>res/dev/comp4.bpmn</ComplementaryModel>
+                <OptimizerModel>res/dev/opt4.bpmn</OptimizerModel>
+                <Weight>0.05</Weight>
+            </ManufacturingContent>
+        </ProcessContent>
+        <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+            <Documentation>The primary goal/intention is to seal and sort the packets as per the business rule.</Documentation>
+            <SubIntentions>
+                <Intention name="highAutomation" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Work must be automated more to gain higher productivity.</Documentation>
+                </Intention>
+				<Intention name="highThroughput" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Takt-time should be low.</Documentation>
+                </Intention>
+				<Intention name="lowMaintenance" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                    <Documentation>Company requires new machinery and repeated maintenance for less on-demand repair activity.</Documentation>
+                </Intention>
+            </SubIntentions>
+        </TargetIntention>
+        <ContextRules>
+            <ContextExpression id="CON4A" name="HighDemand-InfraredSensorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of high demand.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON4B" name="HighDemand-BothSensorsFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where both machines have already failed in midst of high demand.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON4C" name="HighDemand-ShockDetectorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of high demand.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='unitsOrdered']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&gt;1000]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON4D" name="LowHR-InfraredSensorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of low employee availability.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[contains(SenseValue,'Okay')]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON4E" name="LowHR-BothSensorsFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where both machines have already failed in midst of low employee availability.</Documentation>
+                <Condition definitionLanguage="http://www.w3.org/TR/xpath">
+                    <DefinitionContent>
+                        <ManufacturingContent>
+                            <Expression>//Context[@name='availableWorkers']/ContextDefinition/DefinitionContent/ManufacturingContent[SenseValue&lt;10]/SenseValue/text() | //Context[@name='infraredSensorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text() | //Context[@name='shockDetectorStatus']/ContextDefinition/DefinitionContent/ManufacturingContent[not(contains(SenseValue,'Okay'))]/SenseValue/text()</Expression>
+                        </ManufacturingContent>
+                    </DefinitionContent>
+                </Condition>
+            </ContextExpression>
+			<ContextExpression id="CON4F" name="LowHR-ShockDetectorFailed" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+                <Documentation>It depicts a business situation where one of the machines has already failed in midst of low employee availability.</Documentation>
                 <Condition definitionLanguage="http://www.w3.org/TR/xpath">
                     <DefinitionContent>
                         <ManufacturingContent>

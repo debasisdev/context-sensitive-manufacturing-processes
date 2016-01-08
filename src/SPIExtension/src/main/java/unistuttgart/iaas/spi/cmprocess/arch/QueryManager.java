@@ -31,7 +31,6 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TLocationType;
 import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 
@@ -39,25 +38,23 @@ public class QueryManager implements IQueryManager {
 	
 	private File contextData;
 	private TContexts requiredContexts;
-	private TIntention intention;
 	private boolean contextAvailable;
 	private static final Logger log = Logger.getLogger(QueryManager.class.getName());
 	
 	public QueryManager(){
 		this.contextData = new File(ContextConfig.CONTEXT_REPOSITORY);
 		this.requiredContexts = null;
-		this.intention = null;
 		this.contextAvailable = false;
 	}
 	
-	public QueryManager(TContexts requiredContexts, TIntention intention){
+	public QueryManager(TContexts requiredContexts){
 		this.contextData = new File(ContextConfig.CONTEXT_REPOSITORY);
 		this.requiredContexts = requiredContexts;
-		this.intention = intention;
 		this.contextAvailable = false;
 		this.queryRawContextData(requiredContexts);
 	}
 	
+	@Override
 	public void queryRawContextData(TContexts requiredContexts) {
 		try{
 			log.info("Connecting to Middleware...");
@@ -141,43 +138,30 @@ public class QueryManager implements IQueryManager {
 			mongoClient.close();
 			log.info("Connection to Middleware Is Closed.");
 		} catch (JAXBException e) {
-			log.severe("JAXBException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
-			e.printStackTrace();
+			log.severe("JAXBException has occurred in Query Manager!");
 		} catch (NumberFormatException e) {
-			log.severe("NumberFormatException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
+			log.severe("NumberFormatException has occurred in Query Manager!");
 		} catch (DatatypeConfigurationException e) {
-			log.severe("DatatypeConfigurationException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
+			log.severe("DatatypeConfigurationException has occurred in Query Manager!");
 		} catch (ParseException e) {
-			log.severe("ParseException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
+			log.severe("ParseException has occurred in Query Manager!");
 		} catch (UnknownHostException e) {
-			log.severe("UnknownHostException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
+			log.severe("UnknownHostException has occurred in Query Manager!");
 		} catch (NullPointerException e) {
-			log.severe("NullPointerException has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + " in Query Manager!");
+			log.severe("NullPointerException has occurred in Query Manager!");
 			e.printStackTrace();
 		} catch(Exception e){
-			log.severe("Unknown Exception has occurred at Line " + 
-					e.getStackTrace()[e.getStackTrace().length-5].getLineNumber() + 
-					" in Query Manager!\n" + e.getMessage());
+			log.severe("Unknown Exception has occurred in Query Manager!\n" + e.getMessage());
 		} finally {
 			log.info("Context Acquisition Is Finished.");
 		}
 	}
 	
 	public TContexts getRequiredContexts() {
-		return requiredContexts;
-	}
-
-	public TIntention getIntention() {
-		return intention;
+		return this.requiredContexts;
 	}
 
 	public boolean isContextAvailable() {
-		return contextAvailable;
+		return this.contextAvailable;
 	}
 }

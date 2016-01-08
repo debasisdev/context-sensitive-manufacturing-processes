@@ -1,8 +1,10 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefinition;
 
 /**
  * An Abstract Class for Process Selector (CES Executor) that implements ICESExecutor interface.
@@ -11,10 +13,22 @@ import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefiniton;
 public abstract class ACESExecutor implements ICESExecutor{
 	protected TIntention intention;
 	protected TContexts contexts;
+	protected TDataList inputData;
+	protected TDataList outputData;
+	protected TProcessDefinition processToBeRealized;
+	protected String processRepositoryUri;
+	protected boolean contextAvailable;
+	protected boolean optimizationNeeded;
 	
 	public ACESExecutor(){
 		this.intention = null;
 		this.contexts = null;
+		this.outputData = null;
+		this.inputData = null;
+		this.processToBeRealized = null;
+		this.processRepositoryUri = null;
+		this.contextAvailable = false;
+		this.optimizationNeeded = false;
 	}
 	
 	/**
@@ -23,7 +37,8 @@ public abstract class ACESExecutor implements ICESExecutor{
 	 * @param TTaskCESDefinition
 	 * @return TIntention 
 	 */
-	public TIntention prepareIntention(TTaskCESDefiniton cesDefinition){
+	@Override
+	public TIntention prepareIntention(TTaskCESDefinition cesDefinition){
 		return this.intention = cesDefinition.getIntention();
 	}
 	
@@ -33,8 +48,31 @@ public abstract class ACESExecutor implements ICESExecutor{
 	 * @param TTaskCESDefinition
 	 * @return TContexts 
 	 */
-	public TContexts prepareContext(TTaskCESDefiniton cesDefinition) {
+	@Override
+	public TContexts prepareContext(TTaskCESDefinition cesDefinition) {
 		return this.contexts = cesDefinition.getRequiredContexts();
+	}
+	
+	/**
+	 * Any Custom Implementor should initialize the Input data for the task..
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TDataList
+	 */
+	@Override
+	public TDataList prepareInputData(TTaskCESDefinition cesDefinition) {
+		return this.inputData = cesDefinition.getInputData();
+	}
+	
+	/**
+	 * Any Custom Implementor should initialize the Output data for the task..
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TDataList
+	 */
+	@Override
+	public TDataList prepareOutputData(TTaskCESDefinition cesDefinition) {
+		return this.outputData = cesDefinition.getOutputData();
 	}
 	
 	/**
@@ -84,4 +122,26 @@ public abstract class ACESExecutor implements ICESExecutor{
 	 * @return void 
 	 */
 	public abstract void runDeploymentManager();
+	
+	/**
+	 * Any Custom Implementor must fetch the Process Definition Repository as specified by the business modeler.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return TProcessDefinitions
+	 */
+	@Override
+	public String prepareRepositoryUri(TTaskCESDefinition cesDefinition){
+		return this.processRepositoryUri = cesDefinition.getProcessRepository();
+	}
+	
+	/**
+	 * Implement your custom code here to check the need of Optimization.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return boolean 
+	 */
+	@Override
+	public boolean isOptimizationNeeded(TTaskCESDefinition cesDefinition){
+		return this.optimizationNeeded = cesDefinition.isOptimizationRequired();
+	}
 }
