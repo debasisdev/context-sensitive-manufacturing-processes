@@ -4,7 +4,6 @@
   	<groupId>unistuttgart.iaas.cmprocess</groupId>
 	<name>Context Sensitive Execution Step (CES) Task</name>
   	<artifactId>unistuttgart.iaas.ces.task</artifactId>
-  	<version>1.0.1</version>
   	<packaging>jar</packaging>
   	<properties>
     	<activiti-designer-version>5.18.0</activiti-designer-version>
@@ -60,4 +59,5 @@
 		<url>http://www.iaas.uni-stuttgart.de/</url>
 		<name>Institut für Architektur von Anwendungssystemen, Universität Stuttgart</name>
 	</organization>
+	<version>1.0.0-SNAPSHOT</version>
 </project>
