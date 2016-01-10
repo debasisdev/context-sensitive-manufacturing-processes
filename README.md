@@ -30,4 +30,4 @@ Make self-descriptive commit messages while contributing to the code or data ins
 ### Who do I talk to? ###
 
 * Debasis Kar
-* Timurhan S. Sungur
+* M.Sc. C. Timurhan Sungur
