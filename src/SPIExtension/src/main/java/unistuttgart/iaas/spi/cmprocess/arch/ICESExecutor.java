@@ -1,9 +1,9 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefinition;
 
 /**
  * A Generic Interface for Process Selector (CES Executor).

@@ -1,10 +1,10 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefinition;
 
 /**
  * An Abstract Class for Process Selector (CES Executor) that implements ICESExecutor interface.
@@ -72,7 +72,7 @@ public abstract class ACESExecutor implements ICESExecutor{
 	 */
 	@Override
 	public TDataList prepareOutputData(TTaskCESDefinition cesDefinition) {
-		return this.outputData = cesDefinition.getOutputData();
+		return this.outputData = cesDefinition.getOutputVariable();
 	}
 	
 	/**

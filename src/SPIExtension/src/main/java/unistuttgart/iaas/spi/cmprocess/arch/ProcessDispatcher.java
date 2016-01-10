@@ -16,8 +16,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.w3c.dom.Node;
+
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
@@ -48,7 +49,9 @@ public class ProcessDispatcher implements IProcessDispatcher {
 			log.severe("NullPointerException has occurred at Line in Process Dispatcher!");
 		} catch (Exception e) {
 			log.severe("Unknown Exception has occurred in Process Dispatcher!\n" + e.getMessage());
+			e.printStackTrace();
 		} finally{
+			log.info("Process To Be Sent to Process Optimizer: [" + this.dispatchedProcessName + "]");
 			log.info("Process is Dispatched.");
 		}
 	}
@@ -66,9 +69,9 @@ public class ProcessDispatcher implements IProcessDispatcher {
 							for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 									String processId = processDefinition.getId();
 									if(processIdentifier.equals(processId)){
-										JAXBElement<?> manElement = (JAXBElement<?>) processDefinition.getProcessContent().getAny();
-										TManufacturingContent manfacContent = (TManufacturingContent)manElement.getValue();
-										weightList.put(processId,manfacContent.getWeight().doubleValue());
+										Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
+										String processWeight = nodeManu.getChildNodes().item(3).getTextContent();
+										weightList.put(processId,Double.parseDouble(processWeight));
 									}
 							}
 						}

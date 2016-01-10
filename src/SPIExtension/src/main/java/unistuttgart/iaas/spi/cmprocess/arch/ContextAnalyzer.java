@@ -24,13 +24,13 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TContent;
-import de.uni_stuttgart.iaas.ipsm.v0.TContextExpression;
-import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
+import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
@@ -76,15 +76,13 @@ public class ContextAnalyzer implements IContextAnalyzer {
 			doc.getDocumentElement().normalize();
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
-					List<TContextExpression> expressionList = processDefinition.getContextRules()
-																					.getContextExpression();
-					for(TContextExpression contextExpression : expressionList){
-						TContent tContent = contextExpression.getCondition().get(0).
+					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+					for(TContext contextExpression : expressionList){
+						TContent tContent = contextExpression.getContextDefinition().get(0).
 								getDefinitionContent();
-						JAXBElement<?> anyRootElement = (JAXBElement<?>) tContent.getAny();
-						TManufacturingContent tManCon = (TManufacturingContent) anyRootElement.getValue();
-						String xpathQuery = tManCon.getExpression();
-						if(contextExpression.getCondition().get(0).getDefinitionLanguage().
+						Node nodeManu = (Node)tContent.getAny();
+						String xpathQuery = nodeManu.getFirstChild().getTextContent();
+						if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().
 								equals(ContextConfig.XPATH_NAMESPACE)){
 							XPathFactory xPathfactory = XPathFactory.newInstance();
 							XPath xpath = xPathfactory.newXPath();
@@ -92,10 +90,10 @@ public class ContextAnalyzer implements IContextAnalyzer {
 							NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 							int noOfPredicates = xpathQuery.trim().split("\\|").length;
 							if(nl.getLength() == noOfPredicates) {
-								this.initialContextAnalysisTable.put(contextExpression.getId(), true);
+								this.initialContextAnalysisTable.put(contextExpression.getName(), true);
 							}
 							else {
-								this.initialContextAnalysisTable.put(contextExpression.getId(), false);
+								this.initialContextAnalysisTable.put(contextExpression.getName(), false);
 							}
 						}
 					}
@@ -106,10 +104,9 @@ public class ContextAnalyzer implements IContextAnalyzer {
 				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
 					String processId = processDefinition.getId();
 					boolean result = false;
-					List<TContextExpression> expressionList = processDefinition.getContextRules()
-																					.getContextExpression();
-					for(TContextExpression contextExpression : expressionList){
-						String expressionId = contextExpression.getId();
+					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+					for(TContext contextExpression : expressionList){
+						String expressionId = contextExpression.getName();
 						result = result | this.initialContextAnalysisTable.get(expressionId).booleanValue();
 					}
 					this.finalContextAnalysisTable.put(processId, result);
@@ -127,7 +124,7 @@ public class ContextAnalyzer implements IContextAnalyzer {
 		} catch (ParserConfigurationException e) {
 			log.severe("ParserConfigurationException has occurred in Context Analyzer!");
 		} catch(Exception e){
-			log.severe("Unknown Exception has occurred in Context Analyzer!\n" + e.getMessage());
+			log.severe("Unknown Exception has occurred in Context Analyzer!!\n" + e.getMessage());
 	    } finally{
 			log.info("Context Analysis is Completed.");
 		}

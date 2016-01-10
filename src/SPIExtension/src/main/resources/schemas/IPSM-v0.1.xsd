@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:pref="http://docs.oasis-open.org/tosca/ns/2011/12" xmlns:ipsm="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/">
+
+	<import schemaLocation="TOSCA-v1.0.xsd"
+		namespace="http://docs.oasis-open.org/tosca/ns/2011/12"></import>
+
+
+	<complexType name="tRequiremens">
+		<sequence>
+			<element name="Requirement" type="QName" maxOccurs="unbounded"
+				minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tStrategies">
+		<sequence>
+			<element name="Strategy" type="ipsm:tStrategy" maxOccurs="unbounded"
+				minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tSubIntentions">
+		<sequence>
+			<element name="SubIntentionRelations" type="ipsm:tTypeOfSubInstentions"
+				minOccurs="1" maxOccurs="1"></element>
+			<element name="SubIntention" type="ipsm:tSubIntention"
+				maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tIntention">
+		<complexContent>
+			<extension base="ipsm:tInteractiveEntity">
+				<sequence>
+					<element name="Definition" type="ipsm:tDefinition"
+						maxOccurs="unbounded" minOccurs="1">
+					</element>
+					<element name="SubIntentions" type="ipsm:tSubIntentions"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+					<element name="ActiveStategy" type="ipsm:tStrategy"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="Stategies" type="ipsm:tStrategies"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="tTypeOfSubInstentions">
+		<restriction base="string">
+			<enumeration value="OR" />
+			<enumeration value="AND" />
+			<enumeration value="XOR" />
+		</restriction>
+	</simpleType>
+
+	<complexType name="tSubIntention">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+
+					<element name="Intention" type="ipsm:tIntentions"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tCapabilityProperties">
+		<sequence>
+			<element name="ProvidingResources" type="ipsm:tResourceReferences">
+			</element>
+			<element name="DesiredResource" type="QName"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tOrganizationalDefinitions">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="OrganizationalIntentions" type="ipsm:tIntentions"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OrganizationallResources" type="pref:tDefinitions"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OrganizationalProcesses" type="ipsm:tOrganizationalProcesses"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OrganizationalProcessInstances" type="ipsm:tProcessInstances"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OrganizationalCapabilities" type="ipsm:tOrganizationalCapabilities"
+						maxOccurs="1" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tResourceReferences">
+		<sequence>
+			<element name="ResourceDefinition" type="pref:tNodeTemplate"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tDeploymentDescriptor">
+		<attribute name="runnableUri" type="anyURI"></attribute>
+		<attribute name="executionEnvironment" type="anyURI"></attribute>
+		<attribute name="runnableName" type="string"></attribute>
+	</complexType>
+
+	<complexType name="tInstanceDescriptor">
+		<sequence>
+			<element name="Properties" type="ipsm:tProperties"></element>
+		</sequence>
+		<attribute name="startTime" type="time"></attribute>
+		<attribute name="endTime" type="time"></attribute>
+		<attribute name="instanceState" type="string"></attribute>
+		<attribute name="instanceLocation" type="anyURI"></attribute>
+		<attribute name="sourceModel" type="anyURI"></attribute>
+		<attribute name="id" type="string"></attribute>
+		<attribute name="targetNamespace" type="string"></attribute>
+		<anyAttribute></anyAttribute>
+	</complexType>
+
+	<complexType name="tProperties">
+		<sequence>
+			<element name="Tags" type="pref:tTags"></element>
+			<element name="StructuredProperties" type="ipsm:tStructuredProperties"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tStructuredProperties">
+		<sequence>
+			<any></any>
+		</sequence>
+	</complexType>
+
+	<complexType name="tIntentions">
+		<sequence>
+			<element name="Intention" type="ipsm:tIntention" maxOccurs="unbounded"
+				minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tContent">
+		<sequence>
+			<any></any>
+		</sequence>
+	</complexType>
+
+	<complexType name="tDefinition">
+		<sequence>
+			<element name="DefinitionContent" type="ipsm:tContent"></element>
+		</sequence>
+		<attribute name="definitionLanguage" type="anyURI"></attribute>
+	</complexType>
+
+	<complexType name="tContextExpression">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="Condition" type="ipsm:tDefinition"
+						maxOccurs="unbounded" minOccurs="1">
+					</element>
+				</sequence>
+				<attribute name="id" type="ID"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tContext">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="ContextDefinition" type="ipsm:tDefinition"
+						maxOccurs="unbounded" minOccurs="1">
+					</element>
+					<element name="ContainedContexts" type="ipsm:tContexts"
+						maxOccurs="1" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tContexts">
+		<sequence>
+			<element name="Context" type="ipsm:tContext" maxOccurs="unbounded"
+				minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<element name="ContextSet" type="ipsm:tContexts">
+	</element>
+
+	<complexType name="tBaseType" abstract="true">
+		<sequence>
+			<element name="Documentation" type="string"></element>
+		</sequence>
+		<attribute name="name" type="string"></attribute>
+		<attribute name="targetNamespace" type="string"></attribute>
+	</complexType>
+
+	<complexType name="tResourceDefinitions">
+		<sequence>
+			<element name="Resource" type="string"></element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="tRelationshipDefinitions">
+		<sequence>
+			<element name="RelationshipDefinition" type="ipsm:tRelationshipDefinition"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tRelationshipDefinition">
+		<complexContent>
+			<extension base="pref:tRelationshipTemplate"></extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tOrganizationalProcesses">
+		<sequence>
+			<element name="ProcessDefinition" type="ipsm:tProcessDefinition"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tProcessDefinition">
+		<complexContent>
+			<extension base="ipsm:tStrategy">
+				<sequence>
+					<element name="ProcessContent" type="ipsm:tContent"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+				<attribute name="processType" type="anyURI"></attribute>
+				<attribute name="id" type="ID"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tProcessContent">
+		<sequence>
+			<any namespace="##other" processContents="lax" minOccurs="1"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="tProcessInstances">
+		<sequence>
+			<element name="ProcessInstance" type="ipsm:tProcessInstance"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tProcessInstance">
+		<complexContent>
+			<extension base="ipsm:tProcessDefinition">
+
+				<sequence>
+					<element name="InstanceDescriptor" type="ipsm:tInstanceDescriptor"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="OrganizationalDefinitions" type="ipsm:tOrganizationalDefinitions">
+	</element>
+
+	<complexType name="tResourceInstances"></complexType>
+
+	<element name="ProcessDefinition" type="ipsm:tProcessDefinition">
+	</element>
+
+	<element name="ProcessInstance" type="ipsm:tProcessInstance"></element>
+
+	<complexType name="tFunctionalCapabilities">
+		<sequence>
+			<element name="FunctionalCapability" type="ipsm:tFunctionalCapability"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tOrganizationalCapabilities">
+		<sequence>
+			<element name="OrganizationalCapabilities" type="ipsm:tOrganizationalCapability"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tFunctionalCapability">
+		<complexContent>
+			<extension base="ipsm:tOrganizationalCapability">
+				<sequence>
+					<element name="ProvidingResources" type="ipsm:tProvidingResources"
+						maxOccurs="1" minOccurs="0">
+					</element>
+
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tCrossFunctionalCapability">
+		<complexContent>
+			<extension base="ipsm:tOrganizationalCapability">
+				<sequence>
+					<element name="FunctionalCapabilities" type="ipsm:tFunctionalCapabilities"
+						minOccurs="1" maxOccurs="1"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="tOrganizationalCapability">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="CapabilityType" type="pref:tCapabilityType"
+						minOccurs="1" maxOccurs="1"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="tProvidingResources">
+		<sequence>
+			<element name="ProvidingResource" type="QName" minOccurs="1"
+				maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tResourceModel">
+		<sequence>
+			<element name="Definitions" type="pref:tDefinitions"
+				minOccurs="1" maxOccurs="1"></element>
+		</sequence>
+		<attribute name="ref" type="IDREF"></attribute>
+		<attribute name="targetNamespace" type="anyURI"></attribute>
+	</complexType>
+
+	<complexType name="tResourceModelInstance">
+		<annotation>
+			<documentation>
+				Model instance contained node templates contain
+				reference to the instance
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="Definitions" type="pref:tDefinitions"
+				minOccurs="1" maxOccurs="1"></element>
+		</sequence>
+		<attribute name="ref" type="IDREF"></attribute>
+		<attribute name="targetNamespace" type="anyURI"></attribute>
+	</complexType>
+
+	<complexType name="tInformalProcessDefinition">
+		<complexContent>
+			<extension base="ipsm:tProcessDefinition">
+				<sequence>
+					<element name="ResourceModel" type="ipsm:tResourceModel">
+					</element>
+
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tInformalProcessInstance">
+		<complexContent>
+			<extension base="ipsm:tProcessInstance">
+				<sequence>
+					<element name="ResourceModelInstance" type="ipsm:tResourceModelInstance"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="InformalProcessDefinition" type="ipsm:tInformalProcessDefinition"></element>
+
+	<element name="InformalProcessInstance" type="ipsm:tInformalProcessInstance">
+	</element>
+
+	<element name="InstanceDescriptor">
+		<complexType>
+			<complexContent>
+				<extension base="ipsm:tInstanceDescriptor" />
+			</complexContent>
+		</complexType>
+	</element>
+
+	<complexType name="tPreconditionerRelationships">
+		<sequence>
+			<element name="Relationship" type="pref:tRelationshipTemplate"
+				maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tDependencies">
+		<sequence>
+			<element name="Dependency" type="pref:tNodeTemplate"
+				maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="tOperationMessage">
+		<sequence>
+			<element name="PreconditionerRelationships" type="ipsm:tPreconditionerRelationships"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="Dependencies" type="ipsm:tDependencies"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="InstanceLocation" type="anyURI" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="ErrorDefinition" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="InstanceState" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="TargetResource" type="pref:tNodeTemplate"
+				maxOccurs="1" minOccurs="1">
+			</element>
+			<element name="InformalProcessInstance" type="ipsm:tInformalProcessInstance"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="OtherParameters" type="ipsm:tOtherParameters"
+				maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		<attribute name="processId" type="string"></attribute>
+		<attribute name="operationType" type="string"></attribute>
+	</complexType>
+
+	<element name="OperationMessage" type="ipsm:tOperationMessage">
+	</element>
+
+	<complexType name="tOtherParameters">
+		<sequence>
+			<any></any>
+		</sequence>
+	</complexType>
+
+
+	<complexType name="tParticipantList">
+		<complexContent>
+			<extension base="pref:tNodeTemplate"></extension>
+		</complexContent>
+	</complexType>
+	
+
+	<complexType name="tInteractiveEntity">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="Editors" type="ipsm:tParticipantList"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="Viewers" type="ipsm:tParticipantList"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="Owners" type="ipsm:tParticipantList"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+
+	<complexType name="tStrategy">
+		<complexContent>
+			<extension base="ipsm:tInteractiveEntity">
+				<sequence>
+					<element name="TargetIntention" type="ipsm:tIntention"
+						maxOccurs="1" minOccurs="1">
+					</element>
+					<element name="Definition" type="ipsm:tDefinition"
+						maxOccurs="unbounded" minOccurs="1">
+					</element>
+					<element name="Intentions" type="ipsm:tIntentions"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="OrganizationalCapabilities" type="ipsm:tOrganizationalCapabilities"
+						maxOccurs="1" minOccurs="0"></element>
+					<element name="InitialContexts" type="ipsm:tContexts"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="DesiredFinalContexts" type="ipsm:tContexts"
+						maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="AlternativeFinalContexts" type="ipsm:tContexts"
+						maxOccurs="1" minOccurs="0">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tProcessDefinitions">
+		<sequence>
+			<element name="ProcessDefinition" type="ipsm:tProcessDefinition"
+				maxOccurs="unbounded" minOccurs="1">
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="tInteraction">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="Source" type="string" maxOccurs="1"
+						minOccurs="1">
+					</element>
+					<element name="Target" type="string" maxOccurs="1"
+						minOccurs="1">
+					</element>
+					<element name="Action" type="string" maxOccurs="1"
+						minOccurs="1">
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="ProcessDefinitions" type="ipsm:tProcessDefinitions"></element>
+
+</schema>

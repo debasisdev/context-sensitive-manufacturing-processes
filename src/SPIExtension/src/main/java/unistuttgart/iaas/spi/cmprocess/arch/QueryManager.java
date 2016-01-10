@@ -26,13 +26,13 @@ import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 
-import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TLocationType;
+import de.uni_stuttgart.iaas.cmp.v0.TManufacturingContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TLocationType;
-import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 
 public class QueryManager implements IQueryManager {
 	
@@ -63,7 +63,8 @@ public class QueryManager implements IQueryManager {
 			DB db = mongoClient.getDB(ContextConfig.MIDDLEWARE_DATABASE_NAME);
 			Set<String> mongoCollections = db.getCollectionNames();
 			log.info("Fetching Collections from MongoDB Sensor Data Repository...");
-			ObjectFactory contextSetCreator = new ObjectFactory();
+			ObjectFactory cmpMaker = new ObjectFactory();
+			de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
 			TContexts conSet = new TContexts();
 			for(String coll : mongoCollections){
 				if(coll.equals(ContextConfig.MIDDLEWARE_DATABASE_COLLECTION_NAME)){
@@ -108,8 +109,8 @@ public class QueryManager implements IQueryManager {
 						        	defConType.setSenseValue(values.get(context.getName()).toString());
 						        
 						        TContent tCon = new TContent();
-						        tCon.setAny(contextSetCreator.createManufacturingContent(defConType));
-						        TDefinition conDefType = contextSetCreator.createTDefinition();
+						        tCon.setAny(cmpMaker.createManufacturingContent(defConType));
+						        TDefinition conDefType = ipsmMaker.createTDefinition();
 						        conDefType.setDefinitionContent(tCon);
 						        conDefType.setDefinitionLanguage(obj.getString(ContextConfig.CD_FIELD_LANGUAGE));
 						        log.info("Context Acquisition Is In Progress...");
@@ -123,10 +124,10 @@ public class QueryManager implements IQueryManager {
 				    		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				    		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				    		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-				            JAXBElement<TContexts> root = contextSetCreator.createContextSet(conSet);
+				            JAXBElement<TContexts> root = ipsmMaker.createContextSet(conSet);
 				    		jaxbMarshaller.marshal(root, this.contextData);
 				    		log.info("Context Data is Serialized as ContextData.xml.");
-					    	jaxbMarshaller.marshal(root, System.out);
+//					    	jaxbMarshaller.marshal(root, System.out);
 						}
 						else{
 							this.contextAvailable = false;

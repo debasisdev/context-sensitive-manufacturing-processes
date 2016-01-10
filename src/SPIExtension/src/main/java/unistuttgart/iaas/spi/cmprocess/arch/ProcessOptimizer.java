@@ -8,8 +8,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.w3c.dom.Node;
+
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
@@ -62,9 +63,10 @@ public class ProcessOptimizer implements IProcessOptimizer {
 	
 	@Override
 	public boolean optimizeProcess(TProcessDefinition processDefinition) {
-		JAXBElement<?> optProcessContent = (JAXBElement<?>) processDefinition.getProcessContent().getAny();
+		Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
+		String optimizerModel = nodeManu.getChildNodes().item(2).getTextContent();
 		//Start Deployment Code for Optimization
-		log.info(((TManufacturingContent) optProcessContent.getValue()).getOptimizerModel() + " Will Be Executed");
+		log.info(optimizerModel + " Will Be Executed");
 		//End Deployment Code for Optimization
 		return true;
 	}

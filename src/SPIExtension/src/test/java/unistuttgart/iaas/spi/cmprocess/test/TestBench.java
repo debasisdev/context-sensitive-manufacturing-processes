@@ -4,29 +4,32 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TData;
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TData;
-import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TIntentions;
-import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+import de.uni_stuttgart.iaas.ipsm.v0.TTypeOfSubInstentions;
 import unistuttgart.iaas.spi.cmprocess.arch.CESExecutor;
 
 public class TestBench {
 	 @Test
 	  public void multiplicationOfZeroIntegersShouldReturnZero() {
-		 TIntention ti = new TIntention();
+		 	TIntention ti = new TIntention();
 			ti.setName("SealAndSortPackets");
-			TIntention t1 = new TIntention();
-			t1.setName("highAutomation");
-			TIntention t2 = new TIntention();
-			t2.setName("highThroughput");
-			TIntentions tis = new TIntentions();
-			tis.getIntention().add(t1);
-			tis.getIntention().add(t2);
-			ti.setSubIntentions(tis);
+			TSubIntention tsa = new TSubIntention();
+			tsa.setName("highAutomation");
+			TSubIntention tsb = new TSubIntention();
+			tsb.setName("highThroughput");
+			TSubIntentions tsi = new TSubIntentions();
+			tsi.setSubIntentionRelations(TTypeOfSubInstentions.AND);
+			tsi.getSubIntention().add(tsa);
+			tsi.getSubIntention().add(tsb);
+			ti.getSubIntentions().add(tsi);
 			
 			TDataList tio = new TDataList();
 			TData td1 = new TData();
@@ -67,7 +70,7 @@ public class TestBench {
 			cesDefinition.setProcessRepository("src/main/resources/processrepos/ProcessRepository.xml");
 			cesDefinition.setIntention(ti);
 			cesDefinition.setInputData(tio);
-			cesDefinition.setOutputData(toi);
+			cesDefinition.setOutputVariable(toi);
 			cesDefinition.setRequiredContexts(tco);
 			
 			CESExecutor cesProcess = new CESExecutor(cesDefinition);

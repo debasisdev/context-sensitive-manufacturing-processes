@@ -8,9 +8,10 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.w3c.dom.Node;
+
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
-import de.uni_stuttgart.iaas.ipsm.v0.TManufacturingContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
@@ -67,12 +68,14 @@ public class DeploymentManager implements IProcessEngine {
 	
 	@Override
 	public Object[] deployProcess(TProcessDefinition processDefinition) {
-		JAXBElement<?> optProcessContent = (JAXBElement<?>) processDefinition.getProcessContent().getAny();
+		Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
+		String mainModel = nodeManu.getChildNodes().item(0).getTextContent();
+		String complementaryModel = nodeManu.getChildNodes().item(1).getTextContent();
 		//Start Deployment Code for Main Model
-		log.info(((TManufacturingContent) optProcessContent.getValue()).getMainModel() + " Will Be Executed");
+		log.info(mainModel + " Will Be Executed");
 		//End Deployment Code for Main Model
 		//Start Deployment Code for Complementary Model
-		log.info(((TManufacturingContent) optProcessContent.getValue()).getComplementaryModel() + " Will Be Executed");
+		log.info(complementaryModel + " Will Be Executed");
 		//End Deployment Code for Complementary Model
 		return null;
 	}

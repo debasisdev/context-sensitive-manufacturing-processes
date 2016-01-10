@@ -3,8 +3,7 @@ package unistuttgart.iaas.spi.cmprocess.arch;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import de.uni_stuttgart.iaas.ipsm.v0.TDataList;
-import de.uni_stuttgart.iaas.ipsm.v0.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 
 public class CESExecutor extends ACESExecutor {
 	private QueryManager queryManager;
@@ -50,7 +49,6 @@ public class CESExecutor extends ACESExecutor {
 		}
 		this.runIntentionAnalyzer();
 		this.runProcessDispatcher();
-		log.info("Processes To Be Sent to Process Optimizer: " + this.finalSelectedProcess);
 		this.result = this.finalSelectedProcess;
 		if(this.optimizationNeeded){
 			this.runProcessOptimizer();

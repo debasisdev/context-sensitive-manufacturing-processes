@@ -15,6 +15,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 
 public class IntentionAnalyzer implements IIntentionAnalyzer {
 	private File processRepository;
@@ -37,8 +38,8 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 		this.processRepository = new File(ContextConfig.PROCESS_REPOSITORY);
 		this.mainIntention = this.intention.getName();
 		this.subIntentions = new TreeSet<String>();
-		for(TIntention intention : this.intention.getSubIntentions().getIntention()){
-			this.subIntentions.add(intention.getName());
+		for(TSubIntention subIntention : this.intention.getSubIntentions().get(0).getSubIntention()){
+			this.subIntentions.add(subIntention.getName());
 		}
 		this.intentionAnalysisProcessList = new TreeSet<String>();
 		try {
@@ -66,9 +67,9 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 				String processId = processDefinition.getId();
 				Set<String> extraIntentions = new TreeSet<String>();
 				if(processDefinition.getTargetIntention().getName().equals(mainIntention.getName())){
-					List<TIntention> subIntentionList = processDefinition.
-							getTargetIntention().getSubIntentions().getIntention();
-					for(TIntention intention : subIntentionList){
+					List<TSubIntention> subIntentionList = processDefinition.
+							getTargetIntention().getSubIntentions().get(0).getSubIntention();
+					for(TSubIntention intention : subIntentionList){
 						extraIntentions.add(intention.getName());
 					}
 					extraIntentions.retainAll(this.subIntentions);
@@ -77,11 +78,12 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 					this.intentionAnalysisProcessList.add(processId);
 			}
 			log.info("Intention Matching Processes: "+ this.intentionAnalysisProcessList);
-			log.info("Final List of Processes are Generated for Process Optimizer.");
+			log.info("Final List of Processes are Generated for Process Dispatcher.");
 		} catch (NullPointerException e) {
 			log.severe("NullPointerException has occurred in Intention Analyzer!");
 		} catch (Exception e) {
-			log.severe("Unknown Exception has occurred in Intention Analyzer!\n" + e.getMessage());
+			log.severe("Unknown Exception has occurred in Intention Analyzer!!\n" + e.getMessage());
+			e.printStackTrace();
 		} finally{
 			log.info("Intention Analysis is Performed.");
 		}
@@ -103,6 +105,7 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 	@Override
 	public Set<String> getProcessListOfIntentionAnalyzer(Set<String> processesFromContextAnalyzer) {
 		this.intentionAnalysisProcessList.retainAll(processesFromContextAnalyzer);
+		log.info("Processes for Process Dispatcher: " + this.intentionAnalysisProcessList);
 		return this.intentionAnalysisProcessList;
 	}
 }
