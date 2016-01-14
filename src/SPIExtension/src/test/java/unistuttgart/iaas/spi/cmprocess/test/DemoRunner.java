@@ -13,21 +13,19 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
-import de.uni_stuttgart.iaas.ipsm.v0.TTypeOfSubInstentions;
-import unistuttgart.iaas.spi.cmprocess.arch.CESExecutor;
 import unistuttgart.iaas.spi.cmprocess.arch.ContextConfig;
 
 public class DemoRunner {
 
 	public static void main(String[] args) throws Exception {
-		TIntention ti = new TIntention();
+	 	TIntention ti = new TIntention();
 		ti.setName("SealAndSortPackets");
 		TSubIntention tsa = new TSubIntention();
 		tsa.setName("highAutomation");
 		TSubIntention tsb = new TSubIntention();
 		tsb.setName("highThroughput");
 		TSubIntentions tsi = new TSubIntentions();
-		tsi.setSubIntentionRelations(TTypeOfSubInstentions.AND);
+		tsi.setSubIntentionRelations("http://www.uni-stuttgart.de/ipsm/intention/selections/weight-based");
 		tsi.getSubIntention().add(tsa);
 		tsi.getSubIntention().add(tsb);
 		ti.getSubIntentions().add(tsi);
@@ -117,7 +115,7 @@ public class DemoRunner {
 //		JAXBElement<TProcessDefinitions> root = ox.createProcessDefinitions(rtpd);
 		jaxbMarshaller.marshal(root, ContextConfig.TEST_DUMP);
 		
-		CESExecutor cesProcess = new CESExecutor(cesDefinition);
+		//CESExecutor cesProcess = new CESExecutor(cesDefinition);
 //		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 //		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 //		JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(ContextConfig.PROCESS_REPOSITORY));

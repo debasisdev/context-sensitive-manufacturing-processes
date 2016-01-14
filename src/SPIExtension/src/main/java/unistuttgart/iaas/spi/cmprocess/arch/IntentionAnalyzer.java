@@ -1,7 +1,11 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -11,43 +15,31 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
+import unistuttgart.iaas.spi.cmprocess.interfaces.IDataRepository;
+import unistuttgart.iaas.spi.cmprocess.interfaces.IProcessEliminator;
 
-public class IntentionAnalyzer implements IIntentionAnalyzer {
-	private File processRepository;
-	private TIntention intention;
-	private String mainIntention;
-	private Set<String> subIntentions;
-	private Set<String> intentionAnalysisProcessList;
+public class IntentionAnalyzer implements IProcessEliminator, IDataRepository {
+	private List<TProcessDefinition> intentionAnalysisProcessList;
 	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
 	
 	public IntentionAnalyzer(){
-		this.intention = null;
-		this.processRepository = null;
-		this.mainIntention = null;
-		this.subIntentions = null;
 		this.intentionAnalysisProcessList = null;
 	}
 	
-	public IntentionAnalyzer(Set<String> processesFromContextAnalyzer, TIntention mainIntention){
-		this.intention = mainIntention;
-		this.processRepository = new File(ContextConfig.PROCESS_REPOSITORY);
-		this.mainIntention = this.intention.getName();
-		this.subIntentions = new TreeSet<String>();
-		for(TSubIntention subIntention : this.intention.getSubIntentions().get(0).getSubIntention()){
-			this.subIntentions.add(subIntention.getName());
-		}
-		this.intentionAnalysisProcessList = new TreeSet<String>();
+	public IntentionAnalyzer(TTaskCESDefinition cesDefinition){
+		this.intentionAnalysisProcessList = new LinkedList<TProcessDefinition>();
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(this.processRepository);
+			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(this.getProcessRepository(cesDefinition));
 			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
-			this.intentionAnalysisProcessList = this.analyzeIntention(processSet, mainIntention);
+			this.intentionAnalysisProcessList = this.eliminate(processSet, cesDefinition);
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred in Intention Analyzer!");
 		} catch (NullPointerException e) {
@@ -55,57 +47,68 @@ public class IntentionAnalyzer implements IIntentionAnalyzer {
 		} catch (Exception e) {
 			log.severe("Unknown Exception has occurred in Intention Analyzer!\n" + e.getMessage());
 		} finally{
-			log.info("Intention Analysis is Performed.");
+			log.info("Intention Analysis is Completed.");
 		}
 	}
 	
 	@Override
-	public Set<String> analyzeIntention(TProcessDefinitions processSet, TIntention mainIntention){
+	public List<TProcessDefinition> eliminate(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
+		TIntention intention = cesDefinition.getIntention();
+		String mainIntention = intention.getName();
+		Set<String> subIntentions = new TreeSet<String>();
+		for(TSubIntention subIntention : intention.getSubIntentions().get(0).getSubIntention()){
+			subIntentions.add(subIntention.getName());
+		}
 		try {			
 			log.info("Intention Analysis is Started by Deserializing the ProcessRepository.xml");
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-				String processId = processDefinition.getId();
 				Set<String> extraIntentions = new TreeSet<String>();
-				if(processDefinition.getTargetIntention().getName().equals(mainIntention.getName())){
+				if(processDefinition.getTargetIntention().getName().equals(mainIntention)){
 					List<TSubIntention> subIntentionList = processDefinition.
 							getTargetIntention().getSubIntentions().get(0).getSubIntention();
-					for(TSubIntention intention : subIntentionList){
-						extraIntentions.add(intention.getName());
+					for(TSubIntention intent : subIntentionList){
+						extraIntentions.add(intent.getName());
 					}
-					extraIntentions.retainAll(this.subIntentions);
+					extraIntentions.retainAll(subIntentions);
 				}
 				if(extraIntentions.size()>0)
-					this.intentionAnalysisProcessList.add(processId);
+					this.intentionAnalysisProcessList.add(processDefinition);
 			}
-			log.info("Intention Matching Processes: "+ this.intentionAnalysisProcessList);
-			log.info("Final List of Processes are Generated for Process Dispatcher.");
 		} catch (NullPointerException e) {
-			log.severe("NullPointerException has occurred in Intention Analyzer!");
+			log.severe("NullPointerException has occurred in Intention Analyzer!!");
 		} catch (Exception e) {
 			log.severe("Unknown Exception has occurred in Intention Analyzer!!\n" + e.getMessage());
 			e.printStackTrace();
 		} finally{
-			log.info("Intention Analysis is Performed.");
+			log.info("Final Intention Analysis Report: " + this.intentionAnalysisProcessList);
 		}
 		return this.intentionAnalysisProcessList;
 	}
 
-	public TIntention getIntention() {
-		return this.intention;
-	}
-
-	public String getMainIntention() {
-		return this.mainIntention;
-	}
-
-	public Set<String> getSubIntentions() {
-		return this.subIntentions;
+	@Override
+	public List<TProcessDefinition> getProcessListOfAnalyzer() {
+		return this.intentionAnalysisProcessList;
 	}
 
 	@Override
-	public Set<String> getProcessListOfIntentionAnalyzer(Set<String> processesFromContextAnalyzer) {
-		this.intentionAnalysisProcessList.retainAll(processesFromContextAnalyzer);
-		log.info("Processes for Process Dispatcher: " + this.intentionAnalysisProcessList);
-		return this.intentionAnalysisProcessList;
+	public File getContextRepository() {
+		Properties propertyFile = new Properties();
+    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+    	String fileName = null;
+		if(inputReader != null){
+	        try {
+				propertyFile.load(inputReader);
+				fileName = propertyFile.getProperty("CONTEXT_REPOSITORY");
+		        inputReader.close();
+			} catch (IOException e) {
+				log.severe("IOException has occurred in Intention Analyzer!");
+			}
+		}
+		return new File(fileName);
+	}
+
+	@Override
+	public File getProcessRepository(TTaskCESDefinition cesDefinition) {
+		return new File(cesDefinition.getProcessRepository());
 	}
 }

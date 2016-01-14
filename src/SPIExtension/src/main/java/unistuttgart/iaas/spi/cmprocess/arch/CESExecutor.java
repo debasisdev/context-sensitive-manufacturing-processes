@@ -1,21 +1,25 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Logger;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import unistuttgart.iaas.spi.cmprocess.interfaces.ICESExecutor;
 
-public class CESExecutor extends ACESExecutor {
+public class CESExecutor implements ICESExecutor {
 	private QueryManager queryManager;
 	private ContextAnalyzer contextAnalyzer;
 	private IntentionAnalyzer intentionAnalyzer;
+	private ProcessSelector processSelector;
 	private ProcessOptimizer processOptimizer;
 	private ProcessDispatcher processDispatcher;
-	private DeploymentManager deployer;
-	private Set<String> outputOfContextAnalyzer;
-	private Set<String> outputOfIntentionAnalyzer;
-	private String finalSelectedProcess;
-	private String result;
+
+	protected boolean contextAvailable;
+	protected boolean optimizationNeeded;
+	private List<TProcessDefinition> outputOfContextAnalyzer;
+	private List<TProcessDefinition> outputOfIntentionAnalyzer;
+	private TProcessDefinition selectedProcessDefintion;
 
 	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
 	
@@ -23,77 +27,67 @@ public class CESExecutor extends ACESExecutor {
 		this.queryManager = null;
 		this.contextAnalyzer = null;
 		this.intentionAnalyzer = null;
+		this.processSelector = null;
 		this.processOptimizer = null;
 		this.processDispatcher = null;
-		this.deployer = null;
+		
 		this.outputOfContextAnalyzer = null;
 		this.outputOfIntentionAnalyzer = null;
-		this.finalSelectedProcess = null;
-		this.result = null;
-		this.inputData = null;
-		this.outputData = null;
+		this.selectedProcessDefintion = null;
+		this.contextAvailable = false;
+		this.optimizationNeeded = false;
 	}
 	
 	public CESExecutor(TTaskCESDefinition cesDefinition){
-		this.intention = this.prepareIntention(cesDefinition);
-		this.contexts = this.prepareContext(cesDefinition);
-		this.optimizationNeeded = this.isOptimizationNeeded(cesDefinition);
-		this.inputData = this.prepareInputData(cesDefinition);
-		this.outputData = this.prepareOutputData(cesDefinition);
-		this.runQueryManager();
+		this.optimizationNeeded = cesDefinition.isOptimizationRequired();
+		this.runQueryManager(cesDefinition);
 		if(this.contextAvailable){
-			this.runContextAnalyzer();
+			this.outputOfContextAnalyzer = this.runContextAnalyzer(cesDefinition);
 		}
 		else{
 			log.warning("Context Not Available!");
 		}
-		this.runIntentionAnalyzer();
-		this.runProcessDispatcher();
-		this.result = this.finalSelectedProcess;
+		this.outputOfIntentionAnalyzer = this.runIntentionAnalyzer(cesDefinition);
+		this.selectedProcessDefintion = this.runProcessSelector(this.outputOfContextAnalyzer, this.outputOfIntentionAnalyzer, cesDefinition);
 		if(this.optimizationNeeded){
-			this.runProcessOptimizer();
+			this.runProcessOptimizer(this.selectedProcessDefintion);
 		}
-		this.runDeploymentManager();
+		this.runProcessDispatcher(this.selectedProcessDefintion, cesDefinition);
 	}
 	
 	@Override
-	public void runQueryManager(){
-		this.queryManager = new QueryManager(this.contexts);
+	public void runQueryManager(TTaskCESDefinition cesDefinition){
+		this.queryManager = new QueryManager(cesDefinition);
 		this.contextAvailable = this.queryManager.isContextAvailable();
 	}
 
 	@Override
-	public void runContextAnalyzer(){
-		this.contextAnalyzer = new ContextAnalyzer();
-		this.outputOfContextAnalyzer = this.contextAnalyzer.getProcessListOfContextAnalyzer(
-											this.contextAnalyzer.getFinalContextAnalysisTable());
+	public List<TProcessDefinition> runContextAnalyzer(TTaskCESDefinition cesDefinition){
+		this.contextAnalyzer = new ContextAnalyzer(cesDefinition);
+		return this.contextAnalyzer.getProcessListOfAnalyzer();
 	}
 	
 	@Override
-	public void runIntentionAnalyzer(){
-		this.intentionAnalyzer = new IntentionAnalyzer(this.outputOfContextAnalyzer, this.intention);
-		this.outputOfIntentionAnalyzer = this.intentionAnalyzer.getProcessListOfIntentionAnalyzer
-														(this.outputOfContextAnalyzer);
+	public List<TProcessDefinition> runIntentionAnalyzer(TTaskCESDefinition cesDefinition){
+		this.intentionAnalyzer = new IntentionAnalyzer(cesDefinition);
+		return this.intentionAnalyzer.getProcessListOfAnalyzer();
 	}
 
 	@Override
-	public void runProcessDispatcher() {
-		this.processDispatcher = new ProcessDispatcher(this.outputOfIntentionAnalyzer);
-		this.finalSelectedProcess = this.processDispatcher.getDispatchedProcessName();
+	public TProcessDefinition runProcessSelector(List<TProcessDefinition> outputOfContextAnalyzer, 
+						List<TProcessDefinition> outputOfIntentionAnalyzer, TTaskCESDefinition cesDefinition) {
+		this.processSelector = new ProcessSelector(outputOfContextAnalyzer, outputOfIntentionAnalyzer, cesDefinition);
+		return this.processSelector.getDispatchedProcess();
 	}
 	
 	@Override
-	public void runProcessOptimizer() {
-		this.processOptimizer = new ProcessOptimizer(this.finalSelectedProcess);
+	public void runProcessOptimizer(TProcessDefinition processDefinition) {
+		this.processOptimizer = new ProcessOptimizer(this.selectedProcessDefintion);
 	}
 
 	@Override
-	public void runDeploymentManager() {
-		this.deployer = new DeploymentManager(this.inputData, this.outputData, this.finalSelectedProcess);
-	}
-
-	public String getResult() {
-		return this.result;
+	public void runProcessDispatcher(TProcessDefinition processDefinition, TTaskCESDefinition cesDefinition){
+		this.processDispatcher = new ProcessDispatcher(processDefinition, cesDefinition);
 	}
 
 }

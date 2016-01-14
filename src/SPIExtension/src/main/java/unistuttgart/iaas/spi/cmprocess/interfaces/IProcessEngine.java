@@ -1,4 +1,4 @@
-package unistuttgart.iaas.spi.cmprocess.arch;
+package unistuttgart.iaas.spi.cmprocess.interfaces;
 
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 
