@@ -1,5 +1,9 @@
 package unistuttgart.iaas.spi.cmprocess.test;
 
+import java.io.File;
+import java.io.InputStream;
+import java.util.Properties;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
@@ -13,7 +17,6 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
-import unistuttgart.iaas.spi.cmprocess.arch.ContextConfig;
 
 public class DemoRunner {
 
@@ -35,14 +38,10 @@ public class DemoRunner {
 		td1.setName("Worker");
 		td1.setValue("John");
 		tio.getDataList().add(td1);
-		TData td3 = new TData();
-		td3.setName("FinalSatusOfRun");
-		td3.setValue("");
 		TData td4 = new TData();
 		td4.setName("TaskOutput");
 		td4.setValue("");
 		TDataList toi = new TDataList();
-		toi.getDataList().add(td3);
 		toi.getDataList().add(td4);
 		
 		TContext tc = new TContext();
@@ -107,15 +106,24 @@ public class DemoRunner {
 //		TProcessDefinition tpd = new TProcessDefinition();
 //		tpd.setInitialContexts(tco1);
 //		rtpd.getProcessDefinition().add(tpd);
+		Properties propertyFile = new Properties();
+    	InputStream inputReader = DemoRunner.class.getClassLoader().getResourceAsStream("config.properties");
+    	String fileName = null;
+		if(inputReader != null){
+			propertyFile.load(inputReader);
+			fileName = propertyFile.getProperty("TEST_DUMP");
+	        inputReader.close();
+		}
 		
 		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 //		JAXBElement<TProcessDefinitions> root = ox.createProcessDefinitions(rtpd);
-		jaxbMarshaller.marshal(root, ContextConfig.TEST_DUMP);
+		jaxbMarshaller.marshal(root, new File(fileName));
 		
 		//CESExecutor cesProcess = new CESExecutor(cesDefinition);
+		
 //		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 //		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 //		JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(ContextConfig.PROCESS_REPOSITORY));

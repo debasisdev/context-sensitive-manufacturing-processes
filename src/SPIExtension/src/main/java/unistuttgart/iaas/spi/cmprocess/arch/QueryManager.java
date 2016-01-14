@@ -203,3 +203,25 @@ public class QueryManager implements IQueryManager, IDataRepository {
 		return new File(cesDefinition.getProcessRepository());
 	}
 }
+
+//Mongo Schema
+//	db.packagecontext.insert([
+//          {
+//             orderid: 'DE37464358BY',	  
+//             deliverydate: new Date(2015,12,10),
+//       	   language: 'en_US',
+//             by: 'Sealing Machine: SMEX207',
+//             url: 'http://www.uni-stuttgart.de/iaas/cmp/v1/packaging',
+//             timestamp: new Timestamp(),
+//       	   latitude: 48.145198,
+//       	   longitude: 11.5765667,
+//       	   unitsOrdered: 1000,
+//       	   sensordata: [	
+//                {
+//       			availableWorkers: 4,
+//                  infraredSensorStatus: 'Malfunctioned',
+//       			shockDetectorStatus: 'Okay'
+//                }
+//             ]
+//          }
+//       ])

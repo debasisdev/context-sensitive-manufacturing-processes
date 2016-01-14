@@ -75,34 +75,40 @@ public class ContextAnalyzer implements IProcessEliminator, IDataRepository {
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(this.getContextRepository());
 			doc.getDocumentElement().normalize();
+			Properties propertyFile = new Properties();
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
-					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
-					for(TContext contextExpression : expressionList){
-						TContent tContent = contextExpression.getContextDefinition().get(0).
-								getDefinitionContent();
-						Node nodeManu = (Node)tContent.getAny();
-						String xpathQuery = nodeManu.getFirstChild().getTextContent();
-						if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().
-								equals(ContextConfig.XPATH_NAMESPACE)){
-							XPathFactory xPathfactory = XPathFactory.newInstance();
-							XPath xpath = xPathfactory.newXPath();
-							XPathExpression expr = xpath.compile(xpathQuery);
-							NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-							int noOfPredicates = xpathQuery.trim().split("\\|").length;
-							if(nl.getLength() == noOfPredicates) {
-								initialContextAnalysisTable.put(contextExpression.getName(), true);
-							}
-							else {
-								initialContextAnalysisTable.put(contextExpression.getName(), false);
+		    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+		    	if(inputReader != null){
+		    		propertyFile.load(inputReader);
+					if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
+						List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+						for(TContext contextExpression : expressionList){
+							TContent tContent = contextExpression.getContextDefinition().get(0).
+									getDefinitionContent();
+							Node nodeManu = (Node)tContent.getAny();
+							String xpathQuery = nodeManu.getFirstChild().getTextContent();
+							if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().
+									equals(propertyFile.getProperty("XPATH_NAMESPACE"))){
+								XPathFactory xPathfactory = XPathFactory.newInstance();
+								XPath xpath = xPathfactory.newXPath();
+								XPathExpression expr = xpath.compile(xpathQuery);
+								NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+								int noOfPredicates = xpathQuery.trim().split("\\|").length;
+								if(nl.getLength() == noOfPredicates) {
+									initialContextAnalysisTable.put(contextExpression.getName(), true);
+								}
+								else {
+									initialContextAnalysisTable.put(contextExpression.getName(), false);
+								}
 							}
 						}
 					}
-				}
+		    	}
+		    	inputReader.close();
 			}
 			log.info("Phase-1 Context Analysis Report: " + initialContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
+				if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
 					String processId = processDefinition.getId();
 					boolean result = false;
 					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
@@ -115,7 +121,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataRepository {
 			}
 			log.info("Phase-2 Context Analysis Report: " + finalContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-				if(processDefinition.getTargetNamespace().equals(ContextConfig.CONTEXT_NAMESPACE)){
+				if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
 					String processId = processDefinition.getId();
 					boolean result = finalContextAnalysisTable.get(processId);
 					if(result){
@@ -157,7 +163,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataRepository {
 				fileName = propertyFile.getProperty("CONTEXT_REPOSITORY");
 		        inputReader.close();
 			} catch (IOException e) {
-				log.severe("IOException has occurred in Context Analyzer!");
+				log.severe("IOException has occurred in Context Analyzer!!!");
 			}
 		}
 		return new File(fileName);

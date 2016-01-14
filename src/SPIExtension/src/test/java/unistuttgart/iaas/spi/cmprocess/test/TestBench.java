@@ -35,14 +35,10 @@ public class TestBench {
 			td1.setName("Worker");
 			td1.setValue("John");
 			tio.getDataList().add(td1);
-			TData td3 = new TData();
-			td3.setName("FinalSatusOfRun");
-			td3.setValue("");
 			TData td4 = new TData();
 			td4.setName("TaskOutput");
 			td4.setValue("");
 			TDataList toi = new TDataList();
-			toi.getDataList().add(td3);
 			toi.getDataList().add(td4);
 			
 			TContext tc = new TContext();
