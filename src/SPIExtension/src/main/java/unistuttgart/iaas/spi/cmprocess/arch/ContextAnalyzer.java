@@ -57,6 +57,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataRepository {
 			this.contextAnalysisProcessList = this.eliminate(processSet, cesDefinition);
 		} catch (JAXBException e) {
 			log.severe("JAXBException has occurred in Context Analyzer!");
+			e.printStackTrace();
 		} catch (NullPointerException e) {
 			log.severe("NullPointerException has occurred in Context Analyzer!");
 		} catch(Exception e){

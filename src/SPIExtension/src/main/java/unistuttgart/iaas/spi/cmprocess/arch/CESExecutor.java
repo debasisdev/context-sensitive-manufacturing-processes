@@ -1,7 +1,17 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.apache.camel.CamelContext;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.DefaultCamelContext;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
@@ -40,6 +50,42 @@ public class CESExecutor implements ICESExecutor {
 	
 	public CESExecutor(TTaskCESDefinition cesDefinition){
 		this.optimizationNeeded = cesDefinition.isOptimizationRequired();
+		/*Camel Integration*/
+		CamelContext camelCon = new DefaultCamelContext();
+      	ConnectionFactory conFac = new ConnectionFactory();
+      	conFac.setHost("localhost");
+      	Connection connection = conFac.newConnection();
+	    Channel channel = connection.createChannel();
+	        
+	        channel.queueDeclare("context_queue", false, false, false, null); 
+	        channel.exchangeDeclare("contexts", "direct", false, false, false, null); 
+	        channel.queueBind("context_queue", "contexts", "iaasdev$12"); 
+	 
+	        File file = new File("src/main/resources/datarepos/ContextData.xml");
+	        byte[] bFile = new byte[(int) file.length()];
+	        FileInputStream fileInputStream = new FileInputStream(file);
+		    fileInputStream.read(bFile);
+		    fileInputStream.close();
+		    
+	        channel.basicPublish("contexts", "iaasdev$12", null, bFile);
+	        
+	        context.addRoutes(new RouteBuilder() {
+	            public void configure() {
+	                from("rabbitmq://localhost/contexts?routingKey=iaasdev$12&autoDelete=false"
+	                		+ "&durable=false&queue=context_queue")
+//	                	//test-jms:queue:inq - file://src//main//resources//datarepos?noop=true
+//	                	.process(new MyProcessor())
+	                	.bean(new Transormer("abacus"),"transformContent")
+	                	.to("rabbitmq://localhost/contexts?routingKey=iaasdev$12&autoDelete=false"
+	                		+ "&durable=false&queue=context_queue");
+	            }
+	        });
+	        context.start();
+	        
+	        Thread.sleep(5000);
+	        context.stop();
+		/*Camel Ends*/
+	        
 		this.runQueryManager(cesDefinition);
 		if(this.contextAvailable){
 			this.outputOfContextAnalyzer = this.runContextAnalyzer(cesDefinition);

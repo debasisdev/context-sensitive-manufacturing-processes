@@ -1,12 +1,15 @@
 package unistuttgart.iaas.spi.cmprocess.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.cmp.v0.TData;
@@ -128,5 +131,15 @@ public class DemoRunner {
 //		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 //		JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(ContextConfig.PROCESS_REPOSITORY));
 //		TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
+		
+		
+//		JAXBContext jaxbContext1 = JAXBContext.newInstance(ObjectFactory.class);
+//		Unmarshaller jaxbMarshaller1 = jaxbContext1.createUnmarshaller();
+//		JAXBElement<?> root1 = (JAXBElement<?>) jaxbMarshaller1.unmarshal(new File("src/main/resources/datarepos/ContextData.xml"));
+//		TContexts processSet = (TContexts) root1.getValue();
+//		ByteArrayOutputStream b = new ByteArrayOutputStream();
+//        ObjectOutputStream o = new ObjectOutputStream(b);
+//        o.writeObject(processSet);
+//		System.out.println(b.toByteArray());
 	}
 }

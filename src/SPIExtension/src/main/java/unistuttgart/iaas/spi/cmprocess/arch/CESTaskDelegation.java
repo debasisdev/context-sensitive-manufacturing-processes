@@ -59,6 +59,9 @@ public class CESTaskDelegation implements JavaDelegate {
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 		jaxbMarshaller.marshal(root, System.out);
+		
+		CESExecutor cesProcess = new CESExecutor(cesDefinition);
+		System.out.println(cesProcess.getClass());
 	}
 	
 	private TContexts createRequiredContext(String contextList){

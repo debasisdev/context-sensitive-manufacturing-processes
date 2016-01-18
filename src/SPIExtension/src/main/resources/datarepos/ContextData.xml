@@ -30,12 +30,12 @@
             </DefinitionContent>
         </ContextDefinition>
     </Context>
-    <Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+    <Context name="availableWorkers" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <ContextDefinition definitionLanguage="en_US">
             <DefinitionContent>
                 <ns3:ManufacturingContent>
                     <ns3:OrderID>DE37464358BY</ns3:OrderID>
-                    <ns3:SenseValue>Malfunctioned</ns3:SenseValue>
+                    <ns3:SenseValue>4.0</ns3:SenseValue>
                     <ns3:DeliveryDate>2016-01-10T00:00:00.000+01:00</ns3:DeliveryDate>
                     <ns3:Location latitude="48.145199" longitude="11.576567">
                         <ns3:MachineName>Sealing Machine: SMEX207</ns3:MachineName>
@@ -45,12 +45,12 @@
             </DefinitionContent>
         </ContextDefinition>
     </Context>
-    <Context name="availableWorkers" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
+    <Context name="infraredSensorStatus" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
         <ContextDefinition definitionLanguage="en_US">
             <DefinitionContent>
                 <ns3:ManufacturingContent>
                     <ns3:OrderID>DE37464358BY</ns3:OrderID>
-                    <ns3:SenseValue>4.0</ns3:SenseValue>
+                    <ns3:SenseValue>Malfunctioned</ns3:SenseValue>
                     <ns3:DeliveryDate>2016-01-10T00:00:00.000+01:00</ns3:DeliveryDate>
                     <ns3:Location latitude="48.145199" longitude="11.576567">
                         <ns3:MachineName>Sealing Machine: SMEX207</ns3:MachineName>
