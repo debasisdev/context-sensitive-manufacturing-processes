@@ -1,7 +1,9 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -83,16 +85,33 @@ public class CESTaskDelegation implements JavaDelegate {
 	}
 	
 	public TDataList createInputData(String input){
-		return null;
+		Set<TData> dataElements = new HashSet<TData>();
+		if(input.contains(",")){
+			String[] varList = input.split(",");
+			for(String var : varList){
+				String[] keyPair = var.split("=");
+				String key = keyPair[0];
+				String value = keyPair[1];
+				TData dataElement = new TData();
+				dataElement.setName(key.trim());
+				dataElement.setValue(value.trim());
+				dataElements.add(dataElement);
+			}
+		}
+		TDataList dataList = new TDataList();
+		for(TData data : dataElements){
+			dataList.getDataList().add(data);
+		}
+		return dataList;
 	}
 	
 	public TDataList createOutputPlaceholder(String output){
 		TData dataElement = new TData();
 		if(output.contains(",")){
-			dataElement.setName(output.split(",")[0]);
+			dataElement.setName(output.split(",")[0].trim());
 		}
 		else{
-			dataElement.setName(output);
+			dataElement.setName(output.trim());
 		}
 		dataElement.setValue("");
 		TDataList dataList = new TDataList();

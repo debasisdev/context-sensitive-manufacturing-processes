@@ -1,15 +1,12 @@
 package unistuttgart.iaas.spi.cmprocess.test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.util.Properties;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.cmp.v0.TData;
@@ -18,8 +15,11 @@ import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+import unistuttgart.iaas.spi.cmprocess.arch.CESExecutor;
 
 public class DemoRunner {
 
@@ -94,21 +94,21 @@ public class DemoRunner {
 //		TDefinition tdx1 = new TDefinition();
 //		tdx.setDefinitionLanguage("http://www.w3.org/TR/xpath");
 //		tdx.setDefinitionContent(tcxx);
-//		TContext conExp2 = new TContext();
-//		conExp2.setDocumentation("This context is required to decide this process is okay for the purpose or not.");
-//		conExp2.setName("CON002");
-//		conExp2.setTargetNamespace("http://www.uni-stuttgart.de/iaas/cmp/v1/packaging");
+		TContext conExp2 = new TContext();
+		conExp2.setDocumentation("This context is required to decide this process is okay for the purpose or not.");
+		conExp2.setName("CON002");
+		conExp2.setTargetNamespace("http://www.uni-stuttgart.de/iaas/cmp/v1/packaging");
 //		conExp2.getContextDefinition().add(tdx);
-//		
-//		TContexts tco1 = new TContexts();
+		
+		TContexts tco1 = new TContexts();
 //		tco1.getContext().add(conExp1);
-//		tco1.getContext().add(conExp2);
-//		
-//		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ox = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
-//		TProcessDefinitions rtpd = ox.createTProcessDefinitions();
-//		TProcessDefinition tpd = new TProcessDefinition();
-//		tpd.setInitialContexts(tco1);
-//		rtpd.getProcessDefinition().add(tpd);
+		tco1.getContext().add(conExp2);
+		
+		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ox = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
+		TProcessDefinitions rtpd = ox.createTProcessDefinitions();
+		TProcessDefinition tpd = new TProcessDefinition();
+		tpd.setInitialContexts(tco1);
+		rtpd.getProcessDefinition().add(tpd);
 		Properties propertyFile = new Properties();
     	InputStream inputReader = DemoRunner.class.getClassLoader().getResourceAsStream("config.properties");
     	String fileName = null;
@@ -125,7 +125,9 @@ public class DemoRunner {
 //		JAXBElement<TProcessDefinitions> root = ox.createProcessDefinitions(rtpd);
 		jaxbMarshaller.marshal(root, new File(fileName));
 		
-		//CESExecutor cesProcess = new CESExecutor(cesDefinition);
+
+		CESExecutor cesProcess = new CESExecutor(cesDefinition);
+		System.out.println(cesProcess.hashCode());
 		
 //		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 //		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

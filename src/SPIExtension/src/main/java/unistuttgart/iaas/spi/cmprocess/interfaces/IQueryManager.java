@@ -6,6 +6,7 @@ import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
  * A Generic Interface for Query Manager Module.
  * @author Debasis Kar
  */
+
 public interface IQueryManager {
 	/**
 	 * Any Custom Query Manager has to implement the following method that will take TTaskCESDefinition

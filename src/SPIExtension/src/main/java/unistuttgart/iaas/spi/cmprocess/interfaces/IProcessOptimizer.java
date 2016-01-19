@@ -6,6 +6,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
  * A Generic Interface for Process Optimizer Module.
  * @author Debasis Kar
  */
+
 public interface IProcessOptimizer {
 	/**
 	 * Any Custom Process Optimizer has to implement the following method that will take

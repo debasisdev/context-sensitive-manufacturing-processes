@@ -3,7 +3,7 @@ package unistuttgart.iaas.spi.cmprocess.interfaces;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 
 /**
- * A Generic Interface for Context Analyzer Module.
+ * A Generic Interface for Process Dispatcher Module.
  * @author Debasis Kar
  */
 

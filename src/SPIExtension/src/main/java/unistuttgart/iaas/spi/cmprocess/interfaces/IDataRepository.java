@@ -4,6 +4,11 @@ import java.io.File;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 
+/**
+ * A Generic Interface for Repository Access.
+ * @author Debasis Kar
+ */
+
 public interface IDataRepository {
 	/**
 	 * This method must be implemented in order to read and writ to Context Repository of the application.

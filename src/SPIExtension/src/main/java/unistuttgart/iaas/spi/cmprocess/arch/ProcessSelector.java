@@ -1,5 +1,7 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,67 +21,50 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.camel.Exchange;
 import org.w3c.dom.Node;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+import unistuttgart.iaas.spi.cmprocess.interfaces.ICamelSerializer;
 import unistuttgart.iaas.spi.cmprocess.interfaces.IDataRepository;
 import unistuttgart.iaas.spi.cmprocess.interfaces.IProcessSelector;
 
-public class ProcessSelector implements IProcessSelector, IDataRepository {
+public class ProcessSelector implements IProcessSelector, IDataRepository, ICamelSerializer {
 	private TProcessDefinition dispatchedProcess;
+	private TTaskCESDefinition cesDefinition;
 	private Set<String> processIds;
 	private static final Logger log = Logger.getLogger(ProcessSelector.class.getName());
 	
 	public ProcessSelector() {
 		this.dispatchedProcess = null;
+		this.cesDefinition = null;
+		this.processIds = null;
 	}
 	
-	public ProcessSelector(List<TProcessDefinition> conOutput, List<TProcessDefinition> intOutput, TTaskCESDefinition cesDefinition) {
+	public ProcessSelector(TTaskCESDefinition cesDefinition) {
+		ObjectFactory ipsmMaker = new ObjectFactory();
+		this.dispatchedProcess = ipsmMaker.createTProcessDefinition();
 		this.processIds = new HashSet<String>();
-		List<TProcessDefinition> processList = new LinkedList<TProcessDefinition>();
-		for(TProcessDefinition processDef : conOutput){
-			this.processIds.add(processDef.getId());
-		}
-		for(TProcessDefinition processDef : intOutput){
-			this.processIds.add(processDef.getId());
-		}
+		this.cesDefinition = cesDefinition;
 		log.info("Process Selector Is About to Begin...");
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(this.getProcessRepository(cesDefinition));
-			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
-			for(String processId : this.processIds){
-				for(TProcessDefinition process : processSet.getProcessDefinition()){
-					if(processId.equals(process.getId())){
-						processList.add(process);
-					}
-				}
-			}
-			this.dispatchedProcess = this.selectProcess(processList, cesDefinition);
-		} catch (JAXBException e) {
-			log.severe("JAXBException has occurred at Line in Process Selector!");
-		} catch (NullPointerException e) {
-			log.severe("NullPointerException has occurred at Line in Process Selector!");
-		} catch (Exception e) {
-			log.severe("Unknown Exception has occurred in Process Selector!\n" + e.getMessage());
-			e.printStackTrace();
-		} finally{
-			log.info("Process To Be Sent to Process Optimizer: [" + this.dispatchedProcess.getId() + "]");
-			log.info("Process is Selected.");
-		}
 	}
 	
 	@Override
-	public TProcessDefinition selectProcess(List<TProcessDefinition> processDefinitionList, TTaskCESDefinition cesDefinition){
+	public TProcessDefinition selectProcess(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
 		Map<String, Double> weightList = new TreeMap<String, Double>();
 		log.info("Selection is being done...");
 		log.info("Strategy analysis is being done.");
+		List<TProcessDefinition> processDefinitionList = new LinkedList<TProcessDefinition>();
+		for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+			processDefinitionList.add(processDefinition);
+			this.processIds.add(processDefinition.getId());
+		}
 		if(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations()
 				.equals("http://www.uni-stuttgart.de/ipsm/intention/selections/weight-based")){
 			if(!processDefinitionList.isEmpty()){
@@ -97,7 +82,7 @@ public class ProcessSelector implements IProcessSelector, IDataRepository {
 										}
 								}
 							}
-							String dispatchedProcessName = sortMap(weightList);
+							String dispatchedProcessName = ProcessSelector.sortMap(weightList);
 							for(TProcessDefinition processDef : processDefinitionList){
 								if(processDef.getId().equals(dispatchedProcessName)){
 									this.dispatchedProcess = processDef;
@@ -107,7 +92,7 @@ public class ProcessSelector implements IProcessSelector, IDataRepository {
 				}
 			}
 		}
-		else{
+		else {
 			log.info("A process will be randomly selected.");
 			if(!processDefinitionList.isEmpty()){
 				Random randomNumberGenerator = new Random();
@@ -117,13 +102,11 @@ public class ProcessSelector implements IProcessSelector, IDataRepository {
 				this.dispatchedProcess = processDefinitionList.get(randInt);
 			}
 		}
+		log.info(this.dispatchedProcess.getId() + " Is Selected for the Realization of Business Ojective.");
 		return this.dispatchedProcess;
 	}
 	
-	@Override
-	public TProcessDefinition getDispatchedProcess() {
-		return this.dispatchedProcess;
-	}
+	
 	
 	private static String sortMap(Map<String, Double> inputMap) {
 		List<Map.Entry<String, Double>> list = 
@@ -140,6 +123,7 @@ public class ProcessSelector implements IProcessSelector, IDataRepository {
 			Map.Entry<String, Double> entry = iter.next();
 			outputMap.put(entry.getKey(), entry.getValue());
 		}
+		log.info("Process is Selected.");
 		return outputMap.keySet().toArray()[0].toString();
 	}
 	
@@ -155,8 +139,10 @@ public class ProcessSelector implements IProcessSelector, IDataRepository {
 				fileName = propertyFile.getProperty("CONTEXT_REPOSITORY");
 		        inputReader.close();
 			} catch (IOException e) {
-				log.severe("IOException has occurred in Query Manager!");
-			}
+				log.severe("Code - PROSE11: IOException has Occurred.");
+			} catch (Exception e) {
+				log.severe("Code - PROSE10: Unknown Exception has Occurred.");
+		    } 
 		}
 		return new File(fileName);
 	}
@@ -164,5 +150,46 @@ public class ProcessSelector implements IProcessSelector, IDataRepository {
 	@Override
 	public File getProcessRepository(TTaskCESDefinition cesDefinition) {
 		return new File(cesDefinition.getProcessRepository());
+	}
+	
+	@Override
+	public byte[] getSerializedOutput(Exchange exchange){
+		try {
+			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
+			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
+			this.dispatchedProcess = this.selectProcess(processSet, this.cesDefinition);
+		} catch (NullPointerException e) {
+			log.severe("Code - PROSE02: NullPointerException has Occurred.");
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			log.severe("Code - PROSE01: JAXBException has Occurred.");
+		} catch (Exception e) {
+			log.severe("Code - PROSE00: Unknown Exception has Occurred.");
+	    } finally {
+			log.info("Intention Analysis is Completed.");
+		}
+		return this.getDispatchedProcess();
+	}
+	
+	public byte[] getDispatchedProcess() {
+		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        JAXBElement<TProcessDefinition> processDef = ipsmMaker.createProcessDefinition(this.dispatchedProcess);
+			jaxbMarshaller.marshal(processDef, outputStream);
+		} catch(NullPointerException e){
+			log.severe("Code - PROSE22: NullPointerException has Occurred.");
+		} catch (JAXBException e) {
+			log.severe("Code - PROSE21: JAXBException has Occurred.");
+		} catch (Exception e) {
+			log.severe("Code - PROSE20: Unknown Exception has Occurred.");
+	    } 
+		return outputStream.toByteArray();
 	}
 }

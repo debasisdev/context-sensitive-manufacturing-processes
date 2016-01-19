@@ -1,12 +1,13 @@
 package unistuttgart.iaas.spi.cmprocess.arch;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.apache.camel.impl.DefaultCamelContext;
 
 import com.rabbitmq.client.Channel;
@@ -14,126 +15,161 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import unistuttgart.iaas.spi.cmprocess.interfaces.ICESExecutor;
 
-public class CESExecutor implements ICESExecutor {
-	private QueryManager queryManager;
-	private ContextAnalyzer contextAnalyzer;
-	private IntentionAnalyzer intentionAnalyzer;
-	private ProcessSelector processSelector;
-	private ProcessOptimizer processOptimizer;
-	private ProcessDispatcher processDispatcher;
+/**
+ * A Generic Implementation for Context-sensitive Execution Step (CES) Task.
+ * @author Debasis Kar
+ */
 
-	protected boolean contextAvailable;
-	protected boolean optimizationNeeded;
-	private List<TProcessDefinition> outputOfContextAnalyzer;
-	private List<TProcessDefinition> outputOfIntentionAnalyzer;
-	private TProcessDefinition selectedProcessDefintion;
-
-	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
+public class CESExecutor {
 	
+	/**Local Log Writer
+	 * @author Debasis Kar
+	 * */
+	private static final Logger log = Logger.getLogger(CESExecutor.class.getName()); 
+	
+	/**Default Constructor of CESExecutor
+	 * @author Debasis Kar
+	 * */
 	public CESExecutor(){
-		this.queryManager = null;
-		this.contextAnalyzer = null;
-		this.intentionAnalyzer = null;
-		this.processSelector = null;
-		this.processOptimizer = null;
-		this.processDispatcher = null;
-		
-		this.outputOfContextAnalyzer = null;
-		this.outputOfIntentionAnalyzer = null;
-		this.selectedProcessDefintion = null;
-		this.contextAvailable = false;
-		this.optimizationNeeded = false;
+		log.info("Missing Parameters. #Exiting#");
 	}
 	
-	public CESExecutor(TTaskCESDefinition cesDefinition){
-		this.optimizationNeeded = cesDefinition.isOptimizationRequired();
+	/**Parameterized Constructor of CESExecutor that will Invoke other Analyzer and Handlers
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * */
+	public CESExecutor(TTaskCESDefinition cesDefinitionReceived){
+		final TTaskCESDefinition cesDefinition = cesDefinitionReceived;
+		log.info("Camel Routing Starts...");
+		
 		/*Camel Integration*/
-		CamelContext camelCon = new DefaultCamelContext();
-      	ConnectionFactory conFac = new ConnectionFactory();
-      	conFac.setHost("localhost");
-      	Connection connection = conFac.newConnection();
-	    Channel channel = connection.createChannel();
-	        
-	        channel.queueDeclare("context_queue", false, false, false, null); 
-	        channel.exchangeDeclare("contexts", "direct", false, false, false, null); 
-	        channel.queueBind("context_queue", "contexts", "iaasdev$12"); 
-	 
-	        File file = new File("src/main/resources/datarepos/ContextData.xml");
-	        byte[] bFile = new byte[(int) file.length()];
-	        FileInputStream fileInputStream = new FileInputStream(file);
-		    fileInputStream.read(bFile);
-		    fileInputStream.close();
+      	try{
+      		/*Initializing Camel Context, RabbitMQ Factory and Others for Message-Filter Based Integration*/
+    		CamelContext camelCon = new DefaultCamelContext();
+          	ConnectionFactory conFac = new ConnectionFactory();
+          	conFac.setHost("localhost");
+	      	Connection connection = conFac.newConnection();
+		    Channel channel = connection.createChannel();
 		    
-	        channel.basicPublish("contexts", "iaasdev$12", null, bFile);
+		    /*Removing Previously existing Queues that may create deadlocks, e.g., RESOURCE-LOCKED*/
+		    channel.queueDelete("prodis_queue");	/*Process Dispatcher Queue*/
+		    channel.queueDelete("proopt_queue");	/*Process Optimizer Queue*/
+		    channel.queueDelete("intana_queue");	/*Intention Analyzer Queue*/
+	        channel.queueDelete("conana_queue");	/*Context Analyzer Queue*/
+	        channel.queueDelete("queman_queue");	/*Query Manager Queue*/
 	        
-	        context.addRoutes(new RouteBuilder() {
+	        /*Creating the basic Queues for CES Task Execution and Message Exchange*/
+		    channel.queueDeclare("queman_queue", false, false, false, null); 
+		    channel.queueDeclare("conana_queue", false, false, false, null); 
+		    channel.queueDeclare("intana_queue", false, false, false, null); 
+		    channel.queueDeclare("proopt_queue", false, false, false, null); 
+		    channel.queueDeclare("prodis_queue", false, false, false, null); 
+		    
+		    /*Creating a multi-purpose Exchange for selected topic based message forwarding.*/
+		    channel.exchangeDeclare("cmp_messages", "direct", false, false, false, null);
+		    /*Creating a fan-out Exchange for multi-casting.*/
+		    channel.exchangeDeclare("cmp_process", "fanout", false, false, false, null);
+		    
+		    /*Binding already declared Queues with either of the Exchanges using a Routing Key (3rd Parameter)*/
+		    channel.queueBind("queman_queue", "cmp_messages", "infoqm"); 
+		    channel.queueBind("conana_queue", "cmp_messages", "infoca"); 
+		    channel.queueBind("intana_queue", "cmp_messages", "infoia");
+		    channel.queueBind("proopt_queue", "cmp_process", "infopo");
+		    channel.queueBind("prodis_queue", "cmp_process", "infopd");
+		    
+		    /*Routing Details and Rules*/
+	        camelCon.addRoutes(new RouteBuilder() {
 	            public void configure() {
-	                from("rabbitmq://localhost/contexts?routingKey=iaasdev$12&autoDelete=false"
-	                		+ "&durable=false&queue=context_queue")
-//	                	//test-jms:queue:inq - file://src//main//resources//datarepos?noop=true
-//	                	.process(new MyProcessor())
-	                	.bean(new Transormer("abacus"),"transformContent")
-	                	.to("rabbitmq://localhost/contexts?routingKey=iaasdev$12&autoDelete=false"
-	                		+ "&durable=false&queue=context_queue");
+	            	
+	            	/*Query Manager Invocation*/
+	                from("direct:start")
+	                	/*Set Respective Routing Key*/
+	                	.process(new Processor() {
+	            			public void process(Exchange exchange) throws Exception {
+	            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoqm");
+	            			}})
+	                	/*Activate the Query Manager and Unicast to Queue whether Context data is available or not.*/
+	                	.bean(new QueryManager(cesDefinition),"isContextAvailable")
+	                	.to("rabbitmq://localhost/cmp_messages?routingKey=infoqm&autoDelete=false"
+	                		+ "&durable=false&queue=queman_queue");
+	                
+	                /*Context Analyzer Invocation - Filter 1*/
+	                from("rabbitmq://localhost/cmp_messages?routingKey=infoqm&autoDelete=false"
+	                		+ "&durable=false&queue=queman_queue")
+	                		/*Set Respective Routing Key*/
+		                	.process(new Processor() {
+	                			public void process(Exchange exchange) throws Exception {
+	                				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoca");
+	                			}})
+		                	/*Activate Context Analyzer and Unicast the satisfying TProcessDefinitions to the queue*/
+	                		.bean(new ContextAnalyzer(cesDefinition),"getSerializedOutput")
+	                		.to("rabbitmq://localhost/cmp_messages?routingKey=infoca&autoDelete=false"
+	                				+ "&durable=false&queue=conana_queue");
+	                
+	                /*Intention Analyzer Invocation - Filter 2*/
+	                from("rabbitmq://localhost/cmp_messages?routingKey=infoca&autoDelete=false"
+	                		+ "&durable=false&queue=conana_queue")
+	                		/*Set Respective Routing Key*/
+			                .process(new Processor() {
+		            			public void process(Exchange exchange) throws Exception {
+		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoia");
+		            			}})
+			                /*Activate Intention Analyzer and Unicast the satisfying TProcessDefinitions to the queue*/
+	                		.bean(new IntentionAnalyzer(cesDefinition),"getSerializedOutput")
+	                		.to("rabbitmq://localhost/cmp_messages?routingKey=infoia&autoDelete=false"
+		                				+ "&durable=false&queue=intana_queue");
+	                
+	                /*Process Selector Invocation - Filter 3*/
+	                from("rabbitmq://localhost/cmp_messages?routingKey=infoia&autoDelete=false"
+	                		+ "&durable=false&queue=intana_queue")
+	                		/*Set Exchange Name for Multi-casting TProcessDefinition to Optimizer and Dispatcher*/
+		                	.process(new Processor() {
+		            			public void process(Exchange exchange) throws Exception {
+		            				exchange.getIn().setHeader(RabbitMQConstants.EXCHANGE_NAME, "cmp_process");
+		            			}})
+		                	/*Activate Process Selector and broadcast the TProcessDefinition to the
+		                	 *  queues of Optimizer and Dispatcher*/
+	                		.bean(new ProcessSelector(cesDefinition),"getSerializedOutput")
+	                		.to("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
+	                				+ "exchangeType=fanout&skipQueueDeclare=true");
+	                
+	                /*Process Optimizer Invocation*/
+	                from("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
+	                		+ "exchangeType=fanout&queue=proopt_queue")
+			                /*Perform Optimization and flush the queue to the Console Output*/
+	                		.bean(new ProcessOptimizer(cesDefinition),"getSerializedOutput")
+	                		.to("stream:out");
+	                
+	                /*Process Dispatcher Invocation*/
+	                from("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
+	                		+ "exchangeType=fanout&queue=prodis_queue")
+		                	/*Perform Optimization and Unicast the result to the specific queue*/
+	                		.bean(new ProcessDispatcher(cesDefinition),"getSerializedOutput")
+	                		.to("stream:out"); 
 	            }
 	        });
-	        context.start();
 	        
-	        Thread.sleep(5000);
-	        context.stop();
-		/*Camel Ends*/
+	        /*Start Camel Context*/
+	        camelCon.start();
 	        
-		this.runQueryManager(cesDefinition);
-		if(this.contextAvailable){
-			this.outputOfContextAnalyzer = this.runContextAnalyzer(cesDefinition);
-		}
-		else{
-			log.warning("Context Not Available!");
-		}
-		this.outputOfIntentionAnalyzer = this.runIntentionAnalyzer(cesDefinition);
-		this.selectedProcessDefintion = this.runProcessSelector(this.outputOfContextAnalyzer, this.outputOfIntentionAnalyzer, cesDefinition);
-		if(this.optimizationNeeded){
-			this.runProcessOptimizer(this.selectedProcessDefintion);
-		}
-		this.runProcessDispatcher(this.selectedProcessDefintion, cesDefinition);
-	}
-	
-	@Override
-	public void runQueryManager(TTaskCESDefinition cesDefinition){
-		this.queryManager = new QueryManager(cesDefinition);
-		this.contextAvailable = this.queryManager.isContextAvailable();
-	}
-
-	@Override
-	public List<TProcessDefinition> runContextAnalyzer(TTaskCESDefinition cesDefinition){
-		this.contextAnalyzer = new ContextAnalyzer(cesDefinition);
-		return this.contextAnalyzer.getProcessListOfAnalyzer();
-	}
-	
-	@Override
-	public List<TProcessDefinition> runIntentionAnalyzer(TTaskCESDefinition cesDefinition){
-		this.intentionAnalyzer = new IntentionAnalyzer(cesDefinition);
-		return this.intentionAnalyzer.getProcessListOfAnalyzer();
-	}
-
-	@Override
-	public TProcessDefinition runProcessSelector(List<TProcessDefinition> outputOfContextAnalyzer, 
-						List<TProcessDefinition> outputOfIntentionAnalyzer, TTaskCESDefinition cesDefinition) {
-		this.processSelector = new ProcessSelector(outputOfContextAnalyzer, outputOfIntentionAnalyzer, cesDefinition);
-		return this.processSelector.getDispatchedProcess();
-	}
-	
-	@Override
-	public void runProcessOptimizer(TProcessDefinition processDefinition) {
-		this.processOptimizer = new ProcessOptimizer(this.selectedProcessDefintion);
-	}
-
-	@Override
-	public void runProcessDispatcher(TProcessDefinition processDefinition, TTaskCESDefinition cesDefinition){
-		this.processDispatcher = new ProcessDispatcher(processDefinition, cesDefinition);
+	        /*Start the Context by sending some dummy message.*/
+	        ProducerTemplate template = camelCon.createProducerTemplate();
+	        template.sendBody("direct:start", "Start Packaging of E-Blankets...");
+	        
+	        /*Put Some Wait for Illustrative purposes only,*/
+	        Thread.sleep(10000);
+	        
+	        /*Stop Camel Context and Close Connection/Channel Objects*/
+	        camelCon.stop();	        
+	        channel.close();
+	        connection.close();
+	        
+      	} catch(Exception e) {
+      		log.severe("Code - CESEX00: Unknown Exception has Occurred.");
+      	} finally{
+      		log.info("CES Task Execution Complete.");
+      	}
 	}
 
 }

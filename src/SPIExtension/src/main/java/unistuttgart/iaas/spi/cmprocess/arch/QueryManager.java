@@ -40,23 +40,46 @@ import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
 import unistuttgart.iaas.spi.cmprocess.interfaces.IDataRepository;
 import unistuttgart.iaas.spi.cmprocess.interfaces.IQueryManager;
 
+/**
+ * A Demo Implementation Class that Implements IQueryManager and IDataRepository.
+ * This module sends Context Query to the Middleware and fetches the ContextData serialized in XML format.
+ * @author Debasis Kar
+ */
+
 public class QueryManager implements IQueryManager, IDataRepository {
 	
-	
+	/**Variable to Store Context Availability 
+	 * @author Debasis Kar
+	 * */
 	private boolean contextAvailable;
+	
+	/**Local Log Writer
+	 * @author Debasis Kar
+	 * */
 	private static final Logger log = Logger.getLogger(QueryManager.class.getName());
 	
+	/**Default Constructor of QueryManager
+	 * @author Debasis Kar
+	 * */
 	public QueryManager(){
 		this.contextAvailable = false;
 	}
 	
+	/**Parameterized Constructor of QueryManager that will query and fecth context data
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * */
 	public QueryManager(TTaskCESDefinition cesDefinition){
+		/*Calling Default Constructor*/
 		this();
+		/*Calling the Querying Method*/
 		this.queryRawContextData(cesDefinition);
 	}
 	
 	@Override
 	public void queryRawContextData(TTaskCESDefinition cesDefinition) {
+		
+		/*Few Constants for this specific case*/
 		final String MONGO_FIELD_ORDERID = "orderid";
 		final String MONGO_FIELD_DELIVERYDATE = "deliverydate";
 		final String MONGO_FIELD_LANGUAGE = "language";
@@ -66,29 +89,43 @@ public class QueryManager implements IQueryManager, IDataRepository {
 		final String MONGO_FIELD_LONGITUDE = "longitude";
 		final String MONGO_FIELD_LATITUDE = "latitude";
 		final String MONGO_FIELD_SENSORDATALIST = "sensordata";
+		
 		try{
 			log.info("Connecting to Middleware...");
+			/*Fetch Properties from config.properties*/
 			Properties propertyFile = new Properties();
 	    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
 	    	if(inputReader != null){
 	    		propertyFile.load(inputReader);
+	    		/*Connect to MongoDB Instance*/
 				MongoClient mongoClient = new MongoClient(propertyFile.getProperty("MIDDLEWARE_DATABASE_ADDRESS"), 
 															Integer.parseInt(propertyFile.getProperty("MIDDLEWARE_DATABASE_PORT")));
+				/*Search the Database in MongoDB*/
 				DB db = mongoClient.getDB(propertyFile.getProperty("MIDDLEWARE_DATABASE_NAME"));
 				Set<String> mongoCollections = db.getCollectionNames();
 				log.info("Fetching Collections from MongoDB Sensor Data Repository...");
+				
+				/*Initialize TContexts and JAXB ObjectFactory classes*/
 				ObjectFactory cmpMaker = new ObjectFactory();
 				de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
 				TContexts conSet = new TContexts();
+				
+				/*Access the Relevant Collection in MongoDB*/
 				for(String coll : mongoCollections){
 					if(coll.equals(propertyFile.getProperty("MIDDLEWARE_DATABASE_COLLECTION_NAME"))){
 						DBCursor mongoCursor = db.getCollection(coll).find();
+						
 						while(mongoCursor.hasNext()) {
 							BasicDBObject obj = (BasicDBObject) mongoCursor.next();
+							/*Check the Context Name Found in MongoDB with the Required Contexts Specified by the Modeler*/
 							List<TContext> contextList = cesDefinition.getRequiredContexts().getContext();
+							
 							if(!contextList.isEmpty()){
+								/*Set this field as context data has been found*/
 								this.contextAvailable = true;
+								/*Iterate for each required Context to find its value in MongoDB Instance*/
 								for(TContext context : contextList){
+									/*Schema Related Data Fetching valid for this specific example.*/
 								    Date date = (Date) new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy").
 								    		parse(obj.getString(MONGO_FIELD_DELIVERYDATE));
 								    Calendar cal = Calendar.getInstance();
@@ -110,8 +147,7 @@ public class QueryManager implements IQueryManager, IDataRepository {
 							        		newInstance().newXMLGregorianCalendar
 							        		(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
 							        				cal.get(Calendar.DATE) ));
-							        
-							        
+							        /*Create TManufacturingContent Object*/
 							        TManufacturingContent defConType = new TManufacturingContent();
 							        defConType.setOrderID(obj.getString(MONGO_FIELD_ORDERID));
 							        defConType.setDeliveryDate(dateTime);
@@ -121,13 +157,13 @@ public class QueryManager implements IQueryManager, IDataRepository {
 							        	defConType.setSenseValue(obj.getString("unitsOrdered"));
 							        else
 							        	defConType.setSenseValue(values.get(context.getName()).toString());
-							        
+							        /*Create TContent Object to encapsulate TManufacturingContent inside it*/
 							        TContent tCon = new TContent();
 							        tCon.setAny(cmpMaker.createManufacturingContent(defConType));
 							        TDefinition conDefType = ipsmMaker.createTDefinition();
 							        conDefType.setDefinitionContent(tCon);
 							        conDefType.setDefinitionLanguage(obj.getString(MONGO_FIELD_LANGUAGE));
-							        log.info("Context Acquisition Is In Progress...");
+							        log.info("Context Acquisition is in Progress...");
 							        TContext conType = new TContext();
 							        conType.getContextDefinition().add(conDefType);
 							        conType.setDocumentation(context.getDocumentation());
@@ -135,44 +171,47 @@ public class QueryManager implements IQueryManager, IDataRepository {
 							        conType.setTargetNamespace(obj.getString(MONGO_FIELD_NAMESPACE));
 							        conSet.getContext().add(conType);
 								}
+								
+								/*JAXB Implementation for Serializing the Context Data into a Repository of XML.*/
 					    		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 					    		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 					    		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 					            JAXBElement<TContexts> root = ipsmMaker.createContextSet(conSet);
 					    		jaxbMarshaller.marshal(root, this.getContextRepository());
 					    		log.info("Context Data is Serialized as ContextData.xml.");
-	//					    	jaxbMarshaller.marshal(root, System.out);
+						    	jaxbMarshaller.marshal(root, System.out);
 							}
 							else{
+								/*This is executed if there is no context data available*/
 								this.contextAvailable = false;
 								log.warning("Context Data is Not Available!");
 							}
 						}
 					}
 				}
+				/*Close MongoDB and File Connection Objects*/
 				mongoClient.close();
 				inputReader.close();
 	    	}
-			log.info("Connection to Middleware Is Closed.");
+			log.info("Connection to Middleware is Closed.");
 		} catch (JAXBException e) {
-			log.severe("JAXBException has occurred in Query Manager!");
+			log.severe("Code - QUEMA07: JAXBException has Occurred.");
 		} catch (NumberFormatException e) {
-			log.severe("NumberFormatException has occurred in Query Manager!");
+			log.severe("Code - QUEMA06: NumberFormatException has Occurred.");
 		} catch (DatatypeConfigurationException e) {
-			log.severe("DatatypeConfigurationException has occurred in Query Manager!");
+			log.severe("Code - QUEMA05: DatatypeConfigurationException has Occurred.");
 		} catch (ParseException e) {
-			log.severe("ParseException has occurred in Query Manager!");
+			log.severe("Code - QUEMA04: ParseException has Occurred.");
 		} catch (UnknownHostException e) {
-			log.severe("UnknownHostException has occurred in Query Manager!");
+			log.severe("Code - QUEMA03: UnknownHostException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("NullPointerException has occurred in Query Manager!");
-			e.printStackTrace();
+			log.severe("Code - QUEMA02: NullPointerException has Occurred.");
 		} catch (IOException e) {
-			log.severe("IOException has occurred in Query Manager!");
-		} catch(Exception e){
-			log.severe("Unknown Exception has occurred in Query Manager!\n" + e.getMessage());
+			log.severe("Code - QUEMA01: IOException has Occurred.");
+		} catch (Exception e) {
+			log.severe("Code - QUEMA00: Unknown Exception has Occurred.");
 		} finally {
-			log.info("Context Acquisition Is Finished.");
+			log.info("Context Acquisition is Finished.");
 		}
 	}
 	
@@ -183,6 +222,7 @@ public class QueryManager implements IQueryManager, IDataRepository {
 
 	@Override
 	public File getContextRepository() {
+		/*Fetch Properties from config.properties*/
 		Properties propertyFile = new Properties();
     	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
     	String fileName = null;
@@ -192,8 +232,10 @@ public class QueryManager implements IQueryManager, IDataRepository {
 				fileName = propertyFile.getProperty("CONTEXT_REPOSITORY");
 		        inputReader.close();
 			} catch (IOException e) {
-				log.severe("IOException has occurred in Query Manager!!");
-			}
+				log.severe("Code - QUEMA11: IOException has Occurred.");
+			} catch (Exception e) {
+				log.severe("Code - QUEMA10: Unknown Exception has Occurred.");
+			} 
 		}
 		return new File(fileName);
 	}
@@ -204,24 +246,24 @@ public class QueryManager implements IQueryManager, IDataRepository {
 	}
 }
 
-//Mongo Schema
-//	db.packagecontext.insert([
-//          {
-//             orderid: 'DE37464358BY',	  
-//             deliverydate: new Date(2015,12,10),
-//       	   language: 'en_US',
-//             by: 'Sealing Machine: SMEX207',
-//             url: 'http://www.uni-stuttgart.de/iaas/cmp/v1/packaging',
-//             timestamp: new Timestamp(),
-//       	   latitude: 48.145198,
-//       	   longitude: 11.5765667,
-//       	   unitsOrdered: 1000,
-//       	   sensordata: [	
-//                {
-//       			availableWorkers: 4,
-//                  infraredSensorStatus: 'Malfunctioned',
-//       			shockDetectorStatus: 'Okay'
-//                }
-//             ]
-//          }
-//       ])
+/*Mongo Schema
+	db.packagecontext.insert([
+          {
+             orderid: 'DE37464358BY',	  
+             deliverydate: new Date(2015,12,10),
+       	   language: 'en_US',
+             by: 'Sealing Machine: SMEX207',
+             url: 'http://www.uni-stuttgart.de/iaas/cmp/v1/packaging',
+             timestamp: new Timestamp(),
+       	   latitude: 48.145198,
+       	   longitude: 11.5765667,
+       	   unitsOrdered: 1000,
+       	   sensordata: [	
+                {
+       			availableWorkers: 4,
+                  infraredSensorStatus: 'Malfunctioned',
+       			shockDetectorStatus: 'Okay'
+                }
+             ]
+          }
+       ])*/
