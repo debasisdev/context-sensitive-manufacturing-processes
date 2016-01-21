@@ -69,9 +69,9 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 				}
 			}
 		} catch (NullPointerException e) {
-			log.severe("INTAN21: NullPointerException has Occurred.");
+			log.severe("INTAN11: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("INTAN20: Unknown Exception has Occurred - " + e);
+			log.severe("INTAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
 			log.info("Overall " + this.intentionAnalysisPassedProcesses.getProcessDefinition().size() + 
 					" Processes Passed Intention Analysis.");
@@ -80,6 +80,8 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 	}
 	
 	public byte[] getSerializedOutput(Exchange exchange){
+		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
@@ -90,6 +92,11 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 				processSet = this.getProcessRepository(this.cesDefinition);
 			}
 			this.intentionAnalysisPassedProcesses = this.eliminate(processSet, this.cesDefinition);
+			
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.intentionAnalysisPassedProcesses);
+			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (NullPointerException e) {
 			log.severe("INTAN02: NullPointerException has Occurred.");
 		} catch (JAXBException e) {
@@ -99,43 +106,24 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 	    } finally {
 			log.info("Intention Analysis is Completed.");
 		}
-		return this.getSerializedProcessListOfAnalyzer();
-	}
-	
-	public byte[] getSerializedProcessListOfAnalyzer() {
-		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.intentionAnalysisPassedProcesses);
-			jaxbMarshaller.marshal(processDefSet, outputStream);
-		} catch (NullPointerException e){
-			log.severe("INTAN12: NullPointerException has Occurred.");
-		} catch (JAXBException e) {
-			log.severe("INTAN11: JAXBException has Occurred.");
-		} catch (Exception e) {
-			log.severe("INTAN10: Unknown Exception has Occurred - " + e);
-	    } 
 		return outputStream.toByteArray();
 	}
 	
 	@Override
 	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
 		TProcessDefinitions processDefinitions = null;
-		String fileName = cesDefinition.getDomainKnowHowRepository() + "ProcessRepository.xml";
+		String fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository.xml";
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
 			processDefinitions = (TProcessDefinitions) rootElement.getValue();
 		} catch (JAXBException e) {
-			log.severe("Code - DATHA02: JAXBException has Occurred.");
+			log.severe("INTAN22: JAXBException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("Code - DATHA01: NullPointerException has Occurred.");
+			log.severe("INTAN21: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - DATHA00: Unknown Exception has Occurred.");
+			log.severe("INTAN20: Unknown Exception has Occurred - " + e);
 		}
 		return processDefinitions;
 	}

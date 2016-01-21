@@ -191,11 +191,11 @@ public class QueryManager implements IQueryManager, ICamelSerializer {
 	    	}
 			log.info("Connection to Middleware is Closed.");
 		} catch (NullPointerException e) {
-			log.severe("QUEMA02: NullPointerException has Occurred.");
+			log.severe("QUEMA12: NullPointerException has Occurred.");
 		} catch (IOException e) {
-			log.severe("QUEMA01: IOException has Occurred.");
+			log.severe("QUEMA11: IOException has Occurred.");
 		} catch (Exception e) {
-			log.severe("QUEMA00: Unknown Exception has Occurred - " + e);
+			log.severe("QUEMA10: Unknown Exception has Occurred - " + e);
 		} finally {
 			log.info("Context Acquisition is Finished.");
 		}

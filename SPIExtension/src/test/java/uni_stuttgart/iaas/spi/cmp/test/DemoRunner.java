@@ -19,7 +19,6 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
-import uni_stuttgart.iaas.spi.cmp.archdev.CESExecutor;
 
 public class DemoRunner {
 
@@ -118,16 +117,15 @@ public class DemoRunner {
 	        inputReader.close();
 		}
 		
-		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+		JAXBContext jaxbContext = JAXBContext.newInstance(de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory.class, ObjectFactory.class, org.oasis_open.docs.tosca.ns._2011._12.ObjectFactory.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 //		JAXBElement<TProcessDefinitions> root = ox.createProcessDefinitions(rtpd);
 		jaxbMarshaller.marshal(root, new File(fileName));
 		
-
-		CESExecutor cesProcess = new CESExecutor(cesDefinition);
-		System.out.println(cesProcess.hashCode());
+//		CESExecutor cesProcess = new CESExecutor(cesDefinition);
+//		System.out.println(cesProcess.hashCode());
 		
 //		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 //		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

@@ -33,6 +33,7 @@ import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
@@ -50,16 +51,19 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 	
 	private TProcessDefinitions contextAnalysisPassedProcesses;
 	private TTaskCESDefinition cesDefinition;
+	private TContexts contextSet;
 	private static final Logger log = Logger.getLogger(ContextAnalyzer.class.getName());
 	
 	public ContextAnalyzer(){
 		this.contextAnalysisPassedProcesses = null;
 		this.cesDefinition = null;
+		this.contextSet = null;
 	}
 
 	public ContextAnalyzer(TTaskCESDefinition cesDefinition){
 		ObjectFactory ipsmMaker = new ObjectFactory();
 		this.contextAnalysisPassedProcesses = ipsmMaker.createTProcessDefinitions();
+		this.contextSet = ipsmMaker.createTContexts();
 		this.cesDefinition = cesDefinition;
 		log.info("Deserializing the ProcessRepository.xml for Context Analysis.");
 	}
@@ -69,9 +73,17 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 		Map<String, Boolean> initialContextAnalysisTable = new TreeMap<String, Boolean>();
 		Map<String, Boolean> finalContextAnalysisTable = new TreeMap<String, Boolean>();
 		try {
+			ObjectFactory ipsmMaker = new ObjectFactory();
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			JAXBElement<TContexts> conSet = ipsmMaker.createContextSet(this.contextSet);
+			File file = File.createTempFile("ContextData", ".xml", new File("src/main/resources/diagrams/"));
+			jaxbMarshaller.marshal(conSet, file);
+			
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new File(this.cesDefinition.getDomainKnowHowRepository()+"ContextData.xml"));
+			Document doc = docBuilder.parse(file);
 	        
 			Properties propertyFile = new Properties();
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
@@ -127,14 +139,15 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 					}
 				}
 			}
+			file.delete();
 		} catch (NullPointerException e) {
-			log.severe("CONAN23: NullPointerException has Occurred.");
+			log.severe("CONAN13: NullPointerException has Occurred.");
 		} catch (IOException e) {
-			log.severe("CONAN22: IOException has Occurred.");
+			log.severe("CONAN12: IOException has Occurred.");
 		} catch (XPathExpressionException e) {
-			log.severe("CONAN21: XPathExpressionException has Occurred.");
+			log.severe("CONAN11: XPathExpressionException has Occurred.");
 		} catch(Exception e){
-			log.severe("CONAN20: Unknown Exception has Occurred - " + e);
+			log.severe("CONAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
 			log.info(this.contextAnalysisPassedProcesses.getProcessDefinition().size() + 
 						" Processes Passed Context Analysis.");
@@ -144,16 +157,23 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 	
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange) {
+		ObjectFactory ipsmMaker = new ObjectFactory();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			TProcessDefinitions processSet = this.getProcessRepository(this.cesDefinition);
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
+			TContexts contextSet = (TContexts) rootElement.getValue();
+			this.contextSet = contextSet;
+			this.contextAnalysisPassedProcesses = this.eliminate(processSet, this.cesDefinition);
+			
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(rootElement, new File(this.cesDefinition.getDomainKnowHowRepository()+"ContextData.xml"));
-			this.contextAnalysisPassedProcesses = this.eliminate(processSet, this.cesDefinition);
+	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(
+	        										this.contextAnalysisPassedProcesses);
+			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (JAXBException e) {
 			log.severe("CONAN02: JAXBException has Occurred.");
 		} catch (NullPointerException e) {
@@ -163,44 +183,24 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 	    } finally{
 			log.info("Context Matching Process is Completed.");
 		}
-		return this.getSerializedProcessListOfAnalyzer();
-	}
-	
-	public byte[] getSerializedProcessListOfAnalyzer() {
-		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(
-	        										this.contextAnalysisPassedProcesses);
-			jaxbMarshaller.marshal(processDefSet, outputStream);
-		} catch(NullPointerException e){
-			log.severe("CONAN12: NullPointerException has Occurred.");
-		} catch (JAXBException e) {
-			log.severe("CONAN11: JAXBException has Occurred.");
-		} catch (Exception e) {
-			log.severe("CONAN10: Unknown Exception has Occurred - " + e);
-	    } 
 		return outputStream.toByteArray();
 	}
 	
 	@Override
 	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
 		TProcessDefinitions processDefinitions = null;
-		String fileName = cesDefinition.getDomainKnowHowRepository() + "ProcessRepository.xml";
+		String fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository.xml";
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
 			processDefinitions = (TProcessDefinitions) rootElement.getValue();
 		} catch (JAXBException e) {
-			log.severe("Code - DATHA02: JAXBException has Occurred.");
+			log.severe("CONAN22: JAXBException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("Code - DATHA01: NullPointerException has Occurred.");
+			log.severe("CONAN21: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - DATHA00: Unknown Exception has Occurred.");
+			log.severe("CONAN20: Unknown Exception has Occurred - " + e);
 		}
 		return processDefinitions;
 	}

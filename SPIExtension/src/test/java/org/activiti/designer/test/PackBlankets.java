@@ -13,9 +13,9 @@ import org.activiti.engine.test.ActivitiRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class ProcessTestMyProcess {
+public class PackBlankets {
 
-	private String filename = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\packagingprocess.bpmn";
+	private String filename = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\PackBlankets.bpmn";
 
 	@Rule
 	public ActivitiRule activitiRule = new ActivitiRule();

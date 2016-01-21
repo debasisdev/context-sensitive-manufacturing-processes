@@ -4,7 +4,7 @@
   <interface id="1" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessSelector" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessSelector.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="482" y="49"/>    
+    <position height="-1" width="-1" x="481" y="40"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -14,7 +14,7 @@
   <interface id="2" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessOptimizer" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessOptimizer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="112" y="128"/>    
+    <position height="-1" width="-1" x="96" y="40"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -34,7 +34,7 @@
   <interface id="4" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessEliminator" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessEliminator.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="886" y="814"/>    
+    <position height="-1" width="-1" x="883" y="745"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -44,7 +44,7 @@
   <interface id="5" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IQueryManager" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IQueryManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="105" y="668"/>    
+    <position height="-1" width="-1" x="81" y="585"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -54,7 +54,7 @@
   <interface id="6" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessRepository" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="887" y="712"/>    
+    <position height="-1" width="-1" x="672" y="634"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -64,7 +64,7 @@
   <interface id="7" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/ICamelSerializer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="490" y="484"/>    
+    <position height="-1" width="-1" x="488" y="463"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -74,7 +74,7 @@
   <class id="8" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ProcessSelector" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ProcessSelector.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="490" y="240"/>    
+    <position height="-1" width="-1" x="484" y="224"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,7 +84,7 @@
   <class id="9" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ProcessOptimizer" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ProcessOptimizer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="105" y="297"/>    
+    <position height="-1" width="-1" x="95" y="215"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -94,7 +94,7 @@
   <class id="10" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.IntentionAnalyzer" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/IntentionAnalyzer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="887" y="515"/>    
+    <position height="-1" width="-1" x="887" y="468"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -104,7 +104,7 @@
   <class id="11" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ContextAnalyzer" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ContextAnalyzer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="463" y="716"/>    
+    <position height="-1" width="-1" x="287" y="746"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -114,7 +114,7 @@
   <class id="12" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ProcessDispatcher" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ProcessDispatcher.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="883" y="257"/>    
+    <position height="-1" width="-1" x="883" y="239"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -124,7 +124,7 @@
   <class id="13" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.QueryManager" project="SPIExtension" 
     file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/QueryManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="104" y="493"/>    
+    <position height="-1" width="-1" x="82" y="420"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -132,63 +132,60 @@
     </display>  
   </class>  
   <realization id="14">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="15">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="16">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="4"/>  
-  </realization>  
-  <realization id="17">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="18">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <realization id="19">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="20">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="21">    
-    <bendpoint x="1095" y="519"/>    
-    <bendpoint x="1096" y="735"/>    
-    <bendpoint x="1096" y="821"/>    
-    <bendpoint x="1082" y="820"/>    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="4"/>  
-  </realization>  
-  <realization id="22">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="23">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="5"/>  
-  </realization>  
-  <realization id="24">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="1"/>  
-  </realization>  
-  <realization id="25">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <realization id="26">    
     <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="2"/>  
   </realization>  
-  <realization id="27">    
+  <realization id="15">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <realization id="16">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="17">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="18">    
     <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="4"/>  
+  </realization>  
+  <realization id="19">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="5"/>  
+  </realization>  
+  <realization id="20">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="21">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="22">    
+    <bendpoint x="330" y="370"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="23">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="1"/>  
+  </realization>  
+  <realization id="24">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="25">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <realization id="26">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <realization id="27">    
+    <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 

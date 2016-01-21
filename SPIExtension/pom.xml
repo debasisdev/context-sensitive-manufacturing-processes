@@ -102,4 +102,9 @@
 	     </plugin>
     </plugins>
 	 </build>
+  <description>Manufacturing processes need to be updated regularly to stay competitive in the market. With the emergence of Internet of Things (IoT), the manufacturing processes can be made smarter so that they can possibly adapt themselves to the execution context.</description>
+  <organization>
+  	<name>Institut für Architektur von Anwendungssystemen, Universität Stuttgart</name>
+  	<url>http://www.iaas.uni-stuttgart.de/</url>
+  </organization>
 </project>

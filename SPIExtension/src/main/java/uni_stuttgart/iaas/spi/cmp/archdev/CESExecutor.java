@@ -115,7 +115,6 @@ public class CESExecutor {
 			                .process(new Processor() {
 		            			public void process(Exchange exchange) throws Exception {
 		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoia");
-		            				System.out.println("debasis the don");
 		            			}})
 			                //Activate Intention Analyzer and Unicast the satisfying TProcessDefinitions to the queue
 	                		.bean(new IntentionAnalyzer(cesDefinition),"getSerializedOutput")
