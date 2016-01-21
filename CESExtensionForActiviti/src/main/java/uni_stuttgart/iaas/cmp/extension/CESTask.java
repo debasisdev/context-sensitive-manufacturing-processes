@@ -1,7 +1,7 @@
 /**
  * 
  */
-package unistuttgart.iaas.cmpextension;
+package uni_stuttgart.iaas.cmp.extension;
 
 import org.activiti.designer.integration.annotation.Help;
 import org.activiti.designer.integration.annotation.Property;
@@ -18,7 +18,7 @@ import org.activiti.designer.integration.servicetask.PropertyType;
  * @version 1
  * @since 27.12.2015
  */
-@Runtime(javaDelegateClass = "unistuttgart.iaas.spi.cmprocess.arch.CESTaskDelegation")
+@Runtime(javaDelegateClass = "uni_stuttgart.iaas.spi.cmp.archdev.CESTaskDelegation")
 @Help(displayHelpShort = "Context-sensitive Execution Step", 
 displayHelpLong = "Creates a Context-sensitive Task that runs a process according to present scenario.")
 @TaskNames(
@@ -42,7 +42,7 @@ public class CESTask extends AbstractCustomServiceTask {
   @Help(displayHelpShort = "Mentioned required context data.", displayHelpLong = "You can provide the list of required context names to be looked for separted by commas(,).")
   private String requiredContext;
   
-  @Property(type = PropertyType.TEXT, displayName = "Process Repository Location", required = true, defaultValue = "\\src\\main\\resources\\processrepos\\ProcessRepository.xml")
+  @Property(type = PropertyType.TEXT, displayName = "Process Repository Location", required = true, defaultValue = "D:\\MyWorkThesis\\SPIExtension\\src\\main\\resources\\dataRepository")
   @Help(displayHelpShort = "Give the path to the process models' store.", displayHelpLong = "You can provide the list of required context names to be looked for separted by commas(,).")
   private String processRepositoryPath;
   
