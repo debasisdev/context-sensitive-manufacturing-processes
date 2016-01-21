@@ -1,4 +1,4 @@
-package unistuttgart.iaas.spi.cmprocess.arch;
+package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,8 +15,8 @@ import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import unistuttgart.iaas.spi.cmprocess.interfaces.ICamelSerializer;
-import unistuttgart.iaas.spi.cmprocess.interfaces.IProcessEngine;
+import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
+import uni_stuttgart.iaas.spi.cmp.archint.IProcessEngine;
 
 public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 	private TDataList inputData;
@@ -63,9 +63,9 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 			this.output = this.deployProcess(processDef);
 		} catch (NullPointerException e) {
-			log.severe("Code - PRODI01: NullPointerException has Occurred.");
+			log.severe("PRODI01: NullPointerException has Occurred.");
 		} catch(Exception e) {
-      		log.severe("Code - PRODI00: Unknown Exception has Occurred.");
+      		log.severe("PRODI00: Unknown Exception has Occurred - " + e);
       	} finally{
 			log.info("Process has been Dispatched and Deployed Successfully!!");
 			log.info("CES Task Completed!!");

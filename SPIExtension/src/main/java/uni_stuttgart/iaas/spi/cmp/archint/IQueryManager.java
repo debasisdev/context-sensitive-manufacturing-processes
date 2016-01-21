@@ -1,6 +1,7 @@
-package unistuttgart.iaas.spi.cmprocess.interfaces;
+package uni_stuttgart.iaas.spi.cmp.archint;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 
 /**
  * A Generic Interface for Query Manager Module.
@@ -17,14 +18,6 @@ public interface IQueryManager {
 	 * @param TTaskCESDefinition 
 	 * @return void
 	 */
-	public void queryRawContextData(TTaskCESDefinition cesDefinition);
+	public TContexts queryRawContextData(TTaskCESDefinition cesDefinition);
 	
-	/**
-	 * Any Custom Query Manager has to implement the following method that will tell the CESExecutor
-	 * whether it was able to pull/fetch any Context Data out of the Middleware or Database whatsoever.
-	 * @author Debasis Kar
-	 * @param void 
-	 * @return boolean
-	 */
-	public boolean isContextAvailable();
 }

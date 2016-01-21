@@ -1,4 +1,4 @@
-package unistuttgart.iaas.spi.cmprocess.arch;
+package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -14,8 +14,8 @@ import org.w3c.dom.Node;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import unistuttgart.iaas.spi.cmprocess.interfaces.ICamelSerializer;
-import unistuttgart.iaas.spi.cmprocess.interfaces.IProcessOptimizer;
+import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
+import uni_stuttgart.iaas.spi.cmp.archint.IProcessOptimizer;
 
 public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 	private boolean optimizerRunStatus;
@@ -58,9 +58,9 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 				log.info("Optimization is not Required by the modeler.");
 			}
 		} catch (NullPointerException e) {
-			log.severe("Code - PROOP01: NullPointerException has Occurred.");
+			log.severe("PROOP01: NullPointerException has Occurred.");
 		} catch(Exception e) {
-      		log.severe("Code - PROOP00: Unknown Exception has Occurred.");
+      		log.severe("PROOP00: Unknown Exception has Occurred - " + e);
       	} 
 		if(this.optimizerRunStatus){
 			log.info("Process Optimization Is Complete...");

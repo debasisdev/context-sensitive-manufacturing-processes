@@ -1,4 +1,4 @@
-package unistuttgart.iaas.spi.cmprocess.interfaces;
+package uni_stuttgart.iaas.spi.cmp.archint;
 
 import org.apache.camel.Exchange;
 

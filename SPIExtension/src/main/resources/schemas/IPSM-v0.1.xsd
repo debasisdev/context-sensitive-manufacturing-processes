@@ -450,7 +450,7 @@
 			<extension base="pref:tNodeTemplate"></extension>
 		</complexContent>
 	</complexType>
-	
+
 
 	<complexType name="tInteractiveEntity">
 		<complexContent>
@@ -508,7 +508,45 @@
 			</element>
 		</sequence>
 	</complexType>
-	
+
+	<complexType name="tMatchingRelationships">
+		<sequence>
+			<element name="MatchingRelationships" type="pref:tRelationshipTemplate" maxOccurs="unbounded" minOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="tRelevanceRelationship">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="MatchingRelationships" type="ipsm:tMatchingRelationships" maxOccurs="1"
+						minOccurs="1"></element>
+					<element name="RelevantResource" type="pref:tNodeTemplate"
+						minOccurs="1" maxOccurs="1"></element>
+					<element name="InvolvedResource" type="pref:tNodeTemplate"
+						minOccurs="1" maxOccurs="1"></element>
+				</sequence>
+				<attribute name="inverseDependency" type="boolean"
+					default="false"></attribute>
+				<attribute name="weight" type="float"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="tRelevantCapability">
+		<complexContent>
+			<extension base="ipsm:tBaseType">
+				<sequence>
+					<element name="ExposingResource" type="pref:tNodeTemplate"
+						minOccurs="1" maxOccurs="1"></element>
+				</sequence>
+				<attribute name="weight" type="float"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+
 	<complexType name="tInteraction">
 		<complexContent>
 			<extension base="ipsm:tBaseType">
@@ -522,11 +560,14 @@
 					<element name="Action" type="string" maxOccurs="1"
 						minOccurs="1">
 					</element>
+					<element name="Content" type="ipsm:tContent" maxOccurs="1"
+						minOccurs="0">
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-	
+
 	<element name="ProcessDefinitions" type="ipsm:tProcessDefinitions"></element>
 
 </schema>

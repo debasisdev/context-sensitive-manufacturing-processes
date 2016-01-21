@@ -1,12 +1,10 @@
-package unistuttgart.iaas.spi.cmprocess.arch;
+package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -25,11 +23,11 @@ import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
-import unistuttgart.iaas.spi.cmprocess.interfaces.ICamelSerializer;
-import unistuttgart.iaas.spi.cmprocess.interfaces.IDataRepository;
-import unistuttgart.iaas.spi.cmprocess.interfaces.IProcessEliminator;
+import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
+import uni_stuttgart.iaas.spi.cmp.archint.IProcessEliminator;
+import uni_stuttgart.iaas.spi.cmp.archint.IProcessRepository;
 
-public class IntentionAnalyzer implements IProcessEliminator, IDataRepository, ICamelSerializer {
+public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, IProcessRepository {
 	
 	private TProcessDefinitions intentionAnalysisPassedProcesses;
 	private TTaskCESDefinition cesDefinition;
@@ -71,38 +69,14 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataRepository, I
 				}
 			}
 		} catch (NullPointerException e) {
-			log.severe("Code - INTAN21: NullPointerException has Occurred.");
+			log.severe("INTAN21: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - INTAN20: Unknown Exception has Occurred.");
+			log.severe("INTAN20: Unknown Exception has Occurred - " + e);
 	    } finally{
 			log.info("Overall " + this.intentionAnalysisPassedProcesses.getProcessDefinition().size() + 
 					" Processes Passed Intention Analysis.");
 		}
 		return this.intentionAnalysisPassedProcesses;
-	}
-
-	@Override
-	public File getContextRepository() {
-		Properties propertyFile = new Properties();
-    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
-    	String fileName = null;
-		if(inputReader != null){
-	        try {
-				propertyFile.load(inputReader);
-				fileName = propertyFile.getProperty("CONTEXT_REPOSITORY");
-		        inputReader.close();
-			} catch (IOException e) {
-				log.severe("Code - INTAN11: IOException has Occurred.");
-			} catch (Exception e) {
-				log.severe("Code - INTAN10: Unknown Exception has Occurred.");
-		    } 
-		}
-		return new File(fileName);
-	}
-
-	@Override
-	public File getProcessRepository(TTaskCESDefinition cesDefinition) {
-		return new File(cesDefinition.getProcessRepository());
 	}
 	
 	public byte[] getSerializedOutput(Exchange exchange){
@@ -112,16 +86,16 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataRepository, I
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
+			if(processSet.getProcessDefinition().isEmpty()){
+				processSet = this.getProcessRepository(this.cesDefinition);
+			}
 			this.intentionAnalysisPassedProcesses = this.eliminate(processSet, this.cesDefinition);
-			if(this.intentionAnalysisPassedProcesses.getProcessDefinition().isEmpty()){
-				this.intentionAnalysisPassedProcesses = processSet;
-			} 
 		} catch (NullPointerException e) {
-			log.severe("Code - INTAN01: NullPointerException has Occurred.");
+			log.severe("INTAN02: NullPointerException has Occurred.");
 		} catch (JAXBException e) {
-			log.severe("Code - INTAN01: JAXBException has Occurred.");
+			log.severe("INTAN01: JAXBException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - INTAN00: Unknown Exception has Occurred.");
+			log.severe("INTAN00: Unknown Exception has Occurred - " + e);
 	    } finally {
 			log.info("Intention Analysis is Completed.");
 		}
@@ -137,13 +111,32 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataRepository, I
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.intentionAnalysisPassedProcesses);
 			jaxbMarshaller.marshal(processDefSet, outputStream);
-		} catch(NullPointerException e){
-			log.severe("Code - INTAN32: NullPointerException has Occurred.");
+		} catch (NullPointerException e){
+			log.severe("INTAN12: NullPointerException has Occurred.");
 		} catch (JAXBException e) {
-			log.severe("Code - INTAN31: JAXBException has Occurred.");
+			log.severe("INTAN11: JAXBException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - INTAN30: Unknown Exception has Occurred.");
+			log.severe("INTAN10: Unknown Exception has Occurred - " + e);
 	    } 
 		return outputStream.toByteArray();
+	}
+	
+	@Override
+	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
+		TProcessDefinitions processDefinitions = null;
+		String fileName = cesDefinition.getDomainKnowHowRepository() + "ProcessRepository.xml";
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
+			processDefinitions = (TProcessDefinitions) rootElement.getValue();
+		} catch (JAXBException e) {
+			log.severe("Code - DATHA02: JAXBException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("Code - DATHA01: NullPointerException has Occurred.");
+		} catch (Exception e) {
+			log.severe("Code - DATHA00: Unknown Exception has Occurred.");
+		}
+		return processDefinitions;
 	}
 }

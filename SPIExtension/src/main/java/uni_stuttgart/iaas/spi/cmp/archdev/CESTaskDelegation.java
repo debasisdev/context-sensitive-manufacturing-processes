@@ -1,5 +1,6 @@
-package unistuttgart.iaas.spi.cmprocess.arch;
+package uni_stuttgart.iaas.spi.cmp.archdev;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +45,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		cesDefinition.setIsCommandAction(true);
 		cesDefinition.setIsEventDriven(false);
 		cesDefinition.setTargetNamespace("http://www.uni-stuttgart.de/iaas/");
-		cesDefinition.setProcessRepository(this.processRepositoryPath.getExpressionText().trim());
+		cesDefinition.setDomainKnowHowRepository(this.processRepositoryPath.getExpressionText().trim());
 		cesDefinition.setOptimizationRequired(Boolean.parseBoolean(this.performOptimization.getExpressionText()));
 		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), 
 							this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
@@ -60,7 +61,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
-		jaxbMarshaller.marshal(root, System.out);
+		jaxbMarshaller.marshal(root, new File("D://dev.xml"));
 		
 		CESExecutor cesProcess = new CESExecutor(cesDefinition);
 		System.out.println(cesProcess.getClass());

@@ -1,9 +1,7 @@
-package unistuttgart.iaas.spi.cmprocess.arch;
+package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
@@ -31,11 +28,10 @@ import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
-import unistuttgart.iaas.spi.cmprocess.interfaces.ICamelSerializer;
-import unistuttgart.iaas.spi.cmprocess.interfaces.IDataRepository;
-import unistuttgart.iaas.spi.cmprocess.interfaces.IProcessSelector;
+import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
+import uni_stuttgart.iaas.spi.cmp.archint.IProcessSelector;
 
-public class ProcessSelector implements IProcessSelector, IDataRepository, ICamelSerializer {
+public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 	private TProcessDefinition dispatchedProcess;
 	private TTaskCESDefinition cesDefinition;
 	private Set<String> processIds;
@@ -127,31 +123,6 @@ public class ProcessSelector implements IProcessSelector, IDataRepository, ICame
 		return outputMap.keySet().toArray()[0].toString();
 	}
 	
-
-	@Override
-	public File getContextRepository() {
-		Properties propertyFile = new Properties();
-    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
-    	String fileName = null;
-		if(inputReader != null){
-	        try {
-				propertyFile.load(inputReader);
-				fileName = propertyFile.getProperty("CONTEXT_REPOSITORY");
-		        inputReader.close();
-			} catch (IOException e) {
-				log.severe("Code - PROSE11: IOException has Occurred.");
-			} catch (Exception e) {
-				log.severe("Code - PROSE10: Unknown Exception has Occurred.");
-		    } 
-		}
-		return new File(fileName);
-	}
-
-	@Override
-	public File getProcessRepository(TTaskCESDefinition cesDefinition) {
-		return new File(cesDefinition.getProcessRepository());
-	}
-	
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange){
 		try {
@@ -162,12 +133,12 @@ public class ProcessSelector implements IProcessSelector, IDataRepository, ICame
 			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
 			this.dispatchedProcess = this.selectProcess(processSet, this.cesDefinition);
 		} catch (NullPointerException e) {
-			log.severe("Code - PROSE02: NullPointerException has Occurred.");
+			log.severe("PROSE02: NullPointerException has Occurred.");
 			e.printStackTrace();
 		} catch (JAXBException e) {
-			log.severe("Code - PROSE01: JAXBException has Occurred.");
+			log.severe("PROSE01: JAXBException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - PROSE00: Unknown Exception has Occurred.");
+			log.severe("PROSE00: Unknown Exception has Occurred - " + e);
 	    } finally {
 			log.info("Intention Analysis is Completed.");
 		}
@@ -184,11 +155,11 @@ public class ProcessSelector implements IProcessSelector, IDataRepository, ICame
 	        JAXBElement<TProcessDefinition> processDef = ipsmMaker.createProcessDefinition(this.dispatchedProcess);
 			jaxbMarshaller.marshal(processDef, outputStream);
 		} catch(NullPointerException e){
-			log.severe("Code - PROSE22: NullPointerException has Occurred.");
+			log.severe("PROSE12: NullPointerException has Occurred.");
 		} catch (JAXBException e) {
-			log.severe("Code - PROSE21: JAXBException has Occurred.");
+			log.severe("PROSE11: JAXBException has Occurred.");
 		} catch (Exception e) {
-			log.severe("Code - PROSE20: Unknown Exception has Occurred.");
+			log.severe("PROSE10: Unknown Exception has Occurred - " + e);
 	    } 
 		return outputStream.toByteArray();
 	}

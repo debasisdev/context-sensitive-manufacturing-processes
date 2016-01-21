@@ -14,7 +14,7 @@
           <activiti:string>shockDetectorStatus, unitsOrdered, availableWorkers, infraredSensorStatus</activiti:string>
         </activiti:field>
         <activiti:field name="processRepositoryPath">
-          <activiti:string>D:\MyWorkThesis\SPIExtension\src\main\resources\processrepos\ProcessRepository.xml</activiti:string>
+          <activiti:string>D:\MyWorkThesis\SPIExtension\src\main\resources\dataRepository\</activiti:string>
         </activiti:field>
         <activiti:field name="inputVariable">
           <activiti:string>operatorName = Wolfgang, supervisorName = Frank</activiti:string>

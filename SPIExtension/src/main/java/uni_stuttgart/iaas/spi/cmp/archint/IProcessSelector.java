@@ -1,4 +1,4 @@
-package unistuttgart.iaas.spi.cmprocess.interfaces;
+package uni_stuttgart.iaas.spi.cmp.archint;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;

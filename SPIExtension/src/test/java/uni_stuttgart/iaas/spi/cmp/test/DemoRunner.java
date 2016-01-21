@@ -1,4 +1,4 @@
-package unistuttgart.iaas.spi.cmprocess.test;
+package uni_stuttgart.iaas.spi.cmp.test;
 
 import java.io.File;
 import java.io.InputStream;
@@ -19,7 +19,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
-import unistuttgart.iaas.spi.cmprocess.arch.CESExecutor;
+import uni_stuttgart.iaas.spi.cmp.archdev.CESExecutor;
 
 public class DemoRunner {
 
@@ -68,7 +68,7 @@ public class DemoRunner {
 		cesDefinition.setIsEventDriven(false);
 		cesDefinition.setTargetNamespace("http://www.uni-stuttgart.de/iaas/cmp/v1/packaging");
 		cesDefinition.setOptimizationRequired(true);
-		cesDefinition.setProcessRepository("src/main/resources/processrepos/ProcessRepository.xml");
+		cesDefinition.setDomainKnowHowRepository("src/main/resources/processrepos/ProcessRepository.xml");
 		cesDefinition.setIntention(ti);
 		cesDefinition.setInputData(tio);
 		cesDefinition.setOutputVariable(toi);
