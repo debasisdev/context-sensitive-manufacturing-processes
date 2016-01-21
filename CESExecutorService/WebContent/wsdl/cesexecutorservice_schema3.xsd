@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:ns1="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" xmlns:tns="http://www.uni-stuttgart.de/iaas/cmp/v0.1/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v0.1/" version="1.0">
+<xs:import namespace="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" schemaLocation="cesexecutorservice_schema2.xsd"/>
+<xs:element name="CESDefinition" type="tns:tTaskCESDefinition"/>
+<xs:element name="ManufacturingContent" type="tns:tManufacturingContent"/>
+<xs:complexType name="tTaskCESDefinition">
+    <xs:complexContent>
+      <xs:extension base="ns1:tBaseType">
+        <xs:sequence>
+          <xs:element name="Intention" type="ns1:tIntention"/>
+          <xs:element name="RequiredContexts" type="ns1:tContexts"/>
+          <xs:element minOccurs="0" name="InputData" type="tns:tDataList"/>
+          <xs:element minOccurs="0" name="OutputVariable" type="tns:tDataList"/>
+          <xs:element minOccurs="0" name="OptimizationRequired" type="xs:boolean"/>
+          <xs:element name="DomainKnowHowRepository" type="xs:anyURI"/>
+        </xs:sequence>
+        <xs:attribute name="isEventDriven" type="xs:boolean"/>
+        <xs:attribute name="isCommandAction" type="xs:boolean"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="tDataList">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="DataList" type="tns:tData"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tData">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+<xs:complexType name="tLocationType">
+    <xs:sequence>
+      <xs:element name="MachineName" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="latitude" type="xs:decimal"/>
+    <xs:attribute name="longitude" type="xs:decimal"/>
+  </xs:complexType>
+<xs:complexType name="tManufacturingContent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="OrderID" type="xs:string"/>
+      <xs:element minOccurs="0" name="SenseValue" type="xs:string"/>
+      <xs:element minOccurs="0" name="DeliveryDate" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Location" type="tns:tLocationType"/>
+      <xs:element minOccurs="0" name="Timestamp" type="xs:string"/>
+      <xs:element minOccurs="0" name="Expression" type="xs:string"/>
+      <xs:element minOccurs="0" name="MainModel" type="xs:anyURI"/>
+      <xs:element minOccurs="0" name="ComplementaryModel" type="xs:anyURI"/>
+      <xs:element minOccurs="0" name="OptimizerModel" type="xs:anyURI"/>
+      <xs:element minOccurs="0" name="Weight" type="xs:decimal"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

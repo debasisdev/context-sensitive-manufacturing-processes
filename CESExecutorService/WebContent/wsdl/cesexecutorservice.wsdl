@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CESExecutorServiceService" targetNamespace="http://service.cmp.spi.iaas.uni_stuttgart/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.cmp.spi.iaas.uni_stuttgart/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://service.cmp.spi.iaas.uni_stuttgart/" schemaLocation="cesexecutorservice_schema4.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="CESExecutor">
+    <wsdl:part name="parameters" element="tns:CESExecutor">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CESExecutorResponse">
+    <wsdl:part name="parameters" element="tns:CESExecutorResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CESExecutorService">
+    <wsdl:operation name="CESExecutor">
+      <wsdl:input name="CESExecutor" message="tns:CESExecutor">
+    </wsdl:input>
+      <wsdl:output name="CESExecutorResponse" message="tns:CESExecutorResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CESExecutorServiceServiceSoapBinding" type="tns:CESExecutorService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CESExecutor">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="CESExecutor">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CESExecutorResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CESExecutorServiceService">
+    <wsdl:port name="CESExecutorServicePort" binding="tns:CESExecutorServiceServiceSoapBinding">
+      <soap:address location="http://localhost:8080/CESExecutorService/services"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

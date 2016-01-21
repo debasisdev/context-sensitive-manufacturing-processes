@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>CESExecutorService</groupId>
+  <artifactId>CESExecutorService</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>University of Stuttgart - IAAS</name>
+  <dependencies>
+  	<dependency>
+		<groupId>de.uni-stuttgart.iaas.ipsm</groupId>
+		<artifactId>protocols</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+  </dependencies>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.3</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <warSourceDirectory>WebContent</warSourceDirectory>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <organization>
+  	<url>http://www.iaas.uni-stuttgart.de/</url>
+  	<name>Institut für Architektur von Anwendungssystemen, Universität Stuttgart</name>
+  </organization>
+  <description>Manufacturing processes need to be updated regularly to stay competitive in the market. With the emergence of Internet of Things (IoT), the manufacturing processes can be made smarter so that they can possibly adapt themselves to the execution context.</description>
+</project>
