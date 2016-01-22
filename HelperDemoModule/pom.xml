@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>unistuttgart.iaas.spi.cmp.help</groupId>
+  <artifactId>helper-classes</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>BPMN 2.0 with Activiti Helper Classes</name>
+  <properties>
+    <activiti-version>5.18.0</activiti-version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-engine</artifactId>
+      <version>${activiti-version}</version>
+    </dependency>
+  </dependencies>
+	<build>
+	    <plugins>
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-compiler-plugin</artifactId>
+		       <version>2.3.2</version>
+	        <configuration>
+		         <source>1.7</source>
+		         <target>1.7</target>
+		       </configuration>
+		     </plugin>
+		     <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-eclipse-plugin</artifactId>
+	        <inherited>true</inherited>
+	        <configuration>
+		         <classpathContainers>
+		           <classpathContainer>org.eclipse.jdt.USER_LIBRARY/Activiti Designer Extensions</classpathContainer>
+		         </classpathContainers>
+		       </configuration>
+		     </plugin>
+	    </plugins>
+	 </build>
+</project>
