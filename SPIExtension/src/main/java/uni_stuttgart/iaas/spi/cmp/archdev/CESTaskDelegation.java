@@ -2,9 +2,11 @@ package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -50,6 +52,21 @@ public class CESTaskDelegation implements JavaDelegate {
 	private Expression hiddenField;
 	
 	private static final Logger log = Logger.getLogger(CESTaskDelegation.class.getName());
+	private static Properties propertyFile;
+	
+	public CESTaskDelegation() {
+		try {
+			CESTaskDelegation.propertyFile = new Properties();
+			InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
+			CESTaskDelegation.propertyFile.load(inputReader);
+		} catch (IOException e) {
+			log.severe("CESTD02: IOException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("CESTD01: NullPointerException has Occurred.");
+		} catch (Exception e) {
+			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
+		}
+	}
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -57,7 +74,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		TTaskCESDefinition cesDefinition = ob.createTTaskCESDefinition();
 		cesDefinition.setIsCommandAction(true);
 		cesDefinition.setIsEventDriven(false);
-		cesDefinition.setTargetNamespace("http://www.uni-stuttgart.de/iaas/");
+		cesDefinition.setTargetNamespace(CESTaskDelegation.propertyFile.getProperty("CMP_NAMESPACE"));
 		cesDefinition.setDomainKnowHowRepository(this.processRepositoryPath.getExpressionText().trim());
 		cesDefinition.setOptimizationRequired(Boolean.parseBoolean(this.performOptimization.getExpressionText()));
 		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), 
@@ -76,7 +93,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 		jaxbMarshaller.marshal(root, new File("D://dev.xml"));
 		
-		String cesServiceEndpoint = "http://localhost:8080/CESExecutorService/services/cesexecutorservice";
+		String cesServiceEndpoint = CESTaskDelegation.propertyFile.getProperty("SOAPSERVICE_URI");
 		SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
 		String result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
 		
@@ -166,7 +183,10 @@ public class CESTaskDelegation implements JavaDelegate {
 		}
 		TSubIntentions subIntentionsList = new TSubIntentions();
 		if(selectionStrategy.equals("Weight")){
-			subIntentionsList.setSubIntentionRelations("http://www.uni-stuttgart.de/ipsm/intention/selections/weight-based");
+			subIntentionsList.setSubIntentionRelations(CESTaskDelegation.propertyFile.getProperty("WEIGHT_NAMESPACE"));
+		} 
+		else{
+			subIntentionsList.setSubIntentionRelations("Random");
 		}
 		for(TSubIntention subIntent : subIntents){
 			subIntentionsList.getSubIntention().add(subIntent);
@@ -219,10 +239,10 @@ public class CESTaskDelegation implements JavaDelegate {
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
 
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration("ser", "http://service.cmp.spi.iaas.uni_stuttgart/");
-	        envelope.addNamespaceDeclaration("v0", "http://www.uni-stuttgart.de/iaas/ipsm/v0.2/");
-	        envelope.addNamespaceDeclaration("v01", "http://www.uni-stuttgart.de/iaas/cmp/v0.1/");
-	        envelope.addNamespaceDeclaration("ns", "http://docs.oasis-open.org/tosca/ns/2011/12");
+	        envelope.addNamespaceDeclaration("ser", propertyFile.getProperty("SERVICE_NAMESPACE"));
+	        envelope.addNamespaceDeclaration("v0", propertyFile.getProperty("IPSM_NAMESPACE"));
+	        envelope.addNamespaceDeclaration("v01", propertyFile.getProperty("CMP_NAMESPACE"));
+	        envelope.addNamespaceDeclaration("ns", propertyFile.getProperty("TOSCA_NAMESPACE"));
 	        
 	        SOAPBody soapBody = envelope.getBody();
 	        SOAPElement cesExecutorElem = soapBody.addChildElement("CESExecutor", "ser");
@@ -256,7 +276,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	        intentElem.setAttribute("name", cesDefinition.getIntention().getName());
 	        SOAPElement subIntentElem = intentElem.addChildElement("SubIntentions");
 	        SOAPElement subIntRelation = subIntentElem.addChildElement("SubIntentionRelations");
-	        subIntRelation.addTextNode(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations());
+	        subIntRelation.addTextNode(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations().toString());
 	        for(TSubIntentions subIntentions : cesDefinition.getIntention().getSubIntentions()){
 	        	for(TSubIntention subIntention : subIntentions.getSubIntention()){
 	        		SOAPElement subIntentionElem = subIntentElem.addChildElement("SubIntention");
@@ -272,11 +292,13 @@ public class CESTaskDelegation implements JavaDelegate {
 	        soapMessage.writeTo(System.err);
 	        System.out.println();
 		} catch (SOAPException e) {
-			log.severe("CESTD02: SOAPException has Occurred.");
+			log.severe("CESTD13: SOAPException has Occurred.");
 		} catch (IOException e) {
-			log.severe("CESTD01: IOException has Occurred.");
+			log.severe("CESTD12: IOException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("CESTD11: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
+			log.severe("CESTD10: Unknown Exception has Occurred - " + e);
 		}
 		return soapMessage;
     }
@@ -293,11 +315,13 @@ public class CESTaskDelegation implements JavaDelegate {
 	        soapConnection.close();
 	        System.out.println();
 		} catch (SOAPException e) {
-			log.severe("CESTD12: SOAPException has Occurred.");
+			log.severe("CESTD23: SOAPException has Occurred.");
 		} catch (IOException e) {
-			log.severe("CESTD11: IOException has Occurred.");
+			log.severe("CESTD22: IOException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("CESTD21: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("CESTD10: Unknown Exception has Occurred - " + e);
+			log.severe("CESTD20: Unknown Exception has Occurred - " + e);
 		}
 		if (sb.getFirstChild().getFirstChild().getTextContent().trim().length()>0)
 			return sb.getFirstChild().getFirstChild().getTextContent();

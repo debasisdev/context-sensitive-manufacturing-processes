@@ -5,9 +5,9 @@
         <Documentation>This is a dummy Manual Model.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <MainModel>res/dev/main1.bpmn</MainModel>
-                <ComplementaryModel>res/dev/comp1.bpmn</ComplementaryModel>
-                <OptimizerModel>res/dev/opt1.bpmn</OptimizerModel>
+                <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PMX001.bpmn</MainModel>
+                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
+                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
                 <Weight>0.30</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -37,9 +37,9 @@
         <Documentation>This is a dummy semi automated model without repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <MainModel>res/dev/main2.bpmn</MainModel>
-                <ComplementaryModel>res/dev/comp2.bpmn</ComplementaryModel>
-                <OptimizerModel>res/dev/opt2.bpmn</OptimizerModel>
+                <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PSM001.bpmn</MainModel>
+                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
+                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
                 <Weight>0.55</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -85,9 +85,9 @@
         <Documentation>This is a dummy semi automated model with repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <MainModel>res/dev/main3.bpmn</MainModel>
-                <ComplementaryModel>res/dev/comp3.bpmn</ComplementaryModel>
-                <OptimizerModel>res/dev/opt3.bpmn</OptimizerModel>
+                <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PRS001.bpmn</MainModel>
+                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
+                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
                 <Weight>0.10</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -173,9 +173,9 @@
         <Documentation>This is a dummy semi automated model with installation of a new machine after removal an decommissioning of the old one.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <MainModel>res/dev/main4.bpmn</MainModel>
-                <ComplementaryModel>res/dev/comp4.bpmn</ComplementaryModel>
-                <OptimizerModel>res/dev/opt4.bpmn</OptimizerModel>
+                <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PRS002.bpmn</MainModel>
+                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
+                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
                 <Weight>0.05</Weight>
             </ManufacturingContent>
         </ProcessContent>

@@ -15,22 +15,23 @@ import org.junit.Test;
 
 public class PackBlankets {
 
-	private String filename = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\PackBlankets.bpmn";
+	private String bpmnFileName = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\PackBlankets.bpmn";
 
 	@Rule
 	public ActivitiRule activitiRule = new ActivitiRule();
 
 	@Test
 	public void startProcess() throws Exception {
+		
 		RepositoryService repositoryService = activitiRule.getRepositoryService();
-		repositoryService.createDeployment().addInputStream("myProcess.bpmn20.xml",
-				new FileInputStream(filename)).deploy();
+		repositoryService.createDeployment().addInputStream("PackBlanket.bpmn20.xml", 
+																new FileInputStream(bpmnFileName)).deploy();
 		RuntimeService runtimeService = activitiRule.getRuntimeService();
 		Map<String, Object> variableMap = new HashMap<String, Object>();
 		variableMap.put("name", "Activiti");
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("myProcess", variableMap);
 		assertNotNull(processInstance.getId());
-		System.out.println("id " + processInstance.getId() + " "
-				+ processInstance.getProcessDefinitionId());
+		System.out.println("<ID:" + processInstance.getId() + ">-<" + processInstance.getProcessDefinitionId() + ">");
 	}
+	
 }
