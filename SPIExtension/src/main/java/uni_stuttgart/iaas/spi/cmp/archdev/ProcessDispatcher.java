@@ -8,6 +8,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
+import org.activiti.designer.test.PCOM01;
+import org.activiti.designer.test.PMX001;
+import org.activiti.designer.test.PRS001;
+import org.activiti.designer.test.PRS002;
+import org.activiti.designer.test.PSM001;
+import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngines;
 import org.apache.camel.Exchange;
 import org.w3c.dom.Node;
 
@@ -22,13 +29,11 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 	private TDataList inputData;
 	private TDataList outputPlaceholder;
 	private TTaskCESDefinition cesDefinition;
-	private Object[] output;
 	private static final Logger log = Logger.getLogger(ProcessDispatcher.class.getName());
 	
 	public ProcessDispatcher() {
 		this.inputData = null;
 		this.outputPlaceholder = null;
-		this.output = null;
 	}
 	
 	public ProcessDispatcher(TTaskCESDefinition cesDefinition){
@@ -38,17 +43,39 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 	}
 	
 	@Override
-	public Object[] deployProcess(TProcessDefinition processDefinition) {
+	public TDataList deployProcess(TProcessDefinition processDefinition) {
 		Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
 		String mainModel = nodeManu.getChildNodes().item(0).getTextContent();
 		String complementaryModel = nodeManu.getChildNodes().item(1).getTextContent();
+		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		//Start Deployment Code for Main Model
 			log.info(mainModel + " Will Be Executed" + this.inputData);
+			if(processDefinition.getId().equals("PRS001")){
+				PRS001 primeModel = new PRS001();
+				primeModel.startProcess(mainModel, processEngine, this.inputData);
+			}
+			else if(processDefinition.getId().equals("PRS002")){
+				PRS002 primeModel = new PRS002();
+				primeModel.startProcess(mainModel, processEngine, this.inputData);
+			}
+			else if(processDefinition.getId().equals("PMX001")){
+				PMX001 primeModel = new PMX001();
+				primeModel.startProcess(mainModel, processEngine, this.inputData);
+			}
+			else if(processDefinition.getId().equals("PSM001")){
+				PSM001 primeModel = new PSM001();
+				primeModel.startProcess(mainModel, processEngine, this.inputData);
+			}
+			else{
+				log.info("Method Definition Not Found!!");
+			}
 		//End Deployment Code for Main Model
 		//Start Deployment Code for Complementary Model
 			log.info(complementaryModel + " Will Be Executed" + this.outputPlaceholder);
+			PCOM01 compModel = new PCOM01();
+			compModel.startProcess(complementaryModel, processEngine, this.inputData);
 		//End Deployment Code for Complementary Model
-		return this.output;
+		return this.outputPlaceholder;
 	}
 
 	@Override
@@ -61,7 +88,7 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
-			this.output = this.deployProcess(processDef);
+			this.outputPlaceholder = this.deployProcess(processDef);
 		} catch (NullPointerException e) {
 			log.severe("PRODI01: NullPointerException has Occurred.");
 		} catch(Exception e) {

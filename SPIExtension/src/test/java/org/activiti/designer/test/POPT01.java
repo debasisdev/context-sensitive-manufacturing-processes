@@ -1,33 +1,28 @@
 package org.activiti.designer.test;
 
-import static org.junit.Assert.*;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.FileInputStream;
 
 import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.test.ActivitiRule;
-import org.junit.Rule;
-import org.junit.Test;
 
-public class POPT01 {
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import uni_stuttgart.iaas.spi.cmp.archint.IRealization;
 
-	private String filename = "F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn";
+public class POPT01 implements IRealization{
 
-	@Rule
-	public ActivitiRule activitiRule = new ActivitiRule();
-
-	@Test
-	public void startProcess() throws Exception {
-		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+	public TDataList startProcess(String fileName, ProcessEngine processEngine, TDataList input) {
 		RepositoryService repositoryService = processEngine.getRepositoryService();
-		repositoryService.createDeployment().addInputStream("optimizationprocess.bpmn20.xml",
-				new FileInputStream(filename)).deploy();
+		try {
+			repositoryService.createDeployment().addInputStream("optimizationprocess.bpmn20.xml",
+					new FileInputStream(fileName)).deploy();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		System.out.println("Number of process definitions: " + repositoryService.createProcessDefinitionQuery().count());
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
@@ -35,8 +30,8 @@ public class POPT01 {
 		/*Process Inputs*/
 		variableMap.put("orderID", "OD153728DE");
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("optimizationprocess", variableMap);
-		assertNotNull(processInstance.getId());
 		
 		System.out.println("<ID:" + processInstance.getId() + ">-<" + processInstance.getProcessDefinitionId() + ">");
+		return input;
 	}
 }

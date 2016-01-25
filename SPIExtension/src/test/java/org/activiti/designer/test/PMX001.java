@@ -3,31 +3,33 @@ package org.activiti.designer.test;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.junit.Test;
 
-public class PMX001 {
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import uni_stuttgart.iaas.spi.cmp.archint.IRealization;
 
-	private String filename = "F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PMX001.bpmn";
+public class PMX001 implements IRealization{
 
-	@Test
-	public void startProcess() throws Exception {
-		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+	public TDataList startProcess(String fileName, ProcessEngine processEngine, TDataList input) {
 		RepositoryService repositoryService = processEngine.getRepositoryService();
-		repositoryService.createDeployment().addInputStream("manualsealprocess.bpmn20.xml",
-				new FileInputStream(filename)).deploy();
+		try {
+			repositoryService.createDeployment().addInputStream("manualsealprocess.bpmn20.xml",
+					new FileInputStream(fileName)).deploy();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		System.out.println("Number of process definitions: " + repositoryService.createProcessDefinitionQuery().count());
 		
 		RuntimeService runtimeService = processEngine.getRuntimeService();
@@ -46,7 +48,11 @@ public class PMX001 {
 			System.out.println("Task assigned to John");
 			Map<String, Object> taskVariables = new HashMap<String, Object>();
 			taskVariables.put("packStatus", "true");
-			Thread.sleep(6000);
+			try {
+				Thread.sleep(6000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			taskService.complete(task.getId(),taskVariables);
 			System.out.println("Packing Completed by John.");
 	    }
@@ -58,7 +64,11 @@ public class PMX001 {
 			System.out.println("Task assigned to Joe");
 			Map<String, Object> taskVariables = new HashMap<String, Object>();
 			taskVariables.put("sealStatus", "true");
-			Thread.sleep(8000);
+			try {
+				Thread.sleep(8000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			taskService.complete(task.getId(),taskVariables);
 			System.out.println("Sealing Completed by Joe.");
 	    }
@@ -68,7 +78,11 @@ public class PMX001 {
 			System.out.println(task.getName() + " Task is available for Supervisor.");
 			taskService.claim(task.getId(), "Frank");
 			System.out.println("Task assigned to Frank");
-			Thread.sleep(8000);
+			try {
+				Thread.sleep(8000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		    taskService.complete(task.getId());
 		}
 		System.out.println("Task Completed by Frank.");
@@ -77,5 +91,6 @@ public class PMX001 {
 	    HistoricProcessInstance historicProcessInstance =
 	      historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
 	    System.out.println("Process Instance End-time: " + historicProcessInstance.getEndTime());
+		return input;
 	}
 }

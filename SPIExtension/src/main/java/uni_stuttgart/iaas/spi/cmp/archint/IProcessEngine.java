@@ -1,5 +1,6 @@
 package uni_stuttgart.iaas.spi.cmp.archint;
 
+import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 
 /**
@@ -16,7 +17,7 @@ public interface IProcessEngine {
 	 * deployment of the CES pluggable and User can write their own deployment code as per their own engine.
 	 * @author Debasis Kar
 	 * @param TProcessDefinition
-	 * @return Object 
+	 * @return TDataList
 	 */
-	public Object[] deployProcess(TProcessDefinition processDefinition);
+	public TDataList deployProcess(TProcessDefinition processDefinition);
 }
