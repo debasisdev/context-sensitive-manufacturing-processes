@@ -114,7 +114,7 @@
 
 	<complexType name="tInstanceDescriptor">
 		<sequence>
-			<element name="Properties" type="ipsm:tProperties"></element>
+			<element name="Properties" type="ipsm:tProperties" minOccurs="0" maxOccurs="1"></element>
 		</sequence>
 		<attribute name="startTime" type="time"></attribute>
 		<attribute name="endTime" type="time"></attribute>
@@ -128,8 +128,7 @@
 
 	<complexType name="tProperties">
 		<sequence>
-			<element name="Tags" type="pref:tTags"></element>
-			<element name="StructuredProperties" type="ipsm:tStructuredProperties"></element>
+			<any minOccurs="1" maxOccurs="unbounded"></any>
 		</sequence>
 	</complexType>
 
@@ -524,7 +523,7 @@
 					<element name="RelevantResource" type="pref:tNodeTemplate"
 						minOccurs="1" maxOccurs="1"></element>
 					<element name="InvolvedResource" type="pref:tNodeTemplate"
-						minOccurs="1" maxOccurs="1"></element>
+						minOccurs="1" maxOccurs="unbounded"></element>
 				</sequence>
 				<attribute name="inverseDependency" type="boolean"
 					default="false"></attribute>

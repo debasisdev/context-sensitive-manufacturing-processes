@@ -18,10 +18,6 @@ public class SealMachineDemo implements JavaDelegate {
 	 * */
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
-		 //Retrieve Workflow Engine, i.e., Activit Variable in Runtimes
-		 String var = (String) delegateExecution.getVariable("packStatus");
-		 var = var.toUpperCase();
-		 System.err.println(var);
 		 //Request SOAP Message to the Web Service based on some naive String
 		 if(delegateExecution.getCurrentActivityName().contains("Seal")){
 			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("seal"));

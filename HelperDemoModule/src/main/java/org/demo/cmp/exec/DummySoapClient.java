@@ -41,8 +41,8 @@ public class DummySoapClient {
 			//Send SOAP Message to SOAP Server - SEAL/PREV/REPAIR/INSTALL/MAINTAIN/OPTIMIZE/COMPLETE
 	        String url = "http://localhost:8080/automatedWebService/services/automatedWebServiceMainPort";
 	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(param), url);
-	        soapResponse.writeTo(System.out);
-	        System.out.println();
+	        soapResponse.writeTo(System.err);
+	        System.err.println();
 	        //Retrieve SOAP Response Body
 	        sb = soapResponse.getSOAPBody();
 	        soapConnection.close();
@@ -85,8 +85,8 @@ public class DummySoapClient {
 	        MimeHeaders headers = soapMessage.getMimeHeaders();
 	        headers.addHeader("SOAPAction", "automate");
 	        soapMessage.saveChanges();
-	        soapMessage.writeTo(System.out);
-	        System.out.println();
+	        soapMessage.writeTo(System.err);
+	        System.err.println();
 		} catch (SOAPException e) {
 			log.severe("DSCL13: SOAPException has Occurred.");
 		} catch (IOException e) {

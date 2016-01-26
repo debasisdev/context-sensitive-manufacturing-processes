@@ -1,9 +1,22 @@
 package uni_stuttgart.iaas.spi.cmp.archint;
 
-import org.activiti.engine.ProcessEngine;
-
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 
+/**
+ * A Generic Interface for Solutions of Realization Processes.
+ * @author Debasis Kar
+ */
+
 public interface IRealization {
-	public TDataList startProcess(String fileName, ProcessEngine processEngine, TDataList input);
+	
+	/**
+	 * Any Custom Implementation (Realization) of a BPMN Process Model must be defined inside this method
+	 * such that this can be called from the Dispatcher or Optimizer easily without any ambiguity. This method
+	 * takes the BPMN file path, input and output variables such that it processes the input data and writes the
+	 * output (if any) to the specified output variable in TTaskCESDefinition.
+	 * @author Debasis Kar
+	 * @param String, TDataList, TDataList
+	 * @return TDataList
+	 */
+	public TDataList startProcess(String filePath, TDataList input, TDataList outputHolder);
 }

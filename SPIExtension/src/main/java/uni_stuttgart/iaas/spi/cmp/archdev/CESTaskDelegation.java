@@ -1,6 +1,5 @@
 package uni_stuttgart.iaas.spi.cmp.archdev;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -70,6 +69,7 @@ public class CESTaskDelegation implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
+
 		ObjectFactory ob = new ObjectFactory();
 		TTaskCESDefinition cesDefinition = ob.createTTaskCESDefinition();
 		cesDefinition.setIsCommandAction(true);
@@ -91,7 +91,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
-		jaxbMarshaller.marshal(root, new File("D://dev.xml"));
+		jaxbMarshaller.marshal(root, System.out);
 		
 		String cesServiceEndpoint = CESTaskDelegation.propertyFile.getProperty("SOAPSERVICE_URI");
 		SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
