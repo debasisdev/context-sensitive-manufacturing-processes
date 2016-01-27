@@ -70,6 +70,7 @@ public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 			if(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations()
 					.equals(propertyFile.getProperty("WEIGHT_NAMESPACE"))){
 				if(!processDefinitionList.isEmpty()){
+					Thread.sleep(5000);
 					switch(processDefinitionList.size()){
 						case 1: this.dispatchedProcess = processDefinitionList.iterator().next();
 								break;
@@ -104,7 +105,10 @@ public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 					this.dispatchedProcess = processDefinitionList.get(randInt);
 				}
 			}
+			Thread.sleep(5000);
 			log.info(this.dispatchedProcess.getId() + " Is Selected for the Realization of Business Ojective.");
+		} catch (InterruptedException e) {
+			log.severe("PROSE13: InterruptedException has Occurred.");
 		} catch (IOException e) {
 			log.severe("PROSE12: IOException has Occurred.");
 		} catch (NullPointerException e){

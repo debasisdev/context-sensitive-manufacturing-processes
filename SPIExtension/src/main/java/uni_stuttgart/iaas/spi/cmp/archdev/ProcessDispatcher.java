@@ -9,7 +9,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.namespace.QName;
 
 import org.activiti.designer.test.PCOM01;
 import org.activiti.designer.test.PMX001;
@@ -80,6 +79,7 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange) {
+		de.uni_stuttgart.iaas.cmp.v0.ObjectFactory cmpMaker = new de.uni_stuttgart.iaas.cmp.v0.ObjectFactory();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			log.info("Deployment is about to Start...");
@@ -90,12 +90,16 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 			this.outputPlaceholder = this.deployProcess(processDef);
-			
-			jaxbContext = JAXBContext.newInstance(de.uni_stuttgart.iaas.cmp.v0.ObjectFactory.class);
+			Thread.sleep(5000);
+			TTaskCESDefinition cesDef = new TTaskCESDefinition();
+			cesDef.setOutputVariable(this.outputPlaceholder);
+			jaxbContext = JAXBContext.newInstance(cmpMaker.getClass());
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(new JAXBElement<TDataList>(new QName("http://www.uni-stuttgart.de/iaas/cmp/v0.1/", "Output"),
-					    TDataList.class, this.outputPlaceholder), outputStream);
+			JAXBElement<TTaskCESDefinition> rootElem = cmpMaker.createCESDefinition(cesDef);
+			jaxbMarshaller.marshal(rootElem, outputStream);
+		} catch (InterruptedException e) {
+			log.severe("PRODI02: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("PRODI01: NullPointerException has Occurred.");
 		} catch(Exception e) {

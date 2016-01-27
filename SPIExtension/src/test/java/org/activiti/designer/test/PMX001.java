@@ -44,6 +44,7 @@ public class PMX001 implements IRealization{
 
 			for(TData data : input.getDataList()){
 				switch(data.getName()){
+					case "machinistName": packerName = data.getValue(); break;
 					case "operatorName": operatorName = data.getValue(); break;
 					case "supervisorName": superisorName = data.getValue(); break;
 					default: break;

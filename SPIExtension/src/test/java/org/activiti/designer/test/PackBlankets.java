@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -16,6 +17,7 @@ import org.junit.Test;
 public class PackBlankets {
 
 	private String bpmnFileName = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\PackBlankets.bpmn";
+	private static final Logger log = Logger.getLogger(PackBlankets.class.getName());
 
 	@Test
 	public void startProcess() throws Exception {
@@ -25,10 +27,10 @@ public class PackBlankets {
 																new FileInputStream(bpmnFileName)).deploy();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		Map<String, Object> variableMap = new HashMap<String, Object>();
-		variableMap.put("name", "Activiti");
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("myProcess", variableMap);
+		variableMap.put("orderID", "OD153728DE");
+		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("cesProcess", variableMap);
 		assertNotNull(processInstance.getId());
-		System.out.println("<ID:" + processInstance.getId() + ">-<" + processInstance.getProcessDefinitionId() + ">");
+		log.info("<Process Instance ID:" + processInstance.getId() + "> is Realized.");
 	}
 	
 }

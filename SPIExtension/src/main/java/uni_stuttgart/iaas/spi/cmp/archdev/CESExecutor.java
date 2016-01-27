@@ -58,13 +58,15 @@ public class CESExecutor {
 		    channel.queueDelete("intana_queue");	//Intention Analyzer Queue
 	        channel.queueDelete("conana_queue");	//Context Analyzer Queue
 	        channel.queueDelete("queman_queue");	//Query Manager Queue
+	        channel.queueDelete("result_queue");	//Result Queue
 	        
 	        //Creating the basic Queues for CES Task Execution and Message Exchange
 		    channel.queueDeclare("queman_queue", false, false, false, null); 
 		    channel.queueDeclare("conana_queue", false, false, false, null); 
 		    channel.queueDeclare("intana_queue", false, false, false, null); 
 		    channel.queueDeclare("proopt_queue", false, false, false, null); 
-		    channel.queueDeclare("prodis_queue", false, false, false, null); 
+		    channel.queueDeclare("prodis_queue", false, false, false, null);
+		    channel.queueDeclare("result_queue", false, false, false, null);
 		    
 		    //Creating a multi-purpose Exchange for selected topic based message forwarding.
 		    channel.exchangeDeclare("cmp_messages", "direct", false, false, false, null);
@@ -77,6 +79,7 @@ public class CESExecutor {
 		    channel.queueBind("intana_queue", "cmp_messages", "infoia");
 		    channel.queueBind("proopt_queue", "cmp_process", "infopo");
 		    channel.queueBind("prodis_queue", "cmp_process", "infopd");
+		    channel.queueBind("result_queue", "cmp_messages", "infores");
 		    
 		    /**
 		     * Routing Details and Rules*/
@@ -144,9 +147,16 @@ public class CESExecutor {
 	                //Process Dispatcher Invocation
 	                from("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
 	                		+ "exchangeType=fanout&queue=prodis_queue")
-		                	//Perform Optimization and Unicast the result to the specific queue
+			              	//Set Respective Routing Key
+		                	.process(new Processor() {
+		            			public void process(Exchange exchange) throws Exception {
+		            				exchange.getIn().setHeader(RabbitMQConstants.EXCHANGE_NAME, "cmp_messages");
+		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infores");
+		            			}})
+		                	//Perform Optimization and Unicast the result to itself
 	                		.bean(new ProcessDispatcher(cesDefinition),"getSerializedOutput")
-	                		.to("stream:out"); 
+	                		.to("rabbitmq://localhost/cmp_messages?routingKey=infores&autoDelete=false"
+	    	                		+ "&durable=false&queue=result_queue"); 
 	            }
 	        });
 	        

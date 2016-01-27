@@ -86,6 +86,7 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 			Document doc = docBuilder.parse(file);
 	        
 			Properties propertyFile = new Properties();
+			Thread.sleep(5000);
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 		    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
 		    	if(inputReader != null){
@@ -129,6 +130,7 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 					finalContextAnalysisTable.put(processId, result);
 				}
 			}
+			Thread.sleep(5000);
 			log.info("Phase-2 Context Analysis Report: " + finalContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
@@ -140,6 +142,8 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 				}
 			}
 			file.delete();
+		} catch (InterruptedException e) {
+			log.severe("CONAN14: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("CONAN13: NullPointerException has Occurred.");
 		} catch (IOException e) {

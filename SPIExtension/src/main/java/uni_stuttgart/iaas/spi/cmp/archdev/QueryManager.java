@@ -152,6 +152,7 @@ public class QueryManager implements IQueryManager, ICamelSerializer {
 							        		newInstance().newXMLGregorianCalendar
 							        		(new GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 
 							        				cal.get(Calendar.DATE) ));
+							        Thread.sleep(3000);
 							        //Create TManufacturingContent Object
 							        TManufacturingContent defConType = new TManufacturingContent();
 							        defConType.setOrderID(obj.getString(MONGO_FIELD_ORDERID));
@@ -169,6 +170,7 @@ public class QueryManager implements IQueryManager, ICamelSerializer {
 							        conDefType.setDefinitionContent(tCon);
 							        conDefType.setDefinitionLanguage(obj.getString(MONGO_FIELD_LANGUAGE));
 							        log.info("Context Acquisition is in Progress...");
+							        Thread.sleep(4000);
 							        TContext conType = new TContext();
 							        conType.getContextDefinition().add(conDefType);
 							        conType.setDocumentation(context.getDocumentation());
@@ -191,7 +193,9 @@ public class QueryManager implements IQueryManager, ICamelSerializer {
 	    	}
 			log.info("Connection to Middleware is Closed.");
 		} catch (NullPointerException e) {
-			log.severe("QUEMA12: NullPointerException has Occurred.");
+			log.severe("QUEMA13: NullPointerException has Occurred.");
+		} catch (InterruptedException e) {
+			log.severe("QUEMA12: InterruptedException has Occurred.");
 		} catch (IOException e) {
 			log.severe("QUEMA11: IOException has Occurred.");
 		} catch (Exception e) {

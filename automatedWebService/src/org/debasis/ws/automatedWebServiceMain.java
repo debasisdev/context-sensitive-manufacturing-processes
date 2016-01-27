@@ -21,7 +21,7 @@ public class automatedWebServiceMain implements sealingMachine {
     			temp = "Sealing is being carried out...";
     			break;
     		case "PREV":
-    			temp = "Quality Check and Testing Is Completed...";
+    			temp = "Quality Check and Testing is Completed...";
     			break;
     		case "REPAIR":
     			temp = "Trying to Repair...";
@@ -30,22 +30,25 @@ public class automatedWebServiceMain implements sealingMachine {
     			temp = "New Sealing Machine is being Installed...";
     			break;
     		case "MAINTAIN":
-    			temp = "Schduled Maintance is being done...";
+    			temp = "Scheduled Maintenance is being done...";
     			break;
     		case "OPTIMIZE":
     			temp = "Optimizing resources in Factory...";
     			break;
     		case "COMPLETE":
-    			temp = "Packing and Pallatizing Is Finished.";
+    			temp = "Packing and Pallatizing is Finished.";
+    			break;
+    		case "SHIP":
+    			temp = "Shipping will be Begun by the Logisitics Company.";
     			break;
     		default:
     			temp = "Something Broke The Process. Try to Repair!!";
     			break;
     	}
     	try {
-			Thread.sleep(8000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			temp = "Exception Occurred While Carrying Out The Task.";
+			temp = "Exception Occurred while Carrying Out the Task.";
 		} finally{
 			return temp;
 		}

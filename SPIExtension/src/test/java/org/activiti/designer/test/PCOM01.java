@@ -25,16 +25,19 @@ public class PCOM01 implements IRealization{
 		try {
 			repositoryService.createDeployment().addInputStream("complementaryprocess.bpmn20.xml",
 					new FileInputStream(filePath)).deploy();
+			RuntimeService runtimeService = processEngine.getRuntimeService();
+			Map<String, Object> variableMap = new HashMap<String, Object>();
+			/*Process Inputs*/
+			variableMap.put("orderID", "OD153728DE");
+			ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("complementaryprocess", variableMap);
+			log.info("<ID:" + processInstance.getId() + ">");
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			log.severe("PCOM.01.02: FileNotFoundException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("PCOM.01.01: NullPointerException has Occurred.");
+		} catch (Exception e) {
+			log.severe("PCOM.01.00: Unknown Exception has Occurred - " + e);
 		}
-
-		RuntimeService runtimeService = processEngine.getRuntimeService();
-		Map<String, Object> variableMap = new HashMap<String, Object>();
-		/*Process Inputs*/
-		variableMap.put("orderID", "OD153728DE");
-		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("complementaryprocess", variableMap);
-		log.info("<ID:" + processInstance.getId() + ">");
 		return outputHolder;
 	}
 }

@@ -59,6 +59,7 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+				Thread.sleep(5000);
 				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 				TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 				this.optimizerRunStatus = this.optimizeProcess(processDef);
@@ -66,6 +67,8 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 			else{
 				log.info("Optimization is not Required by the modeler.");
 			}
+		} catch (InterruptedException e) {
+			log.severe("PROOP02: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("PROOP01: NullPointerException has Occurred.");
 		} catch(Exception e) {

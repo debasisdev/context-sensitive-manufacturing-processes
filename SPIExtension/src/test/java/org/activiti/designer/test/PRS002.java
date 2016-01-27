@@ -45,6 +45,7 @@ public class PRS002 implements IRealization{
 
 			for(TData data : input.getDataList()){
 				switch(data.getName()){
+					case "machinistName": packerName = data.getValue(); break;
 					case "operatorName": operatorName = data.getValue(); break;
 					case "supervisorName": supervisorName = data.getValue(); break;
 					default: break;

@@ -51,7 +51,8 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 		for(TSubIntention subIntention : intention.getSubIntentions().get(0).getSubIntention()){
 			subIntentions.add(subIntention.getName());
 		}
-		try {			
+		try {
+			Thread.sleep(5000);
 			log.info("Intention Analysis is Started by Deserializing the ProcessRepository.xml");
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				Set<String> extraIntentions = new TreeSet<String>();
@@ -68,6 +69,9 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 					this.intentionAnalysisPassedProcesses.getProcessDefinition().add(processDefinition);
 				}
 			}
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			log.severe("INAN12: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("INTAN11: NullPointerException has Occurred.");
 		} catch (Exception e) {
