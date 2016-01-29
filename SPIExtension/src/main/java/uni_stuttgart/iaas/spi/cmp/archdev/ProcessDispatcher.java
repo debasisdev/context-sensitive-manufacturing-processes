@@ -10,11 +10,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.activiti.designer.test.PCOM01;
-import org.activiti.designer.test.PMX001;
-import org.activiti.designer.test.PRS001;
-import org.activiti.designer.test.PRS002;
-import org.activiti.designer.test.PSM001;
+import org.activiti.designer.test.ComplementaryMaintenance;
+import org.activiti.designer.test.ManualPacking;
+import org.activiti.designer.test.SemiautomaticPackingRepair;
+import org.activiti.designer.test.SemiautomaticPackingReinstall;
+import org.activiti.designer.test.SemiautomaticPackingPlain;
 import org.apache.camel.Exchange;
 import org.w3c.dom.Node;
 
@@ -50,19 +50,19 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 		//Start Deployment Code for Main Model
 			log.info(mainModel + " Will Be Executed.");
 			if(processDefinition.getId().equals("PRS001")){
-				PRS001 primeModel = new PRS001();
+				SemiautomaticPackingRepair primeModel = new SemiautomaticPackingRepair();
 				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
 			}
 			else if(processDefinition.getId().equals("PRS002")){
-				PRS002 primeModel = new PRS002();
+				SemiautomaticPackingReinstall primeModel = new SemiautomaticPackingReinstall();
 				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
 			}
 			else if(processDefinition.getId().equals("PMX001")){
-				PMX001 primeModel = new PMX001();
+				ManualPacking primeModel = new ManualPacking();
 				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
 			}
 			else if(processDefinition.getId().equals("PSM001")){
-				PSM001 primeModel = new PSM001();
+				SemiautomaticPackingPlain primeModel = new SemiautomaticPackingPlain();
 				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
 			}
 			else{
@@ -71,7 +71,7 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 		//End Deployment Code for Main Model
 		//Start Deployment Code for Complementary Model
 			log.info(complementaryModel + " Will Be Executed.");
-			PCOM01 compModel = new PCOM01();
+			ComplementaryMaintenance compModel = new ComplementaryMaintenance();
 			compModel.startProcess(complementaryModel, this.inputData, this.outputPlaceholder);
 		//End Deployment Code for Complementary Model
 		return this.outputPlaceholder;
@@ -90,7 +90,6 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 			this.outputPlaceholder = this.deployProcess(processDef);
-			Thread.sleep(5000);
 			TTaskCESDefinition cesDef = new TTaskCESDefinition();
 			cesDef.setOutputVariable(this.outputPlaceholder);
 			jaxbContext = JAXBContext.newInstance(cmpMaker.getClass());
@@ -98,8 +97,6 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			JAXBElement<TTaskCESDefinition> rootElem = cmpMaker.createCESDefinition(cesDef);
 			jaxbMarshaller.marshal(rootElem, outputStream);
-		} catch (InterruptedException e) {
-			log.severe("PRODI02: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("PRODI01: NullPointerException has Occurred.");
 		} catch(Exception e) {

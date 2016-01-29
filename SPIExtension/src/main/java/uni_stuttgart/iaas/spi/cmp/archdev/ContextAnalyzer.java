@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -39,6 +38,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessEliminator;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessRepository;
+import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 /**
  * A Demo Implementation Class that Implements IProcessEliminator, IDataRepository and ICamelSerializer.
@@ -80,46 +80,39 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 			JAXBElement<TContexts> conSet = ipsmMaker.createContextSet(this.contextSet);
 			File file = File.createTempFile("ContextData", ".xml", new File("src/main/resources/diagrams/"));
 			jaxbMarshaller.marshal(conSet, file);
-			
+
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(file);
 	        
-			Properties propertyFile = new Properties();
-			Thread.sleep(5000);
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-		    	InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
-		    	if(inputReader != null){
-		    		propertyFile.load(inputReader);
-					if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
-						List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
-						for(TContext contextExpression : expressionList){
-							TContent tContent = contextExpression.getContextDefinition().get(0).
-									getDefinitionContent();
-							Node nodeManu = (Node)tContent.getAny();
-							String xpathQuery = nodeManu.getFirstChild().getTextContent();
-							if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().
-									equals(propertyFile.getProperty("XPATH_NAMESPACE"))){
-								XPathFactory xPathfactory = XPathFactory.newInstance();
-								XPath xpath = xPathfactory.newXPath();
-								XPathExpression expr = xpath.compile(xpathQuery);
-								NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-								int noOfPredicates = xpathQuery.trim().split("\\|").length;
-								if(nl.getLength() == noOfPredicates) {
-									initialContextAnalysisTable.put(contextExpression.getName(), true);
-								}
-								else {
-									initialContextAnalysisTable.put(contextExpression.getName(), false);
-								}
+				if(processDefinition.getTargetNamespace().equals(CESConfig.CONTEXT_NAMESPACE)){
+					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+					for(TContext contextExpression : expressionList){
+						TContent tContent = contextExpression.getContextDefinition().get(0).
+								getDefinitionContent();
+						Node nodeManu = (Node)tContent.getAny();
+						String xpathQuery = nodeManu.getFirstChild().getTextContent();
+						if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().
+								equals(CESConfig.XPATH_NAMESPACE)){
+							XPathFactory xPathfactory = XPathFactory.newInstance();
+							XPath xpath = xPathfactory.newXPath();
+							XPathExpression expr = xpath.compile(xpathQuery);
+							NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+							int noOfPredicates = xpathQuery.trim().split("\\|").length;
+							if(nl.getLength() == noOfPredicates) {
+								initialContextAnalysisTable.put(contextExpression.getName(), true);
+							}
+							else {
+								initialContextAnalysisTable.put(contextExpression.getName(), false);
 							}
 						}
 					}
-		    	}
-		    	inputReader.close();
+				}
 			}
 			log.info("Phase-1 Context Analysis Report: " + initialContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-				if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
+				if(processDefinition.getTargetNamespace().equals(CESConfig.CONTEXT_NAMESPACE)){
 					String processId = processDefinition.getId();
 					boolean result = false;
 					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
@@ -130,10 +123,9 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 					finalContextAnalysisTable.put(processId, result);
 				}
 			}
-			Thread.sleep(5000);
 			log.info("Phase-2 Context Analysis Report: " + finalContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
-				if(processDefinition.getTargetNamespace().equals(propertyFile.getProperty("CONTEXT_NAMESPACE"))){
+				if(processDefinition.getTargetNamespace().equals(CESConfig.CONTEXT_NAMESPACE)){
 					String processId = processDefinition.getId();
 					boolean result = finalContextAnalysisTable.get(processId);
 					if(result){
@@ -142,10 +134,9 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 				}
 			}
 			file.delete();
-		} catch (InterruptedException e) {
-			log.severe("CONAN14: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("CONAN13: NullPointerException has Occurred.");
+			e.printStackTrace();
 		} catch (IOException e) {
 			log.severe("CONAN12: IOException has Occurred.");
 		} catch (XPathExpressionException e) {

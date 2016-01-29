@@ -2,7 +2,6 @@ package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +10,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
@@ -32,6 +30,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessSelector;
+import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 	private TProcessDefinition dispatchedProcess;
@@ -57,20 +56,15 @@ public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 	public TProcessDefinition selectProcess(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
 		Map<String, Double> weightList = new TreeMap<String, Double>();
 		log.info("Selection by Strategy analysis is being done.");
-		try {
-			Properties propertyFile = new Properties();
-			InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
-			propertyFile.load(inputReader);
-			
+		try {			
 			List<TProcessDefinition> processDefinitionList = new LinkedList<TProcessDefinition>();
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				processDefinitionList.add(processDefinition);
 				this.processIds.add(processDefinition.getId());
 			}
 			if(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations()
-					.equals(propertyFile.getProperty("WEIGHT_NAMESPACE"))){
+					.equals(CESConfig.WEIGHT_NAMESPACE)){
 				if(!processDefinitionList.isEmpty()){
-					Thread.sleep(5000);
 					switch(processDefinitionList.size()){
 						case 1: this.dispatchedProcess = processDefinitionList.iterator().next();
 								break;
@@ -105,12 +99,7 @@ public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 					this.dispatchedProcess = processDefinitionList.get(randInt);
 				}
 			}
-			Thread.sleep(5000);
 			log.info(this.dispatchedProcess.getId() + " Is Selected for the Realization of Business Ojective.");
-		} catch (InterruptedException e) {
-			log.severe("PROSE13: InterruptedException has Occurred.");
-		} catch (IOException e) {
-			log.severe("PROSE12: IOException has Occurred.");
 		} catch (NullPointerException e){
 			log.severe("PROSE11: NullPointerException has Occurred.");
 		} catch (Exception e){

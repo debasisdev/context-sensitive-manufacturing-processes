@@ -15,9 +15,9 @@ import org.activiti.engine.runtime.ProcessInstance;
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import uni_stuttgart.iaas.spi.cmp.archint.IRealization;
 
-public class POPT01 implements IRealization{
+public class NaiveOptimization implements IRealization{
 	
-	private static final Logger log = Logger.getLogger(POPT01.class.getName());
+	private static final Logger log = Logger.getLogger(NaiveOptimization.class.getName());
 
 	public TDataList startProcess(String filePath, TDataList input, TDataList outputHolder) {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();

@@ -21,9 +21,9 @@ import de.uni_stuttgart.iaas.cmp.v0.TData;
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import uni_stuttgart.iaas.spi.cmp.archint.IRealization;
 
-public class PSM001 implements IRealization{
+public class SemiautomaticPackingPlain implements IRealization{
 
-	private static final Logger log = Logger.getLogger(PSM001.class.getName());
+	private static final Logger log = Logger.getLogger(SemiautomaticPackingPlain.class.getName());
 	
 	public TDataList startProcess(String filePath, TDataList input, TDataList outputHolder) {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
@@ -59,7 +59,6 @@ public class PSM001 implements IRealization{
 				System.out.println("Task assigned to " + packerName);
 				Map<String, Object> taskVariables = new HashMap<String, Object>();
 				taskVariables.put("packStatus", "true");
-				Thread.sleep(6000);
 				taskService.complete(task.getId(),taskVariables);
 				System.out.println("Packing Completed by " + packerName + ".");
 		    }
@@ -71,7 +70,6 @@ public class PSM001 implements IRealization{
 				System.out.println("Task assigned to " + operatorName);
 				Map<String, Object> taskVariables = new HashMap<String, Object>();
 				taskVariables.put("sealStatus", "true");
-				Thread.sleep(8000);
 				taskService.complete(task.getId(),taskVariables);
 				System.out.println("Sealing Completed by " + operatorName + ".");
 		    }
@@ -81,7 +79,6 @@ public class PSM001 implements IRealization{
 				System.out.println(task.getName() + " Task is available for Supervisor.");
 				taskService.claim(task.getId(), supervisorName);
 				System.out.println("Task assigned to " + supervisorName);
-				Thread.sleep(8000);
 			    taskService.complete(task.getId());
 			}
 			System.out.println("Task Completed by " + supervisorName + ".");
@@ -95,8 +92,6 @@ public class PSM001 implements IRealization{
 			
 		} catch (FileNotFoundException e) {
 			log.severe("PSM.001.03: FileNotFoundException has Occurred.");
-		} catch (InterruptedException e) {
-			log.severe("PSM.001.02: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("PSM.001.01: NullPointerException has Occurred.");
 		} catch (Exception e) {

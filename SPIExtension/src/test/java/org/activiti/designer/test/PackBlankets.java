@@ -16,15 +16,14 @@ import org.junit.Test;
 
 public class PackBlankets {
 
-	private String bpmnFileName = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\PackBlankets.bpmn";
+	private String file = "D:\\MyWorkThesis\\SPIExtension\\src\\test\\resources\\PackBlankets.bpmn";
 	private static final Logger log = Logger.getLogger(PackBlankets.class.getName());
 
 	@Test
 	public void startProcess() throws Exception {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
-		repositoryService.createDeployment().addInputStream("PackBlanket.bpmn20.xml", 
-																new FileInputStream(bpmnFileName)).deploy();
+		repositoryService.createDeployment().addInputStream("PackBlanket.bpmn20.xml", new FileInputStream(file)).deploy();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		Map<String, Object> variableMap = new HashMap<String, Object>();
 		variableMap.put("orderID", "OD153728DE");

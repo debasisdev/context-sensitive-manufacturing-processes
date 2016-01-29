@@ -21,36 +21,36 @@ import de.uni_stuttgart.iaas.cmp.v0.TData;
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import uni_stuttgart.iaas.spi.cmp.archint.IRealization;
 
-public class PRS001 implements IRealization{
+public class ManualPacking implements IRealization{
+	
+	private static final Logger log = Logger.getLogger(ManualPacking.class.getName());
 
-	private static final Logger log = Logger.getLogger(PRS001.class.getName());
-			
 	public TDataList startProcess(String filePath, TDataList input, TDataList outputHolder) {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
 		try {
-			repositoryService.createDeployment().addInputStream("semimanualrepairsealing.bpmn20.xml",
+			repositoryService.createDeployment().addInputStream("manualsealprocess.bpmn20.xml",
 					new FileInputStream(filePath)).deploy();
 			RuntimeService runtimeService = processEngine.getRuntimeService();
 			Map<String, Object> variableMap = new HashMap<String, Object>();
 			/*Process Inputs*/
 			variableMap.put("orderID", "OD153728DE");
-			ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("semimanualrepairsealing", variableMap);
+			ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("manualsealprocess", variableMap);
 			log.info("<ID:" + processInstance.getId() + ">");
 			
 			String packerName = "Jack";
-			String operatorName = null;
-			String supervisorName = null;
+			String operatorName = "Joe";
+			String superisorName = "Jill";
 
 			for(TData data : input.getDataList()){
 				switch(data.getName()){
 					case "machinistName": packerName = data.getValue(); break;
 					case "operatorName": operatorName = data.getValue(); break;
-					case "supervisorName": supervisorName = data.getValue(); break;
+					case "supervisorName": superisorName = data.getValue(); break;
 					default: break;
 				}
 			}
-
+			
 			TaskService taskService = processEngine.getTaskService();
 			List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("manualworker").list();
 			for (Task task : tasks) {
@@ -59,7 +59,6 @@ public class PRS001 implements IRealization{
 				System.out.println("Task assigned to " + packerName);
 				Map<String, Object> taskVariables = new HashMap<String, Object>();
 				taskVariables.put("packStatus", "true");
-				Thread.sleep(6000);
 				taskService.complete(task.getId(),taskVariables);
 				System.out.println("Packing Completed by " + packerName + ".");
 		    }
@@ -71,35 +70,31 @@ public class PRS001 implements IRealization{
 				System.out.println("Task assigned to " + operatorName);
 				Map<String, Object> taskVariables = new HashMap<String, Object>();
 				taskVariables.put("sealStatus", "true");
-				Thread.sleep(8000);
 				taskService.complete(task.getId(),taskVariables);
 				System.out.println("Sealing Completed by " + operatorName + ".");
 		    }
-			
-			tasks = taskService.createTaskQuery().taskCandidateGroup("supervisor").list();
+		    
+		    tasks = taskService.createTaskQuery().taskCandidateGroup("supervisor").list();
 			for (Task task : tasks) {
 				System.out.println(task.getName() + " Task is available for Supervisor.");
-				taskService.claim(task.getId(), supervisorName);
-				System.out.println("Task assigned to " + supervisorName);
-				Thread.sleep(8000);
+				taskService.claim(task.getId(), superisorName);
+				System.out.println("Task assigned to " + superisorName);
 			    taskService.complete(task.getId());
 			}
-			System.out.println("Task Completed by " + supervisorName + ".");
+			System.out.println("Task Completed by " + superisorName + ".");
 			
 			outputHolder.getDataList().get(0).setValue("done");
 
 			HistoryService historyService = processEngine.getHistoryService();
-		    HistoricProcessInstance historicProcessInstance =
-		      historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstance.getId()).singleResult();
+		    HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().
+		    												processInstanceId(processInstance.getId()).singleResult();
 		    log.info("Process Instance End-time: " + historicProcessInstance.getEndTime());
 		} catch (FileNotFoundException e) {
-			log.severe("PRS.001.03: FileNotFoundException has Occurred.");
-		} catch (InterruptedException e) {
-			log.severe("PRS.001.02: InterruptedException has Occurred.");
+			log.severe("PMX.001.02: FileNotFoundException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("PRS.001.01: NullPointerException has Occurred.");
+			log.severe("PMX.001.01: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("PRS.001.00: Unknown Exception has Occurred - " + e);
+			log.severe("PMX.001.00: Unknown Exception has Occurred - " + e);
 		}
 		return outputHolder;
 	}

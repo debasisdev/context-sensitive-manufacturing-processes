@@ -15,6 +15,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
+import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 /**
  * A Generic Implementation for Context-sensitive Execution Step (CES) Task.
@@ -48,115 +49,119 @@ public class CESExecutor {
       		//Initializing Camel Context, RabbitMQ Factory and Others for Message-Filter Based Integration
     		CamelContext camelCon = new DefaultCamelContext();
           	ConnectionFactory conFac = new ConnectionFactory();
-          	conFac.setHost("localhost");
+          	conFac.setHost(CESConfig.RABBIT_SERVER);
 	      	Connection connection = conFac.newConnection();
 		    Channel channel = connection.createChannel();
 		    
 		    //Removing Previously existing Queues that may create deadlocks, e.g., RESOURCE-LOCKED
-		    channel.queueDelete("prodis_queue");	//Process Dispatcher Queue
-		    channel.queueDelete("proopt_queue");	//Process Optimizer Queue
+		    channel.queueDelete("queman_queue");	//Query Manager Queue
+		    channel.queueDelete("conana_queue");	//Context Analyzer Queue
 		    channel.queueDelete("intana_queue");	//Intention Analyzer Queue
-	        channel.queueDelete("conana_queue");	//Context Analyzer Queue
-	        channel.queueDelete("queman_queue");	//Query Manager Queue
-	        channel.queueDelete("result_queue");	//Result Queue
+		    channel.queueDelete("prosel_queue");	//Process Selector Queue
+		    channel.queueDelete("proopt_queue");	//Process Dispatcher Queue
+		    channel.queueDelete("prodis_queue");	//Process Optimizer Queue
+		    channel.queueDelete("result_queue");	//Result Queue
 	        
 	        //Creating the basic Queues for CES Task Execution and Message Exchange
 		    channel.queueDeclare("queman_queue", false, false, false, null); 
 		    channel.queueDeclare("conana_queue", false, false, false, null); 
 		    channel.queueDeclare("intana_queue", false, false, false, null); 
+		    channel.queueDeclare("prosel_queue", false, false, false, null);
 		    channel.queueDeclare("proopt_queue", false, false, false, null); 
 		    channel.queueDeclare("prodis_queue", false, false, false, null);
 		    channel.queueDeclare("result_queue", false, false, false, null);
 		    
 		    //Creating a multi-purpose Exchange for selected topic based message forwarding.
 		    channel.exchangeDeclare("cmp_messages", "direct", false, false, false, null);
-		    //Creating a fan-out Exchange for multi-casting.
-		    channel.exchangeDeclare("cmp_process", "fanout", false, false, false, null);
 		    
 		    //Binding already declared Queues with either of the Exchanges using a Routing Key (3rd Parameter)
-		    channel.queueBind("queman_queue", "cmp_messages", "infoqm"); 
-		    channel.queueBind("conana_queue", "cmp_messages", "infoca"); 
-		    channel.queueBind("intana_queue", "cmp_messages", "infoia");
-		    channel.queueBind("proopt_queue", "cmp_process", "infopo");
-		    channel.queueBind("prodis_queue", "cmp_process", "infopd");
-		    channel.queueBind("result_queue", "cmp_messages", "infores");
+		    channel.queueBind("queman_queue", "cmp_messages", "CESActivated"); 
+		    channel.queueBind("conana_queue", "cmp_messages", "ContextReceived"); 
+		    channel.queueBind("intana_queue", "cmp_messages", "ContextAnalyzed");
+		    channel.queueBind("prosel_queue", "cmp_messages", "IntentionAnalyzed");
+		    channel.queueBind("proopt_queue", "cmp_messages", "ProcessSelected");
+		    channel.queueBind("prodis_queue", "cmp_messages", "ProcessForwarded");
+		    channel.queueBind("result_queue", "cmp_messages", "ProcessDispatched");
 		    
 		    /**
 		     * Routing Details and Rules*/
 	        camelCon.addRoutes(new RouteBuilder() {
 	            public void configure() {
 	            	
-	            	//Query Manager Invocation
+	            	//Invoke Query Manager
 	                from("direct:start")
 	                	//Set Respective Routing Key
 	                	.process(new Processor() {
 	            			public void process(Exchange exchange) throws Exception {
-	            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoqm");
+	            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "CESActivated");
 	            			}})
-	                	//Activate the Query Manager and Unicast to Queue whether Context data is available or not.
+	                	//Activate the Query Manager
 	                	.bean(new QueryManager(cesDefinition),"getSerializedOutput")
-	                	.to("rabbitmq://localhost/cmp_messages?routingKey=infoqm&autoDelete=false"
-	                		+ "&durable=false&queue=queman_queue");
+	                	.to(CESConfig.RABBIT_QUERY_MANAGER_QUEUE);
 	                
-	                //Context Analyzer Invocation - Filter 1
-	                from("rabbitmq://localhost/cmp_messages?routingKey=infoqm&autoDelete=false"
-	                		+ "&durable=false&queue=queman_queue")
+	                //Forward Result to the Content Based Router
+	                from(CESConfig.RABBIT_QUERY_MANAGER_QUEUE)
+	            		//Set Respective Routing Key
+	                	.process(new Processor() {
+	            			public void process(Exchange exchange) throws Exception {
+	            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ContextReceived");
+	            			}})
+	            		.to(CESConfig.RABBIT_CONTENT_ROUTER);
+	                
+	                //Analyze Context and Submit Results to the Content Based Router
+	                from(CESConfig.RABBIT_CONTEXT_ANALYZER_QUEUE)
 	                		//Set Respective Routing Key
 		                	.process(new Processor() {
 	                			public void process(Exchange exchange) throws Exception {
-	                				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoca");
+	                				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ContextAnalyzed");
 	                			}})
-		                	//Activate Context Analyzer and Unicast the satisfying TProcessDefinitions to the queue
+		                	//Activate Context Analyzer
 	                		.bean(new ContextAnalyzer(cesDefinition),"getSerializedOutput")
-	                		.to("rabbitmq://localhost/cmp_messages?routingKey=infoca&autoDelete=false"
-	                				+ "&durable=false&queue=conana_queue");
+	                		.to(CESConfig.RABBIT_CONTENT_ROUTER);
 	                
-	                //Intention Analyzer Invocation - Filter 2
-	                from("rabbitmq://localhost/cmp_messages?routingKey=infoca&autoDelete=false"
-	                		+ "&durable=false&queue=conana_queue")
+	                //Analyze Intention and Submit Results to the Content Based Router
+	                from(CESConfig.RABBIT_INTENTION_ANALYZER_QUEUE)
 	                		//Set Respective Routing Key
 			                .process(new Processor() {
 		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infoia");
+		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "IntentionAnalyzed");
 		            			}})
-			                //Activate Intention Analyzer and Unicast the satisfying TProcessDefinitions to the queue
+			                //Activate Intention Analyzer
 	                		.bean(new IntentionAnalyzer(cesDefinition),"getSerializedOutput")
-	                		.to("rabbitmq://localhost/cmp_messages?routingKey=infoia&autoDelete=false"
-		                				+ "&durable=false&queue=intana_queue");
+	                		.to(CESConfig.RABBIT_CONTENT_ROUTER);
 	                
-	                //Process Selector Invocation - Filter 3
-	                from("rabbitmq://localhost/cmp_messages?routingKey=infoia&autoDelete=false"
-	                		+ "&durable=false&queue=intana_queue")
-	                		//Set Exchange Name for Multi-casting TProcessDefinition to Optimizer and Dispatcher
+	                //Invoke Process Selector and Submit the final Process Definition to the Content Based Router
+	                from(CESConfig.RABBIT_PROCESS_SELECTOR_QUEUE)
+	                		//Set Respective Routing Key
 		                	.process(new Processor() {
 		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.EXCHANGE_NAME, "cmp_process");
+		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ProcessSelected");
 		            			}})
-		                	//Activate Process Selector and broadcast the TProcessDefinition to the queues of Optimizer and Dispatcher
+		                	//Activate Process Selector
 	                		.bean(new ProcessSelector(cesDefinition),"getSerializedOutput")
-	                		.to("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
-	                				+ "exchangeType=fanout&skipQueueDeclare=true");
+	                		.to(CESConfig.RABBIT_CONTENT_ROUTER);
 	                
-	                //Process Optimizer Invocation
-	                from("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
-	                		+ "exchangeType=fanout&queue=proopt_queue")
-			                //Perform Optimization and flush the queue to the Console Output
+	                //Invoke Process Optimizer and reroute the Process Definition back to the Content Based Router
+	                from(CESConfig.RABBIT_OPTIMIZER_QUEUE)
+	                		//Set Respective Routing Key
+			                .process(new Processor() {
+		            			public void process(Exchange exchange) throws Exception {
+		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ProcessForwarded");
+		            			}})
+			                //Perform Optimization
 	                		.bean(new ProcessOptimizer(cesDefinition),"getSerializedOutput")
-	                		.to("stream:out");
+	                		.to(CESConfig.RABBIT_CONTENT_ROUTER);
 	                
-	                //Process Dispatcher Invocation
-	                from("rabbitmq://localhost/cmp_process?autoDelete=false&durable=false&"
-	                		+ "exchangeType=fanout&queue=prodis_queue")
+	                //Invoke Process Dispatcher and Submit the final result to the Content Based Router
+	                from(CESConfig.RABBIT_DISPATCHER_QUEUE)
 			              	//Set Respective Routing Key
 		                	.process(new Processor() {
 		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.EXCHANGE_NAME, "cmp_messages");
-		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "infores");
+		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ProcessDispatched");
 		            			}})
-		                	//Perform Optimization and Unicast the result to itself
+		                	//Perform Deployment/Dispatching
 	                		.bean(new ProcessDispatcher(cesDefinition),"getSerializedOutput")
-	                		.to("rabbitmq://localhost/cmp_messages?routingKey=infores&autoDelete=false"
-	    	                		+ "&durable=false&queue=result_queue"); 
+	                		.to(CESConfig.RABBIT_CONTENT_ROUTER); 
 	            }
 	        });
 	        
@@ -165,7 +170,7 @@ public class CESExecutor {
 	        
 	        //Start the Context by sending some dummy message
 	        ProducerTemplate template = camelCon.createProducerTemplate();
-	        template.sendBody("direct:start", "Start Packaging of E-Blankets");
+	        template.sendBody("direct:start", "Start Packing E-Blankets");
 	        
 	        //Stop Camel Context and Close Connection/Channel Objects
 	        camelCon.stop();	        

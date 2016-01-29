@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
@@ -49,6 +49,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 public class CESTaskDelegation implements JavaDelegate {
 	
@@ -63,42 +64,19 @@ public class CESTaskDelegation implements JavaDelegate {
 	private Expression hiddenField;
 	
 	private static final Logger log = Logger.getLogger(CESTaskDelegation.class.getName());
-	private static Properties propertyFile;
 	private static TDataList output;
 	
 	public CESTaskDelegation() {
-		try {
-			CESTaskDelegation.propertyFile = new Properties();
-			InputStream inputReader = this.getClass().getClassLoader().getResourceAsStream("config.properties");
-			CESTaskDelegation.propertyFile.load(inputReader);
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			log.severe("CESTD03: InterruptedException has Occurred.");
-		} catch (IOException e) {
-			log.severe("CESTD02: IOException has Occurred.");
-		} catch (NullPointerException e) {
-			log.severe("CESTD01: NullPointerException has Occurred.");
-		} catch (Exception e) {
-			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
-		}
 	}
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-
-		TData machinistData = new TData();
-		for(String data : execution.getVariableNames()){
-			if(data.equals("machinistName")){
-				machinistData.setName("machinistName");
-				machinistData.setValue(execution.getVariable("machinistName").toString());
-			}
-		}
 		
 		ObjectFactory ob = new ObjectFactory();
 		TTaskCESDefinition cesDefinition = ob.createTTaskCESDefinition();
 		cesDefinition.setIsCommandAction(true);
 		cesDefinition.setIsEventDriven(false);
-		cesDefinition.setTargetNamespace(CESTaskDelegation.propertyFile.getProperty("CMP_NAMESPACE"));
+		cesDefinition.setTargetNamespace(CESConfig.CMP_NAMESPACE);
 		cesDefinition.setDomainKnowHowRepository(this.processRepositoryPath.getExpressionText().trim());
 		cesDefinition.setOptimizationRequired(Boolean.parseBoolean(this.performOptimization.getExpressionText()));
 		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), 
@@ -107,7 +85,16 @@ public class CESTaskDelegation implements JavaDelegate {
 		TContexts contexts = this.createRequiredContext(requiredContext.getExpressionText());
 		cesDefinition.setRequiredContexts(contexts);
 		TDataList inputList = this.createInputData(inputVariable.getExpressionText());
-		inputList.getDataList().add(machinistData);
+		List<TData> runtimeData = new LinkedList<TData>();
+		for(String name : execution.getVariableNames()){
+			TData data = new TData();
+			data.setName(name);
+			data.setValue(execution.getVariable(name).toString());
+			runtimeData.add(data);
+		}
+		for(TData data : runtimeData){
+			inputList.getDataList().add(data);
+		}
 		TDataList outputVar = this.createOutputPlaceholder(outputVariable.getExpressionText());
 		cesDefinition.setInputData(inputList);
 		cesDefinition.setOutputVariable(outputVar);
@@ -118,7 +105,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 		jaxbMarshaller.marshal(root, System.out);
 		
-		String cesServiceEndpoint = CESTaskDelegation.propertyFile.getProperty("SOAPSERVICE_URI");
+		String cesServiceEndpoint = CESConfig.SOAPSERVICE_URI;
 		SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
 		String result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
 		log.info(result);
@@ -214,7 +201,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		}
 		TSubIntentions subIntentionsList = new TSubIntentions();
 		if(selectionStrategy.equals("Weight")){
-			subIntentionsList.setSubIntentionRelations(CESTaskDelegation.propertyFile.getProperty("WEIGHT_NAMESPACE"));
+			subIntentionsList.setSubIntentionRelations(CESConfig.WEIGHT_NAMESPACE);
 		} 
 		else{
 			subIntentionsList.setSubIntentionRelations("Random");
@@ -270,10 +257,10 @@ public class CESTaskDelegation implements JavaDelegate {
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
 
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration("ser", propertyFile.getProperty("SERVICE_NAMESPACE"));
-	        envelope.addNamespaceDeclaration("v0", propertyFile.getProperty("IPSM_NAMESPACE"));
-	        envelope.addNamespaceDeclaration("v01", propertyFile.getProperty("CMP_NAMESPACE"));
-	        envelope.addNamespaceDeclaration("ns", propertyFile.getProperty("TOSCA_NAMESPACE"));
+	        envelope.addNamespaceDeclaration("ser", CESConfig.SERVICE_NAMESPACE);
+	        envelope.addNamespaceDeclaration("v0", CESConfig.IPSM_NAMESPACE);
+	        envelope.addNamespaceDeclaration("v01", CESConfig.CMP_NAMESPACE);
+	        envelope.addNamespaceDeclaration("ns", CESConfig.TOSCA_NAMESPACE);
 	        
 	        SOAPBody soapBody = envelope.getBody();
 	        SOAPElement cesExecutorElem = soapBody.addChildElement("CESExecutor", "ser");
@@ -363,26 +350,25 @@ public class CESTaskDelegation implements JavaDelegate {
 	public static TDataList getOutputOfProcess(){
 		CamelContext camelCon = new DefaultCamelContext();
       	ConnectionFactory conFac = new ConnectionFactory();
-      	conFac.setHost("localhost");
+      	conFac.setHost(CESConfig.RABBIT_SERVER);
       	try {
       		Connection connection = conFac.newConnection();
       		Channel channel = connection.createChannel();
 			camelCon.addRoutes(new RouteBuilder() {
 	            public void configure() {
 	            	//Process Dispatcher Invocation
-	                from("rabbitmq://localhost/cmp_messages?routingKey=infores&autoDelete=false"
-	    	                		+ "&durable=false&queue=result_queue")
-			              	//Set Respective Routing Key
-		                	.process(new Processor() {
-		            			public void process(Exchange exchange) throws Exception {
-		            				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
-		            				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-		            				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-		            				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-		            				TTaskCESDefinition definition = (TTaskCESDefinition) rootElement.getValue();
-		            				CESTaskDelegation.output = definition.getOutputVariable();
-		            			}})
-	                		.to("stream:out"); 
+	                from(CESConfig.RABBIT_RESULT_QUEUE)
+		              	//Set Respective Routing Key
+	                	.process(new Processor() {
+	            			public void process(Exchange exchange) throws Exception {
+	            				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
+	            				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+	            				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+	            				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
+	            				TTaskCESDefinition definition = (TTaskCESDefinition) rootElement.getValue();
+	            				CESTaskDelegation.output = definition.getOutputVariable();
+	            			}})
+                		.to("stream:out"); 
 	            }
 	        });
 			camelCon.start();

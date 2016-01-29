@@ -8,7 +8,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
-import org.activiti.designer.test.POPT01;
+import org.activiti.designer.test.NaiveOptimization;
 import org.apache.camel.Exchange;
 import org.w3c.dom.Node;
 
@@ -40,7 +40,7 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 			String optimizerModel = nodeManu.getChildNodes().item(2).getTextContent();
 			//Start Deployment Code for Optimization
 				log.info(optimizerModel + " Will Be Executed");
-				POPT01 optModel = new POPT01();
+				NaiveOptimization optModel = new NaiveOptimization();
 				optModel.startProcess(optimizerModel, this.cesDefinition.getInputData(), 
 														this.cesDefinition.getOutputVariable() );
 			//End Deployment Code for Optimization
@@ -59,7 +59,6 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-				Thread.sleep(5000);
 				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 				TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 				this.optimizerRunStatus = this.optimizeProcess(processDef);
@@ -67,8 +66,6 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 			else{
 				log.info("Optimization is not Required by the modeler.");
 			}
-		} catch (InterruptedException e) {
-			log.severe("PROOP02: InterruptedException has Occurred.");
 		} catch (NullPointerException e) {
 			log.severe("PROOP01: NullPointerException has Occurred.");
 		} catch(Exception e) {
@@ -76,12 +73,11 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
       	} 
 		if(this.optimizerRunStatus){
 			log.info("Process Optimization Is Complete...");
-			return "Optimization Done\n".getBytes();
 		}
 		else{
 			log.warning("Process Optimization Failed or Strategy Not Found in Repository!");
-			return "Optimization Is Not-Available/Failed\n".getBytes();
 		}
+		return (byte[]) exchange.getIn().getBody();
 	}
 
 }
