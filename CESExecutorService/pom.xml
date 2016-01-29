@@ -11,6 +11,32 @@
 		<artifactId>protocols</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
+	<dependency>  
+	    <groupId>org.apache.cxf</groupId>  
+	    <artifactId>cxf-rt-frontend-jaxws</artifactId>  
+	    <version>2.7.18</version>  
+	</dependency>  
+	<dependency>  
+	    <groupId>org.apache.cxf</groupId>  
+	    <artifactId>cxf-rt-transports-http</artifactId>  
+	    <version>2.7.18</version>  
+	</dependency>  
+	<dependency>  
+	    <groupId>org.apache.cxf</groupId>  
+	    <artifactId>cxf-rt-databinding-aegis</artifactId>  
+	    <version>2.7.18</version>  
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-web</artifactId>
+		<version>3.0.7.RELEASE</version> 
+	</dependency>  
+	<dependency>  
+	    <groupId>org.apache.cxf</groupId>  
+	    <artifactId>cxf-rt-transports-http-jetty</artifactId>  
+	    <version>2.7.18</version>  
+	    <scope>test</scope>  
+	</dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
