@@ -70,6 +70,9 @@
 					<element name="OptimizationRequired" type="boolean"
 						maxOccurs="1" minOccurs="0">
 					</element>
+					<element name="DomainKnowHowRepositoryType" type="anyURI"
+						maxOccurs="1" minOccurs="1">
+					</element>
 					<element name="DomainKnowHowRepository" type="anyURI"
 						maxOccurs="1" minOccurs="1">
 					</element>

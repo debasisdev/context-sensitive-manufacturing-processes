@@ -83,13 +83,13 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			log.info("Deployment is about to Start...");
-			log.info("Optimization is being Carried Out...");
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 			this.outputPlaceholder = this.deployProcess(processDef);
+			
 			TTaskCESDefinition cesDef = new TTaskCESDefinition();
 			cesDef.setOutputVariable(this.outputPlaceholder);
 			jaxbContext = JAXBContext.newInstance(cmpMaker.getClass());

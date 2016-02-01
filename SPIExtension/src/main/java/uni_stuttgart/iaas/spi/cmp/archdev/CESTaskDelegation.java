@@ -56,6 +56,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	private Expression mainIntention;
 	private Expression subIntentions;
 	private Expression requiredContext;
+	private Expression processRepositoryType;
 	private Expression processRepositoryPath;
 	private Expression inputVariable;
 	private Expression outputVariable;
@@ -82,9 +83,10 @@ public class CESTaskDelegation implements JavaDelegate {
 		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), 
 							this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
 		cesDefinition.setIntention(intention);
-		TContexts contexts = this.createRequiredContext(requiredContext.getExpressionText());
+		TContexts contexts = this.createRequiredContext(this.requiredContext.getExpressionText());
 		cesDefinition.setRequiredContexts(contexts);
-		TDataList inputList = this.createInputData(inputVariable.getExpressionText());
+		cesDefinition.setDomainKnowHowRepositoryType(this.processRepositoryType.getExpressionText());
+		TDataList inputList = this.createInputData(this.inputVariable.getExpressionText());
 		List<TData> runtimeData = new LinkedList<TData>();
 		for(String name : execution.getVariableNames()){
 			TData data = new TData();
@@ -95,7 +97,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		for(TData data : runtimeData){
 			inputList.getDataList().add(data);
 		}
-		TDataList outputVar = this.createOutputPlaceholder(outputVariable.getExpressionText());
+		TDataList outputVar = this.createOutputPlaceholder(this.outputVariable.getExpressionText());
 		cesDefinition.setInputData(inputList);
 		cesDefinition.setOutputVariable(outputVar);
 		
@@ -110,12 +112,18 @@ public class CESTaskDelegation implements JavaDelegate {
 		String result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
 		log.info(result);
 		
-		CESExecutor cesProcess = new CESExecutor(cesDefinition);
-		log.info("Hashcode: " + cesProcess.hashCode());
-		
-		CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
-		for(TData data : CESTaskDelegation.output.getDataList()){
-			execution.setVariable(data.getName(), data.getValue());
+		try{
+			CESExecutor cesProcess = new CESExecutor(cesDefinition);
+			log.info("Hashcode: " + cesProcess.hashCode());
+			CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
+			for(TData data : CESTaskDelegation.output.getDataList()){
+				execution.setVariable(data.getName(), data.getValue());
+			}
+		} catch (NullPointerException e) {
+			log.severe("CESTD01: NullPointerException has Occurred.");
+			e.printStackTrace();
+		} catch (Exception e) {
+			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
 		}
 		
 	}
@@ -249,6 +257,10 @@ public class CESTaskDelegation implements JavaDelegate {
 		return hiddenField;
 	}
 	
+	public void setProcessRepositoryType(Expression processRepositoryType) {
+		this.processRepositoryType = processRepositoryType;
+	}
+	
 	public static SOAPMessage createSOAPRequest(TTaskCESDefinition cesDefinition) {
     	SOAPMessage soapMessage = null;
 		try {
@@ -344,7 +356,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		if (sb.getFirstChild().getFirstChild().getTextContent().trim().length()>0)
 			return sb.getFirstChild().getFirstChild().getTextContent();
 		else
-			return null;
+			return "";
     }
 	
 	public static TDataList getOutputOfProcess(){
@@ -376,9 +388,11 @@ public class CESTaskDelegation implements JavaDelegate {
 			channel.close();
 			connection.close();
 		} catch (IOException e) {
-			log.severe("CESTD32: IOException has Occurred.");
+			log.severe("CESTD33: IOException has Occurred.");
 		} catch (TimeoutException e) {
-			log.severe("CESTD31: TimeoutException has Occurred.");
+			log.severe("CESTD32: TimeoutException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("CESTD31: NullPointerException has Occurred.");
 		} catch (Exception e) {
 			log.severe("CESTD30: Unknown Exception has Occurred - " + e);
 		}

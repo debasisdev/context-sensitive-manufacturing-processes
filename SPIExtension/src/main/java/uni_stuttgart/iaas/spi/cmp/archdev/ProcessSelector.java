@@ -108,8 +108,6 @@ public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 		return this.dispatchedProcess;
 	}
 	
-	
-	
 	private String sortMap(Map<String, Double> inputMap) {
 		List<Map.Entry<String, Double>> list = 
 			new LinkedList<Map.Entry<String, Double>>(inputMap.entrySet());

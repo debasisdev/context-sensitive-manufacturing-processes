@@ -42,24 +42,45 @@ import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 /**
  * A Demo Implementation Class that Implements IProcessEliminator, IDataRepository and ICamelSerializer.
- * This module sends Analyzes the received Context data by validating them with some predefined rules stored
+ * This module analyzes the received Context data by validating them with some predefined rules stored
  * in a Domain Know-How Repository, i.e., a Process Repository.
  * @author Debasis Kar
  */
 
 public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IProcessRepository {
 	
+	/**Variable to Store the Process Definitions that pass Context Analysis 
+	 * @author Debasis Kar
+	 * */
 	private TProcessDefinitions contextAnalysisPassedProcesses;
+	
+	/**Variable to Store CES Definition 
+	 * @author Debasis Kar
+	 * */
 	private TTaskCESDefinition cesDefinition;
+	
+	/**Variable to Store Initial Context Data
+	 * @author Debasis Kar
+	 * */
 	private TContexts contextSet;
+	
+	/**Local Log Writer
+	 * @author Debasis Kar
+	 * */
 	private static final Logger log = Logger.getLogger(ContextAnalyzer.class.getName());
 	
+	/**Default Constructor of Context Analyzer
+	 * @author Debasis Kar
+	 * */
 	public ContextAnalyzer(){
 		this.contextAnalysisPassedProcesses = null;
 		this.cesDefinition = null;
 		this.contextSet = null;
 	}
 
+	/**Parameterized Constructor of Context Analyzer
+	 * @author Debasis Kar
+	 * */
 	public ContextAnalyzer(TTaskCESDefinition cesDefinition){
 		ObjectFactory ipsmMaker = new ObjectFactory();
 		this.contextAnalysisPassedProcesses = ipsmMaker.createTProcessDefinitions();
@@ -184,7 +205,11 @@ public class ContextAnalyzer implements IProcessEliminator, ICamelSerializer, IP
 	@Override
 	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
 		TProcessDefinitions processDefinitions = null;
-		String fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository.xml";
+		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
+		String fileName = null;
+		if(repositoryType.equals("xml")){
+			fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository." + repositoryType;
+		}
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

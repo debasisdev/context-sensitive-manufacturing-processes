@@ -42,7 +42,7 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 				log.info(optimizerModel + " Will Be Executed");
 				NaiveOptimization optModel = new NaiveOptimization();
 				optModel.startProcess(optimizerModel, this.cesDefinition.getInputData(), 
-														this.cesDefinition.getOutputVariable() );
+														this.cesDefinition.getOutputVariable());
 			//End Deployment Code for Optimization
 		} catch(Exception e) {
       		log.severe("PROOP10: Unknown Exception has Occurred - " + e);
@@ -53,10 +53,11 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange) {
+		byte[] inputStream = (byte[]) exchange.getIn().getBody();
 		try {
 			if(this.cesDefinition.isOptimizationRequired()){
 				log.info("Optimization is being Carried Out...");
-				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
+				InputStream byteInputStream = new ByteArrayInputStream(inputStream);
 				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
@@ -77,7 +78,7 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 		else{
 			log.warning("Process Optimization Failed or Strategy Not Found in Repository!");
 		}
-		return (byte[]) exchange.getIn().getBody();
+		return inputStream;
 	}
 
 }

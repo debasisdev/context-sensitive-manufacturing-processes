@@ -27,16 +27,40 @@ import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessEliminator;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessRepository;
 
+/**
+ * A Demo Implementation Class that Implements IProcessEliminator, IProcessRepository and ICamelSerializer.
+ * This module analyzes the received Process Definitions by filtering them with required main- and subgoals, 
+ * @author Debasis Kar
+ */
+
 public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, IProcessRepository {
 	
+	/**Variable to Store the Process Definitions that pass Intention Analysis 
+	 * @author Debasis Kar
+	 * */
 	private TProcessDefinitions intentionAnalysisPassedProcesses;
+	
+	/**Variable to Store CES Definition 
+	 * @author Debasis Kar
+	 * */
 	private TTaskCESDefinition cesDefinition;
+	
+	/**Local Log Writer
+	 * @author Debasis Kar
+	 * */
 	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
 	
+	/**Default Constructor of Intention Analyzer
+	 * @author Debasis Kar
+	 * */
 	public IntentionAnalyzer(){
 		this.intentionAnalysisPassedProcesses = null;
 	}
 	
+	/**Parameterized Constructor of Intention Analyzer
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * */
 	public IntentionAnalyzer(TTaskCESDefinition cesDefinition){
 		ObjectFactory ipsmMaker = new ObjectFactory();
 		this.intentionAnalysisPassedProcesses = ipsmMaker.createTProcessDefinitions();
@@ -79,6 +103,7 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 		return this.intentionAnalysisPassedProcesses;
 	}
 	
+	@Override
 	public byte[] getSerializedOutput(Exchange exchange){
 		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -112,7 +137,11 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 	@Override
 	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
 		TProcessDefinitions processDefinitions = null;
-		String fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository.xml";
+		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
+		String fileName = null;
+		if(repositoryType.equals("xml")){
+			fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository." + repositoryType;
+		}
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
