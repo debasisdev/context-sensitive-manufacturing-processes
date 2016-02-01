@@ -42,15 +42,20 @@ public class CESTask extends AbstractCustomServiceTask {
   @Help(displayHelpShort = "Mentioned required context data.", displayHelpLong = "You can provide the list of required context names to be looked for separted by commas(,).")
   private String requiredContext;
   
-  @Property(type = PropertyType.TEXT, displayName = "Process Repository Location", required = true, defaultValue = "D:\\MyWorkThesis\\SPIExtension\\src\\main\\resources\\dataRepository")
-  @Help(displayHelpShort = "Give the path to the process models' store.", displayHelpLong = "You can provide the list of required context names to be looked for separted by commas(,).")
+  @Property(type = PropertyType.COMBOBOX_CHOICE, displayName = "Process Repository Type", required = true, defaultValue = "xml")
+  @Help(displayHelpShort = "Give the type of your process repository", displayHelpLong = "You can provide the type of URI of the process repository you are going to use.")
+  @PropertyItems({"XML", "xml", "SQL Database", "SQL"})
+  private String processRepositoryType;
+  
+  @Property(type = PropertyType.TEXT, displayName = "Process Repository URI", required = true, defaultValue = "D:\\MyWorkThesis\\SPIExtension\\src\\main\\resources\\dataRepository")
+  @Help(displayHelpShort = "Give the path to the process models' store.", displayHelpLong = "You can provide the URI of the process repository you are going to use.")
   private String processRepositoryPath;
   
   @Property(type = PropertyType.TEXT, displayName = "Input Variable(s)", required = false, defaultValue = "operatorName = Wolfgang, supervisorName = Frank")
   @Help(displayHelpShort = "Give any extra input as key-value pair.", displayHelpLong = "You can give any extra-input as a key-value pair separated by commas, e.g., age=25, experience=2.")
   private String inputVariable;
 
-  @Property(type = PropertyType.TEXT, displayName = "Output Variable", required = false, defaultValue = "finalStatus, packOutput")
+  @Property(type = PropertyType.TEXT, displayName = "Output Variable", required = true, defaultValue = "finalStatus, packOutput")
   @Help(displayHelpShort = "Give variable names to store final result.", displayHelpLong = "Final output would be stored in this variable.")
   private String outputVariable;
   
@@ -58,10 +63,10 @@ public class CESTask extends AbstractCustomServiceTask {
   @Help(displayHelpShort = "Should BPMN engine do any optimization?", displayHelpLong = "Choose the optimization criterion depending on the requirement and need of process model optimization in rumtime.")
   @PropertyItems({"Yes (Do It, If Strategies are Available!)", "True", "No (Don't Do It!)", "False"})
   private String performOptimization;
-  
-  @Property(type = PropertyType.RADIO_CHOICE, displayName = "Selection Strategy", required = true, defaultValue = "Weight")
+
+  @Property(type = PropertyType.COMBOBOX_CHOICE, displayName = "Selection Strategy", required = true, defaultValue = "http://www.uni-stuttgart.de/iaas/cmp/weight-based")
   @Help(displayHelpShort = "How should a process be selected?", displayHelpLong = "Choose the selection strategy that can be used to choose one process among multiple candidate processes.")
-  @PropertyItems({"Weight Based", "Weight", "None", "Random"})
+  @PropertyItems({"Weight Based", "http://www.uni-stuttgart.de/iaas/cmp/weight-based", "Random", "http://www.uni-stuttgart.de/iaas/cmp/random", "Most Used", "http://www.uni-stuttgart.de/iaas/cmp/most-used"})
   private String selectionStrategy;
   
   @Property(type = PropertyType.TEXT, visible = false, defaultValue = "demo")
