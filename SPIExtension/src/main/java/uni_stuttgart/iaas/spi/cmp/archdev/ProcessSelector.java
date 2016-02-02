@@ -53,8 +53,8 @@ public class ProcessSelector implements IProcessSelector, ICamelSerializer {
 				processDefinitionList.add(processDefinition);
 			}
 			String algoType = cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations();
-			SelectionProcessor processSelector = new SelectionProcessor(algoType);
-			this.dispatchedProcess = processSelector.findRealizationProcess(processDefinitionList);
+			SelectionProcessor selectionProcessor = new SelectionProcessor(algoType);
+			this.dispatchedProcess = selectionProcessor.findRealizationProcess(processDefinitionList);
 			log.info(this.dispatchedProcess.getId() + " Is Selected for the Realization of Business Ojective.");
 		} catch (NullPointerException e){
 			log.severe("PROSE11: NullPointerException has Occurred.");

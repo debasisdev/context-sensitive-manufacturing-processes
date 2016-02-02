@@ -4,7 +4,7 @@
   <artifactId>CESExecutorService</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
-  <name>University of Stuttgart - IAAS</name>
+  <name>Context-sensitive Manufacturing Process (Web Service)</name>
   <dependencies>
   	<dependency>
 		<groupId>de.uni-stuttgart.iaas.ipsm</groupId>

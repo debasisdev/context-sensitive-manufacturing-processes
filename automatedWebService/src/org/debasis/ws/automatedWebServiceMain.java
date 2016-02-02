@@ -11,8 +11,7 @@ public class automatedWebServiceMain implements sealingMachine {
 	public String getVersion() {
         return "1.2";
     }
- 
-    @SuppressWarnings("finally")
+
 	public String automate(String task) {
     	String store = task.trim().toUpperCase();
     	String temp;
@@ -45,12 +44,6 @@ public class automatedWebServiceMain implements sealingMachine {
     			temp = "Something Broke The Process. Try to Repair!!";
     			break;
     	}
-    	try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			temp = "Exception Occurred while Carrying Out the Task.";
-		} finally{
-			return temp;
-		}
+		return temp;
     }
 }
