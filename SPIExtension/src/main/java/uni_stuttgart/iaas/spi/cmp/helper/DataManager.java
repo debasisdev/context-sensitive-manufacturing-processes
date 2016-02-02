@@ -22,7 +22,6 @@ import com.mongodb.MongoClient;
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.cmp.v0.TLocationType;
 import de.uni_stuttgart.iaas.cmp.v0.TManufacturingContent;
-import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
@@ -34,11 +33,6 @@ import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
  */
 
 public class DataManager {
-	
-	/**Variable to Store CES Definition 
-	 * @author Debasis Kar
-	 * */
-	private TTaskCESDefinition cesDefinition;
 	
 	/**Variable to Store Context Availability 
 	 * @author Debasis Kar
@@ -54,16 +48,6 @@ public class DataManager {
 	 * @author Debasis Kar
 	 * */
 	public DataManager(){
-		this.cesDefinition = null;
-		this.contextAvailable = false;
-	}
-	
-	/**Parameterized Constructor of DataManager
-	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
-	 * */
-	public DataManager(TTaskCESDefinition cesDefinition){
-		this.cesDefinition = cesDefinition;
 		this.contextAvailable = false;
 	}
 	
@@ -72,8 +56,7 @@ public class DataManager {
 	 * @param void
 	 * @return TContexts
 	 * */
-	public TContexts getData(){
-
+	public TContexts getDataFromDatabase(List<TContext> contextList){
 		TContexts conSet = new TContexts();
 		try {
 			//Connect to MongoDB Instance
@@ -95,9 +78,7 @@ public class DataManager {
 					DBCursor mongoCursor = db.getCollection(coll).find();
 					while(mongoCursor.hasNext()) {
 						BasicDBObject obj = (BasicDBObject) mongoCursor.next();
-						//Check the Context Name Found in MongoDB with the Required Contexts Specified by the Modeler
-						List<TContext> contextList = cesDefinition.getRequiredContexts().getContext();
-						
+
 						if(!contextList.isEmpty()){
 							//Set this field as context data has been found
 							this.contextAvailable = true;
@@ -159,7 +140,7 @@ public class DataManager {
 				}
 			}
 			//Close MongoDB and File Connection Objects
-				mongoClient.close();
+			mongoClient.close();
 		} catch (NullPointerException e) {
 			log.severe("DATMA12: NullPointerException has Occurred.");
 		} catch (IOException e) {

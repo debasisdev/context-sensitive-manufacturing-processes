@@ -1,6 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -12,6 +13,7 @@ import org.apache.camel.Exchange;
 
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
 import uni_stuttgart.iaas.spi.cmp.archint.IQueryManager;
@@ -61,13 +63,16 @@ public class QueryManager implements IQueryManager, ICamelSerializer {
 		TContexts conSet = new TContexts();
 		try{
 			log.info("Connecting to Middleware...");
+			//Fetch Required Contexts Specified by the Modeler
+			List<TContext> contextList = cesDefinition.getRequiredContexts().getContext();
 			//Calling Database Manager for Getting Data from Mongo Instance
-    		DataManager dataCollector = new DataManager(cesDefinition);
-    		conSet = dataCollector.getData();
+    		DataManager dataCollector = new DataManager();
+    		conSet = dataCollector.getDataFromDatabase(contextList);
     		this.contextAvailable = dataCollector.isContextAvailable();
 			log.info("Connection to Middleware is Closed.");
 		} catch (NullPointerException e) {
 			log.severe("QUEMA11: NullPointerException has Occurred.");
+			e.printStackTrace();
 		} catch (Exception e) {
 			log.severe("QUEMA10: Unknown Exception has Occurred - " + e);
 		} finally {

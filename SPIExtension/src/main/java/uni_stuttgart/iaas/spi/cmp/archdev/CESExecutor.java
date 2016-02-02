@@ -27,12 +27,18 @@ public class CESExecutor {
 	/**Local Log Writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(CESExecutor.class.getName()); 
+	private static final Logger log = Logger.getLogger(CESExecutor.class.getName());
+	
+	/**Variable to Know whether the CES Executor has Executed without any Exceptions or Not 
+	 * @author Debasis Kar
+	 * */
+	private boolean success;
 	
 	/**Default Constructor of CESExecutor
 	 * @author Debasis Kar
 	 * */
 	public CESExecutor(){
+		this.success = false;
 		log.info("Missing Parameters. #Exiting#");
 	}
 	
@@ -176,12 +182,16 @@ public class CESExecutor {
 	        camelCon.stop();	        
 	        channel.close();
 	        connection.close();
-	        
+	        this.success = true;
       	} catch(Exception e) {
       		log.severe("CESEX00: Unknown Exception has Occurred - " + e);
       	} finally{
       		log.info("CES Task Execution Complete.");
       	}
+	}
+
+	public boolean isSuccess() {
+		return success;
 	}
 
 }

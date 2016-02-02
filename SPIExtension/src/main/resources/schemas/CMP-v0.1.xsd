@@ -31,10 +31,10 @@
 			<element name="MainModel" type="anyURI" maxOccurs="1"
 				minOccurs="0">
 			</element>
-			<element name="ComplementaryModel" type="anyURI" maxOccurs="1"
+			<element name="ComplementaryModel" type="cmp:tProcessModelURI" maxOccurs="1"
 				minOccurs="0">
 			</element>
-			<element name="OptimizerModel" type="anyURI" maxOccurs="1"
+			<element name="OptimizerModel" type="cmp:tProcessModelURI" maxOccurs="1"
 				minOccurs="0">
 			</element>
 			<element name="Weight" type="decimal" maxOccurs="1"
@@ -49,6 +49,13 @@
 		</sequence>
 		<attribute name="latitude" type="decimal"></attribute>
 		<attribute name="longitude" type="decimal"></attribute>
+	</complexType>
+	
+	<complexType name="tProcessModelURI">
+		<sequence>
+			<element name="ModelPath" type="anyURI" />
+		</sequence>
+		<attribute name="name" type="string"></attribute>
 	</complexType>
 
 	<complexType name="tTaskCESDefinition">

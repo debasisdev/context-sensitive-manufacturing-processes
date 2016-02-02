@@ -1,6 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.archdev;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
-		jaxbMarshaller.marshal(root, System.out);
+		jaxbMarshaller.marshal(root, new File(CESConfig.TEST_DUMP));
 		
 		String cesServiceEndpoint = CESConfig.SOAPSERVICE_URI;
 		SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
@@ -208,11 +209,14 @@ public class CESTaskDelegation implements JavaDelegate {
 			}
 		}
 		TSubIntentions subIntentionsList = new TSubIntentions();
-		if(selectionStrategy.equals("Weight")){
-			subIntentionsList.setSubIntentionRelations(CESConfig.WEIGHT_NAMESPACE);
+		if(selectionStrategy.equals(CESConfig.SELECTION_WEIGHT_NAMESPACE)){
+			subIntentionsList.setSubIntentionRelations(CESConfig.SELECTION_WEIGHT_NAMESPACE);
 		} 
-		else{
-			subIntentionsList.setSubIntentionRelations("Random");
+		else if(selectionStrategy.equals(CESConfig.SELECTION_MOSTUSED_NAMESPACE)){
+			subIntentionsList.setSubIntentionRelations(CESConfig.SELECTION_MOSTUSED_NAMESPACE);
+		}
+		else {
+			subIntentionsList.setSubIntentionRelations(CESConfig.SELECTION_RANDOM_NAMESPACE);
 		}
 		for(TSubIntention subIntent : subIntents){
 			subIntentionsList.getSubIntention().add(subIntent);

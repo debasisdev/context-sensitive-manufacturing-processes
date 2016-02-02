@@ -156,4 +156,5 @@ public class IntentionAnalyzer implements IProcessEliminator, ICamelSerializer, 
 		}
 		return processDefinitions;
 	}
+
 }

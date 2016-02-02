@@ -14,7 +14,9 @@ public final class CESConfig {
 	
 	public static final String CONTEXT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/v1/packaging";
 	public static final String XPATH_NAMESPACE = "http://www.w3.org/TR/xpath";
-	public static final String WEIGHT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/weight-based";
+	public static final String SELECTION_WEIGHT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/weight-based";
+	public static final String SELECTION_RANDOM_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/random";
+	public static final String SELECTION_MOSTUSED_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/most-used";
 	public static final String SERVICE_NAMESPACE = "http://service.cmp.spi.iaas.uni_stuttgart/";
 	public static final String IPSM_NAMESPACE = "http://www.uni-stuttgart.de/iaas/ipsm/v0.2/";
 	public static final String CMP_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/v0.1/";

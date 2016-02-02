@@ -6,8 +6,12 @@
         <ProcessContent>
             <ManufacturingContent>
                 <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PMX001.bpmn</MainModel>
-                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
-                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
+                <ComplementaryModel name="ComplementaryProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ModelPath>
+                </ComplementaryModel>
+                <OptimizerModel name="OptimizationProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</ModelPath>
+                </OptimizerModel>
                 <Weight>0.30</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -34,12 +38,16 @@
     </ProcessDefinition>
 	
 	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM001" name="SemiAutomatedPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
-        <Documentation>This is a dummy semi automated model without repair activity.</Documentation>
+        <Documentation>This is a dummy semi-automatic model without repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
                 <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PSM001.bpmn</MainModel>
-                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
-                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
+                <ComplementaryModel name="ComplementaryProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ModelPath>
+                </ComplementaryModel>
+                <OptimizerModel name="OptimizationProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</ModelPath>
+                </OptimizerModel>
                 <Weight>0.55</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -82,12 +90,16 @@
     </ProcessDefinition>
 	
 	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS001" name="SemiAutomatedRepairPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
-        <Documentation>This is a dummy semi automated model with repair activity.</Documentation>
+        <Documentation>This is a dummy semi-automatic model with repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
                 <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PRS001.bpmn</MainModel>
-                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
-                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
+                <ComplementaryModel name="ComplementaryProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ModelPath>
+                </ComplementaryModel>
+                <OptimizerModel name="OptimizationProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</ModelPath>
+                </OptimizerModel>
                 <Weight>0.10</Weight>
             </ManufacturingContent>
         </ProcessContent>
@@ -170,12 +182,16 @@
     </ProcessDefinition>
 	
 	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS002" name="SemiAutomatedReInstallPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
-        <Documentation>This is a dummy semi automated model with installation of a new machine after removal an decommissioning of the old one.</Documentation>
+        <Documentation>This is a dummy semi-automatic model with installation of a new machine after removal an decommissioning of the old one.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
                 <MainModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PRS002.bpmn</MainModel>
-                <ComplementaryModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ComplementaryModel>
-                <OptimizerModel>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</OptimizerModel>
+                <ComplementaryModel name="ComplementaryProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\PCOM01.bpmn</ModelPath>
+                </ComplementaryModel>
+                <OptimizerModel name="OptimizationProcess">
+                	<ModelPath>F:\\Dropbox\\GitLab Repository\\Sample BPMN Models\\POPT01.bpmn</ModelPath>
+                </OptimizerModel>
                 <Weight>0.05</Weight>
             </ManufacturingContent>
         </ProcessContent>

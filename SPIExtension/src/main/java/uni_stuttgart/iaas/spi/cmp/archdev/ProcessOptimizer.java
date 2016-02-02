@@ -8,7 +8,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
-import org.activiti.designer.test.NaiveOptimization;
 import org.apache.camel.Exchange;
 import org.w3c.dom.Node;
 
@@ -17,6 +16,8 @@ import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessOptimizer;
+import uni_stuttgart.iaas.spi.cmp.helper.ActivitiExecutor;
+import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 	private boolean optimizerRunStatus;
@@ -37,12 +38,20 @@ public class ProcessOptimizer implements IProcessOptimizer, ICamelSerializer {
 	public boolean optimizeProcess(TProcessDefinition processDefinition) {
 		try{
 			Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
-			String optimizerModel = nodeManu.getChildNodes().item(2).getTextContent();
+			String optimizerModel = nodeManu.getChildNodes().item(2).getTextContent().trim();
+			String optimizerModelName = nodeManu.getChildNodes().item(2).getAttributes().
+														getNamedItem("name").getTextContent().trim();
 			//Start Deployment Code for Optimization
-				log.info(optimizerModel + " Will Be Executed");
-				NaiveOptimization optModel = new NaiveOptimization();
-				optModel.startProcess(optimizerModel, this.cesDefinition.getInputData(), 
-														this.cesDefinition.getOutputVariable());
+			log.info(optimizerModel + " Will Be Executed.");
+			if(processDefinition.getProcessType().equals(CESConfig.BPMN_NAMESPACE)){
+				if(processDefinition.getTargetNamespace().equals(CESConfig.ACTIVITI_NAMESPACE)){
+					ActivitiExecutor activitiDispatcher = new ActivitiExecutor(optimizerModel, optimizerModelName);
+					activitiDispatcher.startProcess(this.cesDefinition.getInputData(), this.cesDefinition.getOutputVariable());
+				}
+			}
+			else {
+				log.info("Suitable Workflow Engine Not Found!!");
+			}
 			//End Deployment Code for Optimization
 		} catch(Exception e) {
       		log.severe("PROOP10: Unknown Exception has Occurred - " + e);

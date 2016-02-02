@@ -27,7 +27,7 @@
           <activiti:string>True</activiti:string>
         </activiti:field>
         <activiti:field name="selectionStrategy">
-          <activiti:string>http://www.uni-stuttgart.de/iaas/cmp/weight-based</activiti:string>
+          <activiti:string>http://www.uni-stuttgart.de/iaas/cmp/random</activiti:string>
         </activiti:field>
         <activiti:field name="hiddenField">
           <activiti:string>demo</activiti:string>

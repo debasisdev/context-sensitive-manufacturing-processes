@@ -10,11 +10,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.activiti.designer.test.ComplementaryMaintenance;
-import org.activiti.designer.test.ManualPacking;
-import org.activiti.designer.test.SemiautomaticPackingRepair;
-import org.activiti.designer.test.SemiautomaticPackingReinstall;
-import org.activiti.designer.test.SemiautomaticPackingPlain;
 import org.apache.camel.Exchange;
 import org.w3c.dom.Node;
 
@@ -24,6 +19,8 @@ import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer;
 import uni_stuttgart.iaas.spi.cmp.archint.IProcessEngine;
+import uni_stuttgart.iaas.spi.cmp.helper.ActivitiExecutor;
+import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
 
 public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 	private TDataList inputData;
@@ -46,34 +43,27 @@ public class ProcessDispatcher implements IProcessEngine, ICamelSerializer {
 	public TDataList deployProcess(TProcessDefinition processDefinition) {
 		Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
 		String mainModel = nodeManu.getChildNodes().item(0).getTextContent();
-		String complementaryModel = nodeManu.getChildNodes().item(1).getTextContent();
+		String complementaryModel = nodeManu.getChildNodes().item(1).getTextContent().trim();
+		String complemetaryModelName = nodeManu.getChildNodes().item(1).getAttributes().
+												getNamedItem("name").getTextContent().trim();
 		//Start Deployment Code for Main Model
-			log.info(mainModel + " Will Be Executed.");
-			if(processDefinition.getId().equals("PRS001")){
-				SemiautomaticPackingRepair primeModel = new SemiautomaticPackingRepair();
-				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
+		log.info(mainModel + " Will Be Executed.");
+		if(processDefinition.getProcessType().equals(CESConfig.BPMN_NAMESPACE)){
+			if(processDefinition.getTargetNamespace().equals(CESConfig.ACTIVITI_NAMESPACE)){
+				ActivitiExecutor activitiDispatcher = new ActivitiExecutor(mainModel, processDefinition.getName());
+				this.outputPlaceholder = activitiDispatcher.startProcess(this.inputData, this.outputPlaceholder);
+				//Start Deployment Code for Complementary Model
+				log.info(complementaryModel + " Will Be Executed.");
+				activitiDispatcher = new ActivitiExecutor(complementaryModel, complemetaryModelName);
+				//We don't really care whether a complementary process runs successfully or not.
+				activitiDispatcher.startProcess(this.inputData, this.outputPlaceholder);
+				//End Deployment Code for Complementary Model
 			}
-			else if(processDefinition.getId().equals("PRS002")){
-				SemiautomaticPackingReinstall primeModel = new SemiautomaticPackingReinstall();
-				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
-			}
-			else if(processDefinition.getId().equals("PMX001")){
-				ManualPacking primeModel = new ManualPacking();
-				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
-			}
-			else if(processDefinition.getId().equals("PSM001")){
-				SemiautomaticPackingPlain primeModel = new SemiautomaticPackingPlain();
-				this.outputPlaceholder = primeModel.startProcess(mainModel, this.inputData, this.outputPlaceholder);
-			}
-			else{
-				log.info("Method Definition Not Found!!");
-			}
+		}
+		else {
+			log.info("Suitable Workflow Engine Not Found!!");
+		}
 		//End Deployment Code for Main Model
-		//Start Deployment Code for Complementary Model
-			log.info(complementaryModel + " Will Be Executed.");
-			ComplementaryMaintenance compModel = new ComplementaryMaintenance();
-			compModel.startProcess(complementaryModel, this.inputData, this.outputPlaceholder);
-		//End Deployment Code for Complementary Model
 		return this.outputPlaceholder;
 	}
 
