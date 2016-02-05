@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import javax.xml.bind.JAXBException;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,14 +18,14 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
-import uni_stuttgart.iaas.spi.cmp.archdev.CESExecutor;
-import uni_stuttgart.iaas.spi.cmp.archdev.ContextAnalyzer;
-import uni_stuttgart.iaas.spi.cmp.archdev.IntentionAnalyzer;
-import uni_stuttgart.iaas.spi.cmp.archdev.ProcessDispatcher;
-import uni_stuttgart.iaas.spi.cmp.archdev.ProcessOptimizer;
-import uni_stuttgart.iaas.spi.cmp.archdev.ProcessSelector;
-import uni_stuttgart.iaas.spi.cmp.archdev.QueryManager;
-import uni_stuttgart.iaas.spi.cmp.helper.CESConfig;
+import uni_stuttgart.iaas.spi.cmp.realizations.CESExecutor;
+import uni_stuttgart.iaas.spi.cmp.realizations.ContextAnalyzer;
+import uni_stuttgart.iaas.spi.cmp.realizations.IntentionAnalyzer;
+import uni_stuttgart.iaas.spi.cmp.realizations.ProcessDispatcher;
+import uni_stuttgart.iaas.spi.cmp.realizations.ProcessOptimizer;
+import uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector;
+import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
+import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
 public class CESUnitTest {
 	
@@ -51,14 +49,14 @@ public class CESUnitTest {
 	}
 	
 	@Before 
-	public void setUpData() throws JAXBException{
+	public void setUpData(){
 		//Prepare Intention
 		TIntention intention = new TIntention();
 		intention.setName("SealAndSortPackets");
 		TSubIntention subIntenion = new TSubIntention();
 		subIntenion.setName("highThroughput");
 		TSubIntentions subIntentionList = new TSubIntentions();
-		subIntentionList.setSubIntentionRelations(CESConfig.SELECTION_WEIGHT_NAMESPACE);
+		subIntentionList.setSubIntentionRelations(CESConfigurations.SELECTION_WEIGHT_NAMESPACE);
 		subIntentionList.getSubIntention().add(subIntenion);
 		intention.getSubIntentions().add(subIntentionList);		
 		//Prepare Data I/O
@@ -92,7 +90,7 @@ public class CESUnitTest {
 		cesDefinition.setName("Packaging");
 		cesDefinition.setIsCommandAction(true);
 		cesDefinition.setIsEventDriven(false);
-		cesDefinition.setTargetNamespace(CESConfig.CMP_NAMESPACE);
+		cesDefinition.setTargetNamespace(CESConfigurations.CMP_NAMESPACE);
 		cesDefinition.setOptimizationRequired(true);
 		cesDefinition.setDomainKnowHowRepository("D:\\MyWorkThesis\\SPIExtension\\src\\main\\resources\\dataRepository");
 		cesDefinition.setDomainKnowHowRepositoryType("xml");

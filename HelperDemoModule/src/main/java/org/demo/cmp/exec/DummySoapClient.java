@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
@@ -39,7 +38,7 @@ public class DummySoapClient {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 			//Send SOAP Message to SOAP Server - SEAL/PREV/REPAIR/INSTALL/MAINTAIN/OPTIMIZE/COMPLETE
-	        String url = "http://localhost:8080/automatedWebService/services/automatedWebServiceMainPort";
+	        String url = "http://localhost:8080/AutomatedDummyService/services/automatedwebservicemain";
 	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(param), url);
 	        soapResponse.writeTo(System.err);
 	        System.err.println();
@@ -74,16 +73,14 @@ public class DummySoapClient {
 			MessageFactory messageFactory = MessageFactory.newInstance();
 			soapMessage = messageFactory.createMessage();
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
-	        String serverURI = "http://ws.debasis.org/";
+	        String serverURI = "http://service.cmp.spi.iaas.uni_stuttgart/";
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration("ws", serverURI);
+	        envelope.addNamespaceDeclaration("ser", serverURI);
 	        SOAPBody soapBody = envelope.getBody();
-	        SOAPElement soapBodyElem = soapBody.addChildElement("automate", "ws");
-	        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("arg0");
+	        SOAPElement soapBodyElem = soapBody.addChildElement("automate", "ser");
+	        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("task");
 	        //Parameter Setting of SOAP Header
 	        soapBodyElem1.addTextNode(param);
-	        MimeHeaders headers = soapMessage.getMimeHeaders();
-	        headers.addHeader("SOAPAction", "automate");
 	        soapMessage.saveChanges();
 	        soapMessage.writeTo(System.err);
 	        System.err.println();

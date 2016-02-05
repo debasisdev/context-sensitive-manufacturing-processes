@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.9" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
   associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessSelector" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessSelector.java" binary="false" 
+  <interface id="1" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.IProcessSelector" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/IProcessSelector.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="485" y="38"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -11,8 +11,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="2" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessOptimizer" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessOptimizer.java" binary="false" 
+  <interface id="2" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.IProcessOptimizer" 
+    project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/IProcessOptimizer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="-315" y="192"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -21,8 +22,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="3" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessEngine" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessEngine.java" binary="false" 
+  <interface id="3" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEngine" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/IProcessEngine.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="884" y="48"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -31,8 +32,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="4" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessEliminator" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessEliminator.java" binary="false" 
+  <interface id="4" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEliminator" 
+    project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/IProcessEliminator.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="883" y="745"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -41,8 +43,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="5" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IQueryManager" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IQueryManager.java" binary="false" 
+  <interface id="5" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.IQueryManager" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/IQueryManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="81" y="585"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -51,8 +53,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="6" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.IProcessRepository" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/IProcessRepository.java" binary="false" 
+  <interface id="6" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.IProcessRepository" 
+    project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/IProcessRepository.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="672" y="634"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -61,8 +64,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="7" language="java" name="uni_stuttgart.iaas.spi.cmp.archint.ICamelSerializer" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archint/ICamelSerializer.java" binary="false" 
+  <interface id="7" language="java" name="uni_stuttgart.iaas.spi.cmp.interfaces.ICamelSerializer" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/interfaces/ICamelSerializer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="488" y="463"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -71,8 +74,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="8" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ProcessOptimizer" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ProcessOptimizer.java" binary="false" 
+  <class id="8" language="java" name="uni_stuttgart.iaas.spi.cmp.realizations.ProcessOptimizer" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/realizations/ProcessOptimizer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="47" y="196"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -81,8 +84,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.IntentionAnalyzer" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/IntentionAnalyzer.java" binary="false" 
+  <class id="9" language="java" name="uni_stuttgart.iaas.spi.cmp.realizations.IntentionAnalyzer" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/realizations/IntentionAnalyzer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="887" y="468"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -91,8 +94,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ContextAnalyzer" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ContextAnalyzer.java" binary="false" 
+  <class id="10" language="java" name="uni_stuttgart.iaas.spi.cmp.realizations.ContextAnalyzer" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/realizations/ContextAnalyzer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="287" y="764"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -101,8 +104,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ProcessDispatcher" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ProcessDispatcher.java" binary="false" 
+  <class id="11" language="java" name="uni_stuttgart.iaas.spi.cmp.realizations.ProcessDispatcher" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/realizations/ProcessDispatcher.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="883" y="239"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -111,8 +114,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.QueryManager" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/QueryManager.java" binary="false" 
+  <class id="12" language="java" name="uni_stuttgart.iaas.spi.cmp.realizations.QueryManager" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/realizations/QueryManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="82" y="420"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -121,18 +124,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="uni_stuttgart.iaas.spi.cmp.helper.DataManager" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/helper/DataManager.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-306" y="423"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="14" language="java" name="uni_stuttgart.iaas.spi.cmp.helper.SelectionProcessor" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/helper/SelectionProcessor.java" binary="false" 
+  <class id="13" language="java" name="uni_stuttgart.iaas.spi.cmp.utils.SelectionProcessor" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/utils/SelectionProcessor.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="20" y="-14"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -141,18 +134,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="uni_stuttgart.iaas.spi.cmp.helper.ActivitiExecutor" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/helper/ActivitiExecutor.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1287" y="238"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="16" language="java" name="uni_stuttgart.iaas.spi.cmp.archdev.ProcessSelector" project="SPIExtension" 
-    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/archdev/ProcessSelector.java" binary="false" 
+  <class id="14" language="java" name="uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector" project="SPIExtension" 
+    file="/SPIExtension/src/main/java/uni_stuttgart/iaas/spi/cmp/realizations/ProcessSelector.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="487" y="214"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -161,74 +144,66 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
+  <realization id="15">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <dependency id="16">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
   <realization id="17">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="7"/>  
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="6"/>  
   </realization>  
   <realization id="18">    
-    <end type="SOURCE" refId="10"/>    
+    <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="7"/>  
   </realization>  
   <realization id="19">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="2"/>  
-  </realization>  
-  <realization id="20">    
     <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
+  <realization id="20">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
   <realization id="21">    
-    <end type="SOURCE" refId="16"/>    
+    <end type="SOURCE" refId="14"/>    
     <end type="TARGET" refId="1"/>  
   </realization>  
-  <dependency id="22">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="15"/>  
-  </dependency>  
+  <realization id="22">    
+    <bendpoint x="330" y="370"/>    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
   <realization id="23">    
     <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="5"/>  
+    <end type="TARGET" refId="7"/>  
   </realization>  
   <realization id="24">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="6"/>  
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="3"/>  
   </realization>  
   <realization id="25">    
     <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
-  <dependency id="26">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="14"/>  
-  </dependency>  
-  <realization id="27">    
-    <bendpoint x="330" y="370"/>    
-    <end type="SOURCE" refId="8"/>    
+  <realization id="26">    
+    <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="7"/>  
   </realization>  
+  <realization id="27">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="2"/>  
+  </realization>  
   <realization id="28">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="7"/>  
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="5"/>  
   </realization>  
   <realization id="29">    
     <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <dependency id="30">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="13"/>  
-  </dependency>  
-  <realization id="31">    
-    <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="32">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="33">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="6"/>  
   </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

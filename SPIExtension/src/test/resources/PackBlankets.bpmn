@@ -3,7 +3,7 @@
   <process id="cesProcess" name="CES Packing Process" isExecutable="true">
     <endEvent id="endevent1" name="End"></endEvent>
     <startEvent id="startevent1" name="Start"></startEvent>
-    <serviceTask id="servicetask1" name="Pack eBlankets" activiti:class="uni_stuttgart.iaas.spi.cmp.archdev.CESTaskDelegation" activiti:extensionId="uni_stuttgart.iaas.cmp.extension.CESTask">
+    <serviceTask id="servicetask1" name="Pack eBlankets" activiti:class="uni_stuttgart.iaas.spi.cmp.realizations.CESTaskDelegation" activiti:extensionId="uni_stuttgart.iaas.cmp.extension.CESTask">
       <extensionElements>
         <activiti:field name="mainIntention">
           <activiti:string>SealAndSortPackets</activiti:string>

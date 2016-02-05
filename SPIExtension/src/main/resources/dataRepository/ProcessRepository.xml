@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ProcessDefinitions xmlns="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" xmlns:ns2="http://docs.oasis-open.org/tosca/ns/2011/12">
 
-    <ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PMX001" name="ManualPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
+    <ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PMX001" name="ManualPacking" targetNamespace="http://www.activiti.org/">
         <Documentation>This is a dummy Manual Model.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
@@ -37,7 +37,7 @@
         </InitialContexts>
     </ProcessDefinition>
 	
-	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM001" name="SemiAutomatedPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PSM001" name="SemiAutomatedPacking" targetNamespace="http://www.activiti.org/">
         <Documentation>This is a dummy semi-automatic model without repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
@@ -89,7 +89,7 @@
         </InitialContexts>
     </ProcessDefinition>
 	
-	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS001" name="SemiAutomatedRepairPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS001" name="SemiAutomatedRepairPacking" targetNamespace="http://www.activiti.org/">
         <Documentation>This is a dummy semi-automatic model with repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
@@ -181,7 +181,7 @@
         </InitialContexts>
     </ProcessDefinition>
 	
-	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS002" name="SemiAutomatedReInstallPacking" targetNamespace="http://www.activiti.org/cmp-bpmn">
+	<ProcessDefinition processType="http://www.omg.org/spec/BPMN/2.0/" id="PRS002" name="SemiAutomatedReInstallPacking" targetNamespace="http://www.activiti.org/">
         <Documentation>This is a dummy semi-automatic model with installation of a new machine after removal an decommissioning of the old one.</Documentation>
         <ProcessContent>
             <ManufacturingContent>

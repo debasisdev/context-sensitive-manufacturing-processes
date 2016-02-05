@@ -23,7 +23,7 @@ public class PackBlankets {
 	public void startProcess() throws Exception {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		RepositoryService repositoryService = processEngine.getRepositoryService();
-		repositoryService.createDeployment().addInputStream("PackBlanket.bpmn20.xml", new FileInputStream(file)).deploy();
+		repositoryService.createDeployment().addInputStream("Pack.bpmn20.xml", new FileInputStream(file)).deploy();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		Map<String, Object> variableMap = new HashMap<String, Object>();
 		variableMap.put("orderID", "OD153728DE");

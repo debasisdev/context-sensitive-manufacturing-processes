@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:tns="http://service.cmp.spi.iaas.uni_stuttgart/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://service.cmp.spi.iaas.uni_stuttgart/" version="1.0">
+<xs:element name="automate" type="tns:automate"/>
+<xs:element name="automateResponse" type="tns:automateResponse"/>
+<xs:complexType name="automate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="task" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="automateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
