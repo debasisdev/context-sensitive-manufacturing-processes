@@ -1,7 +1,9 @@
 package uni_stuttgart.iaas.spi.cmp.realizations;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -10,6 +12,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,7 +31,7 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
  * @author Debasis Kar
  */
 
-public class QueryManager implements IQueryProcessor, IDataSerializer {
+public class QueryManager implements IQueryProcessor, IDataSerializer, Processor {
 	
 	/**Variable to Store Context Availability 
 	 * @author Debasis Kar
@@ -68,7 +72,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer {
 			//Fetch Required Contexts Specified by the Modeler
 			List<TContext> contextList = cesDefinition.getRequiredContexts().getContext();
 			//Calling Database Manager for Getting Data from Mongo Instance
-			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/beans.xml");
+			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
 			DynamicSelector databaseManager = (DynamicSelector) appContext.getBean(CESConfigurations.MONGO_NAMESPACE);
 			conSet = databaseManager.getData(contextList);
     		this.contextAvailable = databaseManager.isContextAvailable();
@@ -77,7 +81,6 @@ public class QueryManager implements IQueryProcessor, IDataSerializer {
 			log.info("Connection to Middleware is Closed.");
 		} catch (NullPointerException e) {
 			log.severe("QUEMA11: NullPointerException has Occurred.");
-			e.printStackTrace();
 		} catch (Exception e) {
 			log.severe("QUEMA10: Unknown Exception has Occurred - " + e);
 		} finally {
@@ -89,8 +92,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer {
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange) {
 		//JAXB Implementation for Serializing the Context Data into a Repository of XML.
-		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = 
-								new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
+		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
 		TContexts contextSet = this.queryRawContextData(this.cesDefinition);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		if(this.contextAvailable){
@@ -112,6 +114,15 @@ public class QueryManager implements IQueryProcessor, IDataSerializer {
 			} 
 		}
 		return outputStream.toByteArray();
+	}
+
+	@Override
+	public void process(Exchange exchange) throws Exception {
+		Map<String, Object> headerData = new HashMap<>();
+        headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
+        headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_QUERYMANAGER);
+		exchange.getIn().setBody(this.getSerializedOutput(exchange));
+		exchange.getIn().setHeaders(headerData);
 	}
 
 }

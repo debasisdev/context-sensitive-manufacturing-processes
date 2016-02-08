@@ -62,32 +62,27 @@ public class MongoDBManager implements IDataManager{
 		TContexts conSet = new TContexts();
 		try {
 			//Connect to MongoDB Instance
-			MongoClient mongoClient = new MongoClient(CESConfigurations.MIDDLEWARE_DATABASE_ADDRESS, 
-														Integer.parseInt(CESConfigurations.MIDDLEWARE_DATABASE_PORT));
+			MongoClient mongoClient = new MongoClient(CESConfigurations.MIDDLEWARE_DATABASE_ADDRESS, Integer.parseInt(CESConfigurations.MIDDLEWARE_DATABASE_PORT));
 			//Search the Database in MongoDB
 			DB db = mongoClient.getDB(CESConfigurations.MIDDLEWARE_DATABASE_NAME);
 			Set<String> mongoCollections = db.getCollectionNames();
 			log.info("Fetching Collections from MongoDB Sensor Data Repository...");
-			
 			//Initialize TContexts and JAXB ObjectFactory classes
 			ObjectFactory cmpMaker = new ObjectFactory();
-			de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = 
-										new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
-			
+			de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
 			//Access the Relevant Collection in MongoDB
 			for(String coll : mongoCollections){
 				if(coll.equals(CESConfigurations.MIDDLEWARE_DATABASE_COLLECTION_NAME)){
 					DBCursor mongoCursor = db.getCollection(coll).find();
 					while(mongoCursor.hasNext()) {
 						BasicDBObject obj = (BasicDBObject) mongoCursor.next();
-
 						if(!contextList.isEmpty()){
 							//Set this field as context data has been found
 							this.contextAvailable = true;
 							//Iterate for each required Context to find its value in MongoDB Instance
 							for(TContext context : contextList){
 								//Schema Related Data Fetching valid for this specific example.
-							    Date date = (Date) new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy").
+							    Date date = (Date) new SimpleDateFormat(CESConfigurations.TIME_FORMAT).
 							    		parse(obj.getString(CESConfigurations.MONGO_FIELD_DELIVERYDATE));
 							    Calendar cal = Calendar.getInstance();
 							    cal.setTime(date);
@@ -114,8 +109,8 @@ public class MongoDBManager implements IDataManager{
 						        defConType.setDeliveryDate(dateTime);
 						        defConType.setLocation(locType);
 						        defConType.setTimestamp(obj.getString(CESConfigurations.MONGO_FIELD_TIMESTAMP));
-						        if(context.getName().equals("unitsOrdered"))
-						        	defConType.setSenseValue(obj.getString("unitsOrdered"));
+						        if(context.getName().equals(CESConfigurations.PACKAGING_INTENTION_UNITS))
+						        	defConType.setSenseValue(obj.getString(context.getName()));
 						        else
 						        	defConType.setSenseValue(values.get(context.getName()).toString());
 						        //Create TContent Object to encapsulate TManufacturingContent inside it
@@ -144,11 +139,11 @@ public class MongoDBManager implements IDataManager{
 			//Close MongoDB and File Connection Objects
 			mongoClient.close();
 		} catch (NullPointerException e) {
-			log.severe("DATMA12: NullPointerException has Occurred.");
+			log.severe("MONDB12: NullPointerException has Occurred.");
 		} catch (IOException e) {
-			log.severe("DATMA11: IOException has Occurred.");
+			log.severe("MONDB11: IOException has Occurred.");
 		} catch (Exception e) {
-			log.severe("DATMA10: Unknown Exception has Occurred - " + e);
+			log.severe("MONDB10: Unknown Exception has Occurred - " + e);
 		} 
 		return conSet;
 	}

@@ -67,18 +67,18 @@ public class CESUnitTest {
 		inputDataList.getDataList().add(inputData);
 		TData outputData = new TData();
 		outputData.setName("taskOutput");
-		outputData.setValue("");
+		outputData.setValue(CESConfigurations.BLANK_STRING);
 		TDataList outputDataList = new TDataList();
 		outputDataList.getDataList().add(outputData);
 		//Prepare Context
 		TContext cona = new TContext();
-		cona.setName("shockDetectorStatus");
+		cona.setName(CESConfigurations.PACKAGING_INTENTION_SENSOR1);
 		TContext conb = new TContext();
-		conb.setName("unitsOrdered");
+		conb.setName(CESConfigurations.PACKAGING_INTENTION_UNITS);
 		TContext conc = new TContext();
-		conc.setName("availableWorkers");
+		conc.setName(CESConfigurations.PACKAGING_INTENTION_WORKERS);
 		TContext cond = new TContext();
-		cond.setName("infraredSensorStatus");
+		cond.setName(CESConfigurations.PACKAGING_INTENTION_SENSOR2);
 		TContexts requiredContexts = new TContexts();
 		requiredContexts.getContext().add(cona);
 		requiredContexts.getContext().add(conb);
@@ -92,8 +92,8 @@ public class CESUnitTest {
 		cesDefinition.setIsEventDriven(false);
 		cesDefinition.setTargetNamespace(CESConfigurations.CMP_NAMESPACE);
 		cesDefinition.setOptimizationRequired(true);
-		cesDefinition.setDomainKnowHowRepository("D:\\MyWorkThesis\\SPIExtension\\src\\main\\resources\\dataRepository");
-		cesDefinition.setDomainKnowHowRepositoryType("xml");
+		cesDefinition.setDomainKnowHowRepository(CESConfigurations.PROCESSREPOSITORY_FILEPATH);
+		cesDefinition.setDomainKnowHowRepositoryType(CESConfigurations.XML_EXTENSION);
 		cesDefinition.setIntention(intention);
 		cesDefinition.setInputData(inputDataList);
 		cesDefinition.setOutputVariable(outputDataList);
@@ -149,14 +149,17 @@ public class CESUnitTest {
 	public void testProcessDispatcher(){
 		this.testProcessSelector();
 		ProcessDispatcher processDispatcher = new ProcessDispatcher(this.cesDefinition);
-		this.processDispatcherOutput = processDispatcher.deployProcess(this.processSelectorOutput);
+		this.processDispatcherOutput = processDispatcher.deployMainProcess(this.processSelectorOutput);
 		assertEquals("Process Output should Contain 'done'.", "done", 
 												this.processDispatcherOutput.getDataList().get(0).getValue());
+		boolean complementaryOutput = processDispatcher.deployComplementaryProcess(this.processSelectorOutput);
+		assertTrue("Complementary Process should Complete Successfully.", complementaryOutput);
 	}
 	
 	@Test
 	public void testCESExecutor(){
 		CESExecutor cesExecutor = new CESExecutor(this.cesDefinition);
+		cesExecutor.runCESExecutor();
 		this.cesExecutorOutput = cesExecutor.isSuccess();
 		assertTrue("CES Executor should Run Successfully without Exceptions.", this.cesExecutorOutput);
 	}

@@ -14,10 +14,21 @@ public interface IProcessEngine {
 	 * Any Custom Deployment Manager has to implement the following method that will take
 	 * the Process Definition received from Process Dispatcher and will deploy to an underlying
 	 * workflow engine, e.g., Activiti BPMN, BPEL etc. This interface is intended for making the 
-	 * deployment of the CES pluggable and User can write their own deployment code as per their own engine.
+	 * deployment of the CES pluggable and Users can write their own deployment code as per their own engine.
 	 * @author Debasis Kar
 	 * @param TProcessDefinition
 	 * @return TDataList
 	 */
-	public TDataList deployProcess(TProcessDefinition processDefinition);
+	public TDataList deployMainProcess(TProcessDefinition processDefinition);
+	
+	/**
+	 * Any Custom Deployment Manager has to implement the following method that will search the Complementary
+	 * Process Definition of the main process and will deploy to an underlying workflow engine, e.g., 
+	 * Activiti BPMN, BPEL etc. This interface is intended for making the deployment of the CES pluggable and 
+	 * Users can write their own deployment code as per their own engine. It returns the success code as a boolean value.
+	 * @author Debasis Kar
+	 * @param TProcessDefinition
+	 * @return boolean
+	 */
+	public boolean deployComplementaryProcess(TProcessDefinition processDefinition);
 }

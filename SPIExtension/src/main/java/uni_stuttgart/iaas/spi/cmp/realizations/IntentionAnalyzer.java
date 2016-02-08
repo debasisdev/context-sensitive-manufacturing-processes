@@ -4,7 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -16,6 +18,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
@@ -26,6 +30,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEliminator;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessRepository;
+import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
 /**
  * A Demo Implementation Class that Implements IProcessEliminator, IProcessRepository and ICamelSerializer.
@@ -33,7 +38,7 @@ import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessRepository;
  * @author Debasis Kar
  */
 
-public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, IProcessRepository {
+public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, IProcessRepository, Processor {
 	
 	/**Variable to Store the Process Definitions that pass Intention Analysis 
 	 * @author Debasis Kar
@@ -80,8 +85,7 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				Set<String> extraIntentions = new TreeSet<String>();
 				if(processDefinition.getTargetIntention().getName().equals(mainIntention)){
-					List<TSubIntention> subIntentionList = processDefinition.
-							getTargetIntention().getSubIntentions().get(0).getSubIntention();
+					List<TSubIntention> subIntentionList = processDefinition.getTargetIntention().getSubIntentions().get(0).getSubIntention();
 					for(TSubIntention intent : subIntentionList){
 						extraIntentions.add(intent.getName());
 					}
@@ -97,8 +101,7 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 		} catch (Exception e) {
 			log.severe("INTAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
-			log.info("Overall " + this.intentionAnalysisPassedProcesses.getProcessDefinition().size() + 
-					" Processes Passed Intention Analysis.");
+			log.info("Overall " + this.intentionAnalysisPassedProcesses.getProcessDefinition().size() + " Processes Passed Intention Analysis.");
 		}
 		return this.intentionAnalysisPassedProcesses;
 	}
@@ -139,8 +142,8 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 		TProcessDefinitions processDefinitions = null;
 		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
 		String fileName = null;
-		if(repositoryType.equals("xml")){
-			fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository." + repositoryType;
+		if(repositoryType.equals(CESConfigurations.XML_EXTENSION)){
+			fileName = cesDefinition.getDomainKnowHowRepository();
 		}
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
@@ -155,6 +158,15 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 			log.severe("INTAN20: Unknown Exception has Occurred - " + e);
 		}
 		return processDefinitions;
+	}
+
+	@Override
+	public void process(Exchange exchange) throws Exception {
+		Map<String, Object> headerData = new HashMap<>();
+        headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
+        headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_INTENTIONANALYZER);
+		exchange.getIn().setBody(this.getSerializedOutput(exchange));
+		exchange.getIn().setHeaders(headerData);
 	}
 
 }

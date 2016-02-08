@@ -1,10 +1,11 @@
 package uni_stuttgart.iaas.spi.cmp.realizations;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
@@ -34,11 +35,17 @@ public class CESExecutor {
 	 * */
 	private boolean success;
 	
+	/**Variable to Store CES Definition 
+	 * @author Debasis Kar
+	 * */
+	private TTaskCESDefinition cesDefinition;
+	
 	/**Default Constructor of CESExecutor
 	 * @author Debasis Kar
 	 * */
 	public CESExecutor(){
 		this.success = false;
+		this.cesDefinition = null;
 		log.info("Missing Parameters. #Exiting#");
 	}
 	
@@ -46,152 +53,94 @@ public class CESExecutor {
 	 * @author Debasis Kar
 	 * @param TTaskCESDefinition
 	 * */
-	public CESExecutor(TTaskCESDefinition cesDefinitionReceived){
-		final TTaskCESDefinition cesDefinition = cesDefinitionReceived;
+	public CESExecutor(TTaskCESDefinition cesDefinition){
+		this.cesDefinition = cesDefinition;
 		log.info("Camel Routing Starts...");
-		
+	}
+	
+	public void runCESExecutor(){ 
 		//Camel Integration
       	try{
-      		//Initializing Camel Context, RabbitMQ Factory and Others for Message-Filter Based Integration
+      		//Initializing Camel Context, RabbitMQ Factory and Others for Content-Based Message Routing
     		CamelContext camelCon = new DefaultCamelContext();
           	ConnectionFactory conFac = new ConnectionFactory();
           	conFac.setHost(CESConfigurations.RABBIT_SERVER);
 	      	Connection connection = conFac.newConnection();
 		    Channel channel = connection.createChannel();
+		    this.cleanAndCreateChannel(channel);
 		    
-		    //Removing Previously existing Queues that may create deadlocks, e.g., RESOURCE-LOCKED
-		    channel.queueDelete("queman_queue");	//Query Manager Queue
-		    channel.queueDelete("conana_queue");	//Context Analyzer Queue
-		    channel.queueDelete("intana_queue");	//Intention Analyzer Queue
-		    channel.queueDelete("prosel_queue");	//Process Selector Queue
-		    channel.queueDelete("proopt_queue");	//Process Dispatcher Queue
-		    channel.queueDelete("prodis_queue");	//Process Optimizer Queue
-		    channel.queueDelete("result_queue");	//Result Queue
-	        
-	        //Creating the basic Queues for CES Task Execution and Message Exchange
-		    channel.queueDeclare("queman_queue", false, false, false, null); 
-		    channel.queueDeclare("conana_queue", false, false, false, null); 
-		    channel.queueDeclare("intana_queue", false, false, false, null); 
-		    channel.queueDeclare("prosel_queue", false, false, false, null);
-		    channel.queueDeclare("proopt_queue", false, false, false, null); 
-		    channel.queueDeclare("prodis_queue", false, false, false, null);
-		    channel.queueDeclare("result_queue", false, false, false, null);
-		    
-		    //Creating a multi-purpose Exchange for selected topic based message forwarding.
-		    channel.exchangeDeclare("cmp_messages", "direct", false, false, false, null);
-		    
-		    //Binding already declared Queues with either of the Exchanges using a Routing Key (3rd Parameter)
-		    channel.queueBind("queman_queue", "cmp_messages", "CESActivated"); 
-		    channel.queueBind("conana_queue", "cmp_messages", "ContextReceived"); 
-		    channel.queueBind("intana_queue", "cmp_messages", "ContextAnalyzed");
-		    channel.queueBind("prosel_queue", "cmp_messages", "IntentionAnalyzed");
-		    channel.queueBind("proopt_queue", "cmp_messages", "ProcessSelected");
-		    channel.queueBind("prodis_queue", "cmp_messages", "ProcessForwarded");
-		    channel.queueBind("result_queue", "cmp_messages", "ProcessDispatched");
-		    
-		    /**
-		     * Routing Details and Rules*/
+		    //Routing Details and Rules
 	        camelCon.addRoutes(new RouteBuilder() {
 	            public void configure() {
-	            	
-	            	//Invoke Query Manager
-	                from("direct:start")
-	                	//Set Respective Routing Key
-	                	.process(new Processor() {
-	            			public void process(Exchange exchange) throws Exception {
-	            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "CESActivated");
-	            			}})
-	                	//Activate the Query Manager
-	                	.bean(new QueryManager(cesDefinition),"getSerializedOutput")
-	                	.to(CESConfigurations.RABBIT_QUERY_MANAGER_QUEUE);
-	                
-	                //Forward Result to the Content Based Router
-	                from(CESConfigurations.RABBIT_QUERY_MANAGER_QUEUE)
-	            		//Set Respective Routing Key
-	                	.process(new Processor() {
-	            			public void process(Exchange exchange) throws Exception {
-	            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ContextReceived");
-	            			}})
-	            		.to(CESConfigurations.RABBIT_CONTENT_ROUTER);
-	                
-	                //Analyze Context and Submit Results to the Content Based Router
-	                from(CESConfigurations.RABBIT_CONTEXT_ANALYZER_QUEUE)
-	                		//Set Respective Routing Key
-		                	.process(new Processor() {
-	                			public void process(Exchange exchange) throws Exception {
-	                				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ContextAnalyzed");
-	                			}})
-		                	//Activate Context Analyzer
-	                		.bean(new ContextAnalyzer(cesDefinition),"getSerializedOutput")
-	                		.to(CESConfigurations.RABBIT_CONTENT_ROUTER);
-	                
-	                //Analyze Intention and Submit Results to the Content Based Router
-	                from(CESConfigurations.RABBIT_INTENTION_ANALYZER_QUEUE)
-	                		//Set Respective Routing Key
-			                .process(new Processor() {
-		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "IntentionAnalyzed");
-		            			}})
-			                //Activate Intention Analyzer
-	                		.bean(new IntentionAnalyzer(cesDefinition),"getSerializedOutput")
-	                		.to(CESConfigurations.RABBIT_CONTENT_ROUTER);
-	                
-	                //Invoke Process Selector and Submit the final Process Definition to the Content Based Router
-	                from(CESConfigurations.RABBIT_PROCESS_SELECTOR_QUEUE)
-	                		//Set Respective Routing Key
-		                	.process(new Processor() {
-		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ProcessSelected");
-		            			}})
-		                	//Activate Process Selector
-	                		.bean(new ProcessSelector(cesDefinition),"getSerializedOutput")
-	                		.to(CESConfigurations.RABBIT_CONTENT_ROUTER);
-	                
-	                //Invoke Process Optimizer and reroute the Process Definition back to the Content Based Router
-	                from(CESConfigurations.RABBIT_OPTIMIZER_QUEUE)
-	                		//Set Respective Routing Key
-			                .process(new Processor() {
-		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ProcessForwarded");
-		            			}})
-			                //Perform Optimization
-	                		.bean(new ProcessOptimizer(cesDefinition),"getSerializedOutput")
-	                		.to(CESConfigurations.RABBIT_CONTENT_ROUTER);
-	                
-	                //Invoke Process Dispatcher and Submit the final result to the Content Based Router
-	                from(CESConfigurations.RABBIT_DISPATCHER_QUEUE)
-			              	//Set Respective Routing Key
-		                	.process(new Processor() {
-		            			public void process(Exchange exchange) throws Exception {
-		            				exchange.getIn().setHeader(RabbitMQConstants.ROUTING_KEY, "ProcessDispatched");
-		            			}})
-		                	//Perform Deployment/Dispatching
-	                		.bean(new ProcessDispatcher(cesDefinition),"getSerializedOutput")
-	                		.to(CESConfigurations.RABBIT_CONTENT_ROUTER); 
+	                from(CESConfigurations.RABBIT_MAIN_QUEUE)
+		                .choice()
+		                	.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_CESACTIVATE))
+		                		.process(new QueryManager(cesDefinition))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_QUERYMANAGER))
+		                		.process(new ContextAnalyzer(cesDefinition))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_CONTEXTANALYZER))
+		                		.process(new IntentionAnalyzer(cesDefinition))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_INTENTIONANALYZER))
+		                		.process(new ProcessSelector(cesDefinition))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_PROCESSSELECTOR))
+		                		.process(new ProcessOptimizer(cesDefinition))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_PROCESSOPTIMIZER))
+		                		.process(new ProcessDispatcher(cesDefinition))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.when(header(CESConfigurations.RABBIT_STATUS).isEqualTo(CESConfigurations.RABBIT_MSG_PROCESSDISPATCHER))
+	                				.to(CESConfigurations.RABBIT_CONTENT_ROUTER)
+	                		.otherwise()
+	                				.to(CESConfigurations.RABBIT_CONSOLE_OUT);        
 	            }
 	        });
-	        
 	        //Start Camel Context
-	        camelCon.start();
-	        
+	        camelCon.start();   
 	        //Start the Context by sending some dummy message
 	        ProducerTemplate template = camelCon.createProducerTemplate();
-	        template.sendBody("direct:start", "Start Packing E-Blankets");
-	        
+	        Map<String, Object> headerData = new HashMap<>();
+	        headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
+	        headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_CESACTIVATE);
+	        template.sendBodyAndHeaders(CESConfigurations.RABBIT_MAIN_QUEUE, CESConfigurations.RABBIT_MSG_START, headerData);
 	        //Stop Camel Context and Close Connection/Channel Objects
 	        camelCon.stop();	        
 	        channel.close();
 	        connection.close();
 	        this.success = true;
       	} catch(Exception e) {
+      		this.success = false;
       		log.severe("CESEX00: Unknown Exception has Occurred - " + e);
       	} finally{
       		log.info("CES Task Execution Complete.");
       	}
 	}
+	
+	private void cleanAndCreateChannel(Channel channel){
+	    try {
+			//Removing Previously existing Queues that may create deadlocks, e.g., RESOURCE-LOCKED
+			channel.queueDelete(CESConfigurations.RABBIT_MAIN_QUEUE_NAME);
+		    channel.queueDelete(CESConfigurations.RABBIT_RESULT_QUEUE_NAME);
+	        //Creating two Queues for Message Exchange and Result Retrieval
+		    channel.queueDeclare(CESConfigurations.RABBIT_MAIN_QUEUE_NAME, false, false, false, null); 
+		    channel.queueDeclare(CESConfigurations.RABBIT_RESULT_QUEUE_NAME, false, false, false, null);
+		    //Creating an Exchange for selected topic based message forwarding.
+		    channel.exchangeDeclare(CESConfigurations.RABBIT_EXCHANGE_NAME, CESConfigurations.RABBIT_EXCHANGE_TYPE, false, false, false, null);
+		    //Binding already declared Queues with the Exchange using a Routing Key (3rd Parameter)
+		    channel.queueBind(CESConfigurations.RABBIT_MAIN_QUEUE_NAME, CESConfigurations.RABBIT_EXCHANGE_NAME, CESConfigurations.RABBIT_SEND_SIGNAL); 
+		    channel.queueBind(CESConfigurations.RABBIT_RESULT_QUEUE_NAME, CESConfigurations.RABBIT_EXCHANGE_NAME, CESConfigurations.RABBIT_STOP_SIGNAL);
+		} catch (IOException e) {
+			log.severe("CESEX11: NullPointerException has Occurred.");
+		} catch(Exception e) {
+      		log.severe("CESEX10: Unknown Exception has Occurred - " + e);
+      	} 
+	}
 
 	public boolean isSuccess() {
-		return success;
+		return this.success;
 	}
 
 }

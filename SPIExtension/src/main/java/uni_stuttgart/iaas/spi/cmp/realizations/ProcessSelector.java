@@ -3,8 +3,10 @@ package uni_stuttgart.iaas.spi.cmp.realizations;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -14,6 +16,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -23,8 +27,9 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessSelector;
+import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
-public class ProcessSelector implements IProcessSelector, IDataSerializer {
+public class ProcessSelector implements IProcessSelector, IDataSerializer, Processor {
 	private TProcessDefinition dispatchedProcess;
 	private TTaskCESDefinition cesDefinition;
 	
@@ -54,7 +59,7 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer {
 				processDefinitionList.add(processDefinition);
 			}
 			String algoType = cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations();
-			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/beans.xml");
+			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
 			DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(algoType);
 			this.dispatchedProcess = selectionProcessor.getRealizationProcess(processDefinitionList);
 			appContext.registerShutdownHook();
@@ -94,6 +99,15 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer {
 			log.info("Intention Analysis is Completed.");
 		}
 		return outputStream.toByteArray();
+	}
+	
+	@Override
+	public void process(Exchange exchange) throws Exception {
+		Map<String, Object> headerData = new HashMap<>();
+        headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
+        headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_PROCESSSELECTOR);
+		exchange.getIn().setBody(this.getSerializedOutput(exchange));
+		exchange.getIn().setHeaders(headerData);
 	}
 	
 }

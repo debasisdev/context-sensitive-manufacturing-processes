@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import uni_stuttgart.iaas.spi.cmp.interfaces.ISelectionManager;
@@ -50,9 +51,13 @@ public class WeightAnalyzer implements ISelectionManager{
 							for(TProcessDefinition processDefinition : processDefinitionList){
 									String processId = processDefinition.getId();
 									if(processIdentifier.equals(processId)){
-										Node nodeManuf = (Node) processDefinition.getProcessContent().getAny();
-										String processWeight = nodeManuf.getChildNodes().item(3).getTextContent();
-										weightList.put(processId,Double.parseDouble(processWeight));
+										NodeList nodeList = ((Node) processDefinition.getProcessContent().getAny()).getChildNodes();
+										for(int count=0; count < nodeList.getLength(); count++){
+											if(nodeList.item(count).getNodeName().equals(CESConfigurations.REPOSITORY_FIELD_WEIGHT)){
+												String processWeight = nodeList.item(count).getTextContent().trim();
+												weightList.put(processId,Double.parseDouble(processWeight));
+											}
+										}
 									}
 							}
 						}
@@ -79,7 +84,7 @@ public class WeightAnalyzer implements ISelectionManager{
 		});
 		log.info("Weight Analysis is in Process...");
 		Map<String, Double> outputMap = new TreeMap<String, Double>();
-		for (Iterator<Map.Entry<String, Double>> iter = list.iterator(); iter.hasNext();) {
+		for (Iterator<Map.Entry<String, Double>> iter = list.iterator(); iter.hasNext(); ) {
 			Map.Entry<String, Double> entry = iter.next();
 			outputMap.put(entry.getKey(), entry.getValue());
 		}

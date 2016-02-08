@@ -2,28 +2,38 @@ package uni_stuttgart.iaas.spi.cmp.realizations;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEngine;
+import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessRepository;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
-public class ProcessDispatcher implements IProcessEngine, IDataSerializer {
+public class ProcessDispatcher implements IProcessEngine, IDataSerializer, IProcessRepository, Processor {
+	
 	private TDataList inputData;
 	private TDataList outputPlaceholder;
 	private TTaskCESDefinition cesDefinition;
@@ -41,26 +51,26 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer {
 	}
 	
 	@Override
-	public TDataList deployProcess(TProcessDefinition processDefinition) {
-		Node nodeManu = (Node) processDefinition.getProcessContent().getAny();
-		String mainModel = nodeManu.getChildNodes().item(0).getTextContent();
-		String complementaryModel = nodeManu.getChildNodes().item(1).getTextContent().trim();
-		String complemetaryModelName = nodeManu.getChildNodes().item(1).getAttributes().
-												getNamedItem("name").getTextContent().trim();
+	public TDataList deployMainProcess(TProcessDefinition processDefinition) {
+		String mainModel = null;
+		NodeList nodeList = ((Node) processDefinition.getProcessContent().getAny()).getChildNodes();
+		for(int count=0; count < nodeList.getLength(); count++){
+			if(nodeList.item(count).getNodeName().equals(CESConfigurations.REPOSITORY_FIELD_MAINMODEL)){
+				mainModel = nodeList.item(count).getTextContent().trim();
+			}
+		}
 		//Start Deployment Code for Main Model
-		log.info(mainModel + " Will Be Executed.");
+		log.info(mainModel + " will be Executed.");
 		if(processDefinition.getProcessType().equals(CESConfigurations.BPMN_NAMESPACE)){
 			if(processDefinition.getTargetNamespace().equals(CESConfigurations.ACTIVITI_NAMESPACE)){
-				ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/beans.xml");
+				ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
 				DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESConfigurations.ACTIVITI_NAMESPACE);
 				this.outputPlaceholder = selectionProcessor.deployProcess(mainModel, processDefinition.getName(), this.inputData, this.outputPlaceholder);
-				//Start Deployment Code for Complementary Model
-				log.info(complementaryModel + " Will Be Executed.");
-				//We don't really care whether a complementary process runs successfully or not.
-				selectionProcessor.deployProcess(complementaryModel, complemetaryModelName, this.inputData, this.outputPlaceholder);
-				//End Deployment Code for Complementary Model
 				appContext.registerShutdownHook();
 				appContext.close();
+			}
+			else{
+				log.info("Suitable BPMN Engine Not Found!!");
 			}
 		}
 		else {
@@ -81,8 +91,8 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer {
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
-			this.outputPlaceholder = this.deployProcess(processDef);
-			
+			this.outputPlaceholder = this.deployMainProcess(processDef);
+			this.deployComplementaryProcess(processDef);
 			TTaskCESDefinition cesDef = new TTaskCESDefinition();
 			cesDef.setOutputVariable(this.outputPlaceholder);
 			jaxbContext = JAXBContext.newInstance(cmpMaker.getClass());
@@ -99,6 +109,78 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer {
 			log.info("CES Task Completed!!");
 		}
 		return outputStream.toByteArray();
+	}
+	
+	@Override
+	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
+		TProcessDefinitions processDefinitions = null;
+		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
+		String fileName = null;
+		if(repositoryType.equals(CESConfigurations.XML_EXTENSION)){
+			fileName = cesDefinition.getDomainKnowHowRepository();
+		}
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
+			processDefinitions = (TProcessDefinitions) rootElement.getValue();
+		} catch (JAXBException e) {
+			log.severe("PRODI32: JAXBException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("PRODI31: NullPointerException has Occurred.");
+		} catch (Exception e) {
+			log.severe("PRODI30: Unknown Exception has Occurred - " + e);
+		}
+		return processDefinitions;
+	}
+
+	@Override
+	public boolean deployComplementaryProcess(TProcessDefinition processDefinition) {
+		try{
+			//Start Deploying Complementary Process
+			String mainProcessNamespace = processDefinition.getTargetNamespace();
+			TProcessDefinitions processDefinitions = this.getProcessRepository(this.cesDefinition);
+			for(TProcessDefinition processDef : processDefinitions.getProcessDefinition()){
+				if(processDef.getTargetIntention().getName().equals(CESConfigurations.REPOSITORY_FIELD_COMPLEMENTARYMODEL) && processDef.getTargetNamespace().equals(mainProcessNamespace)){
+					String complementaryModel = null;
+					NodeList nodeList = ((Node) processDef.getProcessContent().getAny()).getChildNodes();
+					for(int count=0; count < nodeList.getLength(); count++){
+						if(nodeList.item(count).getNodeName().equals(CESConfigurations.REPOSITORY_FIELD_MAINMODEL)){
+							complementaryModel = nodeList.item(count).getTextContent().trim();
+						}
+					}
+					if(processDefinition.getProcessType().equals(CESConfigurations.BPMN_NAMESPACE)){
+						if(processDefinition.getTargetNamespace().equals(CESConfigurations.ACTIVITI_NAMESPACE)){
+							ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
+							DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESConfigurations.ACTIVITI_NAMESPACE);
+							this.outputPlaceholder = selectionProcessor.deployProcess(complementaryModel, processDef.getName(), this.inputData, this.outputPlaceholder);
+							appContext.registerShutdownHook();
+							appContext.close();
+						}
+						else{
+							log.info("Suitable BPMN Engine Not Found!!");
+						}
+					}
+					else {
+						log.info("Suitable Workflow Engine Not Found!!");
+					}
+				}
+			}
+		}
+		catch(Exception e){
+			log.severe("PRODI20: Unknown Exception has Occurred - " + e);
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void process(Exchange exchange) throws Exception {
+		Map<String, Object> headerData = new HashMap<>();
+        headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_STOP_SIGNAL);
+        headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_PROCESSDISPATCHER);
+		exchange.getIn().setBody(this.getSerializedOutput(exchange));
+		exchange.getIn().setHeaders(headerData);
 	}
 
 }

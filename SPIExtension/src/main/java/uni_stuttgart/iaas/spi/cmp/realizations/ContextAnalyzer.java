@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -24,6 +25,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -47,7 +50,7 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
  * @author Debasis Kar
  */
 
-public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IProcessRepository {
+public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IProcessRepository, Processor {
 	
 	/**Variable to Store the Process Definitions that pass Context Analysis 
 	 * @author Debasis Kar
@@ -99,7 +102,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			JAXBElement<TContexts> conSet = ipsmMaker.createContextSet(this.contextSet);
-			File file = File.createTempFile("ContextData", ".xml", new File("src/main/resources"));
+			File file = File.createTempFile(CESConfigurations.CONTEXTDATA_FILENAME, CESConfigurations.CONTEXTDATA_FILETYPE, new File(CESConfigurations.CONTEXTDATA_FILEPATH));
 			jaxbMarshaller.marshal(conSet, file);
 
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -107,6 +110,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 			Document doc = docBuilder.parse(file);
 	        
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+				if(processDefinition.getInitialContexts() != null){
 					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
 					for(TContext contextExpression : expressionList){
 						TContent tContent = contextExpression.getContextDefinition().get(0).
@@ -115,13 +119,12 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 						Node nodeManu = (Node)tContent.getAny();
 						String xpathQuery = nodeManu.getFirstChild().getTextContent();
 						if(applicationNamespace.equals(CESConfigurations.CONTEXT_NAMESPACE)){
-							if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().
-									equals(CESConfigurations.XPATH_NAMESPACE)){
+							if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().equals(CESConfigurations.XPATH_NAMESPACE)){
 								XPathFactory xPathfactory = XPathFactory.newInstance();
 								XPath xpath = xPathfactory.newXPath();
 								XPathExpression expr = xpath.compile(xpathQuery);
 								NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-								int noOfPredicates = xpathQuery.trim().split("\\|").length;
+								int noOfPredicates = xpathQuery.trim().split(CESConfigurations.SPLIT_EXPRESSION).length;
 								if(nl.getLength() == noOfPredicates) {
 									initialContextAnalysisTable.put(contextExpression.getName(), true);
 								}
@@ -131,24 +134,29 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 							}
 						}
 					}
+				}
 			}
 			log.info("Phase-1 Context Analysis Report: " + initialContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				String processId = processDefinition.getId();
 				boolean result = false;
-				List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
-				for(TContext contextExpression : expressionList){
-					String expressionId = contextExpression.getName();
-					result = result | initialContextAnalysisTable.get(expressionId).booleanValue();
+				if(processDefinition.getInitialContexts() != null){
+					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+					for(TContext contextExpression : expressionList){
+						String expressionId = contextExpression.getName();
+						result = result | initialContextAnalysisTable.get(expressionId).booleanValue();
+					}
+					finalContextAnalysisTable.put(processId, result);
 				}
-				finalContextAnalysisTable.put(processId, result);
 			}
 			log.info("Phase-2 Context Analysis Report: " + finalContextAnalysisTable.toString());
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				String processId = processDefinition.getId();
-				boolean result = finalContextAnalysisTable.get(processId);
-				if(result){
-					this.contextAnalysisPassedProcesses.getProcessDefinition().add(processDefinition);
+				if(processDefinition.getInitialContexts() != null){
+					boolean result = finalContextAnalysisTable.get(processId);
+					if(result){
+						this.contextAnalysisPassedProcesses.getProcessDefinition().add(processDefinition);
+					}
 				}
 			}
 			file.deleteOnExit();
@@ -161,8 +169,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 		} catch(Exception e){
 			log.severe("CONAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
-			log.info(this.contextAnalysisPassedProcesses.getProcessDefinition().size() + 
-						" Processes Passed Context Analysis.");
+			log.info(this.contextAnalysisPassedProcesses.getProcessDefinition().size() + " Processes Passed Context Analysis.");
 		}
 		return this.contextAnalysisPassedProcesses;
 	}
@@ -185,8 +192,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 			
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(
-	        										this.contextAnalysisPassedProcesses);
+	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.contextAnalysisPassedProcesses);
 			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (JAXBException e) {
 			log.severe("CONAN02: JAXBException has Occurred.");
@@ -205,8 +211,8 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 		TProcessDefinitions processDefinitions = null;
 		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
 		String fileName = null;
-		if(repositoryType.equals("xml")){
-			fileName = cesDefinition.getDomainKnowHowRepository() + "\\ProcessRepository." + repositoryType;
+		if(repositoryType.equals(CESConfigurations.XML_EXTENSION)){
+			fileName = cesDefinition.getDomainKnowHowRepository();
 		}
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
@@ -225,5 +231,14 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, IPr
 
 	public void setContextSet(TContexts contextSet) {
 		this.contextSet = contextSet;
+	}
+
+	@Override
+	public void process(Exchange exchange) throws Exception {
+		Map<String, Object> headerData = new HashMap<>();
+        headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
+        headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_CONTEXTANALYZER);
+		exchange.getIn().setBody(this.getSerializedOutput(exchange));
+		exchange.getIn().setHeaders(headerData);
 	}
 }

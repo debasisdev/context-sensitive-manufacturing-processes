@@ -15,7 +15,7 @@
           <activiti:string>shockDetectorStatus, unitsOrdered, availableWorkers, infraredSensorStatus</activiti:string>
         </activiti:field>
         <activiti:field name="processRepositoryPath">
-          <activiti:string>D:\MyWorkThesis\SPIExtension\src\main\resources\dataRepository</activiti:string>
+          <activiti:string>D:\MyWorkThesis\SPIExtension\src\main\resources\dataRepository\ProcessRepository.xml</activiti:string>
         </activiti:field>
         <activiti:field name="inputVariable">
           <activiti:string>operatorName = Wolfgang, supervisorName = Frank</activiti:string>
@@ -27,7 +27,7 @@
           <activiti:string>True</activiti:string>
         </activiti:field>
         <activiti:field name="selectionStrategy">
-          <activiti:string>http://www.uni-stuttgart.de/iaas/cmp/random</activiti:string>
+          <activiti:string>http://www.uni-stuttgart.de/iaas/cmp/weight-based</activiti:string>
         </activiti:field>
         <activiti:field name="hiddenField">
           <activiti:string>demo</activiti:string>

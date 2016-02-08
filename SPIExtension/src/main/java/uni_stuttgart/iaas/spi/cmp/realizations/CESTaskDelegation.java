@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
@@ -66,8 +67,13 @@ public class CESTaskDelegation implements JavaDelegate {
 	
 	private static final Logger log = Logger.getLogger(CESTaskDelegation.class.getName());
 	private static TDataList output;
+	private int response;
 	
 	public CESTaskDelegation() {
+		System.out.println("Enter 1 for WSDL Based Execution OR 2 for Java Based Execution:");
+		Scanner scanner = new Scanner(System.in);
+		this.response = scanner.nextInt();
+		scanner.close();
 	}
 
 	@Override
@@ -80,8 +86,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		cesDefinition.setTargetNamespace(CESConfigurations.CMP_NAMESPACE);
 		cesDefinition.setDomainKnowHowRepository(this.processRepositoryPath.getExpressionText().trim());
 		cesDefinition.setOptimizationRequired(Boolean.parseBoolean(this.performOptimization.getExpressionText()));
-		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), 
-							this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
+		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
 		cesDefinition.setIntention(intention);
 		TContexts contexts = this.createRequiredContext(this.requiredContext.getExpressionText());
 		cesDefinition.setRequiredContexts(contexts);
@@ -107,34 +112,37 @@ public class CESTaskDelegation implements JavaDelegate {
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 		jaxbMarshaller.marshal(root, System.out);
 		
+		if(this.response == 1){
 		String cesServiceEndpoint = CESConfigurations.SOAPSERVICE_URI;
 		SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
 		String result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
 		log.info(result);
-		
-		try{
-			CESExecutor cesProcess = new CESExecutor(cesDefinition);
-			log.info("Hashcode: " + cesProcess.hashCode());
-			CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
-			if(!CESTaskDelegation.output.getDataList().isEmpty()){
-				for(TData data : CESTaskDelegation.output.getDataList()){
-					execution.setVariable(data.getName(), data.getValue());
-				}
-			}
-		} catch (NullPointerException e) {
-			log.severe("CESTD01: NullPointerException has Occurred.");
-		} catch (Exception e) {
-			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
 		}
 		
+		if(this.response == 2){
+			try{
+				CESExecutor cesProcess = new CESExecutor(cesDefinition);
+				cesProcess.runCESExecutor();
+				CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
+				if(CESTaskDelegation.output != null){
+					for(TData data : CESTaskDelegation.output.getDataList()){
+						execution.setVariable(data.getName(), data.getValue());
+					}
+				}
+			} catch (NullPointerException e) {
+				log.severe("CESTD01: NullPointerException has Occurred.");
+			} catch (Exception e) {
+				log.severe("CESTD00: Unknown Exception has Occurred - " + e);
+			}
+		}
 	}
 	
 	private TContexts createRequiredContext(String contextList){
 		String[] contextNames = null;
 		TContexts contexts = new TContexts();
 		List<TContext> contextNameList = new ArrayList<TContext>();
-		if(contextList.contains(",")){
-			contextNames = contextList.split(",");
+		if(contextList.contains(CESConfigurations.COMMA_STRING)){
+			contextNames = contextList.split(CESConfigurations.COMMA_STRING);
 			for(String context : contextNames){
 				TContext con = new TContext();
 				con.setName(context.trim());
@@ -149,10 +157,10 @@ public class CESTaskDelegation implements JavaDelegate {
 	
 	public TDataList createInputData(String input){
 		Set<TData> dataElements = new HashSet<TData>();
-		if(input.contains(",")){
-			String[] varList = input.split(",");
+		if(input.contains(CESConfigurations.COMMA_STRING)){
+			String[] varList = input.split(CESConfigurations.COMMA_STRING);
 			for(String var : varList){
-				String[] keyPair = var.split("=");
+				String[] keyPair = var.split(CESConfigurations.EQUAL_STRING);
 				String key = keyPair[0];
 				String value = keyPair[1];
 				TData dataElement = new TData();
@@ -170,13 +178,13 @@ public class CESTaskDelegation implements JavaDelegate {
 	
 	public TDataList createOutputPlaceholder(String output){
 		TData dataElement = new TData();
-		if(output.contains(",")){
-			dataElement.setName(output.split(",")[0].trim());
+		if(output.contains(CESConfigurations.COMMA_STRING)){
+			dataElement.setName(output.split(CESConfigurations.COMMA_STRING)[0].trim());
 		}
 		else{
 			dataElement.setName(output.trim());
 		}
-		dataElement.setValue("");
+		dataElement.setValue(CESConfigurations.BLANK_STRING);
 		TDataList dataList = new TDataList();
 		dataList.getDataList().add(dataElement);
 		return dataList;
@@ -187,13 +195,13 @@ public class CESTaskDelegation implements JavaDelegate {
 		String[] subIntentionArray = null;
 		TIntention intent = new TIntention();
 		List<TSubIntention> subIntents = new ArrayList<TSubIntention>();
-		Pattern noSpecialCharPattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+		Pattern noSpecialCharPattern = Pattern.compile(CESConfigurations.REGEX1, Pattern.CASE_INSENSITIVE);
 		Matcher noSpecialCharMatcher = noSpecialCharPattern.matcher(mainIntention);
 		if (!noSpecialCharMatcher.find()){
 			intent.setName(mainIntention);
 		}
-		if(subIntentions.contains(",")){
-			subIntentionArray = subIntentions.split(",");
+		if(subIntentions.contains(CESConfigurations.COMMA_STRING)){
+			subIntentionArray = subIntentions.split(CESConfigurations.COMMA_STRING);
 			for(String subIntention : subIntentionArray){
 				TSubIntention subIntent = new TSubIntention();
 				subIntent.setName(subIntention.trim());
@@ -273,54 +281,54 @@ public class CESTaskDelegation implements JavaDelegate {
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
 
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration("ser", CESConfigurations.SERVICE_NAMESPACE);
-	        envelope.addNamespaceDeclaration("v0", CESConfigurations.IPSM_NAMESPACE);
-	        envelope.addNamespaceDeclaration("v01", CESConfigurations.CMP_NAMESPACE);
-	        envelope.addNamespaceDeclaration("ns", CESConfigurations.TOSCA_NAMESPACE);
+	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_SER, CESConfigurations.SERVICE_NAMESPACE);
+	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_V0, CESConfigurations.IPSM_NAMESPACE);
+	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_V01, CESConfigurations.CMP_NAMESPACE);
+	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_NS, CESConfigurations.TOSCA_NAMESPACE);
 	        
 	        SOAPBody soapBody = envelope.getBody();
-	        SOAPElement cesExecutorElem = soapBody.addChildElement("CESExecutor", "ser");
-	        SOAPElement cesDefinitionElem = cesExecutorElem.addChildElement("CESDefinition");
-	        cesDefinitionElem.setAttribute("name", cesDefinition.getName());
-	        cesDefinitionElem.setAttribute("targetNamespace", cesDefinition.getTargetNamespace());
-	        cesDefinitionElem.setAttribute("isEventDriven", cesDefinition.isIsEventDriven().toString());
-	        cesDefinitionElem.setAttribute("isCommandAction", cesDefinition.isIsCommandAction().toString());
-	        SOAPElement optRequired = cesDefinitionElem.addChildElement("OptimizationRequired");
+	        SOAPElement cesExecutorElem = soapBody.addChildElement(CESConfigurations.SOAP_FIELD_CESEXECUTOR, CESConfigurations.SOAP_FIELD_SER);
+	        SOAPElement cesDefinitionElem = cesExecutorElem.addChildElement(CESConfigurations.SOAP_FIELD_CESDEFINITION);
+	        cesDefinitionElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, cesDefinition.getName());
+	        cesDefinitionElem.setAttribute(CESConfigurations.SOAP_FIELD_TARGETNAMESPACE, cesDefinition.getTargetNamespace());
+	        cesDefinitionElem.setAttribute(CESConfigurations.SOAP_FIELD_EVENTDRIVEN, cesDefinition.isIsEventDriven().toString());
+	        cesDefinitionElem.setAttribute(CESConfigurations.SOAP_FIELD_COMMANDACTION, cesDefinition.isIsCommandAction().toString());
+	        SOAPElement optRequired = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_OPTIMIATIONREQUIRED);
 	        optRequired.addTextNode(cesDefinition.isOptimizationRequired().toString());
-	        SOAPElement domainRepos = cesDefinitionElem.addChildElement("DomainKnowHowRepository");
+	        SOAPElement domainRepos = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_PROCESSREPOS);
 	        domainRepos.addTextNode(cesDefinition.getDomainKnowHowRepository());
-	        SOAPElement requiredCon = cesDefinitionElem.addChildElement("RequiredContexts");
+	        SOAPElement requiredCon = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_REQUIREDCONTEXTS);
 	        for(TContext con : cesDefinition.getRequiredContexts().getContext()){
-	        	SOAPElement conElem = requiredCon.addChildElement("Context");
-	        	conElem.setAttribute("name", con.getName());
+	        	SOAPElement conElem = requiredCon.addChildElement(CESConfigurations.SOAP_FIELD_CONTEXT);
+	        	conElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, con.getName());
 	        }
-	        SOAPElement inputList = cesDefinitionElem.addChildElement("InputData");
+	        SOAPElement inputList = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_INPUT);
 	        for(TData inputData : cesDefinition.getInputData().getDataList()){
-	        	SOAPElement inputElem = inputList.addChildElement("DataList");
-	        	inputElem.setAttribute("name", inputData.getName());
-	        	inputElem.setAttribute("value", inputData.getValue());
+	        	SOAPElement inputElem = inputList.addChildElement(CESConfigurations.SOAP_FIELD_DATALIST);
+	        	inputElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, inputData.getName());
+	        	inputElem.setAttribute(CESConfigurations.SOAP_FIELD_VALUE, inputData.getValue());
 	        }
-	        SOAPElement outputList = cesDefinitionElem.addChildElement("OutputVariable");
+	        SOAPElement outputList = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_OUTPUT);
 	        for(TData outputData : cesDefinition.getOutputVariable().getDataList()){
-	        	SOAPElement outputElem = outputList.addChildElement("DataList");
-	        	outputElem.setAttribute("name", outputData.getName());
-	        	outputElem.setAttribute("value", outputData.getValue());
+	        	SOAPElement outputElem = outputList.addChildElement(CESConfigurations.SOAP_FIELD_DATALIST);
+	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, outputData.getName());
+	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_VALUE, outputData.getValue());
 	        }
-	        SOAPElement intentElem = cesDefinitionElem.addChildElement("Intention");
-	        intentElem.setAttribute("name", cesDefinition.getIntention().getName());
-	        SOAPElement subIntentElem = intentElem.addChildElement("SubIntentions");
-	        SOAPElement subIntRelation = subIntentElem.addChildElement("SubIntentionRelations");
+	        SOAPElement intentElem = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_INTENTION);
+	        intentElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, cesDefinition.getIntention().getName());
+	        SOAPElement subIntentElem = intentElem.addChildElement(CESConfigurations.SOAP_FIELD_SUBINTENTIONS);
+	        SOAPElement subIntRelation = subIntentElem.addChildElement(CESConfigurations.SOAP_FIELD_SUBINTENTIONRELATIONS);
 	        subIntRelation.addTextNode(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations().toString());
 	        for(TSubIntentions subIntentions : cesDefinition.getIntention().getSubIntentions()){
 	        	for(TSubIntention subIntention : subIntentions.getSubIntention()){
-	        		SOAPElement subIntentionElem = subIntentElem.addChildElement("SubIntention");
-	        		subIntentionElem.setAttribute("name", subIntention.getName());
+	        		SOAPElement subIntentionElem = subIntentElem.addChildElement(CESConfigurations.SOAP_FIELD_SUBINTENTION);
+	        		subIntentionElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, subIntention.getName());
 	        	}
 	        }
 	        for(TData outputData : cesDefinition.getOutputVariable().getDataList()){
-	        	SOAPElement outputElem = outputList.addChildElement("DataList");
-	        	outputElem.setAttribute("name", outputData.getName());
-	        	outputElem.setAttribute("value", outputData.getValue());
+	        	SOAPElement outputElem = outputList.addChildElement(CESConfigurations.SOAP_FIELD_DATALIST);
+	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, outputData.getName());
+	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_VALUE, outputData.getValue());
 	        }	        
 	        soapMessage.saveChanges();
 	        soapMessage.writeTo(System.err);
@@ -360,7 +368,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		if (sb.getFirstChild().getFirstChild().getTextContent().trim().length()>0)
 			return sb.getFirstChild().getFirstChild().getTextContent();
 		else
-			return "";
+			return null;
     }
 	
 	public static TDataList getOutputOfProcess(){
