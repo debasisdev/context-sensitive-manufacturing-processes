@@ -1,7 +1,7 @@
 package org.demo.cmp.exec;
 
 /**
- * A Helper Class to All Filters that stores all the Constants/Strings/URIs used throughout the project.
+ * A helper class to all filters that stores all the Constants/Strings/URIs used throughout the project.
  * @author Debasis Kar
  */
 

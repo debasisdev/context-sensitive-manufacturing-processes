@@ -14,18 +14,18 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
 /**
- * A Dummy SOAP Client to ease Other Classes in the Package to Send SOAP Request and get SOAP Response.
+ * A dummy SOAP client to ease other classes in the package to send SOAP request and get SOAP response.
  * @author Debasis Kar
  */
 
 public class DummySoapClient {
 	
-	/**Local Log Writer
+	/**Local log writer
 	 * @author Debasis Kar
 	 * */
 	private static final Logger log = Logger.getLogger(DummySoapClient.class.getName());
 	
-	/**This method facilitates calling the Web Service with a SOAP Message, thus it parses through the
+	/**This method facilitates calling the Web Service with a SOAP message, thus it parses through the
 	 * SOAP Response it receives and Returns it as a plain text.
 	 * @author Debasis Kar
 	 * @param String
@@ -60,7 +60,7 @@ public class DummySoapClient {
 			return null;
     }
 	
-	/**This method will create a SOAP Message along with its envelope and header details for the endpoint.
+	/**This method will create a SOAP message along with its envelope and header details for the end-point.
 	 * @author Debasis Kar
 	 * @param String
 	 * @return SOAPMessage

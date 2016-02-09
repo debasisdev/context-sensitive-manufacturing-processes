@@ -4,7 +4,7 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 
 /**
- * A Dummy Web Service Call to Show Complementary Maintenance Process.
+ * A dummy Web Service call to show complementary maintenance process.
  * @author Debasis Kar
  */
 
@@ -18,7 +18,7 @@ public class MaintenanceDemo implements JavaDelegate{
 	 * */
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
-		//Request SOAP Message to the Web Service based on some naive String
+		//Request SOAP message to the Web Service based on some naive string
 		if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_MAINTAIN)){
 			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_MAINTAIN));
 		}

@@ -18,7 +18,7 @@ import org.activiti.designer.integration.servicetask.PropertyType;
  * @version 1
  * @since 27.12.2015
  */
-@Runtime(javaDelegateClass = "uni_stuttgart.iaas.spi.cmp.realizations.CESTaskDelegation")
+@Runtime(javaDelegateClass = "uni_stuttgart.iaas.spi.cmp.delegates.CESTaskDelegation")
 @Help(displayHelpShort = "Context-sensitive Execution Step", 
 displayHelpLong = "Creates a Context-sensitive Task that runs a process according to present scenario.")
 @TaskNames(
