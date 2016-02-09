@@ -6,12 +6,19 @@ This would normally put forward the steps that are necessary to get your applica
 
 * Quick summary
 
-Contains 3 Projects, i.e., CESExtensionForActiviti, CMPProcessModels, and SPIExtension.
-A dummy Web-Service project will be added soon.
+Contains 7 distinct Projects, i.e., AutomatedDummyService, CESDelegateForActiviti, CESExecutor, CESExecutorService, CESExtensionForActiviti, CESHelperModule, and CESTaskDummyProcess.
 
 * Version: 0.0.1-SNAPSHOT
 
 ### How do I get set up? ###
+
+* **AutomatedDummyService**:
+
+* **CESDelegateForActiviti**:
+
+* **CESExecutor**:
+
+* **CESExecutorService**:
 
 * **CESExtensionForActiviti**:
 
@@ -20,9 +27,9 @@ Execute `<mvn install>` command and get a JAR container generated. Start Activit
 In the preferences screen, type **user** as keyword. You should see an option to access the User Libraries in Eclipse in the Java section.
 Add the JAR as external library inside **Activiti Designer Extensions** group. This group is is automatically added to new Activiti projects you create. 
 
-* **CMPProcessModels**:
+* **CESHelperModule**:
 
-* **SPIExtension**:
+* **CESTaskDummyProcess**:
 
 ### Contribution guidelines ###
 Make self-descriptive commit messages while contributing to the code or data inside project.
