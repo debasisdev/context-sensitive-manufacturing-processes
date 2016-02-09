@@ -1,7 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.utils;
 
 /**
- * A Helper Class to All Filters that stores all the Constants/Strings/URIs used throughout the project.
+ * An Utility class to all other classes that stores all the Constants/Strings/URIs used throughout the project.
  * @author Debasis Kar
  */
 

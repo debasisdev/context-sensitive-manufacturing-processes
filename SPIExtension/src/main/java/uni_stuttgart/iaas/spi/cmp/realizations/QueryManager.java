@@ -105,7 +105,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 		        JAXBElement<TContexts> root = ipsmMaker.createContextSet(contextSet);
 				jaxbMarshaller.marshal(root, outputStream);
 				log.info("Context Data is Available on Message Queue.");
-		    	jaxbMarshaller.marshal(root, System.out);
+//		    	jaxbMarshaller.marshal(root, System.out);
 			} catch (JAXBException e) {
 				log.severe("QUEMA02: JAXBException has Occurred.");
 			} catch (NullPointerException e) {

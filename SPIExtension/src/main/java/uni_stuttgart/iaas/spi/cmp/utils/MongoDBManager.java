@@ -27,32 +27,34 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataManager;
+import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 
 /**
- * A Helper Class to Query Manager that does all the Database Operations on behalf of it.
+ * A helper class to {@link QueryManager} that does all the database operations on behalf of it.
+ * It implements the {@link IDataManager} interface.
  * @author Debasis Kar
  */
 
 public class MongoDBManager implements IDataManager{
 	
-	/**Variable to Store Context Availability 
+	/**Variable to store context availability 
 	 * @author Debasis Kar
 	 * */
 	private boolean contextAvailable;
 	
-	/**Local Log Writer
+	/**Local log writer
 	 * @author Debasis Kar
 	 * */
 	private static final Logger log = Logger.getLogger(MongoDBManager.class.getName());
 	
-	/**Default Constructor of DataManager
+	/**Default constructor of {@link MongoDBManager}
 	 * @author Debasis Kar
 	 * */
 	public MongoDBManager(){
 		this.contextAvailable = false;
 	}
 	
-	/**This method connects to the MongoDB Instance and tries to fetch the required data in runtime.
+	/**This method connects to the MongoDB instance and tries to fetch the required data in runtime.
 	 * @author Debasis Kar
 	 * @param void
 	 * @return TContexts

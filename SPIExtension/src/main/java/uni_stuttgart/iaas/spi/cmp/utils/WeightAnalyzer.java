@@ -16,24 +16,21 @@ import org.w3c.dom.NodeList;
 
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import uni_stuttgart.iaas.spi.cmp.interfaces.ISelectionManager;
+import uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector;
 
 /**
- * A Helper Class to Process Selector that realizes an Algorithm for selecting a process.
+ * A helper class to {@link ProcessSelector} that realizes an algorithm by analyzing the weights attached.
+ * It implements the {@link ISelectionManager} interface.
  * @author Debasis Kar
  */
 
 public class WeightAnalyzer implements ISelectionManager{
 	
-	/**Local Log Writer
+	/**Local log writer
 	 * @author Debasis Kar
 	 * */
 	private static final Logger log = Logger.getLogger(WeightAnalyzer.class.getName());
 	
-	/**This method connects to the MongoDB Instance and tries to fetch the required data in runtime.
-	 * @author Debasis Kar
-	 * @param void
-	 * @return TContexts
-	 * */
 	@Override
 	public TProcessDefinition findRealizationProcess(List<TProcessDefinition> processDefinitionList){
 		Set<String> processIds = new HashSet<String>();
@@ -42,12 +39,14 @@ public class WeightAnalyzer implements ISelectionManager{
 		}
 		TProcessDefinition dispatchedProcess = new TProcessDefinition();
 		Map<String, Double> weightList = new TreeMap<String, Double>();
+		//Ensure the list of process definition not to be empty
 		if(!processDefinitionList.isEmpty()){
 			switch(processDefinitionList.size()){
 				case 1: dispatchedProcess = processDefinitionList.iterator().next();
 						break;
 				default: 
 						for(String processIdentifier : processIds){
+							//Prepare a table that contains process IDs and respective weights attached
 							for(TProcessDefinition processDefinition : processDefinitionList){
 									String processId = processDefinition.getId();
 									if(processIdentifier.equals(processId)){
@@ -61,7 +60,9 @@ public class WeightAnalyzer implements ISelectionManager{
 									}
 							}
 						}
+						//Find the process ID with highest weight by sorting the HashMap
 						String dispatchedProcessName = this.sortMap(weightList);
+						//Select the indicated process definition for dispatcher and optimizer
 						for(TProcessDefinition processDef : processDefinitionList){
 							if(processDef.getId().equals(dispatchedProcessName)){
 								dispatchedProcess = processDef;
@@ -73,12 +74,16 @@ public class WeightAnalyzer implements ISelectionManager{
 		return dispatchedProcess;
 	}
 	
+	/**
+	 * This is a Map sorter that sorts a Map and returns the Key of the highest valued Map element.
+	 * @author Debasis Kar
+	 * @param Map<String, Double>
+	 * @return String
+	 */
 	private String sortMap(Map<String, Double> inputMap) {
-		List<Map.Entry<String, Double>> list = 
-			new LinkedList<Map.Entry<String, Double>>(inputMap.entrySet());
+		List<Map.Entry<String, Double>> list = new LinkedList<Map.Entry<String, Double>>(inputMap.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<String, Double>>() {
-			public int compare(Map.Entry<String, Double> ob1,
-                                           Map.Entry<String, Double> ob2) {
+			public int compare(Map.Entry<String, Double> ob1, Map.Entry<String, Double> ob2) {
 				return (ob1.getValue()).compareTo(ob2.getValue());
 			}
 		});
