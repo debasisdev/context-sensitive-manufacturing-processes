@@ -19,8 +19,8 @@ public class OptimizationDemo implements JavaDelegate{
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		//Request SOAP Message to the Web Service based on some naive String
-		if(delegateExecution.getCurrentActivityName().contains("Optimize")){
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("optimize"));
+		if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_OPTIMIZE)){
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_OPTIMIZE));
 		}
 	}
 

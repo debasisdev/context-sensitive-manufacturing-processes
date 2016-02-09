@@ -19,8 +19,8 @@ public class ShippingDemo implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		 //Request SOAP Message to the Web Service based on some naive String
-		 if(delegateExecution.getCurrentActivityName().contains("Ship")){
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("ship"));
+		 if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_SHIP)){
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_SHIP));
 		 }
 	}
 

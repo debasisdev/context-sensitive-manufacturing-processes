@@ -1,7 +1,5 @@
 package uni_stuttgart.iaas.spi.cmp.utils;
 
-import java.io.File;
-
 /**
  * A Helper Class to All Filters that stores all the Constants/Strings/URIs used throughout the project.
  * @author Debasis Kar
@@ -9,10 +7,10 @@ import java.io.File;
 
 public final class CESConfigurations {
 	
-	public static final String MIDDLEWARE_DATABASE_ADDRESS = "127.0.0.1";
-	public static final String MIDDLEWARE_DATABASE_PORT = "27017";
-	public static final String MIDDLEWARE_DATABASE_NAME = "contextdb";
-	public static final String MIDDLEWARE_DATABASE_COLLECTION_NAME = "packagecontext";
+	public static final String MONGO_DATABASE_ADDRESS = "127.0.0.1";
+	public static final String MONGO_DATABASE_PORT = "27017";
+	public static final String MONGO_DATABASE_NAME = "contextdb";
+	public static final String MONGO_COLLECTION_NAME = "packagecontext";
 	
 	public static final String CONTEXT_NAMESPACE = "http://www.uni-stuttgart.de/iaas/cmp/v1/packaging";
 	public static final String XPATH_NAMESPACE = "http://www.w3.org/TR/xpath";
@@ -28,8 +26,8 @@ public final class CESConfigurations {
 	public static final String ACTIVITI_NAMESPACE = "http://www.activiti.org/";
 	public static final String MONGO_NAMESPACE = "https://www.mongodb.org/";
 	
-	public static final String SOAPSERVICE_URI = "http://localhost:8080/CESExecutorService/services/cesexecutorservice";
-	public static final String AUTOSERVICE_URI = "http://localhost:8080/AutomatedDummyService/services/automatedwebservicemain";
+	public static final String SOAPSERVICE_URI = "http://localhost:9090/CESExecutorService/services/cesexecutorservice";
+	public static final String AUTOSERVICE_URI = "http://localhost:9090/AutomatedDummyService/services/automatedwebservicemain";
 	
 	public static final String RABBIT_SERVER = "localhost";
 	public static final String RABBIT_EXCHANGE_NAME = "cmp_messages";
@@ -57,8 +55,10 @@ public final class CESConfigurations {
 	
 	public static final String CONTEXTDATA_FILENAME = "ContextData";
 	public static final String CONTEXTDATA_FILETYPE = ".xml";
-	public static final String CONTEXTDATA_FILEPATH = "src/main/resources";
+	public static final String CONTEXTDATA_FILEPATH = "D://";
 	public static final String SPLIT_EXPRESSION = "\\|";
+	public static final String ERROR_STRING = "error";
+	public static final String SUCCESS_STRING = "done";
 	public static final String BLANK_STRING = "";
 	public static final String COMMA_STRING = ",";
 	public static final String EQUAL_STRING = "=";
@@ -88,7 +88,6 @@ public final class CESConfigurations {
 	public static final String SOAP_FIELD_NS = "ns";
 	public static final String SOAP_FIELD_V01 = "v01";
 	
-	public static final File TEST_DUMP = new File("D:/dump.xml");
 	public static final String PROCESSREPOSITORY_FILEPATH = "D:\\MyWorkThesis\\SPIExtension\\src\\main\\resources\\dataRepository\\ProcessRepository.xml";
 	
 	public static final String MONGO_FIELD_ORDERID = "orderid";

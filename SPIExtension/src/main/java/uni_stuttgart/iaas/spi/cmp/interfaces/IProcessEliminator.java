@@ -1,19 +1,24 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntentions;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+import uni_stuttgart.iaas.spi.cmp.realizations.ContextAnalyzer;
+import uni_stuttgart.iaas.spi.cmp.realizations.IntentionAnalyzer;
 
 /**
- * A Generic Interface for Filtering Modules, i.e., Context Analyzer and Intention Analyzer.
+ * A generic interface for the filtering modules, i.e., {@link ContextAnalyzer} and {@link IntentionAnalyzer}. 
  * @author Debasis Kar
  */
 
 public interface IProcessEliminator {
 	/**
-	 * Any Custom Context Analyzer or Intention Analyzer has to implement the following method that will take
-	 * TProcessDefinitions (a set of process definitions/alternatives) and TCESDefinitionas its input parameter. 
-	 * The implementation must filter Process Definitions and the final result is stored as TProcessDefinitions 
-	 * (list of TProcessDefinition) that are validated against the satisfying Contexts or Intentions respectively.
+	 * Any custom {@link ContextAnalyzer} or {@link IntentionAnalyzer} has to implement the 
+	 * following method that will take {@link TProcessDefinitions} (a set of process definitions/alternatives) 
+	 * and {@link TCESDefinitionas} as its inputs. The implementation must filter {@link TProcessDefinitions} and 
+	 * the final result is stored as {@link TProcessDefinitions} (list of {@link TProcessDefinition}) that are 
+	 * validated against the satisfying {@link TContexts} or {@link TIntentions} respectively.
 	 * @author Debasis Kar
 	 * @param TProcessDefinitions, TTaskCESDefinition
 	 * @return TProcessDefinitions 

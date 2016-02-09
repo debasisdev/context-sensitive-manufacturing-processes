@@ -19,9 +19,9 @@ public class SealMachineDemo implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		 //Request SOAP Message to the Web Service based on some naive String
-		 if(delegateExecution.getCurrentActivityName().contains("Seal")){
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("seal"));
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("complete"));
+		 if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_SEAL)){
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_SEAL));
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_ENDSEAL));
 		 }
 	}
 

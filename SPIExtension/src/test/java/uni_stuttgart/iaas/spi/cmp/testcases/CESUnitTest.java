@@ -23,6 +23,7 @@ import uni_stuttgart.iaas.spi.cmp.realizations.ContextAnalyzer;
 import uni_stuttgart.iaas.spi.cmp.realizations.IntentionAnalyzer;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessDispatcher;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessOptimizer;
+import uni_stuttgart.iaas.spi.cmp.realizations.ProcessRepository;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector;
 import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
@@ -113,7 +114,8 @@ public class CESUnitTest {
 		this.testQueryManager();
 		ContextAnalyzer contextAnalyzer = new ContextAnalyzer(this.cesDefinition);
 		contextAnalyzer.setContextSet(this.queryManagerOutput);
-		TProcessDefinitions processSet = contextAnalyzer.getProcessRepository(this.cesDefinition);
+		ProcessRepository processRepository = new ProcessRepository();
+		TProcessDefinitions processSet = processRepository.getProcessRepository(this.cesDefinition);
 		this.contextAnalyzerOutput = contextAnalyzer.eliminate(processSet, this.cesDefinition);
 		int countOfPassedProcesses = this.contextAnalyzerOutput.getProcessDefinition().size();
 		assertEquals("2 Process Definitions should Satisfy the Criteria.", 2, countOfPassedProcesses);
@@ -122,7 +124,8 @@ public class CESUnitTest {
 	@Test
 	public void testIntentionAnalyzer(){
 		IntentionAnalyzer intentionAnalyzer = new IntentionAnalyzer(this.cesDefinition);
-		TProcessDefinitions processSet = intentionAnalyzer.getProcessRepository(this.cesDefinition);
+		ProcessRepository processRepository = new ProcessRepository();
+		TProcessDefinitions processSet = processRepository.getProcessRepository(this.cesDefinition);
 		this.intentionAnalyzerOutput = intentionAnalyzer.eliminate(processSet, this.cesDefinition);
 		int countOfPassedProcesses = this.intentionAnalyzerOutput.getProcessDefinition().size();
 		assertEquals("3 Process Definitions should Satisfy the Criteria.", 3, countOfPassedProcesses);

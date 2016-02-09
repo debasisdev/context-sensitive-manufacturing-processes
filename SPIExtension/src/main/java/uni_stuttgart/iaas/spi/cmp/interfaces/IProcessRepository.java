@@ -4,14 +4,15 @@ import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 
 /**
- * A Generic Interface for Process Repository Access.
+ * A generic interface for process repository access.
  * @author Debasis Kar
  */
 
-public interface IProcessRepository {//Make it to JAXB Generic Classes
+public interface IProcessRepository {
 
 	/**
-	 * This method must be implemented in order to extract the Process Repository detail from TTaskCESDefinition.
+	 * This method must be implemented in order to extract the process repository data defined inside
+	 * {@link TTaskCESDefinition} and return {@link TProcessDefinitions} for filtering.
 	 * @author Debasis Kar
 	 * @param TTaskCESDefinition
 	 * @return TProcessDefinitions 

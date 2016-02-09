@@ -52,25 +52,85 @@ import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
+/**
+ * The central class that gets activates as soon as the CES task gets the control. It prepares the 
+ * {@link TTaskCESDefinition} from the user inputs and forwards it to the CES Executor (that also can be a service).
+ * Finally it waits for the CES Executor to finish processing and reads the final output from the Result queue.
+ * @author Debasis Kar
+ */
+
 public class CESTaskDelegation implements JavaDelegate {
 	
+	/**Variable that stores the Intention specified by user 
+	 * @author Debasis Kar
+	 * */
 	private Expression mainIntention;
+	
+	/**Variable that stores the Sub-intentions specified by user 
+	 * @author Debasis Kar
+	 * */
 	private Expression subIntentions;
+	
+	/**Variable that stores the Required-contexts specified by user 
+	 * @author Debasis Kar
+	 * */
 	private Expression requiredContext;
+	
+	/**Variable that stores the Domain Know-how type, e.g., XML or SQL etc. 
+	 * @author Debasis Kar
+	 * */
 	private Expression processRepositoryType;
+	
+	/**Variable that stores the Domain Know-how path. 
+	 * @author Debasis Kar
+	 * */
 	private Expression processRepositoryPath;
+	
+	/**Variable that stores the input variables and their values. 
+	 * @author Debasis Kar
+	 * */
 	private Expression inputVariable;
+	
+	/**Variable that stores the output variable name. 
+	 * @author Debasis Kar
+	 * */
 	private Expression outputVariable;
+	
+	/**Variable that stores the reuqirement of optimization. 
+	 * @author Debasis Kar
+	 * */
 	private Expression performOptimization;
+	
+	/**Variable that stores the slection strategy specifier. 
+	 * @author Debasis Kar
+	 * */
 	private Expression selectionStrategy;
+	
+	/**Variable that stores a hidden field. 
+	 * @author Debasis Kar
+	 * */
 	private Expression hiddenField;
 	
+	/**Local log writer
+	 * @author Debasis Kar
+	 * */
 	private static final Logger log = Logger.getLogger(CESTaskDelegation.class.getName());
+	
+	/**Variable that stores the output returned by the Executor of CES task. 
+	 * @author Debasis Kar
+	 * */
 	private static TDataList output;
+	
+	/**Variable used for deciding web-service based implementation or java based. 
+	 * @author Debasis Kar
+	 * */
 	private int response;
 	
+	/**Default constructor of {@link CESTaskDelegation}
+	 * @author Debasis Kar
+	 * */
 	public CESTaskDelegation() {
-		System.out.println("Enter 1 for WSDL Based Execution OR 2 for Java Based Execution:");
+		System.out.print("Enter 1 for WSDL Based Execution OR 2 for Java Based Execution:");
 		Scanner scanner = new Scanner(System.in);
 		this.response = scanner.nextInt();
 		scanner.close();
@@ -78,18 +138,22 @@ public class CESTaskDelegation implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		
+		//Prepare CES Definition
 		ObjectFactory ob = new ObjectFactory();
 		TTaskCESDefinition cesDefinition = ob.createTTaskCESDefinition();
+		//Set attributes
 		cesDefinition.setIsCommandAction(true);
 		cesDefinition.setIsEventDriven(false);
 		cesDefinition.setTargetNamespace(CESConfigurations.CMP_NAMESPACE);
 		cesDefinition.setDomainKnowHowRepository(this.processRepositoryPath.getExpressionText().trim());
 		cesDefinition.setOptimizationRequired(Boolean.parseBoolean(this.performOptimization.getExpressionText()));
+		//Set Intention
 		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
 		cesDefinition.setIntention(intention);
+		//Set Required-contexts
 		TContexts contexts = this.createRequiredContext(this.requiredContext.getExpressionText());
 		cesDefinition.setRequiredContexts(contexts);
+		//Set I/O data
 		cesDefinition.setDomainKnowHowRepositoryType(this.processRepositoryType.getExpressionText());
 		TDataList inputList = this.createInputData(this.inputVariable.getExpressionText());
 		List<TData> runtimeData = new LinkedList<TData>();
@@ -105,42 +169,77 @@ public class CESTaskDelegation implements JavaDelegate {
 		TDataList outputVar = this.createOutputPlaceholder(this.outputVariable.getExpressionText());
 		cesDefinition.setInputData(inputList);
 		cesDefinition.setOutputVariable(outputVar);
-		
+		//JAXB implementation for serializing the CES Definition to standard output
 		JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 		Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		JAXBElement<TTaskCESDefinition> root = ob.createCESDefinition(cesDefinition);
 		jaxbMarshaller.marshal(root, System.out);
-		
+		//Call Web-service if response is 1
 		if(this.response == 1){
-		String cesServiceEndpoint = CESConfigurations.SOAPSERVICE_URI;
-		SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
-		String result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
-		log.info(result);
+			try{
+				String cesServiceEndpoint = CESConfigurations.SOAPSERVICE_URI;
+				SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
+				boolean result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
+				//if CES task is successful read the result
+				if(result){
+					CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
+					if(CESTaskDelegation.output != null){
+						for(TData data : CESTaskDelegation.output.getDataList()){
+							execution.setVariable(data.getName(), data.getValue());
+						}
+					}
+				}
+				//if CES task is unsuccessful, send error result
+				else{
+					execution.setVariable(outputVar.getDataList().get(0).getName(), CESConfigurations.ERROR_STRING);
+				}
+			} catch (NullPointerException e) {
+				log.severe("CESTD01W: NullPointerException has Occurred.");
+				e.printStackTrace();
+			} catch (Exception e) {
+				log.severe("CESTD00W: Unknown Exception has Occurred - " + e);
+			}
 		}
-		
+		//Execute the executor directly if response is 2
 		if(this.response == 2){
 			try{
 				CESExecutor cesProcess = new CESExecutor(cesDefinition);
 				cesProcess.runCESExecutor();
-				CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
-				if(CESTaskDelegation.output != null){
-					for(TData data : CESTaskDelegation.output.getDataList()){
-						execution.setVariable(data.getName(), data.getValue());
+				boolean result = cesProcess.isSuccess();
+				//if CES task is successful read the result
+				if(result){
+					CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
+					if(CESTaskDelegation.output != null){
+						for(TData data : CESTaskDelegation.output.getDataList()){
+							execution.setVariable(data.getName(), data.getValue());
+						}
 					}
 				}
+				//if CES task is unsuccessful, send error result
+				else{
+					execution.setVariable(outputVar.getDataList().get(0).getName(), CESConfigurations.ERROR_STRING);
+				}
 			} catch (NullPointerException e) {
-				log.severe("CESTD01: NullPointerException has Occurred.");
+				log.severe("CESTD01J: NullPointerException has Occurred.");
 			} catch (Exception e) {
-				log.severe("CESTD00: Unknown Exception has Occurred - " + e);
+				log.severe("CESTD00J: Unknown Exception has Occurred - " + e);
 			}
 		}
 	}
 	
+	/**
+	 * This method prepares the {@link TContexts} element of {@link TTaskCESDefinition} 
+	 * from the input in GUI of CES Task.
+	 * @author Debasis Kar
+	 * @param String
+	 * @return TContexts
+	 */
 	private TContexts createRequiredContext(String contextList){
 		String[] contextNames = null;
 		TContexts contexts = new TContexts();
 		List<TContext> contextNameList = new ArrayList<TContext>();
+		//If the input contains commas(,), separate it and save as individual TContext
 		if(contextList.contains(CESConfigurations.COMMA_STRING)){
 			contextNames = contextList.split(CESConfigurations.COMMA_STRING);
 			for(String context : contextNames){
@@ -149,17 +248,27 @@ public class CESTaskDelegation implements JavaDelegate {
 				contextNameList.add(con);
 			}
 		}
+		//Store TContext into TContexts
 		for(TContext context : contextNameList){
 			contexts.getContext().add(context);
 		}
 		return contexts;
 	}
 	
+	/**
+	 * This method prepares the Input {@link TDataList} element of {@link TTaskCESDefinition} 
+	 * from the input in GUI of CES Task.
+	 * @author Debasis Kar
+	 * @param String
+	 * @return TDataList
+	 */
 	public TDataList createInputData(String input){
 		Set<TData> dataElements = new HashSet<TData>();
+		//If the input contains commas(,), separate it and save as individual TData
 		if(input.contains(CESConfigurations.COMMA_STRING)){
 			String[] varList = input.split(CESConfigurations.COMMA_STRING);
 			for(String var : varList){
+				//Split each TData item by equal(=) sign such that key-value pair is deduced
 				String[] keyPair = var.split(CESConfigurations.EQUAL_STRING);
 				String key = keyPair[0];
 				String value = keyPair[1];
@@ -169,6 +278,7 @@ public class CESTaskDelegation implements JavaDelegate {
 				dataElements.add(dataElement);
 			}
 		}
+		//Store TData into TDataList
 		TDataList dataList = new TDataList();
 		for(TData data : dataElements){
 			dataList.getDataList().add(data);
@@ -176,31 +286,51 @@ public class CESTaskDelegation implements JavaDelegate {
 		return dataList;
 	}
 	
+	/**
+	 * This method prepares the Output {@link TDataList} element of {@link TTaskCESDefinition} 
+	 * from the input in GUI of CES Task.
+	 * @author Debasis Kar
+	 * @param String
+	 * @return TDataList
+	 */
 	public TDataList createOutputPlaceholder(String output){
 		TData dataElement = new TData();
+		//If the input contains commas(,), separate it and consider only the first element
 		if(output.contains(CESConfigurations.COMMA_STRING)){
 			dataElement.setName(output.split(CESConfigurations.COMMA_STRING)[0].trim());
 		}
 		else{
 			dataElement.setName(output.trim());
 		}
+		//Set value of output variable initially to blank
 		dataElement.setValue(CESConfigurations.BLANK_STRING);
 		TDataList dataList = new TDataList();
 		dataList.getDataList().add(dataElement);
 		return dataList;
 	}
 	
+	/**
+	 * This method prepares the {@link TIntention} element of {@link TTaskCESDefinition} 
+	 * from the input in GUI of CES Task.
+	 * @author Debasis Kar
+	 * @param String
+	 * @return TIntention
+	 */
 	private TIntention createIntention(String mainIntention, String subIntentions, String selectionStrategy) {
 		mainIntention = mainIntention.trim();
 		String[] subIntentionArray = null;
 		TIntention intent = new TIntention();
 		List<TSubIntention> subIntents = new ArrayList<TSubIntention>();
+		//If the input other than alphanumeric characters, ignore them
 		Pattern noSpecialCharPattern = Pattern.compile(CESConfigurations.REGEX1, Pattern.CASE_INSENSITIVE);
 		Matcher noSpecialCharMatcher = noSpecialCharPattern.matcher(mainIntention);
+		//Set Main-intention
 		if (!noSpecialCharMatcher.find()){
 			intent.setName(mainIntention);
 		}
+		//If the input contains commas(,), separate it and consider only the first element
 		if(subIntentions.contains(CESConfigurations.COMMA_STRING)){
+			//Set Sub-intentions
 			subIntentionArray = subIntentions.split(CESConfigurations.COMMA_STRING);
 			for(String subIntention : subIntentionArray){
 				TSubIntention subIntent = new TSubIntention();
@@ -209,6 +339,7 @@ public class CESTaskDelegation implements JavaDelegate {
 			}
 		}
 		else{
+			//If only one sub-intetion is present
 			subIntentions = subIntentions.trim();
 			noSpecialCharMatcher = noSpecialCharPattern.matcher(subIntentions);
 			if (!noSpecialCharMatcher.find()){
@@ -217,6 +348,7 @@ public class CESTaskDelegation implements JavaDelegate {
 			}
 		}
 		TSubIntentions subIntentionsList = new TSubIntentions();
+		//Set selection strategy
 		if(selectionStrategy.equals(CESConfigurations.SELECTION_WEIGHT_NAMESPACE)){
 			subIntentionsList.setSubIntentionRelations(CESConfigurations.SELECTION_WEIGHT_NAMESPACE);
 		} 
@@ -226,66 +358,34 @@ public class CESTaskDelegation implements JavaDelegate {
 		else {
 			subIntentionsList.setSubIntentionRelations(CESConfigurations.SELECTION_RANDOM_NAMESPACE);
 		}
+		//Store TSubIntention to TSubIntentions
 		for(TSubIntention subIntent : subIntents){
 			subIntentionsList.getSubIntention().add(subIntent);
 		}
 		intent.getSubIntentions().add(subIntentionsList);
 		return intent;
 	}
-
-	public void setMainIntention(Expression mainIntention) {
-		this.mainIntention = mainIntention;
-	}
-
-	public void setSubIntentions(Expression subIntentions) {
-		this.subIntentions = subIntentions;
-	}
-
-	public void setRequiredContext(Expression requiredContext) {
-		this.requiredContext = requiredContext;
-	}
-
-	public void setProcessRepositoryPath(Expression processRepositoryPath) {
-		this.processRepositoryPath = processRepositoryPath;
-	}
-
-	public void setInputVariable(Expression inputVariable) {
-		this.inputVariable = inputVariable;
-	}
-
-	public void setOutputVariable(Expression outputVariable) {
-		this.outputVariable = outputVariable;
-	}
-
-	public void setPerformOptimization(Expression performOptimization) {
-		this.performOptimization = performOptimization;
-	}
-
-	public void setHiddenField(Expression hiddenField) {
-		this.hiddenField = hiddenField;
-	}
-
-	public Expression getHiddenField() {
-		return hiddenField;
-	}
 	
-	public void setProcessRepositoryType(Expression processRepositoryType) {
-		this.processRepositoryType = processRepositoryType;
-	}
-	
+	/**
+	 * This method prepares the {@link SOAPMessage} out of {@link TTaskCESDefinition} to be sent to the Web-service.
+	 * @author Debasis Kar
+	 * @param TTaskCESDefinition
+	 * @return SOAPMessage
+	 */
 	public static SOAPMessage createSOAPRequest(TTaskCESDefinition cesDefinition) {
     	SOAPMessage soapMessage = null;
 		try {
+			//Create Message Factory
 			MessageFactory messageFactory = MessageFactory.newInstance();
 			soapMessage = messageFactory.createMessage();
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
-
+	        //Prepare SOAP Envelope
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
 	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_SER, CESConfigurations.SERVICE_NAMESPACE);
 	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_V0, CESConfigurations.IPSM_NAMESPACE);
 	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_V01, CESConfigurations.CMP_NAMESPACE);
 	        envelope.addNamespaceDeclaration(CESConfigurations.SOAP_FIELD_NS, CESConfigurations.TOSCA_NAMESPACE);
-	        
+	        //Prepare SOAP Body
 	        SOAPBody soapBody = envelope.getBody();
 	        SOAPElement cesExecutorElem = soapBody.addChildElement(CESConfigurations.SOAP_FIELD_CESEXECUTOR, CESConfigurations.SOAP_FIELD_SER);
 	        SOAPElement cesDefinitionElem = cesExecutorElem.addChildElement(CESConfigurations.SOAP_FIELD_CESDEFINITION);
@@ -297,23 +397,27 @@ public class CESTaskDelegation implements JavaDelegate {
 	        optRequired.addTextNode(cesDefinition.isOptimizationRequired().toString());
 	        SOAPElement domainRepos = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_PROCESSREPOS);
 	        domainRepos.addTextNode(cesDefinition.getDomainKnowHowRepository());
+	        //Set Required-contexts
 	        SOAPElement requiredCon = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_REQUIREDCONTEXTS);
 	        for(TContext con : cesDefinition.getRequiredContexts().getContext()){
 	        	SOAPElement conElem = requiredCon.addChildElement(CESConfigurations.SOAP_FIELD_CONTEXT);
 	        	conElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, con.getName());
 	        }
+	        //Set Input data
 	        SOAPElement inputList = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_INPUT);
 	        for(TData inputData : cesDefinition.getInputData().getDataList()){
 	        	SOAPElement inputElem = inputList.addChildElement(CESConfigurations.SOAP_FIELD_DATALIST);
 	        	inputElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, inputData.getName());
 	        	inputElem.setAttribute(CESConfigurations.SOAP_FIELD_VALUE, inputData.getValue());
 	        }
+	        //Set Output data
 	        SOAPElement outputList = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_OUTPUT);
 	        for(TData outputData : cesDefinition.getOutputVariable().getDataList()){
 	        	SOAPElement outputElem = outputList.addChildElement(CESConfigurations.SOAP_FIELD_DATALIST);
 	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, outputData.getName());
 	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_VALUE, outputData.getValue());
 	        }
+	        //Set Intention
 	        SOAPElement intentElem = cesDefinitionElem.addChildElement(CESConfigurations.SOAP_FIELD_INTENTION);
 	        intentElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, cesDefinition.getIntention().getName());
 	        SOAPElement subIntentElem = intentElem.addChildElement(CESConfigurations.SOAP_FIELD_SUBINTENTIONS);
@@ -325,11 +429,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	        		subIntentionElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, subIntention.getName());
 	        	}
 	        }
-	        for(TData outputData : cesDefinition.getOutputVariable().getDataList()){
-	        	SOAPElement outputElem = outputList.addChildElement(CESConfigurations.SOAP_FIELD_DATALIST);
-	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_NAME, outputData.getName());
-	        	outputElem.setAttribute(CESConfigurations.SOAP_FIELD_VALUE, outputData.getValue());
-	        }	        
+	        //Save the Message
 	        soapMessage.saveChanges();
 	        soapMessage.writeTo(System.err);
 	        System.out.println();
@@ -345,12 +445,20 @@ public class CESTaskDelegation implements JavaDelegate {
 		return soapMessage;
     }
 	
-	public static String sendSOAPRequest(SOAPMessage soapMessage, String url) {
+	/**
+	 * This method sends the {@link SOAPMessage} to the specified URL (Web-Service) and returns whether it's
+	 * been successfully or not by a boolean value.
+	 * @author Debasis Kar
+	 * @param SOAPMessage, String
+	 * @return boolean
+	 */
+	public static boolean sendSOAPRequest(SOAPMessage soapMessage, String url) {
     	SOAPBody sb = null;
 		try {
 	        //Create SOAP Connection
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+			//Retrieve Response
 	        SOAPMessage soapResponse = soapConnection.call(soapMessage, url);
 	        soapResponse.writeTo(System.err);
 	        sb = soapResponse.getSOAPBody();
@@ -365,13 +473,21 @@ public class CESTaskDelegation implements JavaDelegate {
 		} catch (Exception e) {
 			log.severe("CESTD20: Unknown Exception has Occurred - " + e);
 		}
-		if (sb.getFirstChild().getFirstChild().getTextContent().trim().length()>0)
-			return sb.getFirstChild().getFirstChild().getTextContent();
+		//If response is not null, read the result
+		if (sb != null)
+			return Boolean.parseBoolean(sb.getFirstChild().getFirstChild().getTextContent());
 		else
-			return null;
+			return false;
     }
 	
+	/**
+	 * This method reads the output of the CES task from the RabbitMQ Result queue.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return TDataList
+	 */
 	public static TDataList getOutputOfProcess(){
+		//Initializing Camel Context, RabbitMQ Factory and others for Content-based message Routing
 		CamelContext camelCon = new DefaultCamelContext();
       	ConnectionFactory conFac = new ConnectionFactory();
       	conFac.setHost(CESConfigurations.RABBIT_SERVER);
@@ -385,6 +501,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		              	//Set Respective Routing Key
 	                	.process(new Processor() {
 	            			public void process(Exchange exchange) throws Exception {
+	            				//JAXB implementation for de-serializing the output generated by Executor of CES
 	            				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 	            				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 	            				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -392,10 +509,12 @@ public class CESTaskDelegation implements JavaDelegate {
 	            				TTaskCESDefinition definition = (TTaskCESDefinition) rootElement.getValue();
 	            				CESTaskDelegation.output = definition.getOutputVariable();
 	            			}})
-                		.to("stream:out"); 
+                		.to(CESConfigurations.RABBIT_CONSOLE_OUT); 
 	            }
 	        });
+	        //Start Camel Context
 			camelCon.start();
+			 //Stop Camel Context and close connection/channel objects
 			camelCon.stop();
 			channel.close();
 			connection.close();
@@ -409,6 +528,26 @@ public class CESTaskDelegation implements JavaDelegate {
 			log.severe("CESTD30: Unknown Exception has Occurred - " + e);
 		}
 		return CESTaskDelegation.output;
+	}
+	
+	/**
+	 * This is a setter method to set the value of Hidden field.
+	 * @author Debasis Kar
+	 * @param Expression
+	 * @return void
+	 */
+	public void setHiddenField(Expression hiddenField) {
+		this.hiddenField = hiddenField;
+	}
+	
+	/**
+	 * This is a getter method to get the Hideen field value.
+	 * @author Debasis Kar
+	 * @param void
+	 * @return Expression
+	 */
+	public Expression getHiddenField() {
+		return hiddenField;
 	}
 
 }

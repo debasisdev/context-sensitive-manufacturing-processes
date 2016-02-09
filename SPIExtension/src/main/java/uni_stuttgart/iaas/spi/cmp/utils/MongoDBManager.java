@@ -62,9 +62,9 @@ public class MongoDBManager implements IDataManager{
 		TContexts conSet = new TContexts();
 		try {
 			//Connect to MongoDB Instance
-			MongoClient mongoClient = new MongoClient(CESConfigurations.MIDDLEWARE_DATABASE_ADDRESS, Integer.parseInt(CESConfigurations.MIDDLEWARE_DATABASE_PORT));
+			MongoClient mongoClient = new MongoClient(CESConfigurations.MONGO_DATABASE_ADDRESS, Integer.parseInt(CESConfigurations.MONGO_DATABASE_PORT));
 			//Search the Database in MongoDB
-			DB db = mongoClient.getDB(CESConfigurations.MIDDLEWARE_DATABASE_NAME);
+			DB db = mongoClient.getDB(CESConfigurations.MONGO_DATABASE_NAME);
 			Set<String> mongoCollections = db.getCollectionNames();
 			log.info("Fetching Collections from MongoDB Sensor Data Repository...");
 			//Initialize TContexts and JAXB ObjectFactory classes
@@ -72,7 +72,7 @@ public class MongoDBManager implements IDataManager{
 			de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
 			//Access the Relevant Collection in MongoDB
 			for(String coll : mongoCollections){
-				if(coll.equals(CESConfigurations.MIDDLEWARE_DATABASE_COLLECTION_NAME)){
+				if(coll.equals(CESConfigurations.MONGO_COLLECTION_NAME)){
 					DBCursor mongoCursor = db.getCollection(coll).find();
 					while(mongoCursor.hasNext()) {
 						BasicDBObject obj = (BasicDBObject) mongoCursor.next();

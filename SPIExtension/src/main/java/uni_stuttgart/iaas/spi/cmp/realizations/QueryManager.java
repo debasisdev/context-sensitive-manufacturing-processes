@@ -26,36 +26,36 @@ import uni_stuttgart.iaas.spi.cmp.interfaces.IQueryProcessor;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
 /**
- * A Demo Implementation Class that Implements IQueryManager and IDataRepository.
- * This module sends Context Query to the Middleware and fetches the ContextData serialized in XML format.
+ * A generic class that Implements {@link IQueryProcessor}, {@link IDataSerializer}, and {@link Processor}.
+ * This module sends context query to the Middle-ware and fetches the context data serialized in byte array.
  * @author Debasis Kar
  */
 
 public class QueryManager implements IQueryProcessor, IDataSerializer, Processor {
 	
-	/**Variable to Store Context Availability 
+	/**Variable to store context availability 
 	 * @author Debasis Kar
 	 * */
 	private boolean contextAvailable;
 	
-	/**Variable to Store CES Definition 
+	/**Variable to Store {@link TTaskCESDefinition}
 	 * @author Debasis Kar
 	 * */
 	private TTaskCESDefinition cesDefinition;
 	
-	/**Local Log Writer
+	/**Local log writer
 	 * @author Debasis Kar
 	 * */
 	private static final Logger log = Logger.getLogger(QueryManager.class.getName());
 	
-	/**Default Constructor of QueryManager
+	/**Default constructor of {@link QueryManager}
 	 * @author Debasis Kar
 	 * */
 	public QueryManager(){
 		this.contextAvailable = false;
 	}
 	
-	/**Parameterized Constructor of QueryManager
+	/**Parameterized constructor of {@link QueryManager}
 	 * @author Debasis Kar
 	 * @param TTaskCESDefinition
 	 * */
@@ -69,9 +69,9 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 		TContexts conSet = new TContexts();
 		try{
 			log.info("Connecting to Middleware...");
-			//Fetch Required Contexts Specified by the Modeler
+			//Fetch required contexts specified by the modeler
 			List<TContext> contextList = cesDefinition.getRequiredContexts().getContext();
-			//Calling Database Manager for Getting Data from Mongo Instance
+			//Calling Database Manager for getting data from MongoDB instance
 			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
 			DynamicSelector databaseManager = (DynamicSelector) appContext.getBean(CESConfigurations.MONGO_NAMESPACE);
 			conSet = databaseManager.getData(contextList);
@@ -91,13 +91,14 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 	
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange) {
-		//JAXB Implementation for Serializing the Context Data into a Repository of XML.
+		//JAXB implementation for serializing the context data into a byte array.
 		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
 		TContexts contextSet = this.queryRawContextData(this.cesDefinition);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		//Perform serialization if context is available
 		if(this.contextAvailable){
 			try {
-				//Serializing the received data from Middleware to byte[] for messaging to other modules.
+				//Serializing the received data from Middle-ware to byte[] for messaging to other modules.
 				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -118,6 +119,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		//Send output of Query Manager to Context Analyzer with relevant header information
 		Map<String, Object> headerData = new HashMap<>();
         headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
         headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_QUERYMANAGER);

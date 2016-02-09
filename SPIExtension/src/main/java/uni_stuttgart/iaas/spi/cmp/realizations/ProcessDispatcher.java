@@ -2,7 +2,6 @@ package uni_stuttgart.iaas.spi.cmp.realizations;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
@@ -29,21 +27,47 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEngine;
-import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessRepository;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
-public class ProcessDispatcher implements IProcessEngine, IDataSerializer, IProcessRepository, Processor {
+/**
+ * A generic class that implements {@link IProcessEngine}, {@link IDataSerializer}, and {@link Processor}.
+ * This module deploys the main business process of the {@link TProcessDefinition} selected by {@link ProcessSelector}. 
+ * @author Debasis Kar
+ */
+
+public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Processor {
 	
+	/**Variable to store input to the main process model
+	 * @author Debasis Kar
+	 * */
 	private TDataList inputData;
+	
+	/**Variable to store output holder
+	 * @author Debasis Kar
+	 * */
 	private TDataList outputPlaceholder;
+	
+	/**Variable to store {@link TTaskCESDefinition} 
+	 * @author Debasis Kar
+	 * */
 	private TTaskCESDefinition cesDefinition;
+	
+	/**Local log writer
+	 * @author Debasis Kar
+	 * */
 	private static final Logger log = Logger.getLogger(ProcessDispatcher.class.getName());
 	
+	/**Default constructor of {@link ProcessDispatcher}
+	 * @author Debasis Kar
+	 * */
 	public ProcessDispatcher() {
 		this.inputData = null;
 		this.outputPlaceholder = null;
 	}
 	
+	/**Parameterized constructor of {@link ProcessDispatcher}
+	 * @author Debasis Kar
+	 * */
 	public ProcessDispatcher(TTaskCESDefinition cesDefinition){
 		this.cesDefinition = cesDefinition;
 		this.inputData = this.cesDefinition.getInputData();
@@ -52,31 +76,40 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, IProc
 	
 	@Override
 	public TDataList deployMainProcess(TProcessDefinition processDefinition) {
-		String mainModel = null;
-		NodeList nodeList = ((Node) processDefinition.getProcessContent().getAny()).getChildNodes();
-		for(int count=0; count < nodeList.getLength(); count++){
-			if(nodeList.item(count).getNodeName().equals(CESConfigurations.REPOSITORY_FIELD_MAINMODEL)){
-				mainModel = nodeList.item(count).getTextContent().trim();
+		try{
+			//Fetch the process model path and process name of main process model
+			String mainModel = null;
+			NodeList nodeList = ((Node) processDefinition.getProcessContent().getAny()).getChildNodes();
+			for(int count=0; count < nodeList.getLength(); count++){
+				if(nodeList.item(count).getNodeName().equals(CESConfigurations.REPOSITORY_FIELD_MAINMODEL)){
+					mainModel = nodeList.item(count).getTextContent().trim();
+				}
 			}
-		}
-		//Start Deployment Code for Main Model
-		log.info(mainModel + " will be Executed.");
-		if(processDefinition.getProcessType().equals(CESConfigurations.BPMN_NAMESPACE)){
-			if(processDefinition.getTargetNamespace().equals(CESConfigurations.ACTIVITI_NAMESPACE)){
-				ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
-				DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESConfigurations.ACTIVITI_NAMESPACE);
-				this.outputPlaceholder = selectionProcessor.deployProcess(mainModel, processDefinition.getName(), this.inputData, this.outputPlaceholder);
-				appContext.registerShutdownHook();
-				appContext.close();
+			//Start deployment code for main process model
+			log.info(mainModel + " will be Executed.");
+			if(processDefinition.getProcessType().equals(CESConfigurations.BPMN_NAMESPACE)){
+				//Activiti specific execution
+				if(processDefinition.getTargetNamespace().equals(CESConfigurations.ACTIVITI_NAMESPACE)){
+					ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
+					DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESConfigurations.ACTIVITI_NAMESPACE);
+					this.outputPlaceholder = selectionProcessor.deployProcess(mainModel, processDefinition.getName(), this.inputData, this.outputPlaceholder);
+					appContext.registerShutdownHook();
+					appContext.close();
+				}
+				//Add other BPMN engine specific code here (if required)
+				else{
+					log.info("Suitable BPMN Engine Not Found!!");
+				}
 			}
-			else{
-				log.info("Suitable BPMN Engine Not Found!!");
+			//Add BPEL specific execution Here (if required)
+			else {
+				log.info("Suitable Workflow Engine Not Found!!");
 			}
+			//End deployment code for main process model
+		} catch(Exception e) {
+			log.severe("PRODI10: Unknown Exception has Occurred - " + e);
+			return this.outputPlaceholder;
 		}
-		else {
-			log.info("Suitable Workflow Engine Not Found!!");
-		}
-		//End Deployment Code for Main Model
 		return this.outputPlaceholder;
 	}
 
@@ -86,16 +119,21 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, IProc
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			log.info("Deployment is about to Start...");
+			//JAXB implementation for de-serializing the process definition selected by Process Selector
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
+			//Perform execution of main business process
 			this.outputPlaceholder = this.deployMainProcess(processDef);
+			//Perform execution of complementary business process
 			this.deployComplementaryProcess(processDef);
+			//Bind output to an envelope of TTaskCESDefinition
 			TTaskCESDefinition cesDef = new TTaskCESDefinition();
 			cesDef.setOutputVariable(this.outputPlaceholder);
 			jaxbContext = JAXBContext.newInstance(cmpMaker.getClass());
+			//JAXB implementation for serializing the Process Dispatcher output into byte array for message exchange
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			JAXBElement<TTaskCESDefinition> rootElem = cmpMaker.createCESDefinition(cesDef);
@@ -106,64 +144,49 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, IProc
       		log.severe("PRODI00: Unknown Exception has Occurred - " + e);
       	} finally{
 			log.info("Process has been Dispatched and Deployed Successfully!!");
-			log.info("CES Task Completed!!");
 		}
 		return outputStream.toByteArray();
 	}
 	
 	@Override
-	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
-		TProcessDefinitions processDefinitions = null;
-		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
-		String fileName = null;
-		if(repositoryType.equals(CESConfigurations.XML_EXTENSION)){
-			fileName = cesDefinition.getDomainKnowHowRepository();
-		}
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
-			processDefinitions = (TProcessDefinitions) rootElement.getValue();
-		} catch (JAXBException e) {
-			log.severe("PRODI32: JAXBException has Occurred.");
-		} catch (NullPointerException e) {
-			log.severe("PRODI31: NullPointerException has Occurred.");
-		} catch (Exception e) {
-			log.severe("PRODI30: Unknown Exception has Occurred - " + e);
-		}
-		return processDefinitions;
-	}
-
-	@Override
 	public boolean deployComplementaryProcess(TProcessDefinition processDefinition) {
 		try{
-			//Start Deploying Complementary Process
+			//Fetch the complementary process model details from process definition received
 			String mainProcessNamespace = processDefinition.getTargetNamespace();
-			TProcessDefinitions processDefinitions = this.getProcessRepository(this.cesDefinition);
+			ProcessRepository processRepository = new ProcessRepository();
+			TProcessDefinitions processDefinitions = processRepository.getProcessRepository(this.cesDefinition);
+			//Search through the process repository for the complementary process
 			for(TProcessDefinition processDef : processDefinitions.getProcessDefinition()){
+				//Match the intention and name-space
 				if(processDef.getTargetIntention().getName().equals(CESConfigurations.REPOSITORY_FIELD_COMPLEMENTARYMODEL) && processDef.getTargetNamespace().equals(mainProcessNamespace)){
 					String complementaryModel = null;
+					//Fetch the process model path and process name of the complementary process definition
 					NodeList nodeList = ((Node) processDef.getProcessContent().getAny()).getChildNodes();
 					for(int count=0; count < nodeList.getLength(); count++){
 						if(nodeList.item(count).getNodeName().equals(CESConfigurations.REPOSITORY_FIELD_MAINMODEL)){
 							complementaryModel = nodeList.item(count).getTextContent().trim();
 						}
 					}
+					//Start deployment code for complementary process model
 					if(processDefinition.getProcessType().equals(CESConfigurations.BPMN_NAMESPACE)){
+						//Activiti specific execution
 						if(processDefinition.getTargetNamespace().equals(CESConfigurations.ACTIVITI_NAMESPACE)){
 							ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
 							DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESConfigurations.ACTIVITI_NAMESPACE);
-							this.outputPlaceholder = selectionProcessor.deployProcess(complementaryModel, processDef.getName(), this.inputData, this.outputPlaceholder);
+							selectionProcessor.deployProcess(complementaryModel, processDef.getName(), this.inputData, this.outputPlaceholder);
 							appContext.registerShutdownHook();
 							appContext.close();
 						}
+						//Add other BPMN engine specific code here (if required)
 						else{
 							log.info("Suitable BPMN Engine Not Found!!");
 						}
 					}
+					//Add BPEL specific execution Here (if required)
 					else {
 						log.info("Suitable Workflow Engine Not Found!!");
 					}
+					//End deployment code for complementary process model
 				}
 			}
 		}
@@ -176,6 +199,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, IProc
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		//Send output of Process Dispatcher to the Result Queue with relevant header information
 		Map<String, Object> headerData = new HashMap<>();
         headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_STOP_SIGNAL);
         headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_PROCESSDISPATCHER);

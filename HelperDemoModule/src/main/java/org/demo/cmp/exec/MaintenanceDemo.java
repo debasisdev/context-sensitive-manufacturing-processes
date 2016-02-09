@@ -19,8 +19,8 @@ public class MaintenanceDemo implements JavaDelegate{
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		//Request SOAP Message to the Web Service based on some naive String
-		if(delegateExecution.getCurrentActivityName().contains("Maintain")){
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("maintain"));
+		if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_MAINTAIN)){
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_MAINTAIN));
 		}
 	}
 

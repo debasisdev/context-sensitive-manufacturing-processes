@@ -4,7 +4,6 @@
   <groupId>unistuttgart.iaas.spi.cmprocess</groupId>
   <artifactId>cestask-implementor</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <name>Context-sensitive Manufacturing Process</name>
     <properties>
     <activiti-version>5.18.0</activiti-version>

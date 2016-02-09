@@ -38,8 +38,7 @@ public class DummySoapClient {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 			//Send SOAP Message to SOAP Server - SEAL/PREV/REPAIR/INSTALL/MAINTAIN/OPTIMIZE/COMPLETE
-	        String url = "http://localhost:8080/AutomatedDummyService/services/automatedwebservicemain";
-	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(param), url);
+	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(param), Settings.AUTOSERVICE_URI);
 	        soapResponse.writeTo(System.err);
 	        System.err.println();
 	        //Retrieve SOAP Response Body
@@ -73,12 +72,11 @@ public class DummySoapClient {
 			MessageFactory messageFactory = MessageFactory.newInstance();
 			soapMessage = messageFactory.createMessage();
 	        SOAPPart soapPart = soapMessage.getSOAPPart();
-	        String serverURI = "http://service.cmp.spi.iaas.uni_stuttgart/";
 	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration("ser", serverURI);
+	        envelope.addNamespaceDeclaration(Settings.SOAP_FIELD_SER, Settings.SERVICE_NAMESPACE);
 	        SOAPBody soapBody = envelope.getBody();
-	        SOAPElement soapBodyElem = soapBody.addChildElement("automate", "ser");
-	        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("task");
+	        SOAPElement soapBodyElem = soapBody.addChildElement(Settings.SOAP_FIELD_AUTOMATE, Settings.SOAP_FIELD_SER);
+	        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement(Settings.SOAP_FIELD_TASK);
 	        //Parameter Setting of SOAP Header
 	        soapBodyElem1.addTextNode(param);
 	        soapMessage.saveChanges();

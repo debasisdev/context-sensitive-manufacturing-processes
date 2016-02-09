@@ -2,7 +2,6 @@ package uni_stuttgart.iaas.spi.cmp.realizations;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -29,40 +28,39 @@ import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEliminator;
-import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessRepository;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
 /**
- * A Demo Implementation Class that Implements IProcessEliminator, IProcessRepository and ICamelSerializer.
- * This module analyzes the received Process Definitions by filtering them with required main- and subgoals, 
+ * A generic class that implements {@link IProcessEliminator}, {@link IDataSerializer}, and {@link Processor}.
+ * This module analyzes the received {@link TProcessDefinitions} by filtering them with required main- and subgoals, 
  * @author Debasis Kar
  */
 
-public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, IProcessRepository, Processor {
+public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, Processor {
 	
-	/**Variable to Store the Process Definitions that pass Intention Analysis 
+	/**Variable to store the {@link TProcessDefinitions} that pass intention analysis 
 	 * @author Debasis Kar
 	 * */
 	private TProcessDefinitions intentionAnalysisPassedProcesses;
 	
-	/**Variable to Store CES Definition 
+	/**Variable to store {@link TTaskCESDefinition}
 	 * @author Debasis Kar
 	 * */
 	private TTaskCESDefinition cesDefinition;
 	
-	/**Local Log Writer
+	/**Local log writer
 	 * @author Debasis Kar
 	 * */
 	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
 	
-	/**Default Constructor of Intention Analyzer
+	/**Default constructor of {@link IntentionAnalyzer}
 	 * @author Debasis Kar
 	 * */
 	public IntentionAnalyzer(){
 		this.intentionAnalysisPassedProcesses = null;
 	}
 	
-	/**Parameterized Constructor of Intention Analyzer
+	/**Parameterized constructor of {@link IntentionAnalyzer}
 	 * @author Debasis Kar
 	 * @param TTaskCESDefinition
 	 * */
@@ -74,16 +72,20 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 	
 	@Override
 	public TProcessDefinitions eliminate(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
+		//Acquire intentions to be fulfilled by a process
 		TIntention intention = cesDefinition.getIntention();
 		String mainIntention = intention.getName();
+		//Make a set of required sub-intentions
 		Set<String> subIntentions = new TreeSet<String>();
 		for(TSubIntention subIntention : intention.getSubIntentions().get(0).getSubIntention()){
 			subIntentions.add(subIntention.getName());
 		}
 		try {
 			log.info("Intention Analysis is Started by Deserializing the ProcessRepository.xml");
+			//Scan each process definition and validate intentions
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				Set<String> extraIntentions = new TreeSet<String>();
+				//Match main intentions
 				if(processDefinition.getTargetIntention().getName().equals(mainIntention)){
 					List<TSubIntention> subIntentionList = processDefinition.getTargetIntention().getSubIntentions().get(0).getSubIntention();
 					for(TSubIntention intent : subIntentionList){
@@ -91,6 +93,7 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 					}
 					extraIntentions.retainAll(subIntentions);
 				}
+				//Match sub intentions by Set intersection operation
 				if(extraIntentions.size()>0){
 					log.info(processDefinition.getId() + " Passes Intention Analysis.");
 					this.intentionAnalysisPassedProcesses.getProcessDefinition().add(processDefinition);
@@ -111,16 +114,20 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
+			//JAXB implementation for de-serializing the process definitions received from Context Analyzer
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
 			if(processSet.getProcessDefinition().isEmpty()){
-				processSet = this.getProcessRepository(this.cesDefinition);
+				//Get process repository know-how
+				ProcessRepository processRepository = new ProcessRepository();
+				processSet = processRepository.getProcessRepository(this.cesDefinition);
 			}
+			//Perform intention analysis
 			this.intentionAnalysisPassedProcesses = this.eliminate(processSet, this.cesDefinition);
-			
+			//JAXB implementation for serializing the Intention Analyzer output into byte array for message exchange
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.intentionAnalysisPassedProcesses);
@@ -136,32 +143,10 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, I
 		}
 		return outputStream.toByteArray();
 	}
-	
-	@Override
-	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
-		TProcessDefinitions processDefinitions = null;
-		String repositoryType = cesDefinition.getDomainKnowHowRepositoryType();
-		String fileName = null;
-		if(repositoryType.equals(CESConfigurations.XML_EXTENSION)){
-			fileName = cesDefinition.getDomainKnowHowRepository();
-		}
-		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
-			processDefinitions = (TProcessDefinitions) rootElement.getValue();
-		} catch (JAXBException e) {
-			log.severe("INTAN22: JAXBException has Occurred.");
-		} catch (NullPointerException e) {
-			log.severe("INTAN21: NullPointerException has Occurred.");
-		} catch (Exception e) {
-			log.severe("INTAN20: Unknown Exception has Occurred - " + e);
-		}
-		return processDefinitions;
-	}
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		//Send output of Intention Analyzer to Process Selector with relevant header information
 		Map<String, Object> headerData = new HashMap<>();
         headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
         headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_INTENTIONANALYZER);

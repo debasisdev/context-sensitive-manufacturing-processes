@@ -19,13 +19,13 @@ public class RepairMachineDemo implements JavaDelegate{
 	@Override
 	public void execute(DelegateExecution delegateExecution) throws Exception {
 		//Request SOAP Message to the Web Service based on some naive String
-		if(delegateExecution.getCurrentActivityName().contains("Repair")){
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("repair"));
+		if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_REPAIR)){
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_REPAIR));
 			System.out.println("Repairing Complete...");
 		}
 		//Request SOAP Message to the Web Service based on some naive String
-		if(delegateExecution.getCurrentActivityName().contains("Install")){
-			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall("install"));
+		if(delegateExecution.getCurrentActivityName().contains(Settings.SOAP_COMMAND_INSTALL)){
+			System.out.println("Machine Saying: " + DummySoapClient.SOAPWebServiceCall(Settings.SOAP_COMMAND_INSTALL));
 			System.out.println("Installation Complete...");
 		}
 	}

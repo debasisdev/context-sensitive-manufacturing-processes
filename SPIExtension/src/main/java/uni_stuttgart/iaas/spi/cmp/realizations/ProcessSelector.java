@@ -29,20 +29,40 @@ import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessSelector;
 import uni_stuttgart.iaas.spi.cmp.utils.CESConfigurations;
 
+/**
+ * A generic class that implements {@link IProcessSelector}, {@link IDataSerializer}, and {@link Processor}.
+ * This module filters the received {@link TProcessDefinitions} with some predefined strategy. 
+ * @author Debasis Kar
+ */
+
 public class ProcessSelector implements IProcessSelector, IDataSerializer, Processor {
+	
+	/**Variable to store the {@link TProcessDefinitions} that pass intention analysis 
+	 * @author Debasis Kar
+	 * */
 	private TProcessDefinition dispatchedProcess;
+	
+	/**Variable to store {@link TTaskCESDefinition} 
+	 * @author Debasis Kar
+	 * */
 	private TTaskCESDefinition cesDefinition;
 	
-	/**Local Log Writer
+	/**Local log writer
 	 * @author Debasis Kar
 	 * */
 	private static final Logger log = Logger.getLogger(ProcessSelector.class.getName());
 	
+	/**Default constructor of {@link ProcessSelector}
+	 * @author Debasis Kar
+	 * */
 	public ProcessSelector() {
 		this.dispatchedProcess = null;
 		this.cesDefinition = null;
 	}
 	
+	/**Parameterized constructor of {@link ProcessSelector}
+	 * @author Debasis Kar
+	 * */
 	public ProcessSelector(TTaskCESDefinition cesDefinition) {
 		ObjectFactory ipsmMaker = new ObjectFactory();
 		this.dispatchedProcess = ipsmMaker.createTProcessDefinition();
@@ -54,13 +74,16 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	public TProcessDefinition selectProcess(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
 		log.info("Selection by Strategy analysis is being done.");
 		try {			
+			//Make a list of all process definitions received
 			List<TProcessDefinition> processDefinitionList = new LinkedList<TProcessDefinition>();
 			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
 				processDefinitionList.add(processDefinition);
 			}
+			//Select the strategy, i.e., algorithm for the selection of process defintion
 			String algoType = cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations();
 			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESConfigurations.SPRING_BEAN);
 			DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(algoType);
+			//Store the selected process definition
 			this.dispatchedProcess = selectionProcessor.getRealizationProcess(processDefinitionList);
 			appContext.registerShutdownHook();
 			appContext.close();
@@ -78,13 +101,15 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
+			//JAXB implementation for de-serializing the process definitions received from Intention Analyzer
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
 			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
+			//Perform Selection based on some strategy
 			this.dispatchedProcess = this.selectProcess(processSet, this.cesDefinition);
-			
+			//JAXB implementation for serializing the Process Selector output into byte array for message exchange
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 	        JAXBElement<TProcessDefinition> processDef = ipsmMaker.createProcessDefinition(this.dispatchedProcess);
@@ -103,6 +128,7 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
+		//Send output of Intention Analyzer to Process Optimizer with relevant header information
 		Map<String, Object> headerData = new HashMap<>();
         headerData.put(RabbitMQConstants.ROUTING_KEY, CESConfigurations.RABBIT_SEND_SIGNAL);
         headerData.put(CESConfigurations.RABBIT_STATUS, CESConfigurations.RABBIT_MSG_PROCESSSELECTOR);

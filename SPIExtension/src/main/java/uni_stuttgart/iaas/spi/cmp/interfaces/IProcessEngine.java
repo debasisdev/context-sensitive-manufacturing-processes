@@ -2,19 +2,20 @@ package uni_stuttgart.iaas.spi.cmp.interfaces;
 
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import uni_stuttgart.iaas.spi.cmp.realizations.ProcessDispatcher;
 
 /**
- * A Generic Interface for Process Dispatcher Module.
+ * A generic interface for {@link ProcessDispatcher} module will invoke process engines.
  * @author Debasis Kar
  */
 
 public interface IProcessEngine {
 	
 	/**
-	 * Any Custom Deployment Manager has to implement the following method that will take
-	 * the Process Definition received from Process Dispatcher and will deploy to an underlying
-	 * workflow engine, e.g., Activiti BPMN, BPEL etc. This interface is intended for making the 
-	 * deployment of the CES pluggable and Users can write their own deployment code as per their own engine.
+	 * Any custom deployment manager has to implement the following method that will take the 
+	 * {@link TProcessDefinition} received from {@link ProcessOptimizer} and will deploy to an underlying
+	 * process engine, e.g., Activiti BPMN, Apache ODE BPEL, etc. This interface is intended to make the 
+	 * deployment of the CES pluggable and users can write their own deployment code as per their own engine.
 	 * @author Debasis Kar
 	 * @param TProcessDefinition
 	 * @return TDataList
@@ -22,10 +23,10 @@ public interface IProcessEngine {
 	public TDataList deployMainProcess(TProcessDefinition processDefinition);
 	
 	/**
-	 * Any Custom Deployment Manager has to implement the following method that will search the Complementary
-	 * Process Definition of the main process and will deploy to an underlying workflow engine, e.g., 
-	 * Activiti BPMN, BPEL etc. This interface is intended for making the deployment of the CES pluggable and 
-	 * Users can write their own deployment code as per their own engine. It returns the success code as a boolean value.
+	 * Any custom deployment manager has to implement the following method that will search a Complementary
+	 * Process Definition ({@link TProcessDefinition}) of the main process and will deploy to an underlying process 
+	 * engine, e.g., Activiti BPMN, Apache ODE BPEL, etc. The output of the complementary process is not needed for
+	 * any practical purposes, so it only returns the success status in a boolean output.
 	 * @author Debasis Kar
 	 * @param TProcessDefinition
 	 * @return boolean

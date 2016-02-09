@@ -6,20 +6,46 @@ import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.ipsm.v0.TContext;
 import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 
 /**
- * A Generic Interface for selecting the Procss Engine, Realization Process or DataProvider in runtime.
+ * A generic interface for selecting the Process-Engine, Realization-Process or DataProvider 
+ * dynamically in runtime.
  * @author Debasis Kar
  */
 
 public interface ISelectable {
 	
+	/**
+	 * This method is executed to choose multiple variants of {@link ISelectionManager}. 
+	 * @author Debasis Kar
+	 * @param List<TProcessDefinition> 
+	 * @return TProcessDefinition
+	 */
 	public TProcessDefinition getRealizationProcess(List<TProcessDefinition> processDefinitionList);
 	
+	/**
+	 * This method is executed to choose multiple variants of {@link IExecutionManager}. . 
+	 * @author Debasis Kar
+	 * @param String, String, TDataList, TDataList
+	 * @return TDataList
+	 */
 	public TDataList deployProcess(String bpmnFilePath, String processName, TDataList input, TDataList outputHolder);
 	
+	/**
+	 * This method is executed to choose multiple variants of {@link IDataManager}. 
+	 * @author Debasis Kar
+	 * @param List<TContext> 
+	 * @return TContexts
+	 */
 	public TContexts getData(List<TContext> contextList);
 	
+	/**
+	 * Any custom variant of {@link IDataManager} has this method. It needs to be exposed further for {@link QueryManager}. 
+	 * @author Debasis Kar
+	 * @param void 
+	 * @return boolean
+	 */
 	public boolean isContextAvailable();
 	
 }
