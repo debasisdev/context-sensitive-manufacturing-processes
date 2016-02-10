@@ -59,44 +59,23 @@
       <xs:any namespace="##other" processContents="lax"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="tOrganizationalDefinitions">
+<xs:complexType name="tInformalProcessInstance">
     <xs:complexContent>
-      <xs:extension base="tns:tBaseType">
+      <xs:extension base="tns:tProcessInstance">
         <xs:sequence>
-          <xs:element minOccurs="0" name="OrganizationalIntentions" type="tns:tIntentions"/>
-          <xs:element minOccurs="0" name="OrganizationallResources" type="ns1:tDefinitions"/>
-          <xs:element minOccurs="0" name="OrganizationalProcesses" type="tns:tOrganizationalProcesses"/>
-          <xs:element minOccurs="0" name="OrganizationalProcessInstances" type="tns:tProcessInstances"/>
-          <xs:element minOccurs="0" name="OrganizationalCapabilities" type="tns:tOrganizationalCapabilities"/>
+          <xs:element name="ResourceModelInstance" type="tns:tResourceModelInstance"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-<xs:complexType name="tIntentions">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="Intention" type="tns:tIntention"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tParticipantList">
+<xs:complexType name="tProcessInstance">
     <xs:complexContent>
-      <xs:extension base="ns1:tNodeTemplate">
-        <xs:sequence/>
-        <xs:anyAttribute namespace="##other" processContents="skip"/>
+      <xs:extension base="tns:tProcessDefinition">
+        <xs:sequence>
+          <xs:element name="InstanceDescriptor" type="tns:tInstanceDescriptor"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
-  </xs:complexType>
-<xs:complexType name="tRelationshipDefinition">
-    <xs:complexContent>
-      <xs:extension base="ns1:tRelationshipTemplate">
-        <xs:sequence/>
-        <xs:anyAttribute namespace="##other" processContents="skip"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-<xs:complexType name="tOrganizationalProcesses">
-    <xs:sequence>
-      <xs:element name="ProcessDefinition" type="tns:tProcessDefinition"/>
-    </xs:sequence>
   </xs:complexType>
 <xs:complexType name="tProcessDefinition">
     <xs:complexContent>
@@ -124,9 +103,55 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+<xs:complexType name="tResourceModelInstance">
+    <xs:sequence>
+      <xs:element name="Definitions" type="ns1:tDefinitions"/>
+    </xs:sequence>
+    <xs:attribute name="ref" type="xs:IDREF"/>
+    <xs:attribute name="targetNamespace" type="xs:anyURI"/>
+  </xs:complexType>
+<xs:complexType name="tParticipantList">
+    <xs:complexContent>
+      <xs:extension base="ns1:tNodeTemplate">
+        <xs:sequence/>
+        <xs:anyAttribute namespace="##other" processContents="skip"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="tRelationshipDefinition">
+    <xs:complexContent>
+      <xs:extension base="ns1:tRelationshipTemplate">
+        <xs:sequence/>
+        <xs:anyAttribute namespace="##other" processContents="skip"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="tInstanceDescriptor">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Properties" type="tns:tProperties"/>
+    </xs:sequence>
+    <xs:attribute name="startTime" type="xs:time"/>
+    <xs:attribute name="endTime" type="xs:time"/>
+    <xs:attribute name="instanceState" type="xs:string"/>
+    <xs:attribute name="instanceLocation" type="xs:anyURI"/>
+    <xs:attribute name="sourceModel" type="xs:anyURI"/>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="targetNamespace" type="xs:string"/>
+    <xs:anyAttribute namespace="##other" processContents="skip"/>
+  </xs:complexType>
+<xs:complexType name="tProperties">
+    <xs:sequence>
+      <xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tIntentions">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Intention" type="tns:tIntention"/>
+    </xs:sequence>
+  </xs:complexType>
 <xs:complexType name="tOrganizationalCapabilities">
     <xs:sequence>
-      <xs:element name="OrganizationalCapabilities" type="tns:tOrganizationalCapability"/>
+      <xs:element maxOccurs="unbounded" name="OrganizationalCapability" type="tns:tOrganizationalCapability"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="tOrganizationalCapability">
@@ -138,13 +163,36 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+<xs:complexType name="tOrganizationalDefinitions">
+    <xs:complexContent>
+      <xs:extension base="tns:tBaseType">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="OrganizationalIntentions" type="tns:tIntentions"/>
+          <xs:element minOccurs="0" name="OrganizationallResources" type="ns1:tDefinitions"/>
+          <xs:element minOccurs="0" name="OrganizationalProcesses" type="tns:tOrganizationalProcesses"/>
+          <xs:element minOccurs="0" name="OrganizationalProcessInstances" type="tns:tProcessInstances"/>
+          <xs:element minOccurs="0" name="OrganizationalCapabilities" type="tns:tOrganizationalCapabilities"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="tOrganizationalProcesses">
+    <xs:sequence>
+      <xs:element name="ProcessDefinition" type="tns:tProcessDefinition"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tProcessInstances">
+    <xs:sequence>
+      <xs:element name="ProcessInstance" type="tns:tProcessInstance"/>
+    </xs:sequence>
+  </xs:complexType>
 <xs:complexType name="tRelevanceRelationship">
     <xs:complexContent>
       <xs:extension base="tns:tBaseType">
         <xs:sequence>
           <xs:element name="MatchingRelationships" type="tns:tMatchingRelationships"/>
           <xs:element name="RelevantResource" type="ns1:tNodeTemplate"/>
-          <xs:element name="InvolvedResource" type="ns1:tNodeTemplate"/>
+          <xs:element maxOccurs="unbounded" name="InvolvedResource" type="ns1:tNodeTemplate"/>
         </xs:sequence>
         <xs:attribute name="inverseDependency" type="xs:boolean"/>
         <xs:attribute name="weight" type="xs:float"/>
@@ -256,60 +304,6 @@
     <xs:attribute name="ref" type="xs:IDREF"/>
     <xs:attribute name="targetNamespace" type="xs:anyURI"/>
   </xs:complexType>
-<xs:complexType name="tProcessInstance">
-    <xs:complexContent>
-      <xs:extension base="tns:tProcessDefinition">
-        <xs:sequence>
-          <xs:element name="InstanceDescriptor" type="tns:tInstanceDescriptor"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-<xs:complexType name="tInstanceDescriptor">
-    <xs:sequence>
-      <xs:element name="Properties" type="tns:tProperties"/>
-    </xs:sequence>
-    <xs:attribute name="startTime" type="xs:time"/>
-    <xs:attribute name="endTime" type="xs:time"/>
-    <xs:attribute name="instanceState" type="xs:string"/>
-    <xs:attribute name="instanceLocation" type="xs:anyURI"/>
-    <xs:attribute name="sourceModel" type="xs:anyURI"/>
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="targetNamespace" type="xs:string"/>
-    <xs:anyAttribute namespace="##other" processContents="skip"/>
-  </xs:complexType>
-<xs:complexType name="tProperties">
-    <xs:sequence>
-      <xs:element name="Tags" type="ns1:tTags"/>
-      <xs:element name="StructuredProperties" type="tns:tStructuredProperties"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tStructuredProperties">
-    <xs:sequence>
-      <xs:any namespace="##other" processContents="lax"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tInformalProcessInstance">
-    <xs:complexContent>
-      <xs:extension base="tns:tProcessInstance">
-        <xs:sequence>
-          <xs:element name="ResourceModelInstance" type="tns:tResourceModelInstance"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-<xs:complexType name="tResourceModelInstance">
-    <xs:sequence>
-      <xs:element name="Definitions" type="ns1:tDefinitions"/>
-    </xs:sequence>
-    <xs:attribute name="ref" type="xs:IDREF"/>
-    <xs:attribute name="targetNamespace" type="xs:anyURI"/>
-  </xs:complexType>
-<xs:complexType name="tProcessInstances">
-    <xs:sequence>
-      <xs:element name="ProcessInstance" type="tns:tProcessInstance"/>
-    </xs:sequence>
-  </xs:complexType>
 <xs:complexType name="tRelationshipDefinitions">
     <xs:sequence>
       <xs:element name="RelationshipDefinition" type="tns:tRelationshipDefinition"/>
@@ -320,55 +314,9 @@
       <xs:element maxOccurs="unbounded" name="Relationship" type="ns1:tRelationshipTemplate"/>
     </xs:sequence>
   </xs:complexType>
-<xs:complexType name="tResourceInstances">
-    <xs:sequence/>
-  </xs:complexType>
-<xs:complexType name="tStrategies">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="Strategy" type="tns:tStrategy"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tOtherParameters">
-    <xs:sequence>
-      <xs:any namespace="##other" processContents="lax"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tSubIntentions">
-    <xs:sequence>
-      <xs:element name="SubIntentionRelations" type="xs:string"/>
-      <xs:element maxOccurs="unbounded" name="SubIntention" type="tns:tSubIntention"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tCapabilityProperties">
-    <xs:sequence>
-      <xs:element name="ProvidingResources" type="tns:tResourceReferences"/>
-      <xs:element name="DesiredResource" type="xs:QName"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tResourceReferences">
-    <xs:sequence>
-      <xs:element name="ResourceDefinition" type="ns1:tNodeTemplate"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tDeploymentDescriptor">
-    <xs:sequence/>
-    <xs:attribute name="runnableUri" type="xs:anyURI"/>
-    <xs:attribute name="executionEnvironment" type="xs:anyURI"/>
-    <xs:attribute name="runnableName" type="xs:string"/>
-  </xs:complexType>
 <xs:complexType name="tProcessDefinitions">
     <xs:sequence>
       <xs:element maxOccurs="unbounded" name="ProcessDefinition" type="tns:tProcessDefinition"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tRequiremens">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="Requirement" type="xs:QName"/>
-    </xs:sequence>
-  </xs:complexType>
-<xs:complexType name="tDependencies">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="Dependency" type="ns1:tNodeTemplate"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="tOperationMessage">
@@ -385,9 +333,60 @@
     <xs:attribute name="processId" type="xs:string"/>
     <xs:attribute name="operationType" type="xs:string"/>
   </xs:complexType>
+<xs:complexType name="tDependencies">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Dependency" type="ns1:tNodeTemplate"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tOtherParameters">
+    <xs:sequence>
+      <xs:any namespace="##other" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
 <xs:complexType name="tResourceDefinitions">
     <xs:sequence>
       <xs:element name="Resource" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tCapabilityProperties">
+    <xs:sequence>
+      <xs:element name="ProvidingResources" type="tns:tResourceReferences"/>
+      <xs:element name="DesiredResource" type="xs:QName"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tResourceReferences">
+    <xs:sequence>
+      <xs:element name="ResourceDefinition" type="ns1:tNodeTemplate"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tRequiremens">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Requirement" type="xs:QName"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tDeploymentDescriptor">
+    <xs:sequence/>
+    <xs:attribute name="runnableUri" type="xs:anyURI"/>
+    <xs:attribute name="executionEnvironment" type="xs:anyURI"/>
+    <xs:attribute name="runnableName" type="xs:string"/>
+  </xs:complexType>
+<xs:complexType name="tSubIntentions">
+    <xs:sequence>
+      <xs:element name="SubIntentionRelations" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" name="SubIntention" type="tns:tSubIntention"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tResourceInstances">
+    <xs:sequence/>
+  </xs:complexType>
+<xs:complexType name="tStrategies">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="Strategy" type="tns:tStrategy"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="tStructuredProperties">
+    <xs:sequence>
+      <xs:any namespace="##other" processContents="lax"/>
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="tProcessContent">

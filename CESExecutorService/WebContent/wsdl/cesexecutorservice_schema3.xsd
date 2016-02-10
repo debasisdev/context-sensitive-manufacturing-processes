@@ -11,6 +11,7 @@
           <xs:element minOccurs="0" name="InputData" type="tns:tDataList"/>
           <xs:element minOccurs="0" name="OutputVariable" type="tns:tDataList"/>
           <xs:element minOccurs="0" name="OptimizationRequired" type="xs:boolean"/>
+          <xs:element name="DomainKnowHowRepositoryType" type="xs:anyURI"/>
           <xs:element name="DomainKnowHowRepository" type="xs:anyURI"/>
         </xs:sequence>
         <xs:attribute name="isEventDriven" type="xs:boolean"/>
@@ -43,9 +44,8 @@
       <xs:element minOccurs="0" name="Location" type="tns:tLocationType"/>
       <xs:element minOccurs="0" name="Timestamp" type="xs:string"/>
       <xs:element minOccurs="0" name="Expression" type="xs:string"/>
-      <xs:element minOccurs="0" name="MainModel" type="xs:anyURI"/>
-      <xs:element minOccurs="0" name="ComplementaryModel" type="xs:anyURI"/>
-      <xs:element minOccurs="0" name="OptimizerModel" type="xs:anyURI"/>
+      <xs:element minOccurs="0" name="ModelPath" type="xs:anyURI"/>
+      <xs:element minOccurs="0" name="OptimizerDefinition" type="xs:anyURI"/>
       <xs:element minOccurs="0" name="Weight" type="xs:decimal"/>
     </xs:sequence>
   </xs:complexType>

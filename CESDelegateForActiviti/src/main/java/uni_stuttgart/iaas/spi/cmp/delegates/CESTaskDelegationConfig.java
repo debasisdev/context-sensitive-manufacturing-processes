@@ -39,6 +39,7 @@ public final class CESTaskDelegationConfig {
 	public static final String SOAP_FIELD_SUBINTENTIONRELATIONS = "SubIntentionRelations";
 	public static final String SOAP_FIELD_CONTEXT = "Context";
 	public static final String SOAP_FIELD_REQUIREDCONTEXTS = "RequiredContexts";
+	public static final String SOAP_FIELD_PROCESSREPOSTYPE = "DomainKnowHowRepositoryType";
 	public static final String SOAP_FIELD_PROCESSREPOS = "DomainKnowHowRepository";
 	public static final String SOAP_FIELD_OPTIMIATIONREQUIRED = "OptimizationRequired";
 	public static final String SOAP_FIELD_CESDEFINITION = "CESDefinition";

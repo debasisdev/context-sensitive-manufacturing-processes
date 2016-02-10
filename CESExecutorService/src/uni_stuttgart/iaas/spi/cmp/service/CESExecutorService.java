@@ -14,7 +14,9 @@ import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 @WebService(targetNamespace = "http://service.cmp.spi.iaas.uni_stuttgart/", name = "CESExecutorService")
 public class CESExecutorService {
 
-	public String CESExecutor(@WebParam(name="CESDefinition") TTaskCESDefinition cesDefinitionReceived){
-		return cesDefinitionReceived.getIntention().getName();
+	public void CESExecutor(@WebParam(name="CESDefinition") TTaskCESDefinition cesDefinitionReceived){
+		uni_stuttgart.iaas.spi.cmp.realizations.CESExecutor cesExecutor = new uni_stuttgart.iaas.spi.cmp.realizations.CESExecutor(cesDefinitionReceived);
+		cesExecutor.runCESExecutor();
 	}
+	
 }

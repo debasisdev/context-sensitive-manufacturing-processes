@@ -35,7 +35,7 @@
   </wsdl:binding>
   <wsdl:service name="CESExecutorServiceService">
     <wsdl:port name="CESExecutorServicePort" binding="tns:CESExecutorServiceServiceSoapBinding">
-      <soap:address location="http://localhost:8080/CESExecutorService/services"/>
+      <soap:address location="http://localhost:9090/CESExecutorService/services"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

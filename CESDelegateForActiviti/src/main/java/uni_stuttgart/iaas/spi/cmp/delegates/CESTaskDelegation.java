@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.soap.MessageFactory;
@@ -32,8 +33,11 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.JavaDelegate;
 import org.apache.camel.CamelContext;
+import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
+import org.apache.camel.PollingConsumer;
 import org.apache.camel.Processor;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 
@@ -181,24 +185,36 @@ public class CESTaskDelegation implements JavaDelegate {
 			if(this.response == 1){
 				String cesServiceEndpoint = CESTaskDelegationConfig.SOAPSERVICE_URI;
 				SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
-				result = CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
+				CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
+				
+				CamelContext context = new DefaultCamelContext();
+				Endpoint endpoint = context.getEndpoint(CESTaskDelegationConfig.RABBIT_RESULT_QUEUE);
+				PollingConsumer consumer = endpoint.createPollingConsumer();
+				consumer.start();
+				Exchange exchange = consumer.receive(20000);
+				consumer.stop();
+				if(exchange != null){
+					ProducerTemplate template = context.createProducerTemplate();
+					template.sendBody(CESTaskDelegationConfig.RABBIT_CONSOLE_OUT, (byte[]) exchange.getIn().getBody());
+					CESTaskDelegation.output = CESTaskDelegation.getOutput(exchange);
+				}
 			}
-			//Directly call the Java methd if response is 2
+			//Directly call the Java method if response is 2
 			if(this.response == 2){
 				CESExecutor cesProcess = new CESExecutor(cesDefinition);
 				cesProcess.runCESExecutor();
 				result = cesProcess.isSuccess();
+				if(result){
+					CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
+				}
 			}
-			//if CES task is successful read the result
-			if(result){
-				CESTaskDelegation.output = CESTaskDelegation.getOutputOfProcess();
-				if(CESTaskDelegation.output != null){
-					for(TData data : CESTaskDelegation.output.getDataList()){
-						if(data.getValue().equals(CESTaskDelegationConfig.BLANK_STRING)){
-							data.setValue(CESTaskDelegationConfig.ERROR_STRING);
-						}
-						execution.setVariable(data.getName(), data.getValue());
+			//if CES task is successful read the result			
+			if(CESTaskDelegation.output != null){
+				for(TData data : CESTaskDelegation.output.getDataList()){
+					if(data.getValue().equals(CESTaskDelegationConfig.BLANK_STRING)){
+						data.setValue(CESTaskDelegationConfig.ERROR_STRING);
 					}
+					execution.setVariable(data.getName(), data.getValue());
 				}
 			}
 			//if CES task is unsuccessful, send error result
@@ -381,6 +397,8 @@ public class CESTaskDelegation implements JavaDelegate {
 	        cesDefinitionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_COMMANDACTION, cesDefinition.isIsCommandAction().toString());
 	        SOAPElement optRequired = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_OPTIMIATIONREQUIRED);
 	        optRequired.addTextNode(cesDefinition.isOptimizationRequired().toString());
+	        SOAPElement domainRepoType = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_PROCESSREPOSTYPE);
+	        domainRepoType.addTextNode(cesDefinition.getDomainKnowHowRepositoryType());
 	        SOAPElement domainRepos = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_PROCESSREPOS);
 	        domainRepos.addTextNode(cesDefinition.getDomainKnowHowRepository());
 	        //Set Required-contexts
@@ -438,8 +456,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * @param SOAPMessage, String
 	 * @return boolean
 	 */
-	public static boolean sendSOAPRequest(SOAPMessage soapMessage, String url) {
-    	SOAPBody sb = null;
+	public static void sendSOAPRequest(SOAPMessage soapMessage, String url) {
 		try {
 	        //Create SOAP Connection
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -447,7 +464,6 @@ public class CESTaskDelegation implements JavaDelegate {
 			//Retrieve Response
 	        SOAPMessage soapResponse = soapConnection.call(soapMessage, url);
 	        soapResponse.writeTo(System.err);
-	        sb = soapResponse.getSOAPBody();
 	        soapConnection.close();
 	        System.out.println();
 		} catch (SOAPException e) {
@@ -459,11 +475,6 @@ public class CESTaskDelegation implements JavaDelegate {
 		} catch (Exception e) {
 			log.severe("CESTD20: Unknown Exception has Occurred - " + e);
 		}
-		//If response is not null, read the result
-		if (sb != null)
-			return Boolean.parseBoolean(sb.getFirstChild().getFirstChild().getTextContent());
-		else
-			return false;
     }
 	
 	/**
@@ -473,11 +484,11 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * @return TDataList
 	 */
 	public static TDataList getOutputOfProcess(){
-		//Initializing Camel Context, RabbitMQ Factory and others for Content-based message Routing
-		CamelContext camelCon = new DefaultCamelContext();
-      	ConnectionFactory conFac = new ConnectionFactory();
-      	conFac.setHost(CESTaskDelegationConfig.RABBIT_SERVER);
       	try {
+    		//Initializing Camel Context, RabbitMQ Factory and others for Content-based message Routing
+    		CamelContext camelCon = new DefaultCamelContext();
+          	ConnectionFactory conFac = new ConnectionFactory();
+          	conFac.setHost(CESTaskDelegationConfig.RABBIT_SERVER);
       		Connection connection = conFac.newConnection();
       		Channel channel = connection.createChannel();
 			camelCon.addRoutes(new RouteBuilder() {
@@ -487,13 +498,7 @@ public class CESTaskDelegation implements JavaDelegate {
 		              	//Set Respective Routing Key
 	                	.process(new Processor() {
 	            			public void process(Exchange exchange) throws Exception {
-	            				//JAXB implementation for de-serializing the output generated by Executor of CES
-	            				InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
-	            				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
-	            				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-	            				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-	            				TTaskCESDefinition definition = (TTaskCESDefinition) rootElement.getValue();
-	            				CESTaskDelegation.output = definition.getOutputVariable();
+	            				CESTaskDelegation.output = CESTaskDelegation.getOutput(exchange);
 	            			}})
                 		.to(CESTaskDelegationConfig.RABBIT_CONSOLE_OUT); 
 	            }
@@ -512,6 +517,31 @@ public class CESTaskDelegation implements JavaDelegate {
 			log.severe("CESTD31: NullPointerException has Occurred.");
 		} catch (Exception e) {
 			log.severe("CESTD30: Unknown Exception has Occurred - " + e);
+		}
+		return CESTaskDelegation.output;
+	}
+	
+	/**
+	 * This method reads the output of the CES Service received after polling.
+	 * @author Debasis Kar
+	 * @param Exchange
+	 * @return TDataList
+	 */
+	public static TDataList getOutput(Exchange exchange){
+		try {
+			//JAXB implementation for de-serializing the output generated by Executor of CES
+			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
+			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
+			TTaskCESDefinition definition = (TTaskCESDefinition) rootElement.getValue();
+			CESTaskDelegation.output = definition.getOutputVariable();
+		} catch (JAXBException e) {
+			log.severe("CESTD42: JAXBException has Occurred.");
+		} catch (NullPointerException e) {
+			log.severe("CESTD41: NullPointerException has Occurred.");
+		} catch (Exception e) {
+			log.severe("CESTD40: Unknown Exception has Occurred - " + e);
 		}
 		return CESTaskDelegation.output;
 	}

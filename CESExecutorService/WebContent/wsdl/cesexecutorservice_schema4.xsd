@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:ns1="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" xmlns:ns2="http://www.uni-stuttgart.de/iaas/cmp/v0.1/" xmlns:tns="http://service.cmp.spi.iaas.uni_stuttgart/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://service.cmp.spi.iaas.uni_stuttgart/" version="1.0">
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:ns1="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" xmlns:ns2="http://www.uni-stuttgart.de/iaas/cmp/v0.1/" xmlns:tns="http://service.cmp.spi.iaas.uni_stuttgart/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://service.cmp.spi.iaas.uni_stuttgart/" version="1.0">
 <xs:import namespace="http://www.uni-stuttgart.de/iaas/ipsm/v0.2/" schemaLocation="cesexecutorservice_schema2.xsd"/>
 <xs:import namespace="http://www.uni-stuttgart.de/iaas/cmp/v0.1/" schemaLocation="cesexecutorservice_schema3.xsd"/>
 <xs:element name="CESExecutor" type="tns:CESExecutor"/>
@@ -9,8 +9,6 @@
     </xs:sequence>
   </xs:complexType>
 <xs:complexType name="CESExecutorResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="xs:string"/>
-    </xs:sequence>
+    <xs:sequence/>
   </xs:complexType>
 </xs:schema>

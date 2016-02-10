@@ -31,4 +31,8 @@
 		<property name="dataManager" ref="mongoFetcher" />
 	</bean>
 	
+	<bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+		<property name="databaseSchemaUpdate" value="true"/>
+	</bean>
+	
 </beans>

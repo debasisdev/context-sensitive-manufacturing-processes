@@ -19,7 +19,12 @@
 		<artifactId>protocols</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
-	   <dependency>
+	<dependency>
+		<groupId>unistuttgart.iaas.spi.cmp.help</groupId>
+		<artifactId>helper-classes</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
       <groupId>org.activiti</groupId>
       <artifactId>activiti-engine</artifactId>
       <version>${activiti-version}</version>
