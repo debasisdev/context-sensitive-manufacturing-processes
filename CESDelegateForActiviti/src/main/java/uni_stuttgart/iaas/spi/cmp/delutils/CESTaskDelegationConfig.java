@@ -1,4 +1,4 @@
-package uni_stuttgart.iaas.spi.cmp.delegates;
+package uni_stuttgart.iaas.spi.cmp.delutils;
 
 /**
  * An utility class to all other classes that stores all the Constants/Strings/URIs used throughout the project.

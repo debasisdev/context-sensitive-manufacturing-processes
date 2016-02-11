@@ -1,4 +1,4 @@
-package uni_stuttgart.iaas.spi.cmp.utils;
+package uni_stuttgart.iaas.spi.cmp.selectors;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,6 +17,7 @@ import org.w3c.dom.NodeList;
 import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
 import uni_stuttgart.iaas.spi.cmp.interfaces.ISelectionManager;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector;
+import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A helper class to {@link ProcessSelector} that realizes an algorithm by analyzing the weights attached.

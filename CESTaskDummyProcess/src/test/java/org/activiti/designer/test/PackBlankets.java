@@ -15,8 +15,11 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
 
 public class PackBlankets {
-
+	
+	//Absolute file path of the BPMN file
 	private String file = "D:\\MyWorkThesis\\CESTaskDummyProcess\\src\\test\\resources\\PackBlankets.bpmn";
+	
+	//Local log writer
 	private static final Logger log = Logger.getLogger(PackBlankets.class.getName());
 
 	@Test

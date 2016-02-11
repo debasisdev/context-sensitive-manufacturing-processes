@@ -1,4 +1,4 @@
-package uni_stuttgart.iaas.spi.cmp.utils;
+package uni_stuttgart.iaas.spi.cmp.datamanagers;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,6 +28,7 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataManager;
 import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
+import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A helper class to {@link QueryManager} that does all the database operations on behalf of it.

@@ -10,10 +10,10 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-	<bean id="weightSelector" class="uni_stuttgart.iaas.spi.cmp.utils.WeightAnalyzer" />
-	<bean id="randomSelector" class="uni_stuttgart.iaas.spi.cmp.utils.RandomAnalyzer" />
-	<bean id="activitiExecutor" class="uni_stuttgart.iaas.spi.cmp.utils.ActivitiExecutor" />
-	<bean id="mongoFetcher" class="uni_stuttgart.iaas.spi.cmp.utils.MongoDBManager" />
+	<bean id="weightSelector" class="uni_stuttgart.iaas.spi.cmp.selectors.WeightAnalyzer" />
+	<bean id="randomSelector" class="uni_stuttgart.iaas.spi.cmp.selectors.RandomAnalyzer" />
+	<bean id="activitiExecutor" class="uni_stuttgart.iaas.spi.cmp.engines.ActivitiExecutor" />
+	<bean id="mongoFetcher" class="uni_stuttgart.iaas.spi.cmp.datamanagers.MongoDBManager" />
 	
 	<bean name="http://www.uni-stuttgart.de/iaas/cmp/weight-based" class="uni_stuttgart.iaas.spi.cmp.realizations.DynamicSelector">
 		<property name="selectionManager" ref="weightSelector" />

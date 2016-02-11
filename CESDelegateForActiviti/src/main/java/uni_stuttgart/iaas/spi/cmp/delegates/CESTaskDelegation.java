@@ -19,15 +19,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.Expression;
@@ -54,6 +46,8 @@ import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
 import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
 import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+import uni_stuttgart.iaas.spi.cmp.delutils.CESSOAPSolicitor;
+import uni_stuttgart.iaas.spi.cmp.delutils.CESTaskDelegationConfig;
 import uni_stuttgart.iaas.spi.cmp.realizations.CESExecutor;
 
 /**
@@ -184,14 +178,14 @@ public class CESTaskDelegation implements JavaDelegate {
 			//Call Web-service if response is 1
 			if(this.response == 1){
 				String cesServiceEndpoint = CESTaskDelegationConfig.SOAPSERVICE_URI;
-				SOAPMessage soapMessage = CESTaskDelegation.createSOAPRequest(cesDefinition);
-				CESTaskDelegation.sendSOAPRequest(soapMessage, cesServiceEndpoint);
-				
+				SOAPMessage soapMessage = CESSOAPSolicitor.createSOAPRequest(cesDefinition);
+				CESSOAPSolicitor.sendSOAPRequest(soapMessage, cesServiceEndpoint);
+				//Polling Camel-RabbitMQ queue for reading the final output
 				CamelContext context = new DefaultCamelContext();
 				Endpoint endpoint = context.getEndpoint(CESTaskDelegationConfig.RABBIT_RESULT_QUEUE);
 				PollingConsumer consumer = endpoint.createPollingConsumer();
 				consumer.start();
-				Exchange exchange = consumer.receive(20000);
+				Exchange exchange = consumer.receive();
 				consumer.stop();
 				if(exchange != null){
 					ProducerTemplate template = context.createProducerTemplate();
@@ -227,6 +221,8 @@ public class CESTaskDelegation implements JavaDelegate {
 		} catch (Exception e) {
 			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
 			execution.setVariable(outputVar.getDataList().get(0).getName(), CESTaskDelegationConfig.ERROR_STRING);
+		} finally{
+			log.info("Proceeding to next activity.");
 		}
 	}
 	
@@ -367,115 +363,6 @@ public class CESTaskDelegation implements JavaDelegate {
 		intent.getSubIntentions().add(subIntentionsList);
 		return intent;
 	}
-	
-	/**
-	 * This method prepares the {@link SOAPMessage} out of {@link TTaskCESDefinition} to be sent to the Web-service.
-	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
-	 * @return SOAPMessage
-	 */
-	public static SOAPMessage createSOAPRequest(TTaskCESDefinition cesDefinition) {
-    	SOAPMessage soapMessage = null;
-		try {
-			//Create Message Factory
-			MessageFactory messageFactory = MessageFactory.newInstance();
-			soapMessage = messageFactory.createMessage();
-	        SOAPPart soapPart = soapMessage.getSOAPPart();
-	        //Prepare SOAP Envelope
-	        SOAPEnvelope envelope = soapPart.getEnvelope();
-	        envelope.addNamespaceDeclaration(CESTaskDelegationConfig.SOAP_FIELD_SER, CESTaskDelegationConfig.SERVICE_NAMESPACE);
-	        envelope.addNamespaceDeclaration(CESTaskDelegationConfig.SOAP_FIELD_V0, CESTaskDelegationConfig.IPSM_NAMESPACE);
-	        envelope.addNamespaceDeclaration(CESTaskDelegationConfig.SOAP_FIELD_V01, CESTaskDelegationConfig.CMP_NAMESPACE);
-	        envelope.addNamespaceDeclaration(CESTaskDelegationConfig.SOAP_FIELD_NS, CESTaskDelegationConfig.TOSCA_NAMESPACE);
-	        //Prepare SOAP Body
-	        SOAPBody soapBody = envelope.getBody();
-	        SOAPElement cesExecutorElem = soapBody.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_CESEXECUTOR, CESTaskDelegationConfig.SOAP_FIELD_SER);
-	        SOAPElement cesDefinitionElem = cesExecutorElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_CESDEFINITION);
-	        cesDefinitionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, cesDefinition.getName());
-	        cesDefinitionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_TARGETNAMESPACE, cesDefinition.getTargetNamespace());
-	        cesDefinitionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_EVENTDRIVEN, cesDefinition.isIsEventDriven().toString());
-	        cesDefinitionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_COMMANDACTION, cesDefinition.isIsCommandAction().toString());
-	        SOAPElement optRequired = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_OPTIMIATIONREQUIRED);
-	        optRequired.addTextNode(cesDefinition.isOptimizationRequired().toString());
-	        SOAPElement domainRepoType = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_PROCESSREPOSTYPE);
-	        domainRepoType.addTextNode(cesDefinition.getDomainKnowHowRepositoryType());
-	        SOAPElement domainRepos = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_PROCESSREPOS);
-	        domainRepos.addTextNode(cesDefinition.getDomainKnowHowRepository());
-	        //Set Required-contexts
-	        SOAPElement requiredCon = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_REQUIREDCONTEXTS);
-	        for(TContext con : cesDefinition.getRequiredContexts().getContext()){
-	        	SOAPElement conElem = requiredCon.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_CONTEXT);
-	        	conElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, con.getName());
-	        }
-	        //Set Input data
-	        SOAPElement inputList = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_INPUT);
-	        for(TData inputData : cesDefinition.getInputData().getDataList()){
-	        	SOAPElement inputElem = inputList.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_DATALIST);
-	        	inputElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, inputData.getName());
-	        	inputElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_VALUE, inputData.getValue());
-	        }
-	        //Set Output data
-	        SOAPElement outputList = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_OUTPUT);
-	        for(TData outputData : cesDefinition.getOutputVariable().getDataList()){
-	        	SOAPElement outputElem = outputList.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_DATALIST);
-	        	outputElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, outputData.getName());
-	        	outputElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_VALUE, outputData.getValue());
-	        }
-	        //Set Intention
-	        SOAPElement intentElem = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_INTENTION);
-	        intentElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, cesDefinition.getIntention().getName());
-	        SOAPElement subIntentElem = intentElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_SUBINTENTIONS);
-	        SOAPElement subIntRelation = subIntentElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_SUBINTENTIONRELATIONS);
-	        subIntRelation.addTextNode(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations().toString());
-	        for(TSubIntentions subIntentions : cesDefinition.getIntention().getSubIntentions()){
-	        	for(TSubIntention subIntention : subIntentions.getSubIntention()){
-	        		SOAPElement subIntentionElem = subIntentElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_SUBINTENTION);
-	        		subIntentionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, subIntention.getName());
-	        	}
-	        }
-	        //Save the Message
-	        soapMessage.saveChanges();
-	        soapMessage.writeTo(System.err);
-	        System.out.println();
-		} catch (SOAPException e) {
-			log.severe("CESTD13: SOAPException has Occurred.");
-		} catch (IOException e) {
-			log.severe("CESTD12: IOException has Occurred.");
-		} catch (NullPointerException e) {
-			log.severe("CESTD11: NullPointerException has Occurred.");
-		} catch (Exception e) {
-			log.severe("CESTD10: Unknown Exception has Occurred - " + e);
-		}
-		return soapMessage;
-    }
-	
-	/**
-	 * This method sends the {@link SOAPMessage} to the specified URL (Web-Service) and returns whether it's
-	 * been successfully or not by a boolean value.
-	 * @author Debasis Kar
-	 * @param SOAPMessage, String
-	 * @return boolean
-	 */
-	public static void sendSOAPRequest(SOAPMessage soapMessage, String url) {
-		try {
-	        //Create SOAP Connection
-			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
-			//Retrieve Response
-	        SOAPMessage soapResponse = soapConnection.call(soapMessage, url);
-	        soapResponse.writeTo(System.err);
-	        soapConnection.close();
-	        System.out.println();
-		} catch (SOAPException e) {
-			log.severe("CESTD23: SOAPException has Occurred.");
-		} catch (IOException e) {
-			log.severe("CESTD22: IOException has Occurred.");
-		} catch (NullPointerException e) {
-			log.severe("CESTD21: NullPointerException has Occurred.");
-		} catch (Exception e) {
-			log.severe("CESTD20: Unknown Exception has Occurred - " + e);
-		}
-    }
 	
 	/**
 	 * This method reads the output of the CES task from the RabbitMQ Result queue.

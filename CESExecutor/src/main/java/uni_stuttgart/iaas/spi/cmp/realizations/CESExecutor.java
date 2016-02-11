@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.apache.camel.impl.DefaultCamelContext;
 
@@ -49,7 +48,7 @@ public class CESExecutor {
 		log.info("Missing Parameters. #Exiting#");
 	}
 	
-	/**Parameterized constructor of {@link CESExecutor} that will invoke other analyzers
+	/**Parameterized constructor of {@link CESExecutor}
 	 * @author Debasis Kar
 	 * @param TTaskCESDefinition
 	 * */
@@ -67,44 +66,9 @@ public class CESExecutor {
 	      	Connection connection = conFac.newConnection();
 		    Channel channel = connection.createChannel();
 		    this.cleanAndCreateChannel(channel);
-		    
 		    //Routing details and rules
-	        camelCon.addRoutes(new RouteBuilder() {
-	            public void configure() {
-	                from(CESExecutorConfig.RABBIT_MAIN_QUEUE)
-		                .choice()
-		                	//Activate Query Manager
-		                	.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_CESACTIVATE))
-		                		.process(new QueryManager(cesDefinition))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Activate Context Analyzer
-	                		.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_QUERYMANAGER))
-		                		.process(new ContextAnalyzer(cesDefinition))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Activate Intention Analyzer
-	                		.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_CONTEXTANALYZER))
-		                		.process(new IntentionAnalyzer(cesDefinition))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Activate Process Selector
-	                		.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_INTENTIONANALYZER))
-		                		.process(new ProcessSelector(cesDefinition))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Activate Process Optimizer
-	                		.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_PROCESSSELECTOR))
-		                		.process(new ProcessOptimizer(cesDefinition))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Activate Process Dispatcher
-	                		.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_PROCESSOPTIMIZER))
-		                		.process(new ProcessDispatcher(cesDefinition))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Route Output to the Result queue
-	                		.when(header(CESExecutorConfig.RABBIT_STATUS).isEqualTo(CESExecutorConfig.RABBIT_MSG_PROCESSDISPATCHER))
-	                				.to(CESExecutorConfig.RABBIT_CONTENT_ROUTER)
-	                		//Route Failure to Standard output
-	                		.otherwise()
-	                				.to(CESExecutorConfig.RABBIT_CONSOLE_OUT);        
-	            }
-	        });
+		    CamelRoutingCore messageRoute = new CamelRoutingCore(this.cesDefinition);
+	        camelCon.addRoutes(messageRoute);
 	        //Start Camel Context
 	        camelCon.start();   
 	        //Start the Context by sending some dummy message and header information

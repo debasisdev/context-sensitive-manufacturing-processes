@@ -1,4 +1,4 @@
-package uni_stuttgart.iaas.spi.cmp.utils;
+package uni_stuttgart.iaas.spi.cmp.selectors;
 
 import java.util.HashSet;
 import java.util.List;
