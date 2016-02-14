@@ -7,7 +7,7 @@
             <ManufacturingContent>
                 <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PMX001.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
-                <Weight>0.30</Weight>
+                <Weight>0.20</Weight>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
@@ -38,7 +38,7 @@
             <ManufacturingContent>
                 <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PSM001.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
-                <Weight>0.55</Weight>
+                <Weight>0.74</Weight>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
@@ -85,7 +85,7 @@
             <ManufacturingContent>
                 <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PRS001.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
-                <Weight>0.10</Weight>
+                <Weight>0.05</Weight>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
@@ -172,7 +172,7 @@
             <ManufacturingContent>
                 <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PRS002.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
-                <Weight>0.05</Weight>
+                <Weight>0.01</Weight>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="SealAndSortPackets" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
