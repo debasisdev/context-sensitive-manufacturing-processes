@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -13,6 +12,8 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.w3c.dom.Node;
@@ -47,7 +48,7 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(ProcessOptimizer.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(ProcessOptimizer.class);
 	
 	/**Default constructor of {@link ProcessOptimizer}
 	 * @author Debasis Kar
@@ -59,6 +60,7 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 	
 	/**Parameterized constructor of {@link ProcessOptimizer}
 	 * @author Debasis Kar
+	 * @param cesDefinition
 	 * */
 	public ProcessOptimizer(TTaskCESDefinition cesDefinition){
 		this.optimizerRunStatus = false;
@@ -116,7 +118,7 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 			//End deployment code for optimization
 		} catch(Exception e) {
 			e.printStackTrace();
-      		log.severe("PROOP10: Unknown Exception has Occurred - " + e);
+      		log.error("PROOP10: Unknown Exception has Occurred - " + e);
       		return false;
       	} 
 		return true;
@@ -142,16 +144,16 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 				log.info("Optimization is not Required by the modeler.");
 			}
 		} catch (NullPointerException e) {
-			log.severe("PROOP01: NullPointerException has Occurred.");
+			log.error("PROOP01: NullPointerException has Occurred.");
 		} catch(Exception e) {
-      		log.severe("PROOP00: Unknown Exception has Occurred - " + e);
+      		log.error("PROOP00: Unknown Exception has Occurred - " + e);
       	} 
 		//Check optimization status before losing the control to Dispatcher
 		if(this.optimizerRunStatus){
-			log.info("Process Optimization Is Complete...");
+			log.info("Process Optimization is Complete...");
 		}
 		else{
-			log.warning("Process Optimization Failed or Strategy Not Found in Repository!");
+			log.warn("Process Optimization Failed or Strategy Not Found in Repository!");
 		}
 		//Forward the process definition received from Process Selector to Process Dispatcher
 		return inputStream;

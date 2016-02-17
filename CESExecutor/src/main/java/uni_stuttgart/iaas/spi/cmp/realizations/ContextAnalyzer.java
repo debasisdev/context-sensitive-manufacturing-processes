@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -27,6 +26,8 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -69,7 +70,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(ContextAnalyzer.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(ContextAnalyzer.class);
 	
 	/**Default constructor of {@link ContextAnalyzer}
 	 * @author Debasis Kar
@@ -82,6 +83,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 
 	/**Parameterized constructor of {@link ContextAnalyzer}
 	 * @author Debasis Kar
+	 * @param cesDefinition
 	 * */
 	public ContextAnalyzer(TTaskCESDefinition cesDefinition){
 		ObjectFactory ipsmMaker = new ObjectFactory();
@@ -174,14 +176,14 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 			//Delete the temporary file created
 			file.deleteOnExit();
 		} catch (NullPointerException e) {
-			log.severe("CONAN13: NullPointerException has Occurred.");
+			log.error("CONAN13: NullPointerException has Occurred.");
 		} catch (IOException e) {
-			log.severe("CONAN12: IOException has Occurred.");
+			log.error("CONAN12: IOException has Occurred.");
 			e.printStackTrace();
 		} catch (XPathExpressionException e) {
-			log.severe("CONAN11: XPathExpressionException has Occurred.");
+			log.error("CONAN11: XPathExpressionException has Occurred.");
 		} catch(Exception e){
-			log.severe("CONAN10: Unknown Exception has Occurred - " + e);
+			log.error("CONAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
 			log.info(this.contextAnalysisPassedProcesses.getProcessDefinition().size() + " Processes Passed Context Analysis.");
 		}
@@ -212,11 +214,11 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.contextAnalysisPassedProcesses);
 			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (JAXBException e) {
-			log.severe("CONAN02: JAXBException has Occurred.");
+			log.error("CONAN02: JAXBException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("CONAN01: NullPointerException has Occurred.");
+			log.error("CONAN01: NullPointerException has Occurred.");
 		} catch (Exception e){
-			log.severe("CONAN00: Unknown Exception has Occurred - " + e);
+			log.error("CONAN00: Unknown Exception has Occurred - " + e);
 	    } finally{
 			log.info("Context Matching Process is Completed.");
 		}
@@ -226,7 +228,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 	/**
 	 * This is a setter method to set the {@link TContexts} received from the {@link QueryManager}.
 	 * @author Debasis Kar
-	 * @param TContexts
+	 * @param contextSet
 	 * @return void
 	 */
 	public void setContextSet(TContexts contextSet) {

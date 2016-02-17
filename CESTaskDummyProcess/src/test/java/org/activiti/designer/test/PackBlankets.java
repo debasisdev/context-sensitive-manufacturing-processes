@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -13,6 +12,8 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PackBlankets {
 	
@@ -20,7 +21,7 @@ public class PackBlankets {
 	private String file = "D:\\MyWorkThesis\\CESTaskDummyProcess\\src\\test\\resources\\PackBlankets.bpmn";
 	
 	//Local log writer
-	private static final Logger log = Logger.getLogger(PackBlankets.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(PackBlankets.class);
 
 	@Test
 	public void startProcess() throws Exception {
@@ -35,4 +36,4 @@ public class PackBlankets {
 		log.info("<Process Instance ID:" + processInstance.getId() + "> is Realized.");
 	}
 	
-}
+}																											

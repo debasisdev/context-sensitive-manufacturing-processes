@@ -48,6 +48,9 @@ public final class CESExecutorConfig {
 	public static final String CONTEXTDATA_FILEPATH = "D://";
 	public static final String SPLIT_EXPRESSION = "\\|";
 	public static final String SUCCESS_STRING = "done";
+	public static final String ERROR_STRING = "error";
+	public static final String MANUAL_STRING1 = "MANUAL";
+	public static final String MANUAL_STRING2 = "SEMI";
 	public static final String TIME_FORMAT = "E MMM dd HH:mm:ss Z yyyy";
 		
 	public static final String MONGO_FIELD_ORDERID = "orderid";

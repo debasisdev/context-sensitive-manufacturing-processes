@@ -15,7 +15,7 @@ public interface ISelectionManager {
 	 * Any custom selection algorithm implementor has to implement the following method to 
 	 * select a {@link TProcessDefinition} out of a {@link List} of {@link TProcessDefinition}. 
 	 * @author Debasis Kar
-	 * @param List<TProcessDefinition> 
+	 * @param processDefinitionList
 	 * @return TProcessDefinition
 	 */
 	public TProcessDefinition findRealizationProcess(List<TProcessDefinition> processDefinitionList);

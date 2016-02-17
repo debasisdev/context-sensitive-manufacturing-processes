@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -14,6 +13,8 @@ import javax.xml.bind.Marshaller;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -46,7 +47,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(QueryManager.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(QueryManager.class);
 	
 	/**Default constructor of {@link QueryManager}
 	 * @author Debasis Kar
@@ -57,7 +58,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 	
 	/**Parameterized constructor of {@link QueryManager}
 	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
+	 * @param cesDefinition
 	 * */
 	public QueryManager(TTaskCESDefinition cesDefinition){
 		this();
@@ -80,9 +81,9 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 			appContext.close();
 			log.info("Connection to Middleware is Closed.");
 		} catch (NullPointerException e) {
-			log.severe("QUEMA11: NullPointerException has Occurred.");
+			log.error("QUEMA11: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("QUEMA10: Unknown Exception has Occurred - " + e);
+			log.error("QUEMA10: Unknown Exception has Occurred - " + e);
 		} finally {
 			log.info("Context Acquisition is Finished.");
 		}
@@ -107,11 +108,11 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 				log.info("Context Data is Available on Message Queue.");
 		    	jaxbMarshaller.marshal(root, System.out);
 			} catch (JAXBException e) {
-				log.severe("QUEMA02: JAXBException has Occurred.");
+				log.error("QUEMA02: JAXBException has Occurred.");
 			} catch (NullPointerException e) {
-				log.severe("QUEMA01: NullPointerException has Occurred.");
+				log.error("QUEMA01: NullPointerException has Occurred.");
 			} catch (Exception e) {
-				log.severe("QUEMA00: Unknown Exception has Occurred - " + e);
+				log.error("QUEMA00: Unknown Exception has Occurred - " + e);
 			} 
 		}
 		return outputStream.toByteArray();

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -19,6 +18,8 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
@@ -51,7 +52,7 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(IntentionAnalyzer.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(IntentionAnalyzer.class);
 	
 	/**Default constructor of {@link IntentionAnalyzer}
 	 * @author Debasis Kar
@@ -62,7 +63,7 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 	
 	/**Parameterized constructor of {@link IntentionAnalyzer}
 	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
+	 * @param cesDefinition
 	 * */
 	public IntentionAnalyzer(TTaskCESDefinition cesDefinition){
 		ObjectFactory ipsmMaker = new ObjectFactory();
@@ -100,9 +101,9 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 				}
 			}
 		} catch (NullPointerException e) {
-			log.severe("INTAN11: NullPointerException has Occurred.");
+			log.error("INTAN11: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("INTAN10: Unknown Exception has Occurred - " + e);
+			log.error("INTAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
 			log.info("Overall " + this.intentionAnalysisPassedProcesses.getProcessDefinition().size() + " Processes Passed Intention Analysis.");
 		}
@@ -133,11 +134,11 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.intentionAnalysisPassedProcesses);
 			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (NullPointerException e) {
-			log.severe("INTAN02: NullPointerException has Occurred.");
+			log.error("INTAN02: NullPointerException has Occurred.");
 		} catch (JAXBException e) {
-			log.severe("INTAN01: JAXBException has Occurred.");
+			log.error("INTAN01: JAXBException has Occurred.");
 		} catch (Exception e) {
-			log.severe("INTAN00: Unknown Exception has Occurred - " + e);
+			log.error("INTAN00: Unknown Exception has Occurred - " + e);
 	    } finally {
 			log.info("Intention Analysis is Completed.");
 		}

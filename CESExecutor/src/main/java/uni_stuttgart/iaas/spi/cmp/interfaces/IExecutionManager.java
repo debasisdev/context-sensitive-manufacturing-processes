@@ -17,7 +17,10 @@ public interface IExecutionManager {
 	 * along with the process name and process model location. Finally it writes the output (if any) 
 	 * to the specified output variable of {@link TDataList} in an {@link TTaskCESDefinition} envelope.
 	 * @author Debasis Kar
-	 * @param String, String, TDataList, TDataList
+	 * @param filePath
+	 * @param processName
+	 * @param input
+	 * @param outputHolder
 	 * @return TDataList
 	 */
 	public TDataList startProcess(String filePath, String processName, TDataList input, TDataList outputHolder);

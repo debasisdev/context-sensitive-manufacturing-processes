@@ -19,7 +19,8 @@ public interface IProcessSelector {
 	 * If one selection is strategy is available, then it selects one process as per the strategy. 
 	 * If no strategy is available, then a process is chosen randomly.
 	 * @author Debasis Kar
-	 * @param TProcessDefinitions, TTaskCESDefinition
+	 * @param processSet
+	 * @param cesDefinition
 	 * @return TProcessDefinition 
 	 */
 	public TProcessDefinition selectProcess(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition);

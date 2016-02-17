@@ -8,10 +8,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -46,7 +48,7 @@ public class MongoDBManager implements IDataManager{
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(MongoDBManager.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(MongoDBManager.class);
 	
 	/**Default constructor of {@link MongoDBManager}
 	 * @author Debasis Kar
@@ -55,11 +57,6 @@ public class MongoDBManager implements IDataManager{
 		this.contextAvailable = false;
 	}
 	
-	/**This method connects to the MongoDB instance and tries to fetch the required data in runtime.
-	 * @author Debasis Kar
-	 * @param void
-	 * @return TContexts
-	 * */
 	@Override
 	public TContexts getDataFromDatabase(List<TContext> contextList){
 		TContexts conSet = new TContexts();
@@ -134,7 +131,7 @@ public class MongoDBManager implements IDataManager{
 						else{
 							//This is executed if there is no context data available
 							this.contextAvailable = false;
-							log.warning("Context Data is Not-Available!");
+							log.warn("Context Data is Not-Available!");
 						}
 					}
 				}
@@ -142,11 +139,11 @@ public class MongoDBManager implements IDataManager{
 			//Close MongoDB and File Connection Objects
 			mongoClient.close();
 		} catch (NullPointerException e) {
-			log.severe("MONDB12: NullPointerException has Occurred.");
+			log.error("MONDB12: NullPointerException has Occurred.");
 		} catch (IOException e) {
-			log.severe("MONDB11: IOException has Occurred.");
+			log.error("MONDB11: IOException has Occurred.");
 		} catch (Exception e) {
-			log.severe("MONDB10: Unknown Exception has Occurred - " + e);
+			log.error("MONDB10: Unknown Exception has Occurred - " + e);
 		} 
 		return conSet;
 	}

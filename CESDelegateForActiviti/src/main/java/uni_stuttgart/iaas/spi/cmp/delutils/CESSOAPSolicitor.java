@@ -1,7 +1,6 @@
 package uni_stuttgart.iaas.spi.cmp.delutils;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
@@ -12,6 +11,9 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.TData;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
@@ -31,12 +33,12 @@ public class CESSOAPSolicitor {
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(CESSOAPSolicitor.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(CESSOAPSolicitor.class);
 	
 	/**
 	 * This method prepares the {@link SOAPMessage} out of {@link TTaskCESDefinition} to be sent to the Web-service.
 	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
+	 * @param cesDefinition
 	 * @return SOAPMessage
 	 */
 	public static SOAPMessage createSOAPRequest(TTaskCESDefinition cesDefinition) {
@@ -103,13 +105,13 @@ public class CESSOAPSolicitor {
 	        soapMessage.writeTo(System.err);
 	        System.out.println();
 		} catch (SOAPException e) {
-			log.severe("CESSO13: SOAPException has Occurred.");
+			log.error("CESSO13: SOAPException has Occurred.");
 		} catch (IOException e) {
-			log.severe("CESSO12: IOException has Occurred.");
+			log.error("CESSO12: IOException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("CESSO11: NullPointerException has Occurred.");
+			log.error("CESSO11: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("CESSO10: Unknown Exception has Occurred - " + e);
+			log.error("CESSO10: Unknown Exception has Occurred - " + e);
 		}
 		return soapMessage;
     }
@@ -118,7 +120,8 @@ public class CESSOAPSolicitor {
 	 * This method sends the {@link SOAPMessage} to the specified URL (Web-Service) and returns whether it's
 	 * been successfully or not by a boolean value.
 	 * @author Debasis Kar
-	 * @param SOAPMessage, String
+	 * @param soapMessage
+	 * @param url
 	 * @return boolean
 	 */
 	public static void sendSOAPRequest(SOAPMessage soapMessage, String url) {
@@ -132,13 +135,13 @@ public class CESSOAPSolicitor {
 	        soapConnection.close();
 	        System.out.println();
 		} catch (SOAPException e) {
-			log.severe("CESSO23: SOAPException has Occurred.");
+			log.error("CESSO23: SOAPException has Occurred.");
 		} catch (IOException e) {
-			log.severe("CESSO22: IOException has Occurred.");
+			log.error("CESSO22: IOException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("CESSO21: NullPointerException has Occurred.");
+			log.error("CESSO21: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("CESSO20: Unknown Exception has Occurred - " + e);
+			log.error("CESSO20: Unknown Exception has Occurred - " + e);
 		}
     }
 }

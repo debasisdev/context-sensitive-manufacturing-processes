@@ -26,7 +26,7 @@ public class CamelRoutingCore extends RouteBuilder {
 	
 	/**Parameterized constructor of {@link CamelRoutingCore}
 	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
+	 * @param cesDefinition
 	 * */
 	public CamelRoutingCore(TTaskCESDefinition cesDefinition){
 		this.cesDefinition = cesDefinition;

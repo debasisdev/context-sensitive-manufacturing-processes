@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -15,6 +14,8 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.w3c.dom.Node;
@@ -55,7 +56,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(ProcessDispatcher.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(ProcessDispatcher.class);
 	
 	/**Default constructor of {@link ProcessDispatcher}
 	 * @author Debasis Kar
@@ -67,6 +68,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 	
 	/**Parameterized constructor of {@link ProcessDispatcher}
 	 * @author Debasis Kar
+	 * @param cesDefinition
 	 * */
 	public ProcessDispatcher(TTaskCESDefinition cesDefinition){
 		this.cesDefinition = cesDefinition;
@@ -107,7 +109,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 			}
 			//End deployment code for main process model
 		} catch(Exception e) {
-			log.severe("PRODI10: Unknown Exception has Occurred - " + e);
+			log.error("PRODI10: Unknown Exception has Occurred - " + e);
 			return this.outputPlaceholder;
 		}
 		return this.outputPlaceholder;
@@ -127,8 +129,6 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
 			//Perform execution of main business process
 			this.outputPlaceholder = this.deployMainProcess(processDef);
-			//Perform execution of complementary business process
-			this.deployComplementaryProcess(processDef);
 			//Bind output to an envelope of TTaskCESDefinition
 			TTaskCESDefinition cesDef = new TTaskCESDefinition();
 			cesDef.setOutputVariable(this.outputPlaceholder);
@@ -138,10 +138,12 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			JAXBElement<TTaskCESDefinition> rootElem = cmpMaker.createCESDefinition(cesDef);
 			jaxbMarshaller.marshal(rootElem, outputStream);
+			//Perform execution of complementary business process
+			this.deployComplementaryProcess(processDef);
 		} catch (NullPointerException e) {
-			log.severe("PRODI01: NullPointerException has Occurred.");
+			log.error("PRODI01: NullPointerException has Occurred.");
 		} catch(Exception e) {
-      		log.severe("PRODI00: Unknown Exception has Occurred - " + e);
+      		log.error("PRODI00: Unknown Exception has Occurred - " + e);
       	} finally{
 			log.info("Process has been Dispatched and Deployed Successfully!!");
 		}
@@ -191,7 +193,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 			}
 		}
 		catch(Exception e){
-			log.severe("PRODI20: Unknown Exception has Occurred - " + e);
+			log.error("PRODI20: Unknown Exception has Occurred - " + e);
 			return false;
 		}
 		return true;

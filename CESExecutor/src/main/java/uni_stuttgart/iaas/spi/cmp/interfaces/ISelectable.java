@@ -19,7 +19,7 @@ public interface ISelectable {
 	/**
 	 * This method is executed to choose multiple variants of {@link ISelectionManager}. 
 	 * @author Debasis Kar
-	 * @param List<TProcessDefinition> 
+	 * @param processDefinitionList
 	 * @return TProcessDefinition
 	 */
 	public TProcessDefinition getRealizationProcess(List<TProcessDefinition> processDefinitionList);
@@ -27,7 +27,10 @@ public interface ISelectable {
 	/**
 	 * This method is executed to choose multiple variants of {@link IExecutionManager}. . 
 	 * @author Debasis Kar
-	 * @param String, String, TDataList, TDataList
+	 * @param bpmnFilePath
+	 * @param processName
+	 * @param input
+	 * @param outputHolder
 	 * @return TDataList
 	 */
 	public TDataList deployProcess(String bpmnFilePath, String processName, TDataList input, TDataList outputHolder);
@@ -35,7 +38,7 @@ public interface ISelectable {
 	/**
 	 * This method is executed to choose multiple variants of {@link IDataManager}. 
 	 * @author Debasis Kar
-	 * @param List<TContext> 
+	 * @param contextList 
 	 * @return TContexts
 	 */
 	public TContexts getData(List<TContext> contextList);

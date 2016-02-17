@@ -61,10 +61,14 @@ public class CESUnitTest {
 		intention.getSubIntentions().add(subIntentionList);		
 		//Prepare Data I/O
 		TDataList inputDataList = new TDataList();
-		TData inputData = new TData();
-		inputData.setName("machinist");
-		inputData.setValue("John");
-		inputDataList.getDataList().add(inputData);
+		TData inputData0 = new TData();
+		inputData0.setName("machinist");
+		inputData0.setValue("John");
+		TData inputData1 = new TData();
+		inputData1.setName("orderID");
+		inputData1.setValue("OD153728DE");
+		inputDataList.getDataList().add(inputData0);
+		inputDataList.getDataList().add(inputData1);
 		TData outputData = new TData();
 		outputData.setName("taskOutput");
 		outputData.setValue("");

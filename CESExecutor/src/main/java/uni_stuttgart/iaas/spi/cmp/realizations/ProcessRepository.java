@@ -1,12 +1,14 @@
 package uni_stuttgart.iaas.spi.cmp.realizations;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
@@ -25,7 +27,7 @@ public class ProcessRepository implements IProcessRepository {
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(ProcessRepository.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(ProcessRepository.class);
 
 	@Override
 	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition) {
@@ -43,11 +45,11 @@ public class ProcessRepository implements IProcessRepository {
 			JAXBElement<?> rootElement = (JAXBElement<?>) jaxbUnmarshaller.unmarshal(new File(fileName));
 			processDefinitions = (TProcessDefinitions) rootElement.getValue();
 		} catch (JAXBException e) {
-			log.severe("PROREP02: JAXBException has Occurred.");
+			log.error("PROREP02: JAXBException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("PROREP01: NullPointerException has Occurred.");
+			log.error("PROREP01: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("PROREP00: Unknown Exception has Occurred - " + e);
+			log.error("PROREP00: Unknown Exception has Occurred - " + e);
 		}
 		return processDefinitions;
 	}

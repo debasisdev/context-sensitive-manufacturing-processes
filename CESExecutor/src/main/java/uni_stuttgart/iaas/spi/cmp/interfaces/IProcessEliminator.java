@@ -20,7 +20,8 @@ public interface IProcessEliminator {
 	 * the final result is stored as {@link TProcessDefinitions} (list of {@link TProcessDefinition}) that are 
 	 * validated against the satisfying {@link TContexts} or {@link TIntentions} respectively.
 	 * @author Debasis Kar
-	 * @param TProcessDefinitions, TTaskCESDefinition
+	 * @param processDefinitions
+	 * @param cesDefinition
 	 * @return TProcessDefinitions 
 	 */
 	public TProcessDefinitions eliminate(TProcessDefinitions processDefinitions, TTaskCESDefinition cesDefinition);

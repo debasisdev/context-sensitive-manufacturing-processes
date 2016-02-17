@@ -15,7 +15,7 @@ public interface IDataSerializer {
 	 * and will serialize the required output in a array of bytes which will be forwarded to the 
 	 * messaging system.
 	 * @author Debasis Kar
-	 * @param Exchange
+	 * @param exchange
 	 * @return byte[]
 	 */
 	public byte[] getSerializedOutput(Exchange exchange);

@@ -14,7 +14,7 @@ public interface IProcessRepository {
 	 * This method must be implemented in order to extract the process repository data defined inside
 	 * {@link TTaskCESDefinition} and return {@link TProcessDefinitions} for filtering.
 	 * @author Debasis Kar
-	 * @param TTaskCESDefinition
+	 * @param cesDefinition
 	 * @return TProcessDefinitions 
 	 */
 	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition);

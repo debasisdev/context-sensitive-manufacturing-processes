@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +31,8 @@ import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -112,7 +113,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(CESTaskDelegation.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(CESTaskDelegation.class);
 	
 	/**Variable that stores the output returned by the Executor of CES task. 
 	 * @author Debasis Kar
@@ -205,7 +206,8 @@ public class CESTaskDelegation implements JavaDelegate {
 			//if CES task is successful read the result			
 			if(CESTaskDelegation.output != null){
 				for(TData data : CESTaskDelegation.output.getDataList()){
-					if(data.getValue().equals(CESTaskDelegationConfig.BLANK_STRING)){
+					if(data.getValue().equals(CESTaskDelegationConfig.BLANK_STRING) ||
+							data.getValue().equals(CESTaskDelegationConfig.ERROR_STRING)){
 						data.setValue(CESTaskDelegationConfig.ERROR_STRING);
 					}
 					execution.setVariable(data.getName(), data.getValue());
@@ -216,10 +218,10 @@ public class CESTaskDelegation implements JavaDelegate {
 				execution.setVariable(outputVar.getDataList().get(0).getName(), CESTaskDelegationConfig.ERROR_STRING);
 			}
 		} catch (NullPointerException e) {
-			log.severe("CESTD00: NullPointerException has Occurred.");
+			log.error("CESTD00: NullPointerException has Occurred.");
 			execution.setVariable(outputVar.getDataList().get(0).getName(), CESTaskDelegationConfig.ERROR_STRING);
 		} catch (Exception e) {
-			log.severe("CESTD00: Unknown Exception has Occurred - " + e);
+			log.error("CESTD00: Unknown Exception has Occurred - " + e);
 			execution.setVariable(outputVar.getDataList().get(0).getName(), CESTaskDelegationConfig.ERROR_STRING);
 		} finally{
 			log.info("Proceeding to next activity.");
@@ -230,7 +232,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * This method prepares the {@link TContexts} element of {@link TTaskCESDefinition} 
 	 * from the input in GUI of CES Task.
 	 * @author Debasis Kar
-	 * @param String
+	 * @param contextList
 	 * @return TContexts
 	 */
 	private TContexts createRequiredContext(String contextList){
@@ -257,7 +259,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * This method prepares the Input {@link TDataList} element of {@link TTaskCESDefinition} 
 	 * from the input in GUI of CES Task.
 	 * @author Debasis Kar
-	 * @param String
+	 * @param input
 	 * @return TDataList
 	 */
 	public TDataList createInputData(String input){
@@ -288,7 +290,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * This method prepares the Output {@link TDataList} element of {@link TTaskCESDefinition} 
 	 * from the input in GUI of CES Task.
 	 * @author Debasis Kar
-	 * @param String
+	 * @param output
 	 * @return TDataList
 	 */
 	public TDataList createOutputPlaceholder(String output){
@@ -311,7 +313,9 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * This method prepares the {@link TIntention} element of {@link TTaskCESDefinition} 
 	 * from the input in GUI of CES Task.
 	 * @author Debasis Kar
-	 * @param String
+	 * @param mainIntention
+	 * @param subIntentions
+	 * @param selectionStrategy
 	 * @return TIntention
 	 */
 	private TIntention createIntention(String mainIntention, String subIntentions, String selectionStrategy) {
@@ -397,13 +401,13 @@ public class CESTaskDelegation implements JavaDelegate {
 			channel.close();
 			connection.close();
 		} catch (IOException e) {
-			log.severe("CESTD33: IOException has Occurred.");
+			log.error("CESTD33: IOException has Occurred.");
 		} catch (TimeoutException e) {
-			log.severe("CESTD32: TimeoutException has Occurred.");
+			log.error("CESTD32: TimeoutException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("CESTD31: NullPointerException has Occurred.");
+			log.error("CESTD31: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("CESTD30: Unknown Exception has Occurred - " + e);
+			log.error("CESTD30: Unknown Exception has Occurred - " + e);
 		}
 		return CESTaskDelegation.output;
 	}
@@ -411,7 +415,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	/**
 	 * This method reads the output of the CES Service received after polling.
 	 * @author Debasis Kar
-	 * @param Exchange
+	 * @param exchange
 	 * @return TDataList
 	 */
 	public static TDataList getOutput(Exchange exchange){
@@ -424,11 +428,11 @@ public class CESTaskDelegation implements JavaDelegate {
 			TTaskCESDefinition definition = (TTaskCESDefinition) rootElement.getValue();
 			CESTaskDelegation.output = definition.getOutputVariable();
 		} catch (JAXBException e) {
-			log.severe("CESTD42: JAXBException has Occurred.");
+			log.error("CESTD42: JAXBException has Occurred.");
 		} catch (NullPointerException e) {
-			log.severe("CESTD41: NullPointerException has Occurred.");
+			log.error("CESTD41: NullPointerException has Occurred.");
 		} catch (Exception e) {
-			log.severe("CESTD40: Unknown Exception has Occurred - " + e);
+			log.error("CESTD40: Unknown Exception has Occurred - " + e);
 		}
 		return CESTaskDelegation.output;
 	}
@@ -436,7 +440,7 @@ public class CESTaskDelegation implements JavaDelegate {
 	/**
 	 * This is a setter method to set the value of Hidden field.
 	 * @author Debasis Kar
-	 * @param Expression
+	 * @param hiddenField
 	 * @return void
 	 */
 	public void setHiddenField(Expression hiddenField) {

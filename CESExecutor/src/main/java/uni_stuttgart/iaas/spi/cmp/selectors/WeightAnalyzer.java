@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -30,7 +31,7 @@ public class WeightAnalyzer implements ISelectionManager{
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(WeightAnalyzer.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(WeightAnalyzer.class);
 	
 	@Override
 	public TProcessDefinition findRealizationProcess(List<TProcessDefinition> processDefinitionList){

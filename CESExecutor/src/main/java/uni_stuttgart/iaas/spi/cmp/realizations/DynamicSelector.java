@@ -37,7 +37,7 @@ public class DynamicSelector implements ISelectable{
 	/**
 	 * This is a setter method to set the {@link ISelectionManager}.
 	 * @author Debasis Kar
-	 * @param ISelectionManager
+	 * @param selectionManager
 	 * @return void
 	 */
 	public void setSelectionManager(ISelectionManager selectionManager) {
@@ -47,7 +47,7 @@ public class DynamicSelector implements ISelectable{
 	/**
 	 * This is a setter method to set the {@link IExecutionManager}.
 	 * @author Debasis Kar
-	 * @param IExecutionManager
+	 * @param executionManager
 	 * @return void
 	 */
 	public void setExecutionManager(IExecutionManager executionManager) {
@@ -57,7 +57,7 @@ public class DynamicSelector implements ISelectable{
 	/**
 	 * This is a setter method to set the {@link IDataManager}.
 	 * @author Debasis Kar
-	 * @param IDataManager
+	 * @param dataManager
 	 * @return void
 	 */
 	public void setDataManager(IDataManager dataManager) {

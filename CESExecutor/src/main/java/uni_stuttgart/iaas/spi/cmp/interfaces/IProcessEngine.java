@@ -17,7 +17,7 @@ public interface IProcessEngine {
 	 * process engine, e.g., Activiti BPMN, Apache ODE BPEL, etc. This interface is intended to make the 
 	 * deployment of the CES pluggable and users can write their own deployment code as per their own engine.
 	 * @author Debasis Kar
-	 * @param TProcessDefinition
+	 * @param processDefinition
 	 * @return TDataList
 	 */
 	public TDataList deployMainProcess(TProcessDefinition processDefinition);
@@ -28,7 +28,7 @@ public interface IProcessEngine {
 	 * engine, e.g., Activiti BPMN, Apache ODE BPEL, etc. The output of the complementary process is not needed for
 	 * any practical purposes, so it only returns the success status in a boolean output.
 	 * @author Debasis Kar
-	 * @param TProcessDefinition
+	 * @param processDefinition
 	 * @return boolean
 	 */
 	public boolean deployComplementaryProcess(TProcessDefinition processDefinition);

@@ -17,7 +17,7 @@ public interface IDataManager {
 	 * method to get data from the Middle-ware that takes {@link List} of {@link TContext}
 	 * as its input parameter.
 	 * @author Debasis Kar
-	 * @param List<TContext>
+	 * @param contextList
 	 * @return TContexts
 	 */
 	public TContexts getDataFromDatabase(List<TContext> contextList);

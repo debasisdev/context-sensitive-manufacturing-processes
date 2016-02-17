@@ -15,7 +15,7 @@ public interface IProcessOptimizer {
 	 * The implementation looks for any optimization model is defined for the process. 
 	 * It deploys and executes the optimization model and will return true if successful else false.
 	 * @author Debasis Kar
-	 * @param TProcessDefinition
+	 * @param processContent
 	 * @return boolean
 	 */
 	public boolean optimizeProcess(TProcessDefinition processContent);

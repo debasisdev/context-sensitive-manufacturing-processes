@@ -18,7 +18,7 @@ public interface IQueryProcessor {
 	 * can be found such that they can be fetched and serialized in to an XML file named ContextData 
 	 * by {@link ContextAnalyzer.
 	 * @author Debasis Kar
-	 * @param TTaskCESDefinition 
+	 * @param cesDefinition
 	 * @return TContexts
 	 */
 	public TContexts queryRawContextData(TTaskCESDefinition cesDefinition);

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -18,6 +17,8 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.component.rabbitmq.RabbitMQConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -50,7 +51,7 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	/**Local log writer
 	 * @author Debasis Kar
 	 * */
-	private static final Logger log = Logger.getLogger(ProcessSelector.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(ProcessSelector.class);
 	
 	/**Default constructor of {@link ProcessSelector}
 	 * @author Debasis Kar
@@ -62,6 +63,7 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	
 	/**Parameterized constructor of {@link ProcessSelector}
 	 * @author Debasis Kar
+	 * @param cesDefinition
 	 * */
 	public ProcessSelector(TTaskCESDefinition cesDefinition) {
 		ObjectFactory ipsmMaker = new ObjectFactory();
@@ -89,9 +91,9 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 			appContext.close();
 			log.info(this.dispatchedProcess.getId() + " Is Selected for the Realization of Business Ojective.");
 		} catch (NullPointerException e){
-			log.severe("PROSE11: NullPointerException has Occurred.");
+			log.error("PROSE11: NullPointerException has Occurred.");
 		} catch (Exception e){
-			log.severe("PROSE10: Unknown Exception has Occurred - " + e);
+			log.error("PROSE10: Unknown Exception has Occurred - " + e);
 		}
 		return this.dispatchedProcess;
 	}
@@ -115,11 +117,11 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	        JAXBElement<TProcessDefinition> processDef = ipsmMaker.createProcessDefinition(this.dispatchedProcess);
 			jaxbMarshaller.marshal(processDef, outputStream);
 		} catch (NullPointerException e) {
-			log.severe("PROSE02: NullPointerException has Occurred.");
+			log.error("PROSE02: NullPointerException has Occurred.");
 		} catch (JAXBException e) {
-			log.severe("PROSE01: JAXBException has Occurred.");
+			log.error("PROSE01: JAXBException has Occurred.");
 		} catch (Exception e) {
-			log.severe("PROSE00: Unknown Exception has Occurred - " + e);
+			log.error("PROSE00: Unknown Exception has Occurred - " + e);
 	    } finally {
 			log.info("Intention Analysis is Completed.");
 		}
