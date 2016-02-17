@@ -30,7 +30,7 @@ public class PackBlankets {
 		repositoryService.createDeployment().addInputStream("Pack.bpmn20.xml", new FileInputStream(file)).deploy();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		Map<String, Object> variableMap = new HashMap<String, Object>();
-		variableMap.put("orderID", "OD153728DE");
+		variableMap.put("orderID", "DE37464358BY");
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("cesProcess", variableMap);
 		assertNotNull(processInstance.getId());
 		log.info("<Process Instance ID:" + processInstance.getId() + "> is Realized.");

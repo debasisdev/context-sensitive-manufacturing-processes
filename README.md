@@ -12,9 +12,7 @@ Contains 7 distinct Projects, i.e., AutomatedDummyService, CESDelegateForActivit
 
 ### How do I get set up? ###
 
-* **AutomatedDummyService**:
-
-This is a dummy SOAP based Web Service that is used for demonstrating the simple tasks running inside a factory, e.g., packing, sealing, shipping, etc. This project 
+* **AutomatedDummyService**: This is a dummy SOAP based Web Service that is used for demonstrating the simple tasks running inside a factory, e.g., packing, sealing, shipping, etc. This project 
 needs to be deployed inside a Tomcat Server container for a naive demonstration of whole CES task execution process.
 
 * **CESDelegateForActiviti**: This is the starting point of the CES Task executiin, since the CESTaskDelegate class inside this project is searched and executed at the very moment
@@ -46,6 +44,21 @@ of process models defined in process repository.
 GUI for the Executor's knowledge of path of the process repository.
 
 logo.png is the designed icon of our very own CES Task.
+
+### Major Technologies Used ###
+JDK 1.7.0_71
+Eclipse Mars.1
+Activiti 5.18.0
+Apache CXF 2.7.18
+Apache Tomcat 7.0.65
+Apache Camel 2.16.1
+RabbitMQ 3.6.0
+Spring 4.1.5.RELEASE
+MongoDB 3.0.7
+MongoDB Java Driver 2.10.1
+Groovy 2.4.3
+slf4j 1.7.6
+JUnit 4.12
 
 ### Contribution guidelines ###
 Make self-descriptive commit messages while contributing to the code or data inside project.

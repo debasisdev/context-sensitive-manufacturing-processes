@@ -117,7 +117,6 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 			}
 			//End deployment code for optimization
 		} catch(Exception e) {
-			e.printStackTrace();
       		log.error("PROOP10: Unknown Exception has Occurred - " + e);
       		return false;
       	} 

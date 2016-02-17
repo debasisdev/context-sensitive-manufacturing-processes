@@ -65,7 +65,7 @@ public final class CESExecutorConfig {
 	
 	public static final String REPOSITORY_FIELD_MAINMODEL = "ModelPath";
 	public static final String REPOSITORY_FIELD_OPTIMIZERMODEL = "OptimizerDefinition";
-	public static final String REPOSITORY_FIELD_COMPLEMENTARYMODEL = "complementMainProcess";
+	public static final String REPOSITORY_FIELD_COMPLEMENTARYMODEL = "Complement";
 	public static final String REPOSITORY_FIELD_WEIGHT = "Weight";
 	
 	public static final String PACKAGING_INTENTION_UNITS = "unitsOrdered";

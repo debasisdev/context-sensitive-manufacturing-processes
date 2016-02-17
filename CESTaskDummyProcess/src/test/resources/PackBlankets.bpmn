@@ -6,7 +6,7 @@
     <serviceTask id="servicetask1" name="Pack eBlankets" activiti:class="uni_stuttgart.iaas.spi.cmp.delegates.CESTaskDelegation" activiti:extensionId="uni_stuttgart.iaas.cmp.extension.CESTask">
       <extensionElements>
         <activiti:field name="mainIntention">
-          <activiti:string>SealAndSortPackets</activiti:string>
+          <activiti:string>PackAndPalletize</activiti:string>
         </activiti:field>
         <activiti:field name="subIntentions">
           <activiti:string>highAutomation, highThroughput</activiti:string>
