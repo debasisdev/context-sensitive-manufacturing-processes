@@ -40,7 +40,7 @@ of process models defined in process repository.
 
 * **/doc**: This contains the related master thesis report describing the abstract concepts realized in this project.
 
-* **/domainknowhow**: This contins all the BPMN/BPEL process models along with the Process Repsoitory file. It acts like a local repository whoses path needs to be given in the CES Task
+* **/domain-know-how**: This contins all the BPMN/BPEL process models along with the Process Repsoitory file. It acts like a local repository whoses path needs to be given in the CES Task
 GUI for the Executor's knowledge of path of the process repository.
 
 logo.png is the designed icon of our very own CES Task.
