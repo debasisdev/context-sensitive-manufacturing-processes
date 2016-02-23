@@ -15,7 +15,7 @@
           <activiti:string>shockDetectorStatus, unitsOrdered, availableWorkers, infraredSensorStatus</activiti:string>
         </activiti:field>
         <activiti:field name="processRepositoryPath">
-          <activiti:string>F:\Dropbox\GitLab Repository\domainknowhow\ProcessRepository.xml</activiti:string>
+          <activiti:string>F:\Dropbox\GitLab Repository\domain-know-how\ProcessRepository.xml</activiti:string>
         </activiti:field>
         <activiti:field name="inputVariable">
           <activiti:string>operatorName = Wolfgang, supervisorName = Frank</activiti:string>

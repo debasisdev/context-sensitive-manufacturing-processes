@@ -52,7 +52,7 @@ public class CESUnitTest {
 	public void setUpData(){
 		//Prepare Intention
 		TIntention intention = new TIntention();
-		intention.setName("SealAndSortPackets");
+		intention.setName("PackAndPalletize");
 		TSubIntention subIntenion = new TSubIntention();
 		subIntenion.setName("highThroughput");
 		TSubIntentions subIntentionList = new TSubIntentions();
@@ -96,7 +96,7 @@ public class CESUnitTest {
 		cesDefinition.setIsEventDriven(false);
 		cesDefinition.setTargetNamespace("http://www.uni-stuttgart.de/iaas/cmp/v0.1/");
 		cesDefinition.setOptimizationRequired(true);
-		cesDefinition.setDomainKnowHowRepository("F:\\Dropbox\\GitLab Repository\\domainknowhow\\ProcessRepository.xml");
+		cesDefinition.setDomainKnowHowRepository("F:\\Dropbox\\GitLab Repository\\domain-know-how\\ProcessRepository.xml");
 		cesDefinition.setDomainKnowHowRepositoryType("xml");
 		cesDefinition.setIntention(intention);
 		cesDefinition.setInputData(inputDataList);

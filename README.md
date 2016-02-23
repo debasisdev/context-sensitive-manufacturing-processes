@@ -16,7 +16,7 @@ Contains 7 distinct Projects, i.e., AutomatedDummyService, CESDelegateForActivit
 needs to be deployed inside a Tomcat Server container for a naive demonstration of whole CES task execution process.
 
 * **CESDelegateForActiviti**: This is the starting point of the CES Task executiin, since the CESTaskDelegate class inside this project is searched and executed at the very moment
-when the control gets transferred to a CES Task. This delegate class designed for Activiti BPMN Engine (http://www.activiti.org/userguide/) which facilitates the execution of CES Task by calling either **CESExecutor** or 
+when the control gets transferred to a CES Task. This delegate class designed for Activiti BPMN Engine (http://www.activiti.org/) which facilitates the execution of CES Task by calling either **CESExecutor** or 
 **CESExecutorService** projects.
 
 * **CESExecutor**: This contains all the realization classes related to the architecture of the CES Task, interfaces for the generic execution, and few utility classes for our specific scenario
@@ -25,7 +25,7 @@ such that out of given process models, the process model according to our contex
 * **CESExecutorService**: This is an asynchronous implementation of **CESExecutor** project that is Web-Service based. Thus, any CES Task delegate would have to request this webservice for the execution of a CES Task and get
 the output back as response of this Web-service.
 
-* **CESExtensionForActiviti**: This is the modeling tool extension designed for Activiti Designer to be used along with Activiti BPMN Engine (http://www.activiti.org/userguide/).
+* **CESExtensionForActiviti**: This is the modeling tool extension designed for Activiti Designer to be used along with Activiti BPMN Engine (http://www.activiti.org/).
 Execute `<mvn install>` command and get a JAR container generated. Start Activiti Designer and from the menu, select **Window > Preferences**.
 In the preferences screen, type **user** as keyword. You should see an option to access the User Libraries in Eclipse in the Java section.
 Add the JAR as external library inside **Activiti Designer Extensions** group. This group is is automatically added to new Activiti projects you create. 
@@ -34,7 +34,7 @@ Add the JAR as external library inside **Activiti Designer Extensions** group. T
 of process models defined in process repository.
 
 * **CESTaskDummyProcess**: This project contains test cases that tries to simulate the execution of a business process modeled with our proposed CES task through **CESExecutor** or 
-**CESExecutorService** projects.
+**CESExecutorService** projects. It must have **CESHelperModule** in its classpath for the successful demonstration of a CES Task.
 
 ### Directory Details ###
 

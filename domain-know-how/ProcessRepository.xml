@@ -5,7 +5,7 @@
         <Documentation>This is a dummy Manual Model.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PMX001.bpmn</ModelPath>
+                <ModelPath>F:\\Dropbox\\GitLab Repository\\domain-know-how\\PMX001.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
                 <Weight>0.20</Weight>
             </ManufacturingContent>
@@ -36,7 +36,7 @@
         <Documentation>This is a dummy semi-automatic model without repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PSM001.bpmn</ModelPath>
+                <ModelPath>F:\\Dropbox\\GitLab Repository\\domain-know-how\\PSM001.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
                 <Weight>0.74</Weight>
             </ManufacturingContent>
@@ -83,7 +83,7 @@
         <Documentation>This is a dummy semi-automatic model with repair activity.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PRS001.bpmn</ModelPath>
+                <ModelPath>F:\\Dropbox\\GitLab Repository\\domain-know-how\\PRS001.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
                 <Weight>0.05</Weight>
             </ManufacturingContent>
@@ -170,7 +170,7 @@
         <Documentation>This is a dummy semi-automatic model with installation of a new machine after removal an decommissioning of the old one.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PRS002.bpmn</ModelPath>
+                <ModelPath>F:\\Dropbox\\GitLab Repository\\domain-know-how\\PRS002.bpmn</ModelPath>
                 <OptimizerDefinition>POPT01</OptimizerDefinition>
                 <Weight>0.01</Weight>
             </ManufacturingContent>
@@ -257,7 +257,7 @@
         <Documentation>This is a dummy Complementary Model.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\PCOM01.bpmn</ModelPath>
+                <ModelPath>F:\\Dropbox\\GitLab Repository\\domain-know-how\\PCOM01.bpmn</ModelPath>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="Complement" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
@@ -269,7 +269,7 @@
         <Documentation>This is a dummy Optimization Model.</Documentation>
         <ProcessContent>
             <ManufacturingContent>
-                <ModelPath>F:\\Dropbox\\GitLab Repository\\domainknowhow\\POPT01.bpmn</ModelPath>
+                <ModelPath>F:\\Dropbox\\GitLab Repository\\domain-know-how\\POPT01.bpmn</ModelPath>
             </ManufacturingContent>
         </ProcessContent>
         <TargetIntention name="Optimize" targetNamespace="http://www.uni-stuttgart.de/iaas/cmp/v1/packaging">
