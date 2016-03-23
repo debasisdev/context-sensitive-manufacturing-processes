@@ -1,0 +1,6 @@
+This product includes software from the project
+"Goal-driven Context-sensitive Production Processes: A Case Study using BPMN"
+which was originally developed by Debasis Kar as a Master thesis
+at the Institute of Architecture of Application Systems (IAAS) of the
+University of Stuttgart from September 2015 to March 2016.
+For more information see http://www.iaas.uni-stuttgart.de
