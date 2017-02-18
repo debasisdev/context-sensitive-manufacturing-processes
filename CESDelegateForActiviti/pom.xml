@@ -14,6 +14,11 @@
 	  	<artifactId>cestask-executor</artifactId>
 	  	<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	<dependency>
+		<groupId>de.uni-stuttgart.iaas.ipsm</groupId>
+		<artifactId>protocols</artifactId>
+		<version>0.5.3-SNAPSHOT</version>
+	</dependency>
   </dependencies>
   <build>
     <plugins>
