@@ -20,8 +20,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IQueryProcessor;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -81,12 +82,12 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 	}
 	
 	@Override
-	public TContexts queryRawContextData(TTaskCESDefinition cesDefinition) {	
-		TContexts conSet = new TContexts();
+	public TContextDefinitions queryRawContextData(TTaskCESDefinition cesDefinition) {	
+		TContextDefinitions conSet = new TContextDefinitions();
 		try{
 			log.info("Connecting to Middleware...");
 			//Fetch required contexts specified by the modeler
-			List<TContext> contextList = cesDefinition.getRequiredContexts().getContext();
+			List<TContextDefinition> contextList = cesDefinition.getIntention().getRequiredContexts().getContext();
 			//Calling Database Manager for getting data from MongoDB instance
 			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESExecutorConfig.SPRING_BEAN);
 			DynamicSelector databaseManager = (DynamicSelector) appContext.getBean(CESExecutorConfig.MONGO_NAMESPACE);
@@ -109,7 +110,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 	public byte[] getSerializedOutput(Exchange exchange) {
 		//JAXB implementation for serializing the context data into a byte array.
 		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory();
-		TContexts contextSet = this.queryRawContextData(this.cesDefinition);
+		TContextDefinitions contextSet = this.queryRawContextData(this.cesDefinition);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		//Perform serialization if context is available
 		if(this.contextAvailable){
@@ -118,7 +119,7 @@ public class QueryManager implements IQueryProcessor, IDataSerializer, Processor
 				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		        JAXBElement<TContexts> root = ipsmMaker.createContextSet(contextSet);
+		        JAXBElement<TContextDefinitions> root = ipsmMaker.createContextDefinitions(contextSet);
 				jaxbMarshaller.marshal(root, outputStream);
 				log.info("Context Data is Available on Message Queue.");
 		    	jaxbMarshaller.marshal(root, System.out);

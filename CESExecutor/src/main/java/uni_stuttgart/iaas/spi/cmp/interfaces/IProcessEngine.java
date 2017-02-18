@@ -1,7 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessDispatcher;
 
 /** 
@@ -35,7 +35,7 @@ public interface IProcessEngine {
 	 * @param processDefinition
 	 * @return TDataList
 	 */
-	public TDataList deployMainProcess(TProcessDefinition processDefinition);
+	public TDataList deployMainProcess(TRealizationProcess processDefinition);
 	
 	/**
 	 * Any custom deployment manager has to implement the following method that will search a Complementary
@@ -46,5 +46,5 @@ public interface IProcessEngine {
 	 * @param processDefinition
 	 * @return boolean
 	 */
-	public boolean deployComplementaryProcess(TProcessDefinition processDefinition);
+	public boolean deployComplementaryProcess(TRealizationProcess processDefinition);
 }

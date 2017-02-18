@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
 import uni_stuttgart.iaas.spi.cmp.interfaces.ISelectionManager;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -49,12 +49,12 @@ public class WeightAnalyzer implements ISelectionManager{
 	private static final Logger log = LoggerFactory.getLogger(WeightAnalyzer.class);
 	
 	@Override
-	public TProcessDefinition findRealizationProcess(List<TProcessDefinition> processDefinitionList){
+	public TRealizationProcess findRealizationProcess(List<TRealizationProcess> processDefinitionList){
 		Set<String> processIds = new HashSet<String>();
-		for(TProcessDefinition processDefinition : processDefinitionList){
+		for(TRealizationProcess processDefinition : processDefinitionList){
 			processIds.add(processDefinition.getId());
 		}
-		TProcessDefinition dispatchedProcess = new TProcessDefinition();
+		TRealizationProcess dispatchedProcess = new TRealizationProcess();
 		Map<String, Double> weightList = new TreeMap<String, Double>();
 		//Ensure the list of process definition not to be empty
 		if(!processDefinitionList.isEmpty()){
@@ -64,7 +64,7 @@ public class WeightAnalyzer implements ISelectionManager{
 				default: 
 						for(String processIdentifier : processIds){
 							//Prepare a table that contains process IDs and respective weights attached
-							for(TProcessDefinition processDefinition : processDefinitionList){
+							for(TRealizationProcess processDefinition : processDefinitionList){
 									String processId = processDefinition.getId();
 									if(processIdentifier.equals(processId)){
 										NodeList nodeList = ((Node) processDefinition.getProcessContent().getAny()).getChildNodes();
@@ -80,7 +80,7 @@ public class WeightAnalyzer implements ISelectionManager{
 						//Find the process ID with highest weight by sorting the HashMap
 						String dispatchedProcessName = this.sortMap(weightList);
 						//Select the indicated process definition for dispatcher and optimizer
-						for(TProcessDefinition processDef : processDefinitionList){
+						for(TRealizationProcess processDef : processDefinitionList){
 							if(processDef.getId().equals(dispatchedProcessName)){
 								dispatchedProcess = processDef;
 							}

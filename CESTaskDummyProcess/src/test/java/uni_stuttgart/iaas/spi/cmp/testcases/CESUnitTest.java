@@ -23,16 +23,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TCESIntentionDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TCESIntentionDefinitions;
 import de.uni_stuttgart.iaas.cmp.v0.TData;
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.TIntentionDefinitions;
+
+
 import uni_stuttgart.iaas.spi.cmp.realizations.CESExecutor;
 import uni_stuttgart.iaas.spi.cmp.realizations.ContextAnalyzer;
 import uni_stuttgart.iaas.spi.cmp.realizations.IntentionAnalyzer;
@@ -45,10 +47,10 @@ import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 public class CESUnitTest {
 	
 	private TTaskCESDefinition cesDefinition;
-	private TContexts queryManagerOutput;
-	private TProcessDefinitions contextAnalyzerOutput;
-	private TProcessDefinitions intentionAnalyzerOutput;
-	private TProcessDefinition processSelectorOutput;
+	private TContextDefinitions queryManagerOutput;
+	private TRealizationProcesses contextAnalyzerOutput;
+	private TRealizationProcesses intentionAnalyzerOutput;
+	private TRealizationProcess processSelectorOutput;
 	private boolean processOptimizerOutput;
 	private TDataList processDispatcherOutput;
 	private boolean cesExecutorOutput;
@@ -66,14 +68,14 @@ public class CESUnitTest {
 	@Before 
 	public void setUpData(){
 		//Prepare Intention
-		TIntention intention = new TIntention();
-		intention.setName("PackAndPalletize");
-		TSubIntention subIntenion = new TSubIntention();
-		subIntenion.setName("highThroughput");
-		TSubIntentions subIntentionList = new TSubIntentions();
-		subIntentionList.setSubIntentionRelations("http://www.uni-stuttgart.de/iaas/cmp/weight-based");
-		subIntentionList.getSubIntention().add(subIntenion);
-		intention.getSubIntentions().add(subIntentionList);		
+		TCESIntentionDefinition   intention = new TCESIntentionDefinition();
+		intention.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName("PackAndPalletize");
+		TCESIntentionDefinition   subIntenion = new TCESIntentionDefinition();
+		subIntenion.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName("highThroughput");
+		TCESIntentionDefinitions  subIntentionList = new TCESIntentionDefinitions ();
+		intention.setSelectionStrategy("http://www.uni-stuttgart.de/iaas/cmp/weight-based");
+		intention.setSubIntentions(new TCESIntentionDefinitions());
+		intention.getSubIntentions().getCESIntentionDefinitions().add(subIntenion);
 		//Prepare Data I/O
 		TDataList inputDataList = new TDataList();
 		TData inputData0 = new TData();
@@ -90,15 +92,15 @@ public class CESUnitTest {
 		TDataList outputDataList = new TDataList();
 		outputDataList.getDataList().add(outputData);
 		//Prepare Context
-		TContext cona = new TContext();
-		cona.setName("shockDetectorStatus");
-		TContext conb = new TContext();
-		conb.setName("unitsOrdered");
-		TContext conc = new TContext();
-		conc.setName("availableWorkers");
-		TContext cond = new TContext();
-		cond.setName("infraredSensorStatus");
-		TContexts requiredContexts = new TContexts();
+		TContextDefinition cona = new TContextDefinition();
+		cona.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName("shockDetectorStatus");
+		TContextDefinition conb = new TContextDefinition();
+		conb.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName("unitsOrdered");
+		TContextDefinition conc = new TContextDefinition();
+		conc.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName("availableWorkers");
+		TContextDefinition cond = new TContextDefinition();
+		cond.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName("infraredSensorStatus");
+		TContextDefinitions requiredContexts = new TContextDefinitions();
 		requiredContexts.getContext().add(cona);
 		requiredContexts.getContext().add(conb);
 		requiredContexts.getContext().add(conc);
@@ -116,7 +118,7 @@ public class CESUnitTest {
 		cesDefinition.setIntention(intention);
 		cesDefinition.setInputData(inputDataList);
 		cesDefinition.setOutputVariable(outputDataList);
-		cesDefinition.setRequiredContexts(requiredContexts);
+		cesDefinition.getIntention().setRequiredContexts(requiredContexts);
 		this.cesDefinition = cesDefinition;
 	}
 	
@@ -133,9 +135,9 @@ public class CESUnitTest {
 		ContextAnalyzer contextAnalyzer = new ContextAnalyzer(this.cesDefinition);
 		contextAnalyzer.setContextSet(this.queryManagerOutput);
 		ProcessRepository processRepository = new ProcessRepository();
-		TProcessDefinitions processSet = processRepository.getProcessRepository(this.cesDefinition);
+		TRealizationProcesses  processSet = processRepository.getProcessRepository(this.cesDefinition);
 		this.contextAnalyzerOutput = contextAnalyzer.eliminate(processSet, this.cesDefinition);
-		int countOfPassedProcesses = this.contextAnalyzerOutput.getProcessDefinition().size();
+		int countOfPassedProcesses = this.contextAnalyzerOutput.getRealizationProcess().size();
 		assertEquals("2 Process Definitions should Satisfy the Criteria.", 2, countOfPassedProcesses);
 	}
 	
@@ -143,9 +145,9 @@ public class CESUnitTest {
 	public void testIntentionAnalyzer(){
 		IntentionAnalyzer intentionAnalyzer = new IntentionAnalyzer(this.cesDefinition);
 		ProcessRepository processRepository = new ProcessRepository();
-		TProcessDefinitions processSet = processRepository.getProcessRepository(this.cesDefinition);
+		TRealizationProcesses  processSet = processRepository.getProcessRepository(this.cesDefinition);
 		this.intentionAnalyzerOutput = intentionAnalyzer.eliminate(processSet, this.cesDefinition);
-		int countOfPassedProcesses = this.intentionAnalyzerOutput.getProcessDefinition().size();
+		int countOfPassedProcesses = this.intentionAnalyzerOutput.getRealizationProcess().size();
 		assertEquals("3 Process Definitions should Satisfy the Criteria.", 3, countOfPassedProcesses);
 	}
 	
@@ -155,7 +157,7 @@ public class CESUnitTest {
 		ProcessSelector processSelector = new ProcessSelector(this.cesDefinition);
 		this.processSelectorOutput = processSelector.selectProcess(this.contextAnalyzerOutput, this.cesDefinition);
 		assertEquals("Process SemiAutomatedRepairPacking should be Selected.", 
-											"SemiAutomatedRepairPacking", this.processSelectorOutput.getName());
+											"SemiAutomatedRepairPacking", this.processSelectorOutput.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
 	}
 	
 	@Test

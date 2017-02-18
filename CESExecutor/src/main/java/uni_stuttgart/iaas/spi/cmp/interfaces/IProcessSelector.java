@@ -1,8 +1,8 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessSelector;
 
 /** 
@@ -38,6 +38,6 @@ public interface IProcessSelector {
 	 * @param cesDefinition
 	 * @return TProcessDefinition 
 	 */
-	public TProcessDefinition selectProcess(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition);
+	public TRealizationProcess selectProcess(TRealizationProcesses processSet, TTaskCESDefinition cesDefinition);
 	
 }

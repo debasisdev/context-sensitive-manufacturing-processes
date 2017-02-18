@@ -32,13 +32,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
+
 import de.uni_stuttgart.iaas.ipsm.v0.TContent;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEliminator;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -60,27 +61,27 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A generic class that implements {@link IProcessEliminator}, {@link IDataSerializer}, and {@link Processor}.
- * This module analyzes the received {@link TContexts} by validating them with some predefined rules stored
+ * This module analyzes the received {@link TContextDefinitions} by validating them with some predefined rules stored
  * in a Domain Know-How Repository, i.e., a Process Repository.
  * @author Debasis Kar
  */
 
 public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Processor {
 	
-	/**Variable to store the {@link TProcessDefinitions} that pass context analysis 
+	/**Variable to store the {@link TRealizationProcesses } that pass context analysis 
 	 * @author Debasis Kar
 	 * */
-	private TProcessDefinitions contextAnalysisPassedProcesses;
+	private TRealizationProcesses  contextAnalysisPassedProcesses;
 	
 	/**Variable to store {@link TTaskCESDefinition} 
 	 * @author Debasis Kar
 	 * */
 	private TTaskCESDefinition cesDefinition;
 	
-	/**Variable to store initial context data {@link TContexts}
+	/**Variable to store initial context data {@link TContextDefinitions}
 	 * @author Debasis Kar
 	 * */
-	private TContexts contextSet;
+	private TContextDefinitions contextSet;
 	
 	/**Local log writer
 	 * @author Debasis Kar
@@ -102,14 +103,14 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 	 * */
 	public ContextAnalyzer(TTaskCESDefinition cesDefinition){
 		ObjectFactory ipsmMaker = new ObjectFactory();
-		this.contextAnalysisPassedProcesses = ipsmMaker.createTProcessDefinitions();
-		this.contextSet = ipsmMaker.createTContexts();
+		this.contextAnalysisPassedProcesses = ipsmMaker.createTRealizationProcesses();
+		this.contextSet = (new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory()).createTContextDefinitions();
 		this.cesDefinition = cesDefinition;
 		log.info("Deserializing the ProcessRepository.xml for Context Analysis.");
 	}
 	
 	@Override
-	public TProcessDefinitions eliminate(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition) {
+	public TRealizationProcesses  eliminate(TRealizationProcesses  processSet, TTaskCESDefinition cesDefinition) {
 		//Table to store analysis results
 		Map<String, Boolean> initialContextAnalysisTable = new TreeMap<String, Boolean>();
 		Map<String, Boolean> finalContextAnalysisTable = new TreeMap<String, Boolean>();
@@ -119,7 +120,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class, de.uni_stuttgart.iaas.cmp.v0.ObjectFactory.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			JAXBElement<TContexts> conSet = ipsmMaker.createContextSet(this.contextSet);
+			JAXBElement<TContextDefinitions> conSet =  (new de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory()).createContextDefinitions(contextSet);
 			//Create a temporary file
 			File file = File.createTempFile(CESExecutorConfig.CONTEXTDATA_FILENAME, CESExecutorConfig.CONTEXTDATA_FILETYPE, new File(CESExecutorConfig.CONTEXTDATA_FILEPATH));
 			jaxbMarshaller.marshal(conSet, file);
@@ -128,21 +129,21 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			Document doc = docBuilder.parse(file);
 	        //Scan each process definition and validate context rules
-			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+			for(TRealizationProcess processDefinition : processSet.getRealizationProcess()){
 				//Some process definitions might not contain context rules at all
-				if(processDefinition.getInitialContexts() != null){
-					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+				if(processDefinition.getIntention().getRequiredContexts() != null){
+					List<TContextDefinition> expressionList = processDefinition.getIntention().getRequiredContexts().getContext();
 					//Fetch context rules
-					for(TContext contextExpression : expressionList){
-						TContent tContent = contextExpression.getContextDefinition().get(0).
+					for(TContextDefinition contextExpression : expressionList){
+						TContent tContent = contextExpression.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityDefinitions().getEntityDefinition().get(0).
 								getDefinitionContent();
-						String applicationNamespace = contextExpression.getTargetNamespace();
-						Node nodeManu = (Node)tContent.getAny();
+						String applicationNamespace = contextExpression.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getTargetNamespace();
+						Node nodeManu = (Node) tContent.getAny();
 						String xpathQuery = nodeManu.getFirstChild().getTextContent();
 						//Ensure the context name-space of the application before validation
 						if(applicationNamespace.equals(CESExecutorConfig.CONTEXT_NAMESPACE)){
 							//Ensure whether the rules are defined in XPATH or any other language
-							if(contextExpression.getContextDefinition().get(0).getDefinitionLanguage().equals(CESExecutorConfig.XPATH_NAMESPACE)){
+							if(contextExpression.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityDefinitions().getEntityDefinition().get(0).getDefinitionLanguage().equals(CESExecutorConfig.XPATH_NAMESPACE)){
 								XPathFactory xPathfactory = XPathFactory.newInstance();
 								XPath xpath = xPathfactory.newXPath();
 								XPathExpression expr = xpath.compile(xpathQuery);
@@ -150,10 +151,10 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 								NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 								int noOfPredicates = xpathQuery.trim().split(CESExecutorConfig.SPLIT_EXPRESSION).length;
 								if(nl.getLength() == noOfPredicates) {
-									initialContextAnalysisTable.put(contextExpression.getName(), true);
+									initialContextAnalysisTable.put(contextExpression.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName(), true);
 								}
 								else {
-									initialContextAnalysisTable.put(contextExpression.getName(), false);
+									initialContextAnalysisTable.put(contextExpression.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName(), false);
 								}
 							}
 						}
@@ -162,15 +163,15 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 			}
 			log.info("Phase-1 Context Analysis Report: " + initialContextAnalysisTable.toString());
 			//For each process definition consolidate the context rules and process the final result 
-			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+			for(TRealizationProcess processDefinition : processSet.getRealizationProcess()){
 				//Fetch process ID
 				String processId = processDefinition.getId();
 				boolean result = false;
-				if(processDefinition.getInitialContexts() != null){
-					List<TContext> expressionList = processDefinition.getInitialContexts().getContext();
+				if(processDefinition.getIntention().getInitialContexts() != null){
+					List<TContextDefinition> expressionList = processDefinition.getIntention().getRequiredContexts().getContext();
 					//Decide by merging all context rules for a process definition
-					for(TContext contextExpression : expressionList){
-						String expressionId = contextExpression.getName();
+					for(TContextDefinition contextExpression : expressionList){
+						String expressionId = contextExpression.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName();
 						result = result | initialContextAnalysisTable.get(expressionId).booleanValue();
 					}
 					finalContextAnalysisTable.put(processId, result);
@@ -178,13 +179,13 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 			}
 			log.info("Phase-2 Context Analysis Report: " + finalContextAnalysisTable.toString());
 			//Process definitions those passes the phase-2 analysis should be added to the result
-			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+			for(TRealizationProcess processDefinition : processSet.getRealizationProcess()){
 				String processId = processDefinition.getId();
-				if(processDefinition.getInitialContexts() != null){
+				if(processDefinition.getIntention().getRequiredContexts() != null){
 					boolean result = finalContextAnalysisTable.get(processId);
 					if(result){
 						//Add to the final result that would be sent to Intention Analyzer
-						this.contextAnalysisPassedProcesses.getProcessDefinition().add(processDefinition);
+						this.contextAnalysisPassedProcesses.getRealizationProcess().add(processDefinition);
 					}
 				}
 			}
@@ -200,7 +201,7 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 		} catch(Exception e){
 			log.error("CONAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
-			log.info(this.contextAnalysisPassedProcesses.getProcessDefinition().size() + " Processes Passed Context Analysis.");
+			log.info(this.contextAnalysisPassedProcesses.getRealizationProcess().size() + " Processes Passed Context Analysis.");
 		}
 		return this.contextAnalysisPassedProcesses;
 	}
@@ -212,21 +213,21 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 		try {
 			//Get process repository know-how
 			ProcessRepository processRepository = new ProcessRepository();
-			TProcessDefinitions processSet = processRepository.getProcessRepository(this.cesDefinition);
+			TRealizationProcesses  processSet = processRepository.getProcessRepository(this.cesDefinition);
 			//JAXB implementation for de-serializing the context data received from Query Manager
 			InputStream byteInputStream = new ByteArrayInputStream((byte[]) exchange.getIn().getBody());
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-			TContexts contextSet = (TContexts) rootElement.getValue();
-			//Store this as TContexts
+			TContextDefinitions contextSet = (TContextDefinitions) rootElement.getValue();
+			//Store this as TContextDefinitions
 			this.setContextSet(contextSet);
 			//Perform context analysis
 			this.contextAnalysisPassedProcesses = this.eliminate(processSet, this.cesDefinition);
 			//JAXB implementation for serializing the Context Analyzer output into byte array for message exchange
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.contextAnalysisPassedProcesses);
+	        JAXBElement<TRealizationProcesses> processDefSet = ipsmMaker.createRealizationProcesses(this.contextAnalysisPassedProcesses);
 			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (JAXBException e) {
 			log.error("CONAN02: JAXBException has Occurred.");
@@ -241,12 +242,12 @@ public class ContextAnalyzer implements IProcessEliminator, IDataSerializer, Pro
 	}
 	
 	/**
-	 * This is a setter method to set the {@link TContexts} received from the {@link QueryManager}.
+	 * This is a setter method to set the {@link TContextDefinitions} received from the {@link QueryManager}.
 	 * @author Debasis Kar
 	 * @param contextSet
 	 * @return void
 	 */
-	public void setContextSet(TContexts contextSet) {
+	public void setContextSet(TContextDefinitions contextSet) {
 		this.contextSet = contextSet;
 	}
 

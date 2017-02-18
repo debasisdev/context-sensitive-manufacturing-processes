@@ -22,10 +22,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessSelector;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -47,16 +48,16 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A generic class that implements {@link IProcessSelector}, {@link IDataSerializer}, and {@link Processor}.
- * This module filters the received {@link TProcessDefinitions} with some predefined strategy. 
+ * This module filters the received {@link TRealizationProcesses } with some predefined strategy. 
  * @author Debasis Kar
  */
 
 public class ProcessSelector implements IProcessSelector, IDataSerializer, Processor {
 	
-	/**Variable to store the {@link TProcessDefinitions} that pass intention analysis 
+	/**Variable to store the {@link TRealizationProcesses } that pass intention analysis 
 	 * @author Debasis Kar
 	 * */
-	private TProcessDefinition dispatchedProcess;
+	private TRealizationProcess dispatchedProcess;
 	
 	/**Variable to store {@link TTaskCESDefinition} 
 	 * @author Debasis Kar
@@ -82,22 +83,22 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	 * */
 	public ProcessSelector(TTaskCESDefinition cesDefinition) {
 		ObjectFactory ipsmMaker = new ObjectFactory();
-		this.dispatchedProcess = ipsmMaker.createTProcessDefinition();
+		this.dispatchedProcess = ipsmMaker.createTRealizationProcess();
 		this.cesDefinition = cesDefinition;
 		log.info("Process Selector is About to Begin...");
 	}
 	
 	@Override
-	public TProcessDefinition selectProcess(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
+	public TRealizationProcess selectProcess(TRealizationProcesses  processSet, TTaskCESDefinition cesDefinition){
 		log.info("Selection by Strategy analysis is being done.");
 		try {			
 			//Make a list of all process definitions received
-			List<TProcessDefinition> processDefinitionList = new LinkedList<TProcessDefinition>();
-			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+			List<TRealizationProcess> processDefinitionList = new LinkedList<TRealizationProcess>();
+			for(TRealizationProcess processDefinition : processSet.getRealizationProcess()){
 				processDefinitionList.add(processDefinition);
 			}
 			//Select the strategy, i.e., algorithm for the selection of process defintion
-			String algoType = cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations();
+			String algoType = cesDefinition.getIntention().getSelectionStrategy();
 			ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESExecutorConfig.SPRING_BEAN);
 			DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(algoType);
 			//Store the selected process definition
@@ -115,7 +116,7 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 	
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange){
-		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
+		ObjectFactory ipsmMaker = new ObjectFactory();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			//JAXB implementation for de-serializing the process definitions received from Intention Analyzer
@@ -123,13 +124,13 @@ public class ProcessSelector implements IProcessSelector, IDataSerializer, Proce
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
+			TRealizationProcesses  processSet = (TRealizationProcesses ) rootElement.getValue();
 			//Perform Selection based on some strategy
 			this.dispatchedProcess = this.selectProcess(processSet, this.cesDefinition);
 			//JAXB implementation for serializing the Process Selector output into byte array for message exchange
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        JAXBElement<TProcessDefinition> processDef = ipsmMaker.createProcessDefinition(this.dispatchedProcess);
+	        JAXBElement<TRealizationProcess> processDef = ipsmMaker.createRealizationProcess(this.dispatchedProcess);
 			jaxbMarshaller.marshal(processDef, outputStream);
 		} catch (NullPointerException e) {
 			log.error("PROSE02: NullPointerException has Occurred.");

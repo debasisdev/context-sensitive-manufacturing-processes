@@ -25,9 +25,9 @@ import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
 import de.uni_stuttgart.iaas.cmp.v0.TLocationType;
 import de.uni_stuttgart.iaas.cmp.v0.TManufacturingContent;
 import de.uni_stuttgart.iaas.ipsm.v0.TContent;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
+import de.uni_stuttgart.iaas.ipsm.v0.TEntityDefinition;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataManager;
 import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -73,8 +73,8 @@ public class MongoDBManager implements IDataManager{
 	}
 	
 	@Override
-	public TContexts getDataFromDatabase(List<TContext> contextList){
-		TContexts conSet = new TContexts();
+	public TContextDefinitions getDataFromDatabase(List<TContextDefinition> contextList){
+		TContextDefinitions conSet = new TContextDefinitions();
 		try {
 			//Connect to MongoDB Instance
 			MongoClient mongoClient = new MongoClient(CESExecutorConfig.MONGO_DATABASE_ADDRESS, Integer.parseInt(CESExecutorConfig.MONGO_DATABASE_PORT));
@@ -95,7 +95,7 @@ public class MongoDBManager implements IDataManager{
 							//Set this field as context data has been found
 							this.contextAvailable = true;
 							//Iterate for each required Context to find its value in MongoDB Instance
-							for(TContext context : contextList){
+							for(TContextDefinition context : contextList){
 								//Schema Related Data Fetching valid for this specific example.
 							    Date date = (Date) new SimpleDateFormat(CESExecutorConfig.TIME_FORMAT).
 							    		parse(obj.getString(CESExecutorConfig.MONGO_FIELD_DELIVERYDATE));
@@ -124,22 +124,22 @@ public class MongoDBManager implements IDataManager{
 						        defConType.setDeliveryDate(dateTime);
 						        defConType.setLocation(locType);
 						        defConType.setTimestamp(obj.getString(CESExecutorConfig.MONGO_FIELD_TIMESTAMP));
-						        if(context.getName().equals(CESExecutorConfig.PACKAGING_INTENTION_UNITS))
-						        	defConType.setSenseValue(obj.getString(context.getName()));
+						        if(context.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName().equals(CESExecutorConfig.PACKAGING_INTENTION_UNITS))
+						        	defConType.setSenseValue(obj.getString(context.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName()));
 						        else
-						        	defConType.setSenseValue(values.get(context.getName()).toString());
+						        	defConType.setSenseValue(values.get(context.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName()).toString());
 						        //Create TContent Object to encapsulate TManufacturingContent inside it
 						        TContent tCon = new TContent();
 						        tCon.setAny(cmpMaker.createManufacturingContent(defConType));
-						        TDefinition conDefType = ipsmMaker.createTDefinition();
+						        TEntityDefinition conDefType = ipsmMaker.createTEntityDefinition();
 						        conDefType.setDefinitionContent(tCon);
 						        conDefType.setDefinitionLanguage(obj.getString(CESExecutorConfig.MONGO_FIELD_LANGUAGE));
 						        log.info("Context Acquisition is in Progress...");
-						        TContext conType = new TContext();
-						        conType.getContextDefinition().add(conDefType);
-						        conType.setDocumentation(context.getDocumentation());
-						        conType.setName(context.getName());
-						        conType.setTargetNamespace(obj.getString(CESExecutorConfig.MONGO_FIELD_NAMESPACE));
+						        TContextDefinition conType = new TContextDefinition();
+						        conType.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityDefinitions().getEntityDefinition().add(conDefType);
+						        
+						        conType.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName(context.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
+						        conType.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setTargetNamespace(obj.getString(CESExecutorConfig.MONGO_FIELD_NAMESPACE));
 						        conSet.getContext().add(conType);
 							}
 						}

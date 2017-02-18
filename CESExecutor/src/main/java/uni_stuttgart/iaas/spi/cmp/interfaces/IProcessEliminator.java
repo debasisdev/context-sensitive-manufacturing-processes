@@ -1,9 +1,10 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TIntentions;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+
+import de.uni_stuttgart.iaas.ipsm.v0.TIntentionDefinitions;
+
 import uni_stuttgart.iaas.spi.cmp.realizations.ContextAnalyzer;
 import uni_stuttgart.iaas.spi.cmp.realizations.IntentionAnalyzer;
 
@@ -39,6 +40,6 @@ public interface IProcessEliminator {
 	 * @param cesDefinition
 	 * @return TProcessDefinitions 
 	 */
-	public TProcessDefinitions eliminate(TProcessDefinitions processDefinitions, TTaskCESDefinition cesDefinition);
+	public TRealizationProcesses eliminate(TRealizationProcesses processDefinitions, TTaskCESDefinition cesDefinition);
 
 }

@@ -15,11 +15,12 @@ import javax.xml.soap.SOAPPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_stuttgart.iaas.cmp.v0.TCESIntentionDefinition;
 import de.uni_stuttgart.iaas.cmp.v0.TData;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+
 import uni_stuttgart.iaas.spi.cmp.delegates.CESTaskDelegation;
 
 /** 
@@ -85,9 +86,9 @@ public class CESSOAPSolicitor {
 	        domainRepos.addTextNode(cesDefinition.getDomainKnowHowRepository());
 	        //Set Required-contexts
 	        SOAPElement requiredCon = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_REQUIREDCONTEXTS);
-	        for(TContext con : cesDefinition.getRequiredContexts().getContext()){
+	        for(TContextDefinition con : cesDefinition.getIntention().getRequiredContexts().getContext()){
 	        	SOAPElement conElem = requiredCon.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_CONTEXT);
-	        	conElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, con.getName());
+	        	conElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, con.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
 	        }
 	        //Set Input data
 	        SOAPElement inputList = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_INPUT);
@@ -105,15 +106,15 @@ public class CESSOAPSolicitor {
 	        }
 	        //Set Intention
 	        SOAPElement intentElem = cesDefinitionElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_INTENTION);
-	        intentElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, cesDefinition.getIntention().getName());
+	        intentElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, cesDefinition.getIntention().getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
 	        SOAPElement subIntentElem = intentElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_SUBINTENTIONS);
 	        SOAPElement subIntRelation = subIntentElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_SUBINTENTIONRELATIONS);
-	        subIntRelation.addTextNode(cesDefinition.getIntention().getSubIntentions().get(0).getSubIntentionRelations().toString());
-	        for(TSubIntentions subIntentions : cesDefinition.getIntention().getSubIntentions()){
-	        	for(TSubIntention subIntention : subIntentions.getSubIntention()){
+	        subIntRelation.addTextNode(cesDefinition.getIntention().getSelectionStrategy().toString());
+	        for(TCESIntentionDefinition subIntention : cesDefinition.getIntention().getSubIntentions().getCESIntentionDefinitions()){
+
 	        		SOAPElement subIntentionElem = subIntentElem.addChildElement(CESTaskDelegationConfig.SOAP_FIELD_SUBINTENTION);
-	        		subIntentionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, subIntention.getName());
-	        	}
+	        		subIntentionElem.setAttribute(CESTaskDelegationConfig.SOAP_FIELD_NAME, subIntention.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
+	        	
 	        }
 	        //Save the Message
 	        soapMessage.saveChanges();

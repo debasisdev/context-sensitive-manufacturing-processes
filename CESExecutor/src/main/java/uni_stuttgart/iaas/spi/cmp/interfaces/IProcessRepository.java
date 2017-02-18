@@ -1,8 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
-
 /** 
  * Copyright 2016 Debasis Kar
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +31,7 @@ public interface IProcessRepository {
 	 * @param cesDefinition
 	 * @return TProcessDefinitions 
 	 */
-	public TProcessDefinitions getProcessRepository(TTaskCESDefinition cesDefinition);
+	public TRealizationProcesses getProcessRepository(TTaskCESDefinition cesDefinition);
 
 	
 }

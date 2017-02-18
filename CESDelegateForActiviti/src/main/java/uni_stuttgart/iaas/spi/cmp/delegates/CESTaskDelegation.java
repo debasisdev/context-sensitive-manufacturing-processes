@@ -39,14 +39,12 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TCESIntentionDefinition;
 import de.uni_stuttgart.iaas.cmp.v0.TData;
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntentions;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 import uni_stuttgart.iaas.spi.cmp.delutils.CESSOAPSolicitor;
 import uni_stuttgart.iaas.spi.cmp.delutils.CESTaskDelegationConfig;
 import uni_stuttgart.iaas.spi.cmp.realizations.CESExecutor;
@@ -162,11 +160,11 @@ public class CESTaskDelegation implements JavaDelegate {
 		cesDefinition.setDomainKnowHowRepository(this.processRepositoryPath.getExpressionText().trim());
 		cesDefinition.setOptimizationRequired(Boolean.parseBoolean(this.performOptimization.getExpressionText()));
 		//Set Intention
-		TIntention intention = this.createIntention(this.mainIntention.getExpressionText(), this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
+		TCESIntentionDefinition intention = this.createIntention(this.mainIntention.getExpressionText(), this.subIntentions.getExpressionText(), this.selectionStrategy.getExpressionText());
 		cesDefinition.setIntention(intention);
 		//Set Required-contexts
-		TContexts contexts = this.createRequiredContext(this.requiredContext.getExpressionText());
-		cesDefinition.setRequiredContexts(contexts);
+		TContextDefinitions contexts = this.createRequiredContext(this.requiredContext.getExpressionText());
+		cesDefinition.getIntention().setRequiredContexts(contexts);
 		//Set I/O data
 		cesDefinition.setDomainKnowHowRepositoryType(this.processRepositoryType.getExpressionText());
 		TDataList inputList = this.createInputData(this.inputVariable.getExpressionText());
@@ -250,21 +248,21 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * @param contextList
 	 * @return TContexts
 	 */
-	private TContexts createRequiredContext(String contextList){
+	private TContextDefinitions createRequiredContext(String contextList){
 		String[] contextNames = null;
-		TContexts contexts = new TContexts();
-		List<TContext> contextNameList = new ArrayList<TContext>();
+		TContextDefinitions contexts = new TContextDefinitions();
+		List<TContextDefinition> contextNameList = new ArrayList<TContextDefinition>();
 		//If the input contains commas(,), separate it and save as individual TContext
 		if(contextList.contains(CESTaskDelegationConfig.COMMA_STRING)){
 			contextNames = contextList.split(CESTaskDelegationConfig.COMMA_STRING);
 			for(String context : contextNames){
-				TContext con = new TContext();
-				con.setName(context.trim());
+				TContextDefinition con = new TContextDefinition();
+				con.getInteractiveEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName(context.trim());
 				contextNameList.add(con);
 			}
 		}
 		//Store TContext into TContexts
-		for(TContext context : contextNameList){
+		for(TContextDefinition context : contextNameList){
 			contexts.getContext().add(context);
 		}
 		return contexts;
@@ -333,25 +331,25 @@ public class CESTaskDelegation implements JavaDelegate {
 	 * @param selectionStrategy
 	 * @return TIntention
 	 */
-	private TIntention createIntention(String mainIntention, String subIntentions, String selectionStrategy) {
+	private TCESIntentionDefinition createIntention(String mainIntention, String subIntentions, String selectionStrategy) {
 		mainIntention = mainIntention.trim();
 		String[] subIntentionArray = null;
-		TIntention intent = new TIntention();
-		List<TSubIntention> subIntents = new ArrayList<TSubIntention>();
+		TCESIntentionDefinition intent = new TCESIntentionDefinition();
+		List<TCESIntentionDefinition> subIntents = new ArrayList<TCESIntentionDefinition>();
 		//If the input other than alphanumeric characters, ignore them
 		Pattern noSpecialCharPattern = Pattern.compile(CESTaskDelegationConfig.REGEX1, Pattern.CASE_INSENSITIVE);
 		Matcher noSpecialCharMatcher = noSpecialCharPattern.matcher(mainIntention);
 		//Set Main-intention
 		if (!noSpecialCharMatcher.find()){
-			intent.setName(mainIntention);
+			intent.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName(mainIntention);
 		}
 		//If the input contains commas(,), separate it and consider only the first element
 		if(subIntentions.contains(CESTaskDelegationConfig.COMMA_STRING)){
 			//Set Sub-intentions
 			subIntentionArray = subIntentions.split(CESTaskDelegationConfig.COMMA_STRING);
 			for(String subIntention : subIntentionArray){
-				TSubIntention subIntent = new TSubIntention();
-				subIntent.setName(subIntention.trim());
+				TCESIntentionDefinition subIntent = new TCESIntentionDefinition();
+				subIntent.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName(subIntention.trim());
 				subIntents.add(subIntent);
 			}
 		}
@@ -360,26 +358,26 @@ public class CESTaskDelegation implements JavaDelegate {
 			subIntentions = subIntentions.trim();
 			noSpecialCharMatcher = noSpecialCharPattern.matcher(subIntentions);
 			if (!noSpecialCharMatcher.find()){
-				TSubIntention subintent = new TSubIntention();
-				subintent.setName(subIntentions);
+				TCESIntentionDefinition subintent = new TCESIntentionDefinition();
+				subintent.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().setName(subIntentions);
 			}
 		}
-		TSubIntentions subIntentionsList = new TSubIntentions();
+		List<TCESIntentionDefinition> subIntentionsList = new ArrayList<TCESIntentionDefinition>();
 		//Set selection strategy
 		if(selectionStrategy.equals(CESTaskDelegationConfig.SELECTION_WEIGHT_NAMESPACE)){
-			subIntentionsList.setSubIntentionRelations(CESTaskDelegationConfig.SELECTION_WEIGHT_NAMESPACE);
+			intent.setSelectionStrategy(CESTaskDelegationConfig.SELECTION_WEIGHT_NAMESPACE);
 		} 
 		else if(selectionStrategy.equals(CESTaskDelegationConfig.SELECTION_MOSTUSED_NAMESPACE)){
-			subIntentionsList.setSubIntentionRelations(CESTaskDelegationConfig.SELECTION_MOSTUSED_NAMESPACE);
+			intent.setSelectionStrategy(CESTaskDelegationConfig.SELECTION_MOSTUSED_NAMESPACE);
 		}
 		else {
-			subIntentionsList.setSubIntentionRelations(CESTaskDelegationConfig.SELECTION_RANDOM_NAMESPACE);
+			intent.setSelectionStrategy(CESTaskDelegationConfig.SELECTION_RANDOM_NAMESPACE);
 		}
 		//Store TSubIntention to TSubIntentions
-		for(TSubIntention subIntent : subIntents){
-			subIntentionsList.getSubIntention().add(subIntent);
+		for(TCESIntentionDefinition subIntent : subIntents){
+			subIntentionsList.add(subIntent);
 		}
-		intent.getSubIntentions().add(subIntentionsList);
+		intent.getSubIntentions().getCESIntentionDefinitions().addAll(subIntentionsList);
 		return intent;
 	}
 	

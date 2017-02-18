@@ -1,6 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
 import uni_stuttgart.iaas.spi.cmp.realizations.ProcessOptimizer;
 
 /** 
@@ -33,5 +34,5 @@ public interface IProcessOptimizer {
 	 * @param processContent
 	 * @return boolean
 	 */
-	public boolean optimizeProcess(TProcessDefinition processContent);
+	public boolean optimizeProcess(TRealizationProcess processContent);
 }

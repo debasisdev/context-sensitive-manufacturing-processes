@@ -21,12 +21,13 @@ import org.apache.camel.component.rabbitmq.RabbitMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.uni_stuttgart.iaas.cmp.v0.ObjectFactory;
+import de.uni_stuttgart.iaas.cmp.v0.TCESIntentionDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TIntention;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
-import de.uni_stuttgart.iaas.ipsm.v0.TSubIntention;
+
+
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEliminator;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -48,16 +49,16 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A generic class that implements {@link IProcessEliminator}, {@link IDataSerializer}, and {@link Processor}.
- * This module analyzes the received {@link TProcessDefinitions} by filtering them with required main- and subgoals, 
+ * This module analyzes the received {@link TRealizationProcesses} by filtering them with required main- and subgoals, 
  * @author Debasis Kar
  */
 
 public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, Processor {
 	
-	/**Variable to store the {@link TProcessDefinitions} that pass intention analysis 
+	/**Variable to store the {@link TRealizationProcesses} that pass intention analysis 
 	 * @author Debasis Kar
 	 * */
-	private TProcessDefinitions intentionAnalysisPassedProcesses;
+	private TRealizationProcesses intentionAnalysisPassedProcesses;
 	
 	/**Variable to store {@link TTaskCESDefinition}
 	 * @author Debasis Kar
@@ -81,38 +82,38 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 	 * @param cesDefinition
 	 * */
 	public IntentionAnalyzer(TTaskCESDefinition cesDefinition){
-		ObjectFactory ipsmMaker = new ObjectFactory();
-		this.intentionAnalysisPassedProcesses = ipsmMaker.createTProcessDefinitions();
+		ObjectFactory cmpMaker = new ObjectFactory();
+		this.intentionAnalysisPassedProcesses = cmpMaker.createTRealizationProcesses();
 		this.cesDefinition = cesDefinition;
 	}
 	
 	@Override
-	public TProcessDefinitions eliminate(TProcessDefinitions processSet, TTaskCESDefinition cesDefinition){
+	public TRealizationProcesses eliminate(TRealizationProcesses processSet, TTaskCESDefinition cesDefinition){
 		//Acquire intentions to be fulfilled by a process
-		TIntention intention = cesDefinition.getIntention();
-		String mainIntention = intention.getName();
+		TCESIntentionDefinition intention = cesDefinition.getIntention();
+		String mainIntention = intention.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName();
 		//Make a set of required sub-intentions
 		Set<String> subIntentions = new TreeSet<String>();
-		for(TSubIntention subIntention : intention.getSubIntentions().get(0).getSubIntention()){
-			subIntentions.add(subIntention.getName());
+		for(TCESIntentionDefinition subIntention : intention.getSubIntentions().getCESIntentionDefinitions()){
+			subIntentions.add(subIntention.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
 		}
 		try {
 			log.info("Intention Analysis is Started by Deserializing the ProcessRepository.xml");
 			//Scan each process definition and validate intentions
-			for(TProcessDefinition processDefinition : processSet.getProcessDefinition()){
+			for(TRealizationProcess processDefinition : processSet.getRealizationProcess()){
 				Set<String> extraIntentions = new TreeSet<String>();
 				//Match main intentions
-				if(processDefinition.getTargetIntention().getName().equals(mainIntention)){
-					List<TSubIntention> subIntentionList = processDefinition.getTargetIntention().getSubIntentions().get(0).getSubIntention();
-					for(TSubIntention intent : subIntentionList){
-						extraIntentions.add(intent.getName());
+				if(processDefinition.getIntention().getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName().equals(mainIntention)){
+					List<TCESIntentionDefinition> subIntentionList = processDefinition.getIntention().getSubIntentions().getCESIntentionDefinitions();
+					for(TCESIntentionDefinition intent : subIntentionList){
+						extraIntentions.add(intent.getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName());
 					}
 					extraIntentions.retainAll(subIntentions);
 				}
 				//Match sub intentions by Set intersection operation
 				if(extraIntentions.size()>0){
 					log.info(processDefinition.getId() + " Passes Intention Analysis.");
-					this.intentionAnalysisPassedProcesses.getProcessDefinition().add(processDefinition);
+					this.intentionAnalysisPassedProcesses.getRealizationProcess().add(processDefinition);
 				}
 			}
 		} catch (NullPointerException e) {
@@ -120,14 +121,14 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 		} catch (Exception e) {
 			log.error("INTAN10: Unknown Exception has Occurred - " + e);
 	    } finally{
-			log.info("Overall " + this.intentionAnalysisPassedProcesses.getProcessDefinition().size() + " Processes Passed Intention Analysis.");
+			log.info("Overall " + this.intentionAnalysisPassedProcesses.getRealizationProcess().size() + " Processes Passed Intention Analysis.");
 		}
 		return this.intentionAnalysisPassedProcesses;
 	}
 	
 	@Override
 	public byte[] getSerializedOutput(Exchange exchange){
-		de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory ipsmMaker = new ObjectFactory();
+		ObjectFactory cmpMaker = new ObjectFactory();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		try {
 			//JAXB implementation for de-serializing the process definitions received from Context Analyzer
@@ -135,8 +136,8 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-			TProcessDefinitions processSet = (TProcessDefinitions) rootElement.getValue();
-			if(processSet.getProcessDefinition().isEmpty()){
+			TRealizationProcesses processSet = (TRealizationProcesses) rootElement.getValue();
+			if(processSet.getRealizationProcess().isEmpty()){
 				//Get process repository know-how
 				ProcessRepository processRepository = new ProcessRepository();
 				processSet = processRepository.getProcessRepository(this.cesDefinition);
@@ -146,7 +147,7 @@ public class IntentionAnalyzer implements IProcessEliminator, IDataSerializer, P
 			//JAXB implementation for serializing the Intention Analyzer output into byte array for message exchange
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	        JAXBElement<TProcessDefinitions> processDefSet = ipsmMaker.createProcessDefinitions(this.intentionAnalysisPassedProcesses);
+	        JAXBElement<TRealizationProcesses> processDefSet = cmpMaker.createRealizationProcesses(this.intentionAnalysisPassedProcesses);
 			jaxbMarshaller.marshal(processDefSet, outputStream);
 		} catch (NullPointerException e) {
 			log.error("INTAN02: NullPointerException has Occurred.");

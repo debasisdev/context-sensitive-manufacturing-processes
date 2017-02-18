@@ -3,9 +3,9 @@ package uni_stuttgart.iaas.spi.cmp.interfaces;
 import java.util.List;
 
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 
 /** 
@@ -37,7 +37,7 @@ public interface ISelectable {
 	 * @param processDefinitionList
 	 * @return TProcessDefinition
 	 */
-	public TProcessDefinition getRealizationProcess(List<TProcessDefinition> processDefinitionList);
+	public TRealizationProcess getRealizationProcess(List<TRealizationProcess> processDefinitionList);
 	
 	/**
 	 * This method is executed to choose multiple variants of {@link IExecutionManager}. . 
@@ -56,7 +56,7 @@ public interface ISelectable {
 	 * @param contextList 
 	 * @return TContexts
 	 */
-	public TContexts getData(List<TContext> contextList);
+	public TContextDefinitions getData(List<TContextDefinition> contextList);
 	
 	/**
 	 * Any custom variant of {@link IDataManager} has this method. It needs to be exposed further for {@link QueryManager}. 

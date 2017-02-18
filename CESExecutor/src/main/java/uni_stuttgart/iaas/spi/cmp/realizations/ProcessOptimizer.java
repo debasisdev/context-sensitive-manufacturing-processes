@@ -19,10 +19,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessOptimizer;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -44,7 +44,7 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A generic class that implements {@link IProcessOptimizer}, {@link IDataSerializer}, and {@link Processor}.
- * This module executes the optimization process related to the {@link TProcessDefinition} received from {@link ProcessSelector}. 
+ * This module executes the optimization process related to the {@link TRealizationProcess} received from {@link ProcessSelector}. 
  * @author Debasis Kar
  */
 
@@ -83,7 +83,7 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 	}
 	
 	@Override
-	public boolean optimizeProcess(TProcessDefinition processDefinition) {
+	public boolean optimizeProcess(TRealizationProcess processDefinition) {
 		try{
 			//Fetch the optimization process model details from process definition received
 			String optimizerModelReference = null;
@@ -96,8 +96,8 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 			}
 			//Search the required optimization process model inside process repository
 			ProcessRepository processRepository = new ProcessRepository();
-			TProcessDefinitions processSet = processRepository.getProcessRepository(this.cesDefinition);
-			for(TProcessDefinition optProcess : processSet.getProcessDefinition()){
+			TRealizationProcesses processSet = processRepository.getProcessRepository(this.cesDefinition);
+			for(TRealizationProcess optProcess : processSet.getRealizationProcess()){
 				if(optProcess.getId().equals(optimizerModelReference)){
 					processDefinition = optProcess;
 				}
@@ -109,12 +109,12 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 					optimizerModelPath = nodeList.item(count).getTextContent().trim();
 				}
 			}
-			String optimizerModelName = processDefinition.getName();
+			String optimizerModelName = processDefinition.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName();
 			//Start deployment code for optimization
 			log.info(optimizerModelReference + " Will Be Executed.");
 			if(processDefinition.getProcessType().equals(CESExecutorConfig.BPMN_NAMESPACE)){
 				//Activiti specific execution
-				if(processDefinition.getTargetNamespace().equals(CESExecutorConfig.ACTIVITI_NAMESPACE)){
+				if(processDefinition.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getTargetNamespace().equals(CESExecutorConfig.ACTIVITI_NAMESPACE)){
 					ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESExecutorConfig.SPRING_BEAN);
 					DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESExecutorConfig.ACTIVITI_NAMESPACE);
 					selectionProcessor.deployProcess(optimizerModelPath, optimizerModelName, this.cesDefinition.getInputData(), this.cesDefinition.getOutputVariable());
@@ -150,7 +150,7 @@ public class ProcessOptimizer implements IProcessOptimizer, IDataSerializer, Pro
 				JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 				JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-				TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
+				TRealizationProcess processDef = (TRealizationProcess) rootElement.getValue();
 				//Perform Optimization
 				this.optimizerRunStatus = this.optimizeProcess(processDef);
 			}

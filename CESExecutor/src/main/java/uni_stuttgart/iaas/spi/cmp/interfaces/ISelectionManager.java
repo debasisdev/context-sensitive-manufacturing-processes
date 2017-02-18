@@ -2,7 +2,8 @@ package uni_stuttgart.iaas.spi.cmp.interfaces;
 
 import java.util.List;
 
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+
 
 /** 
  * Copyright 2016 Debasis Kar
@@ -33,5 +34,5 @@ public interface ISelectionManager {
 	 * @param processDefinitionList
 	 * @return TProcessDefinition
 	 */
-	public TProcessDefinition findRealizationProcess(List<TProcessDefinition> processDefinitionList);
+	public TRealizationProcess findRealizationProcess(List<TRealizationProcess> processDefinitionList);
 }

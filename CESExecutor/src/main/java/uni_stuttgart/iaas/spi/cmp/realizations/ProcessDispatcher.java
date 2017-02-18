@@ -22,10 +22,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcesses;
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
 import de.uni_stuttgart.iaas.ipsm.v0.ObjectFactory;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinitions;
+
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataSerializer;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IProcessEngine;
 import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
@@ -47,7 +48,7 @@ import uni_stuttgart.iaas.spi.cmp.utils.CESExecutorConfig;
 
 /**
  * A generic class that implements {@link IProcessEngine}, {@link IDataSerializer}, and {@link Processor}.
- * This module deploys the main business process of the {@link TProcessDefinition} selected by {@link ProcessSelector}. 
+ * This module deploys the main business process of the {@link TRealizationProcess} selected by {@link ProcessSelector}. 
  * @author Debasis Kar
  */
 
@@ -92,7 +93,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 	}
 	
 	@Override
-	public TDataList deployMainProcess(TProcessDefinition processDefinition) {
+	public TDataList deployMainProcess(TRealizationProcess processDefinition) {
 		try{
 			//Fetch the process model path and process name of main process model
 			String mainModel = null;
@@ -106,10 +107,10 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 			log.info(mainModel + " will be Executed.");
 			if(processDefinition.getProcessType().equals(CESExecutorConfig.BPMN_NAMESPACE)){
 				//Activiti specific execution
-				if(processDefinition.getTargetNamespace().equals(CESExecutorConfig.ACTIVITI_NAMESPACE)){
+				if(processDefinition.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getTargetNamespace().equals(CESExecutorConfig.ACTIVITI_NAMESPACE)){
 					ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESExecutorConfig.SPRING_BEAN);
 					DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESExecutorConfig.ACTIVITI_NAMESPACE);
-					this.outputPlaceholder = selectionProcessor.deployProcess(mainModel, processDefinition.getName(), this.inputData, this.outputPlaceholder);
+					this.outputPlaceholder = selectionProcessor.deployProcess(mainModel, processDefinition.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName(), this.inputData, this.outputPlaceholder);
 					appContext.registerShutdownHook();
 					appContext.close();
 				}
@@ -141,7 +142,7 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 			JAXBContext jaxbContext = JAXBContext.newInstance(ObjectFactory.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			JAXBElement<?> rootElement = (JAXBElement<?>) unmarshaller.unmarshal(byteInputStream);
-			TProcessDefinition processDef = (TProcessDefinition) rootElement.getValue();
+			TRealizationProcess processDef = (TRealizationProcess) rootElement.getValue();
 			//Perform execution of main business process
 			this.outputPlaceholder = this.deployMainProcess(processDef);
 			//Bind output to an envelope of TTaskCESDefinition
@@ -166,16 +167,16 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 	}
 	
 	@Override
-	public boolean deployComplementaryProcess(TProcessDefinition processDefinition) {
+	public boolean deployComplementaryProcess(TRealizationProcess processDefinition) {
 		try{
 			//Fetch the complementary process model details from process definition received
-			String mainProcessNamespace = processDefinition.getTargetNamespace();
+			String mainProcessNamespace = processDefinition.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getTargetNamespace();
 			ProcessRepository processRepository = new ProcessRepository();
-			TProcessDefinitions processDefinitions = processRepository.getProcessRepository(this.cesDefinition);
+			TRealizationProcesses processDefinitions = processRepository.getProcessRepository(this.cesDefinition);
 			//Search through the process repository for the complementary process
-			for(TProcessDefinition processDef : processDefinitions.getProcessDefinition()){
+			for(TRealizationProcess processDef : processDefinitions.getRealizationProcess()){
 				//Match the intention and name-space
-				if(processDef.getTargetIntention().getName().equals(CESExecutorConfig.REPOSITORY_FIELD_COMPLEMENTARYMODEL) && processDef.getTargetNamespace().equals(mainProcessNamespace)){
+				if(processDef.getIntention().getInteractiveInitializableEntityDefinition().getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName().equals(CESExecutorConfig.REPOSITORY_FIELD_COMPLEMENTARYMODEL) && processDef./*.*/getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getTargetNamespace().equals(mainProcessNamespace)){
 					String complementaryModel = null;
 					//Fetch the process model path and process name of the complementary process definition
 					NodeList nodeList = ((Node) processDef.getProcessContent().getAny()).getChildNodes();
@@ -187,10 +188,10 @@ public class ProcessDispatcher implements IProcessEngine, IDataSerializer, Proce
 					//Start deployment code for complementary process model
 					if(processDefinition.getProcessType().equals(CESExecutorConfig.BPMN_NAMESPACE)){
 						//Activiti specific execution
-						if(processDefinition.getTargetNamespace().equals(CESExecutorConfig.ACTIVITI_NAMESPACE)){
+						if(processDefinition.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getTargetNamespace().equals(CESExecutorConfig.ACTIVITI_NAMESPACE)){
 							ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext(CESExecutorConfig.SPRING_BEAN);
 							DynamicSelector selectionProcessor = (DynamicSelector) appContext.getBean(CESExecutorConfig.ACTIVITI_NAMESPACE);
-							selectionProcessor.deployProcess(complementaryModel, processDef.getName(), this.inputData, this.outputPlaceholder);
+							selectionProcessor.deployProcess(complementaryModel, processDef.getInitializableEntityDefinition().getIdentifiableEntityDefinition().getEntityIdentity().getName(), this.inputData, this.outputPlaceholder);
 							appContext.registerShutdownHook();
 							appContext.close();
 						}

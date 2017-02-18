@@ -1,7 +1,7 @@
 package uni_stuttgart.iaas.spi.cmp.interfaces;
 
 import de.uni_stuttgart.iaas.cmp.v0.TTaskCESDefinition;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 import uni_stuttgart.iaas.spi.cmp.realizations.QueryManager;
 
 /** 
@@ -36,6 +36,6 @@ public interface IQueryProcessor {
 	 * @param cesDefinition
 	 * @return TContexts
 	 */
-	public TContexts queryRawContextData(TTaskCESDefinition cesDefinition);
+	public TContextDefinitions queryRawContextData(TTaskCESDefinition cesDefinition);
 	
 }

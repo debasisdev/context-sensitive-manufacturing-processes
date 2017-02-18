@@ -2,8 +2,8 @@ package uni_stuttgart.iaas.spi.cmp.interfaces;
 
 import java.util.List;
 
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 
 /** 
  * Copyright 2016 Debasis Kar
@@ -35,7 +35,7 @@ public interface IDataManager {
 	 * @param contextList
 	 * @return TContexts
 	 */
-	public TContexts getDataFromDatabase(List<TContext> contextList);
+	public TContextDefinitions getDataFromDatabase(List<TContextDefinition> contextList);
 	
 	/**This is the getter method to know whether there is any context data 
 	 * available or not after the fetching operation.

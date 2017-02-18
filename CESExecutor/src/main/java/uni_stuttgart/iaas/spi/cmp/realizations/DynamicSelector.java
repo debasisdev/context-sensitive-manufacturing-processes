@@ -3,9 +3,9 @@ package uni_stuttgart.iaas.spi.cmp.realizations;
 import java.util.List;
 
 import de.uni_stuttgart.iaas.cmp.v0.TDataList;
-import de.uni_stuttgart.iaas.ipsm.v0.TContext;
-import de.uni_stuttgart.iaas.ipsm.v0.TContexts;
-import de.uni_stuttgart.iaas.ipsm.v0.TProcessDefinition;
+import de.uni_stuttgart.iaas.cmp.v0.TRealizationProcess;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinition;
+import de.uni_stuttgart.iaas.ipsm.v0.TContextDefinitions;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IDataManager;
 import uni_stuttgart.iaas.spi.cmp.interfaces.IExecutionManager;
 import uni_stuttgart.iaas.spi.cmp.interfaces.ISelectable;
@@ -80,7 +80,7 @@ public class DynamicSelector implements ISelectable{
 	}
 
 	@Override
-	public TProcessDefinition getRealizationProcess(List<TProcessDefinition> processDefinitionList) {
+	public TRealizationProcess getRealizationProcess(List<TRealizationProcess> processDefinitionList) {
 		return selectionManager.findRealizationProcess(processDefinitionList);
 	}
 
@@ -90,7 +90,7 @@ public class DynamicSelector implements ISelectable{
 	}
 	
 	@Override
-	public TContexts getData(List<TContext> contextList){
+	public TContextDefinitions getData(List<TContextDefinition> contextList){
 		return dataManager.getDataFromDatabase(contextList);
 	}
 
